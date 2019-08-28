@@ -1,4 +1,9 @@
-@import url('https://fonts.googleapis.com/css?family=Livvic');
+@font-face {
+  font-family: 'Livvic';
+  font-style: normal;
+  font-weight: 400;
+  src: local('fonts/livvic/livvic-regular.ttf');
+}
 
 body {
   font-family: 'Livvic', sans-serif;
