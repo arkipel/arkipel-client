@@ -1,0 +1,132 @@
+@import url('https://fonts.googleapis.com/css?family=Livvic');
+
+body {
+  font-family: 'Livvic', sans-serif;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+#app {
+  width: 800px;
+  max-width: 100%;
+  height: 100vh;
+  display: grid;
+}
+
+#left-pane {
+  display: grid;
+  grid-column: 1;
+  grid-row: 1;
+  min-height: 100%;
+  width: 200px;
+  align-content: start;
+  color: white;
+  background: rgb(20, 20, 20);
+  z-index: 100;
+}
+
+#left-pane .top-bar {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+#left-pane .top-bar img {
+  filter: invert(100%);
+}
+
+#left-pane #menu {
+  display: grid;
+  grid-gap: 10px;
+  align-content: start;
+}
+
+#left-pane a {
+  color: #fff;
+}
+
+#left-pane #menu h1 {
+  display: block;
+  padding: 10px;
+}
+
+#left-pane #menu a {
+  display: block;
+  padding: 10px;
+  text-decoration: none;
+}
+
+#left-pane #menu .active {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+#left-pane #menu a:hover {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+#left-pane #attributions {
+  padding: 10px;
+  color: #333;
+  font-size: 10px;
+  text-align: center;
+}
+
+#left-pane #attributions a {
+  color: #444;
+}
+
+#left-pane #attributions a:hover {
+  color: #666;
+}
+
+.top-bar {
+  height: 40px;
+  font-size: 30px;
+  background: rgba(0, 0, 0, 0.06);
+}
+
+.top-bar nav {
+  height: 40px;
+}
+
+.top-bar nav a {
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 100%;
+  padding: 0 10px;
+  text-decoration: none;
+}
+
+.top-bar img {
+  height: 20px;
+}
+
+#main {
+  display: grid;
+  grid-column: 1;
+  grid-row: 1;
+  align-content: start;
+  min-height: 100%;
+  width: 100%;
+}
+
+#content {
+  display: grid;
+  grid-gap: 10px;
+  align-content: start;
+  min-height: 100%;
+  padding: 10px;
+  background: rgba(255, 255, 255, 0.4);
+}
+
+nav ul {
+  list-style-type: none;
+}
+
+.scrollable {
+  overflow: auto;
+}
