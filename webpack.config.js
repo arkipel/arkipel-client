@@ -7,6 +7,7 @@ module.exports = {
   output: {
     path: path.join(__dirname, '/dist'),
     filename: 'bundle.js',
+    publicPath: "/",
   },
 
   resolve: {
@@ -38,4 +39,8 @@ module.exports = {
       template: './src/index.html',
     }),
   ],
+
+  devServer: {
+    historyApiFallback: true,
+  },
 };
