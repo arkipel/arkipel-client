@@ -17,6 +17,15 @@ body {
   display: grid;
 }
 
+#under-pane-shadow {
+  grid-column: 1;
+  grid-row: 1;
+  min-height: 100%;
+  width: 100%;
+  background: rgb(0, 0, 0, 0.8);
+  z-index: 80;
+}
+
 #left-pane {
   display: grid;
   grid-column: 1;

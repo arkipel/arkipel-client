@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { BrowserRouter as Router, Route, NavLink } from 'react-router-dom';
 
 // Pages
@@ -29,34 +29,42 @@ class App extends React.PureComponent<props, state> {
       <Router>
         <div id="app">
           {this.state.showLeftPane && (
-            <div id="left-pane">
-              <div className="top-bar">
-                <nav>{menuBtn}</nav>
-              </div>
-              <div className="scrollable">
-                <div id="menu">
-                  <nav>
-                    <h1>Main</h1>
-                    <ul
-                      onClick={() => {
-                        this.toggleLeftPane();
-                      }}
-                    >
-                      <li>
-                        <NavLink exact to="/">
-                          Home
-                        </NavLink>
-                      </li>
-                      <li>
-                        <NavLink exact to="/about">
-                          About
-                        </NavLink>
-                      </li>
-                    </ul>
-                  </nav>
+            <Fragment>
+              <div id="left-pane">
+                <div className="top-bar">
+                  <nav>{menuBtn}</nav>
+                </div>
+                <div className="scrollable">
+                  <div id="menu">
+                    <nav>
+                      <h1>Main</h1>
+                      <ul
+                        onClick={() => {
+                          this.toggleLeftPane();
+                        }}
+                      >
+                        <li>
+                          <NavLink exact to="/">
+                            Home
+                          </NavLink>
+                        </li>
+                        <li>
+                          <NavLink exact to="/about">
+                            About
+                          </NavLink>
+                        </li>
+                      </ul>
+                    </nav>
+                  </div>
                 </div>
               </div>
-            </div>
+              <div
+                id="under-pane-shadow"
+                onClick={() => {
+                  this.setState({ showLeftPane: false });
+                }}
+              ></div>
+            </Fragment>
           )}
           <div id="main">
             <div className="top-bar">
