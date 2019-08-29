@@ -6,7 +6,7 @@ import Home from './pages/Home';
 import About from './pages/About';
 
 // Assets
-import './styles/index.css';
+import './styles/index.scss';
 import menu from './assets/icons/menu.png';
 
 class App extends React.PureComponent<props, state> {
