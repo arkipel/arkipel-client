@@ -21,7 +21,7 @@ class App extends React.PureComponent<props, state> {
   render() {
     let menuBtn = (
       <a href="#" onClick={this.toggleLeftPane}>
-        <img src={menu} alt="|&#9776;" />
+        <img src={menu} alt="&#9776;" />
       </a>
     );
 
