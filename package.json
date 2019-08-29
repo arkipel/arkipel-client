@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "build": "webpack --mode production",
-    "format": "prettier --single-quote=true --trailing-comma=all --semi=true --write \"**/*.{js,jsx,css,scss}\"",
-    "format-watch": "onchange \"**/*.js\" \"**/*.jsx\" \"**/*.ts\" \"**/*.tsx\" \"**/*.css\" \"**/*.scss\" -- prettier --single-quote=true --trailing-comma=all --semi=true --write {{changed}}",
+    "format": "prettier --single-quote=true --trailing-comma=all --semi=true --write \"**/*.{js,jsx,ts,tsx,json,css,scss}\"",
+    "format-watch": "onchange \"**/*.{js,jsx,ts,tsx,json,css,scss}\" -- prettier --single-quote=true --trailing-comma=all --semi=true --write {{changed}}",
     "start": "concurrently --kill-others \"webpack-dev-server --mode development\" \"npm:*-watch\"",
     "test-onchange": "onchange \"**/*.js\" \"**/*.jsx\" -- npm test"
   },
