@@ -50,11 +50,6 @@ class App extends React.PureComponent<props, state> {
                           </NavLink>
                         </li>
                         <li>
-                          <NavLink exact to="/login">
-                            Login
-                          </NavLink>
-                        </li>
-                        <li>
                           <NavLink exact to="/about">
                             About
                           </NavLink>
