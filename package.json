@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "build": "webpack --mode production",
-    "format": "prettier --single-quote=true --trailing-comma=all --semi=true --write \"**/*.{js,jsx,css,scss}\"",
-    "format-watch": "onchange \"**/*.js\" \"**/*.jsx\" \"**/*.ts\" \"**/*.tsx\" \"**/*.css\" \"**/*.scss\" -- prettier --single-quote=true --trailing-comma=all --semi=true --write {{changed}}",
+    "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,css,scss}\"",
+    "format-watch": "onchange \"**/*.{js,jsx,ts,tsx,json,css,scss}\" -- prettier --write {{changed}}",
     "start": "concurrently --kill-others \"webpack-dev-server --mode development\" \"npm:*-watch\"",
     "test-onchange": "onchange \"**/*.js\" \"**/*.jsx\" -- npm test"
   },
@@ -30,10 +30,10 @@
     "node-sass": "^4.12.0",
     "onchange": "^6.0.0",
     "prettier": "^1.18.2",
-    "sass-loader": "^7.3.1",
+    "sass-loader": "^8.0.0",
     "style-loader": "^1.0.0",
-    "typescript": "^3.5.3",
-    "webpack": "^4.39.2",
+    "typescript": "^3.6.2",
+    "webpack": "^4.39.3",
     "webpack-cli": "^3.3.7",
     "webpack-dev-server": "^3.8.0"
   },

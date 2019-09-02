@@ -1,21 +1,21 @@
-import React, { Fragment } from "react";
-import { BrowserRouter as Router, Route, NavLink } from "react-router-dom";
+import React, { Fragment } from 'react';
+import { BrowserRouter as Router, Route, NavLink } from 'react-router-dom';
 
 // Pages
-import About from "./pages/About";
-import Home from "./pages/Home";
-import Login from "./pages/Login";
+import About from './pages/About';
+import Home from './pages/Home';
+import Login from './pages/Login';
 
 // Assets
-import "./styles/index.scss";
-import menu from "./assets/icons/menu.png";
+import './styles/index.scss';
+import menu from './assets/icons/menu.png';
 
 class App extends React.PureComponent<props, state> {
   constructor(props: any) {
     super(props);
 
     this.state = {
-      showLeftPane: false
+      showLeftPane: true,
     };
   }
 
@@ -39,11 +39,7 @@ class App extends React.PureComponent<props, state> {
                   <div id="menu">
                     <nav>
                       <h1>Main</h1>
-                      <ul
-                        onClick={() => {
-                          this.toggleLeftPane();
-                        }}
-                      >
+                      <ul>
                         <li>
                           <NavLink exact to="/">
                             Home
@@ -64,12 +60,12 @@ class App extends React.PureComponent<props, state> {
                   </div>
                 </div>
               </div>
-              <div
+              {/* <div
                 id="under-pane-shadow"
                 onClick={() => {
                   this.setState({ showLeftPane: false });
                 }}
-              ></div>
+              ></div> */}
             </Fragment>
           )}
           <div id="main">
