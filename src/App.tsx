@@ -14,7 +14,7 @@ class App extends React.PureComponent<props, state> {
     super(props);
 
     this.state = {
-      showLeftPane: false,
+      showLeftPane: true,
     };
   }
 
