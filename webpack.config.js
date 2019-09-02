@@ -1,17 +1,17 @@
-const path = require('path');
-const HTMLWebpackPlugin = require('html-webpack-plugin');
+const path = require("path");
+const HTMLWebpackPlugin = require("html-webpack-plugin");
 
 module.exports = {
-  entry: './src/index',
+  entry: "./src/index",
 
   output: {
-    path: path.join(__dirname, '/dist'),
-    filename: 'bundle.js',
-    publicPath: "/",
+    path: path.join(__dirname, "/dist"),
+    filename: "bundle.js",
+    publicPath: "/"
   },
 
   resolve: {
-    extensions: ['.ts', '.tsx', '.js'],
+    extensions: [".ts", ".tsx", ".js"]
   },
 
   module: {
@@ -20,35 +20,31 @@ module.exports = {
         test: /\.(ts|js)x?$/,
         exclude: /node_modules/,
         use: {
-          loader: 'babel-loader',
-        },
+          loader: "babel-loader"
+        }
       },
       {
         test: /\.s[ac]ss$/i,
-        use: [
-          'style-loader',
-          'css-loader',
-          'sass-loader',
-        ],
+        use: ["style-loader", "css-loader", "sass-loader"]
       },
       {
         test: /\.css$/,
-        use: ['style-loader', 'css-loader'],
+        use: ["style-loader", "css-loader"]
       },
       {
         test: /\.(gif|jpg|png|svg)$/,
-        use: ['file-loader'],
-      },
-    ],
+        use: ["file-loader"]
+      }
+    ]
   },
 
   plugins: [
     new HTMLWebpackPlugin({
-      template: './src/index.html',
-    }),
+      template: "./src/index.html"
+    })
   ],
 
   devServer: {
-    historyApiFallback: true,
-  },
+    historyApiFallback: true
+  }
 };

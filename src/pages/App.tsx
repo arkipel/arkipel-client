@@ -1,21 +1,21 @@
-import React, { Fragment } from 'react';
-import { BrowserRouter as Router, Route, NavLink } from 'react-router-dom';
+import React, { Fragment } from "react";
+import { BrowserRouter as Router, Route, NavLink } from "react-router-dom";
 
 // Pages
-import About from './pages/About';
-import Home from './pages/Home';
-import Login from './pages/Login';
+import About from "./pages/About";
+import Home from "./pages/Home";
+import Login from "./pages/Login";
 
 // Assets
-import './styles/index.scss';
-import menu from './assets/icons/menu.png';
+import "./styles/index.scss";
+import menu from "./assets/icons/menu.png";
 
 class App extends React.PureComponent<props, state> {
   constructor(props: any) {
     super(props);
 
     this.state = {
-      showLeftPane: false,
+      showLeftPane: false
     };
   }
 
