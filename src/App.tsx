@@ -14,7 +14,7 @@ class App extends React.PureComponent<props, state> {
     super(props);
 
     this.state = {
-      showLeftPane: false,
+      showLeftPane: true,
     };
   }
 
@@ -38,11 +38,7 @@ class App extends React.PureComponent<props, state> {
                   <div id="menu">
                     <nav>
                       <h1>Main</h1>
-                      <ul
-                        onClick={() => {
-                          this.toggleLeftPane();
-                        }}
-                      >
+                      <ul>
                         <li>
                           <NavLink exact to="/">
                             Home
@@ -58,12 +54,12 @@ class App extends React.PureComponent<props, state> {
                   </div>
                 </div>
               </div>
-              <div
+              {/* <div
                 id="under-pane-shadow"
                 onClick={() => {
                   this.setState({ showLeftPane: false });
                 }}
-              ></div>
+              ></div> */}
             </Fragment>
           )}
           <div id="main">
