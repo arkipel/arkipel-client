@@ -18,6 +18,10 @@ body {
   height: 100%;
   display: grid;
   grid-template-columns: auto 1fr;
+
+  @media all and (max-width: 600px) {
+    grid-template-columns: 1fr;
+  }
 }
 
 #under-pane-shadow {
@@ -124,8 +128,8 @@ body {
   min-height: 100%;
   width: 100%;
 
-  @media all and (min-width: 800px) {
-    grid-column: 2;
+  @media all and (max-width: 600px) {
+    grid-column: 1;
   }
 }
 
