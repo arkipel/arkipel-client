@@ -6,7 +6,7 @@ This is the web client for Arkipel, a persistent browser-based game.
 
 This project is a work in progress.
 
-## Install
+## Run
 
 Clone the repository, make sure you have Node and NPM installed, then run the following commands.
 

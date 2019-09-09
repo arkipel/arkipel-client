@@ -1,6 +1,8 @@
 @import url('https://fonts.googleapis.com/css?family=Livvic');
 
+html,
 body {
+  height: 100%;
   font-family: 'Livvic', sans-serif;
 }
 
@@ -13,7 +15,7 @@ body {
 #app {
   width: 800px;
   max-width: 100%;
-  height: 100vh;
+  height: 100%;
   display: grid;
   grid-template-columns: auto 1fr;
 }
