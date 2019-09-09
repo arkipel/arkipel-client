@@ -8,6 +8,7 @@
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,css,scss}\"",
     "format-watch": "onchange \"**/*.{js,jsx,ts,tsx,json,css,scss}\" -- prettier --write {{changed}}",
     "start": "concurrently --kill-others \"webpack-dev-server --mode development\" \"npm:*-watch\"",
+    "test": "jest",
     "test-onchange": "onchange \"**/*.js\" \"**/*.jsx\" -- npm test"
   },
   "keywords": [
