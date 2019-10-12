@@ -1,0 +1,10 @@
+account_id = "ACCOUNT_ID"
+name = "arkipel"
+type = "webpack"
+route = "arkipel.ca"
+workers_dev=false
+zone_id = "ZONE_ID"
+
+[site]
+bucket = "./dist"
+entrypoint = "workers-site"
