@@ -19,7 +19,7 @@ body {
   display: grid;
   grid-template-columns: auto 1fr;
 
-  @media all and (max-width: 600px) {
+  @media all and (max-width: 699px) {
     grid-template-columns: 1fr;
   }
 }
@@ -131,7 +131,7 @@ body {
   min-height: 100%;
   width: 100%;
 
-  @media all and (max-width: 600px) {
+  @media all and (max-width: 699px) {
     grid-column: 1;
   }
 }

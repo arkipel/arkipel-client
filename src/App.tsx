@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react';
 import { BrowserRouter as Router, Route, NavLink } from 'react-router-dom';
+import Media from 'react-media';
 
 // Pages
 import Home from './pages/Home';
@@ -14,8 +15,14 @@ class App extends React.PureComponent<props, state> {
     super(props);
 
     this.state = {
-      showLeftPane: true,
+      showLeftPane: false,
     };
+
+    // let breakpoints = {
+    //   small: '(max-width: 399px)',
+    //   medium: '(min-width: 400px) and (max-width: 699px)',
+    //   large: '(min-width: 700px)',
+    // };
   }
 
   render() {
@@ -27,43 +34,57 @@ class App extends React.PureComponent<props, state> {
 
     return (
       <Router>
-        {this.state.showLeftPane && (
-          <Fragment>
-            <div id="left-pane">
-              <div className="top-bar">
-                <nav>{menuBtn}</nav>
-              </div>
-              <div className="scrollable">
-                <div id="menu">
-                  <nav>
-                    <h1>Main</h1>
-                    <ul>
-                      <li>
-                        <NavLink exact to="/">
-                          Home
-                        </NavLink>
-                      </li>
-                      <li>
-                        <NavLink exact to="/about">
-                          About
-                        </NavLink>
-                      </li>
-                    </ul>
-                  </nav>
+        <Media
+          query="(min-width: 700px)"
+          onChange={match => {
+            if (match) {
+              this.setState({ showLeftPane: false });
+            }
+          }}
+        >
+          {match =>
+            (match || this.state.showLeftPane) && (
+              <Fragment>
+                <div id="left-pane">
+                  <div className="top-bar">
+                    {!match && <nav>{menuBtn}</nav>}
+                  </div>
+                  <div className="scrollable">
+                    <div id="menu">
+                      <nav>
+                        <h1>Main</h1>
+                        <ul>
+                          <li>
+                            <NavLink exact to="/">
+                              Home
+                            </NavLink>
+                          </li>
+                          <li>
+                            <NavLink exact to="/about">
+                              About
+                            </NavLink>
+                          </li>
+                        </ul>
+                      </nav>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
-            <div
-              id="under-pane-shadow"
-              onClick={() => {
-                this.setState({ showLeftPane: false });
-              }}
-            ></div>
-          </Fragment>
-        )}
+                <div
+                  id="under-pane-shadow"
+                  onClick={() => {
+                    this.setState({ showLeftPane: false });
+                  }}
+                ></div>
+              </Fragment>
+            )
+          }
+        </Media>
         <div id="main">
           <div className="top-bar">
-            <nav>{!this.state.showLeftPane && menuBtn}</nav>
+            <Media
+              query="(max-width: 699px)"
+              render={() => <nav>{!this.state.showLeftPane && menuBtn}</nav>}
+            />
           </div>
           <div className="scrollable">
             <div id="content">
