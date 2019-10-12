@@ -30,15 +30,7 @@ async function handleEvent(event) {
     let defaultReq = mapRequestToAsset(req);
 
     let url = new URL(defaultReq.url);
-    let useIndex = true;
-    if (url.pathname.endsWith('.ico')) {
-      useIndex = false;
-    } else if (url.pathname.endsWith('.png')) {
-      useIndex = false;
-    } else if (url.pathname.endsWith('.js')) {
-      useIndex = false;
-    }
-    if (useIndex) {
+    if (url.pathname.endsWith('index.html')) {
       url.pathname = '/index.html';
     }
 
