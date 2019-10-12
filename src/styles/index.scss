@@ -104,7 +104,8 @@ body {
 
   nav {
     height: 40px;
-    a {
+
+    button {
       display: grid;
       align-items: center;
       justify-content: center;
@@ -112,6 +113,8 @@ body {
       height: 100%;
       padding: 0 10px;
       text-decoration: none;
+      border: none;
+      background: none;
     }
   }
 
@@ -140,6 +143,14 @@ body {
   min-height: 100%;
   padding: 10px;
   background: rgba(255, 255, 255, 0.4);
+
+  a {
+    color: #666;
+
+    &:hover {
+      color: #444;
+    }
+  }
 }
 
 nav ul {

@@ -20,9 +20,9 @@ class App extends React.PureComponent<props, state> {
 
   render() {
     let menuBtn = (
-      <a href="#" onClick={this.toggleLeftPane}>
+      <button onClick={this.toggleLeftPane}>
         <img src={menu} alt="&#9776;" />
-      </a>
+      </button>
     );
 
     return (
