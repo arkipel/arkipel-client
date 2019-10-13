@@ -38,7 +38,7 @@ class App extends React.PureComponent<props, state> {
           query="(min-width: 700px)"
           onChange={match => {
             if (match) {
-              this.setState({ showLeftPane: false });
+              this.hideLeftPane();
             }
           }}
         >
@@ -73,12 +73,7 @@ class App extends React.PureComponent<props, state> {
                     </div>
                   </div>
                 </div>
-                <div
-                  id="under-pane-shadow"
-                  onClick={() => {
-                    this.setState({ showLeftPane: false });
-                  }}
-                ></div>
+                <div id="under-pane-shadow" onClick={this.hideLeftPane}></div>
               </Fragment>
             )
           }
