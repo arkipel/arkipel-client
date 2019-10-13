@@ -55,12 +55,16 @@ class App extends React.PureComponent<props, state> {
                         <h1>Main</h1>
                         <ul>
                           <li>
-                            <NavLink exact to="/">
+                            <NavLink exact to="/" onClick={this.hideLeftPane}>
                               Home
                             </NavLink>
                           </li>
                           <li>
-                            <NavLink exact to="/about">
+                            <NavLink
+                              exact
+                              to="/about"
+                              onClick={this.hideLeftPane}
+                            >
                               About
                             </NavLink>
                           </li>
@@ -102,6 +106,10 @@ class App extends React.PureComponent<props, state> {
       let showLeftPane = !state.showLeftPane;
       return { showLeftPane };
     });
+  };
+
+  hideLeftPane = () => {
+    this.setState({ showLeftPane: false });
   };
 }
 
