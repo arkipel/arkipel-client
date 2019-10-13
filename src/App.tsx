@@ -99,6 +99,7 @@ class App extends React.PureComponent<props, state> {
             <div id="content">
               <Route path="/" exact component={Home} />
               <Route path="/about" exact component={About} />
+              <Route path="/login" exact component={Login} />
             </div>
           </div>
         </div>

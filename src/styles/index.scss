@@ -152,6 +152,36 @@ body {
       color: #444;
     }
   }
+
+  form {
+    display: grid;
+    gap: 10px;
+    // background: blue;
+
+    p {
+      // background: red;
+    }
+
+    @media all and (max-width: 399px) {
+      button,
+      input {
+        width: 100%;
+      }
+    }
+  }
+}
+
+button,
+input {
+  padding: 6px;
+  border: 1px solid #bbb;
+}
+
+button {
+  cursor: pointer;
+  color: #fff;
+  border: none;
+  background: rgb(20, 20, 20);
 }
 
 nav ul {
