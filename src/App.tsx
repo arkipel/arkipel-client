@@ -3,8 +3,10 @@ import { BrowserRouter as Router, Route, NavLink } from 'react-router-dom';
 import Media from 'react-media';
 
 // Pages
-import Home from './pages/Home';
 import About from './pages/About';
+import Home from './pages/Home';
+import Login from './pages/Login';
+import Registration from './pages/Registration';
 
 // Assets
 import './styles/index.scss';
@@ -62,6 +64,24 @@ class App extends React.PureComponent<props, state> {
                           <li>
                             <NavLink
                               exact
+                              to="/login"
+                              onClick={this.hideLeftPane}
+                            >
+                              Login
+                            </NavLink>
+                          </li>
+                          <li>
+                            <NavLink
+                              exact
+                              to="/registration"
+                              onClick={this.hideLeftPane}
+                            >
+                              Register
+                            </NavLink>
+                          </li>
+                          <li>
+                            <NavLink
+                              exact
                               to="/about"
                               onClick={this.hideLeftPane}
                             >
@@ -89,6 +109,8 @@ class App extends React.PureComponent<props, state> {
             <div id="content">
               <Route path="/" exact component={Home} />
               <Route path="/about" exact component={About} />
+              <Route path="/login" exact component={Login} />
+              <Route path="/registration" exact component={Registration} />
             </div>
           </div>
         </div>
