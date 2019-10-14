@@ -128,8 +128,8 @@ class Register extends React.PureComponent<props, state> {
   };
 
   submit = (event: React.FormEvent) => {
-    console.log('This has not been implemented yet.');
     event.preventDefault();
+    console.log('This has not been implemented yet.');
   };
 }
 
