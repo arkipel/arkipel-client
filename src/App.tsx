@@ -73,7 +73,7 @@ class App extends React.PureComponent<props, state> {
                           <li>
                             <NavLink
                               exact
-                              to="/register"
+                              to="/registration"
                               onClick={this.hideLeftPane}
                             >
                               Register
