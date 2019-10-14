@@ -162,11 +162,6 @@ body {
   form {
     display: grid;
     gap: 10px;
-    // background: blue;
-
-    p {
-      // background: red;
-    }
 
     @media all and (max-width: 499px) {
       button,
