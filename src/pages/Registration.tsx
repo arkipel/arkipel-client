@@ -41,7 +41,7 @@ class Registration extends React.PureComponent<props, state> {
               </Fragment>
             )}
             <br />
-            <span className="hint">a-z, A-Z, 0-9, at least 4 characters</span>
+            <span className="hint">a-z, A-Z, 0-9, 4-20 characters</span>
           </p>
           <p>
             <input
@@ -98,6 +98,8 @@ class Registration extends React.PureComponent<props, state> {
     if (this.state.username.length > 0) {
       if (this.state.username.length < 4) {
         usernameErrors.push('not long enough');
+      } else if (this.state.username.length > 20) {
+        usernameErrors.push('too long');
       }
       if (this.state.username.match(/[^a-zA-Z0-9]+/)) {
         usernameErrors.push('invalid characters');
@@ -109,6 +111,8 @@ class Registration extends React.PureComponent<props, state> {
     if (this.state.password.length > 0) {
       if (this.state.password.length < 8) {
         passwordErrors.push('not long enough');
+      } else if (this.state.password.length > 200) {
+        passwordErrors.push('too long');
       }
     }
 
