@@ -28,5 +28,5 @@
     "noFallthroughCasesInSwitch": true,
     "forceConsistentCasingInFileNames": true,
     "importHelpers": true
-  },
+  }
 }
