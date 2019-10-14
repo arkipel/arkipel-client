@@ -6,7 +6,7 @@ import Media from 'react-media';
 import About from './pages/About';
 import Home from './pages/Home';
 import Login from './pages/Login';
-import Register from './pages/Register';
+import Registration from './pages/Registration';
 
 // Assets
 import './styles/index.scss';
@@ -110,7 +110,7 @@ class App extends React.PureComponent<props, state> {
               <Route path="/" exact component={Home} />
               <Route path="/about" exact component={About} />
               <Route path="/login" exact component={Login} />
-              <Route path="/register" exact component={Register} />
+              <Route path="/registration" exact component={Registration} />
             </div>
           </div>
         </div>
