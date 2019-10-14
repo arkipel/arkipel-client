@@ -1,4 +1,31 @@
-@import url('https://fonts.googleapis.com/css?family=Livvic');
+// Livvic
+@font-face {
+  font-family: 'Livvic';
+  font-weight: normal;
+  font-style: normal;
+  src: url('../assets/fonts/livvic/livvic-regular.ttf');
+}
+
+@font-face {
+  font-family: 'Livvic';
+  font-weight: bold;
+  font-style: normal;
+  src: url('../assets/fonts/livvic/livvic-bold.ttf');
+}
+
+@font-face {
+  font-family: 'Livvic';
+  font-weight: normal;
+  font-style: italic;
+  src: url('../assets/fonts/livvic/livvic-italic.ttf');
+}
+
+@font-face {
+  font-family: 'Livvic';
+  font-weight: bold;
+  font-style: italic;
+  src: url('../assets/fonts/livvic/livvic-bold-italic.ttf');
+}
 
 html,
 body {
