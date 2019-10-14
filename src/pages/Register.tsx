@@ -8,6 +8,9 @@ class Register extends React.PureComponent<props, state> {
       username: '',
       password: '',
       passwordAgain: '',
+      usernameErrors: '',
+      passwordErrors: '',
+      passwordAgainErrors: '',
     };
   }
 
@@ -26,13 +29,15 @@ class Register extends React.PureComponent<props, state> {
               value={this.state.username}
               placeholder="Username"
               onChange={event => {
-                this.setState({ username: event.target.value });
+                this.setState({ username: event.target.value }, () => {
+                  this.checkInputs();
+                });
               }}
             />
-            {this.state.username.length > 0 && this.state.password.length < 4 && (
+            {this.state.usernameErrors !== '' && (
               <Fragment>
                 <br />
-                <span className="hint-error">not long enough</span>
+                <span className="hint-error">{this.state.usernameErrors}</span>
               </Fragment>
             )}
             <br />
@@ -44,13 +49,15 @@ class Register extends React.PureComponent<props, state> {
               value={this.state.password}
               placeholder="Password"
               onChange={event => {
-                this.setState({ password: event.target.value });
+                this.setState({ password: event.target.value }, () => {
+                  this.checkInputs();
+                });
               }}
             />
-            {this.state.password.length > 0 && this.state.password.length < 8 && (
+            {this.state.passwordErrors !== '' && (
               <Fragment>
                 <br />
-                <span className="hint-error">not long enough</span>
+                <span className="hint-error">{this.state.passwordErrors}</span>
               </Fragment>
             )}
             <br />
@@ -62,16 +69,19 @@ class Register extends React.PureComponent<props, state> {
               value={this.state.passwordAgain}
               placeholder="Password again"
               onChange={event => {
-                this.setState({ passwordAgain: event.target.value });
+                this.setState({ passwordAgain: event.target.value }, () => {
+                  this.checkInputs();
+                });
               }}
             />
-            {this.state.passwordAgain.length > 0 &&
-              this.state.password !== this.state.passwordAgain && (
-                <Fragment>
-                  <br />
-                  <span className="hint-error">not the same</span>
-                </Fragment>
-              )}
+            {this.state.passwordAgainErrors !== '' && (
+              <Fragment>
+                <br />
+                <span className="hint-error">
+                  {this.state.passwordAgainErrors}
+                </span>
+              </Fragment>
+            )}
             <br />
           </p>
           <p>
@@ -81,6 +91,41 @@ class Register extends React.PureComponent<props, state> {
       </Fragment>
     );
   }
+
+  checkInputs = () => {
+    // Username
+    let usernameErrors: Array<string> = [];
+    if (this.state.username.length > 0) {
+      if (this.state.username.length < 4) {
+        usernameErrors.push('not long enough');
+      }
+      if (this.state.username.match(/[^a-zA-Z0-9]+/)) {
+        usernameErrors.push('invalid characters');
+      }
+    }
+
+    // Password
+    let passwordErrors: Array<string> = [];
+    if (this.state.password.length > 0) {
+      if (this.state.password.length < 8) {
+        passwordErrors.push('not long enough');
+      }
+    }
+
+    // Password (again)
+    let passwordAgainErrors: Array<string> = [];
+    if (this.state.passwordAgain.length > 0) {
+      if (this.state.password !== this.state.passwordAgain) {
+        passwordAgainErrors.push('not the same');
+      }
+    }
+
+    this.setState({
+      usernameErrors: usernameErrors.join(', '),
+      passwordErrors: passwordErrors.join(', '),
+      passwordAgainErrors: passwordAgainErrors.join(', '),
+    });
+  };
 
   submit = (event: React.FormEvent) => {
     console.log('This has not been implemented yet.');
@@ -94,6 +139,9 @@ type state = {
   username: string;
   password: string;
   passwordAgain: string;
+  usernameErrors: string;
+  passwordErrors: string;
+  passwordAgainErrors: string;
 };
 
 export default Register;
