@@ -21,8 +21,8 @@ class App extends React.PureComponent<props, state> {
     };
 
     // let breakpoints = {
-    //   small: '(max-width: 399px)',
-    //   medium: '(min-width: 400px) and (max-width: 699px)',
+    //   small: '(max-width: 499px)',
+    //   medium: '(min-width: 500px) and (max-width: 699px)',
     //   large: '(min-width: 700px)',
     // };
   }
