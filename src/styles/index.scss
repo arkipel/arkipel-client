@@ -170,6 +170,20 @@ body {
         width: 100%;
       }
     }
+
+    .hint {
+      color: #aaa;
+      font-size: 14px;
+    }
+
+    .hint-error {
+      color: #aaa;
+      font-size: 14px;
+    }
+  }
+
+  .msg-error {
+    color: #a00;
   }
 }
 
@@ -179,11 +193,17 @@ input {
   border: 1px solid #bbb;
 }
 
+input[type='submit'],
 button {
   cursor: pointer;
   color: #fff;
   border: none;
-  background: rgb(20, 20, 20);
+  background: rgb(40, 40, 40);
+
+  &:disabled {
+    cursor: default;
+    background: rgb(120, 120, 120);
+  }
 }
 
 nav ul {

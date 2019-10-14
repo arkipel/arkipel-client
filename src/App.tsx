@@ -6,6 +6,7 @@ import Media from 'react-media';
 import About from './pages/About';
 import Home from './pages/Home';
 import Login from './pages/Login';
+import Register from './pages/Register';
 
 // Assets
 import './styles/index.scss';
@@ -72,6 +73,15 @@ class App extends React.PureComponent<props, state> {
                           <li>
                             <NavLink
                               exact
+                              to="/register"
+                              onClick={this.hideLeftPane}
+                            >
+                              Register
+                            </NavLink>
+                          </li>
+                          <li>
+                            <NavLink
+                              exact
                               to="/about"
                               onClick={this.hideLeftPane}
                             >
@@ -100,6 +110,7 @@ class App extends React.PureComponent<props, state> {
               <Route path="/" exact component={Home} />
               <Route path="/about" exact component={About} />
               <Route path="/login" exact component={Login} />
+              <Route path="/register" exact component={Register} />
             </div>
           </div>
         </div>

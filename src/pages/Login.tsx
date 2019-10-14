@@ -36,7 +36,13 @@ class Login extends React.PureComponent<props, state> {
             />
           </p>
           <p>
-            <button>Log in</button>
+            <input
+              type="submit"
+              value="Log in"
+              disabled={
+                this.state.username === '' || this.state.password === ''
+              }
+            />
           </p>
         </form>
       </Fragment>
@@ -44,9 +50,7 @@ class Login extends React.PureComponent<props, state> {
   }
 
   submit = (event: React.FormEvent) => {
-    console.log(
-      `Logging in '${this.state.username}' with password '${this.state.password}'...`,
-    );
+    console.log('This has not been implemented yet.');
     event.preventDefault();
   };
 }
