@@ -93,7 +93,7 @@ class App extends React.PureComponent<props, state> {
                     </div>
                   </div>
                 </div>
-                <div id="under-pane-shadow" onClick={this.hideLeftPane}></div>
+                {/* <div id="under-pane-shadow" onClick={this.hideLeftPane}></div> */}
               </Fragment>
             )
           }
