@@ -17,7 +17,7 @@ class App extends React.PureComponent<props, state> {
     super(props);
 
     this.state = {
-      showLeftPane: false,
+      showLeftPane: true,
     };
 
     // let breakpoints = {
@@ -34,70 +34,65 @@ class App extends React.PureComponent<props, state> {
       </button>
     );
 
+    let leftPaneClassName = this.state.showLeftPane ? 'visible' : '';
+
     return (
       <Router>
-        <Media
-          query="(min-width: 700px)"
-          onChange={match => {
-            if (match) {
-              this.hideLeftPane();
-            }
-          }}
-        >
-          {match =>
-            (match || this.state.showLeftPane) && (
-              <Fragment>
-                <div id="left-pane">
-                  <div className="top-bar">
-                    {!match && <nav>{menuBtn}</nav>}
-                  </div>
-                  <div className="scrollable">
-                    <div id="menu">
-                      <nav>
-                        <h1>Main</h1>
-                        <ul>
-                          <li>
-                            <NavLink exact to="/" onClick={this.hideLeftPane}>
-                              Home
-                            </NavLink>
-                          </li>
-                          <li>
-                            <NavLink
-                              exact
-                              to="/login"
-                              onClick={this.hideLeftPane}
-                            >
-                              Login
-                            </NavLink>
-                          </li>
-                          <li>
-                            <NavLink
-                              exact
-                              to="/registration"
-                              onClick={this.hideLeftPane}
-                            >
-                              Register
-                            </NavLink>
-                          </li>
-                          <li>
-                            <NavLink
-                              exact
-                              to="/about"
-                              onClick={this.hideLeftPane}
-                            >
-                              About
-                            </NavLink>
-                          </li>
-                        </ul>
-                      </nav>
-                    </div>
-                  </div>
-                </div>
-                <div id="under-pane-shadow" onClick={this.hideLeftPane}></div>
-              </Fragment>
-            )
-          }
-        </Media>
+        <Fragment>
+          <div id="left-pane" className={leftPaneClassName}>
+            <div className="top-bar">
+              <Media
+                query="(min-width: 700px)"
+                onChange={match => {
+                  if (match) {
+                    this.hideLeftPane();
+                  }
+                }}
+              >
+                {match => {
+                  if (!match) return <nav>{menuBtn}</nav>;
+                  return null;
+                }}
+              </Media>
+            </div>
+            <div className="scrollable">
+              <div id="menu">
+                <nav>
+                  <h1>Main</h1>
+                  <ul>
+                    <li>
+                      <NavLink exact to="/" onClick={this.hideLeftPane}>
+                        Home
+                      </NavLink>
+                    </li>
+                    <li>
+                      <NavLink exact to="/login" onClick={this.hideLeftPane}>
+                        Login
+                      </NavLink>
+                    </li>
+                    <li>
+                      <NavLink
+                        exact
+                        to="/registration"
+                        onClick={this.hideLeftPane}
+                      >
+                        Register
+                      </NavLink>
+                    </li>
+                    <li>
+                      <NavLink exact to="/about" onClick={this.hideLeftPane}>
+                        About
+                      </NavLink>
+                    </li>
+                  </ul>
+                </nav>
+              </div>
+            </div>
+          </div>
+          {this.state.showLeftPane && (
+            <div id="under-pane-shadow" onClick={this.hideLeftPane}></div>
+          )}
+        </Fragment>
         <div id="main">
           <div className="top-bar">
             <Media
