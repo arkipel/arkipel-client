@@ -17,7 +17,7 @@ class App extends React.PureComponent<props, state> {
     super(props);
 
     this.state = {
-      showLeftPane: false,
+      showLeftPane: true,
     };
 
     // let breakpoints = {
@@ -90,6 +90,11 @@ class App extends React.PureComponent<props, state> {
                           </li>
                         </ul>
                       </nav>
+                      <div style={{ background: 'red' }}>
+                        <p>
+                          By <a href="https://mfcl.io">mfcl</a>.
+                        </p>
+                      </div>
                     </div>
                   </div>
                 </div>

@@ -83,7 +83,9 @@ body {
 
   #menu {
     display: grid;
-    grid-gap: 10px;
+    // grid-gap: 10px;
+    height: 100%;
+    grid-template-rows: 1fr auto;
     align-content: start;
 
     h1 {
@@ -92,7 +94,7 @@ body {
       font-size: 28px;
     }
 
-    a {
+    nav a {
       display: block;
       padding: 10px;
       font-size: 18px;
