@@ -90,6 +90,11 @@ class App extends React.PureComponent<props, state> {
                           </li>
                         </ul>
                       </nav>
+                      <footer>
+                        <p>
+                          Made by <a href="https://mfcl.io">mfcl</a>.
+                        </p>
+                      </footer>
                     </div>
                   </div>
                 </div>
