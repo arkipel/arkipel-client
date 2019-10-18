@@ -54,7 +54,7 @@ body {
 #under-pane-shadow {
   grid-column: 1;
   grid-row: 1;
-  min-height: 100%;
+  min-height: 0;
   width: 100%;
   background: rgba(0, 0, 0, 0.8);
   z-index: 80;
