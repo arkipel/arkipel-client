@@ -17,7 +17,7 @@ class App extends React.PureComponent<props, state> {
     super(props);
 
     this.state = {
-      showLeftPane: true,
+      showLeftPane: false,
     };
 
     // let breakpoints = {
