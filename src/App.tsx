@@ -90,11 +90,11 @@ class App extends React.PureComponent<props, state> {
                           </li>
                         </ul>
                       </nav>
-                      <div style={{ background: 'red' }}>
+                      <footer>
                         <p>
-                          By <a href="https://mfcl.io">mfcl</a>.
+                          Made by <a href="https://mfcl.io">mfcl</a>.
                         </p>
-                      </div>
+                      </footer>
                     </div>
                   </div>
                 </div>
