@@ -1,6 +1,6 @@
 const path = require('path');
 const HTMLWebpackPlugin = require('html-webpack-plugin');
-const WebpackPwaManifest = require('webpack-pwa-manifest');
+const WebpackPWAManifest = require('webpack-pwa-manifest');
 
 module.exports = {
   entry: './src/index',
@@ -48,7 +48,7 @@ module.exports = {
       favicon: './src/assets/favicon.ico',
       template: './src/index.html',
     }),
-    new WebpackPwaManifest({
+    new WebpackPWAManifest({
       name: 'Arkipel',
       short_name: 'Arkipel',
       description: 'Client for Arkipel.',
