@@ -1,5 +1,6 @@
 const path = require('path');
 const HTMLWebpackPlugin = require('html-webpack-plugin');
+const WebpackPwaManifest = require('webpack-pwa-manifest');
 
 module.exports = {
   entry: './src/index',
@@ -45,8 +46,27 @@ module.exports = {
   plugins: [
     new HTMLWebpackPlugin({
       favicon: './src/assets/favicon.ico',
-      manifest: './src/assets/manifest.json',
       template: './src/index.html',
+    }),
+    new WebpackPwaManifest({
+      name: 'Arkipel',
+      short_name: 'Arkipel',
+      description: 'Client for Arkipel.',
+      background_color: '#ffffff',
+      start_url: '/',
+      display: 'standalone',
+      scope: '/',
+      theme_color: '#ddd',
+      icons: [
+        {
+          src: './src/assets/logo/arkipel_192.png',
+          sizes: '192x192',
+        },
+        {
+          src: './src/assets/logo/arkipel_512.png',
+          size: '512x512',
+        },
+      ],
     }),
   ],
 
