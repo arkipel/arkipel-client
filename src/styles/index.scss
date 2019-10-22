@@ -45,6 +45,7 @@ body {
   height: 100%;
   display: grid;
   grid-template-columns: auto 1fr;
+  grid-template-rows: 50px 1fr;
 
   @media all and (max-width: 699px) {
     grid-template-columns: 1fr;
@@ -53,7 +54,7 @@ body {
 
 #under-pane-shadow {
   grid-column: 1;
-  grid-row: 1;
+  grid-row: 1 / span 2;
   min-height: 0;
   width: 100%;
   background: rgba(0, 0, 0, 0.8);
@@ -64,7 +65,7 @@ body {
   display: grid;
   grid-template-rows: 50px 1fr;
   grid-column: 1;
-  grid-row: 1;
+  grid-row: 1 / span 2;
   min-height: 0;
   height: 100%;
   width: 200px;
@@ -169,6 +170,7 @@ body {
       border: none;
       background: none;
       cursor: pointer;
+      z-index: 120;
     }
   }
 
@@ -181,7 +183,7 @@ body {
   display: grid;
   grid-template-rows: 50px 1fr;
   grid-column: 2;
-  grid-row: 1;
+  grid-row: 1 / span 2;
   align-content: start;
   min-height: 0;
   height: 100%;

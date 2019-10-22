@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { BrowserRouter as Router, Route, NavLink } from 'react-router-dom';
 import Media from 'react-media';
 
@@ -38,71 +38,55 @@ class App extends React.PureComponent<props, state> {
 
     return (
       <Router>
-        <Fragment>
-          <div id="left-pane" className={leftPaneClassName}>
-            <div className="top-bar">
-              <Media
-                query="(min-width: 700px)"
-                onChange={match => {
-                  if (match) {
-                    this.hideLeftPane();
-                  }
-                }}
-              >
-                {match => {
-                  if (!match) return <nav>{menuBtn}</nav>;
-                  return null;
-                }}
-              </Media>
-            </div>
-            <div className="scrollable">
-              <div id="menu">
-                <nav>
-                  <h1>Main</h1>
-                  <ul>
-                    <li>
-                      <NavLink exact to="/" onClick={this.hideLeftPane}>
-                        Home
-                      </NavLink>
-                    </li>
-                    <li>
-                      <NavLink exact to="/login" onClick={this.hideLeftPane}>
-                        Login
-                      </NavLink>
-                    </li>
-                    <li>
-                      <NavLink
-                        exact
-                        to="/registration"
-                        onClick={this.hideLeftPane}
-                      >
-                        Register
-                      </NavLink>
-                    </li>
-                    <li>
-                      <NavLink exact to="/about" onClick={this.hideLeftPane}>
-                        About
-                      </NavLink>
-                    </li>
-                  </ul>
-                </nav>
-                <footer>
-                  <p>
-                    Made by <a href="https://mfcl.io">mfcl</a>.
-                  </p>
-                </footer>
-              </div>
+        <div id="left-pane" className={leftPaneClassName}>
+          <div className="top-bar"></div>
+          <div className="scrollable">
+            <div id="menu">
+              <nav>
+                <h1>Main</h1>
+                <ul>
+                  <li>
+                    <NavLink exact to="/" onClick={this.hideLeftPane}>
+                      Home
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink exact to="/login" onClick={this.hideLeftPane}>
+                      Login
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink
+                      exact
+                      to="/registration"
+                      onClick={this.hideLeftPane}
+                    >
+                      Register
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink exact to="/about" onClick={this.hideLeftPane}>
+                      About
+                    </NavLink>
+                  </li>
+                </ul>
+              </nav>
+              <footer>
+                <p>
+                  Made by <a href="https://mfcl.io">mfcl</a>.
+                </p>
+              </footer>
             </div>
           </div>
-          {this.state.showLeftPane && (
-            <div id="under-pane-shadow" onClick={this.hideLeftPane}></div>
-          )}
-        </Fragment>
+        </div>
+        {this.state.showLeftPane && (
+          <div id="under-pane-shadow" onClick={this.hideLeftPane}></div>
+        )}
         <div id="main">
           <div className="top-bar">
             <Media
               query="(max-width: 699px)"
-              render={() => <nav>{!this.state.showLeftPane && menuBtn}</nav>}
+              render={() => <nav>{menuBtn}</nav>}
             />
           </div>
           <div className="scrollable">
