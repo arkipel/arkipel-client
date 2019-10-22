@@ -38,8 +38,10 @@ class App extends React.PureComponent<props, state> {
 
     return (
       <Router>
+        <div id="top-bar">
+          <nav>{menuBtn}</nav>
+        </div>
         <div id="left-pane" className={leftPaneClassName}>
-          <div className="top-bar"></div>
           <div className="scrollable">
             <div id="menu">
               <nav>
@@ -83,12 +85,12 @@ class App extends React.PureComponent<props, state> {
           <div id="under-pane-shadow" onClick={this.hideLeftPane}></div>
         )}
         <div id="main">
-          <div className="top-bar">
+          {/* <div className="top-bar">
             <Media
               query="(max-width: 699px)"
               render={() => <nav>{menuBtn}</nav>}
             />
-          </div>
+          </div> */}
           <div className="scrollable">
             <div id="content">
               <Route path="/" exact component={Home} />
