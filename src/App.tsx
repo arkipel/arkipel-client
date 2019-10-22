@@ -5,6 +5,7 @@ import Media from 'react-media';
 // Pages
 import About from './pages/About';
 import Home from './pages/Home';
+import Islands from './pages/Islands';
 import Login from './pages/Login';
 import Registration from './pages/Registration';
 
@@ -89,6 +90,18 @@ class App extends React.PureComponent<props, state> {
                             </NavLink>
                           </li>
                         </ul>
+                        <h1>Archipelago</h1>
+                        <ul>
+                          <li>
+                            <NavLink
+                              exact
+                              to="/archipelago/islands"
+                              onClick={this.hideLeftPane}
+                            >
+                              Islands
+                            </NavLink>
+                          </li>
+                        </ul>
                       </nav>
                       <footer>
                         <p>
@@ -116,6 +129,7 @@ class App extends React.PureComponent<props, state> {
               <Route path="/about" exact component={About} />
               <Route path="/login" exact component={Login} />
               <Route path="/registration" exact component={Registration} />
+              <Route path="/archipelago/islands" exact component={Islands} />
             </div>
           </div>
         </div>
