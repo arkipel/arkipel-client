@@ -34,9 +34,9 @@ class App extends React.PureComponent<props, state> {
     }
 
     let menuBtn = (
-      <button onClick={this.toggleLeftPane}>
+      <div onClick={this.toggleLeftPane} className="button">
         <img src={menu} alt="&#9776;" className={invertColors} />
-      </button>
+      </div>
     );
 
     let leftPaneClassName = this.state.showLeftPane ? 'visible' : '';
