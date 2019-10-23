@@ -28,9 +28,14 @@ class App extends React.PureComponent<props, state> {
   }
 
   render() {
+    let invertColors = '';
+    if (this.state.showLeftPane) {
+      invertColors = 'invert-colors';
+    }
+
     let menuBtn = (
       <button onClick={this.toggleLeftPane}>
-        <img src={menu} alt="&#9776;" />
+        <img src={menu} alt="&#9776;" className={invertColors} />
       </button>
     );
 
@@ -38,11 +43,15 @@ class App extends React.PureComponent<props, state> {
 
     return (
       <Router>
-        <div id="top-bar">
-          <nav>{menuBtn}</nav>
+        <div id="top-bar-left" className="top-bar">
+          <Media
+            query="(max-width: 699px)"
+            render={() => <nav>{menuBtn}</nav>}
+          />
         </div>
+        <div id="top-bar-right" className="top-bar"></div>
         <div id="left-pane" className={leftPaneClassName}>
-          <div className="scrollable">
+          <div className="scrollable" style={{ marginTop: '50px' }}>
             <div id="menu">
               <nav>
                 <h1>Main</h1>
