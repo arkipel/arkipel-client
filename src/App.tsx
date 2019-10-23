@@ -17,7 +17,7 @@ class App extends React.PureComponent<props, state> {
     super(props);
 
     this.state = {
-      showLeftPane: true,
+      showLeftPane: false,
     };
 
     // let breakpoints = {
@@ -94,12 +94,6 @@ class App extends React.PureComponent<props, state> {
           <div id="under-pane-shadow" onClick={this.hideLeftPane}></div>
         )}
         <div id="main">
-          {/* <div className="top-bar">
-            <Media
-              query="(max-width: 699px)"
-              render={() => <nav>{menuBtn}</nav>}
-            />
-          </div> */}
           <div className="scrollable">
             <div id="content">
               <Route path="/" exact component={Home} />
