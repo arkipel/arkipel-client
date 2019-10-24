@@ -91,5 +91,6 @@
 
   &.visible {
     transform: translateX(0);
+    box-shadow: 1px 0 10px #111;
   }
 }
