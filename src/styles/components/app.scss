@@ -1,0 +1,21 @@
+#app {
+  width: 800px;
+  max-width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: $leftPaneWidth 1fr;
+  grid-template-rows: 50px 1fr;
+}
+
+#under-pane-shadow {
+  grid-column: 1 / span 2;
+  grid-row: 1 / span 2;
+  min-height: 0;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  z-index: 80;
+}
+
+.scrollable {
+  overflow: auto;
+}
