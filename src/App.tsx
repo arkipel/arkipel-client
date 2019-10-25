@@ -29,8 +29,10 @@ class App extends React.PureComponent<props, state> {
 
   render() {
     let invertColors = '';
+    let underPaneShadow = '';
     if (this.state.showLeftPane) {
       invertColors = 'invert-colors';
+      underPaneShadow = 'visible';
     }
 
     let menuBtn = (
@@ -90,9 +92,11 @@ class App extends React.PureComponent<props, state> {
             </div>
           </div>
         </div>
-        {this.state.showLeftPane && (
-          <div id="under-pane-shadow" onClick={this.hideLeftPane}></div>
-        )}
+        <div
+          id="under-pane-shadow"
+          className={underPaneShadow}
+          onClick={this.hideLeftPane}
+        ></div>
         <div id="main">
           <div className="scrollable">
             <div id="content">
