@@ -25,6 +25,8 @@ class App extends React.PureComponent<props, state> {
     //   medium: '(min-width: 500px) and (max-width: 699px)',
     //   large: '(min-width: 700px)',
     // };
+
+    // Add touche support to left pane
   }
 
   render() {
