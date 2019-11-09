@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { BrowserRouter as Router, Route, NavLink } from 'react-router-dom';
 import Media from 'react-media';
 
@@ -29,100 +29,88 @@ class App extends React.PureComponent<props, state> {
   }
 
   render() {
+    let invertColors = '';
+    let underPaneShadow = '';
+    if (this.state.showLeftPane) {
+      invertColors = 'invert-colors';
+      underPaneShadow = 'visible';
+    }
+
     let menuBtn = (
-      <button onClick={this.toggleLeftPane}>
-        <img src={menu} alt="&#9776;" />
-      </button>
+      <div onClick={this.toggleLeftPane} className="button">
+        <img src={menu} alt="&#9776;" className={invertColors} />
+      </div>
     );
+
+    let leftPaneClassName = this.state.showLeftPane ? 'visible' : '';
 
     return (
       <Router>
-        <Media
-          query="(min-width: 700px)"
-          onChange={match => {
-            if (match) {
-              this.hideLeftPane();
-            }
-          }}
-        >
-          {match =>
-            (match || this.state.showLeftPane) && (
-              <Fragment>
-                <div id="left-pane">
-                  <div className="top-bar">
-                    {!match && <nav>{menuBtn}</nav>}
-                  </div>
-                  <div className="scrollable">
-                    <div id="menu">
-                      <nav>
-                        <h1>Main</h1>
-                        <ul>
-                          <li>
-                            <NavLink exact to="/" onClick={this.hideLeftPane}>
-                              Home
-                            </NavLink>
-                          </li>
-                          <li>
-                            <NavLink
-                              exact
-                              to="/login"
-                              onClick={this.hideLeftPane}
-                            >
-                              Login
-                            </NavLink>
-                          </li>
-                          <li>
-                            <NavLink
-                              exact
-                              to="/registration"
-                              onClick={this.hideLeftPane}
-                            >
-                              Register
-                            </NavLink>
-                          </li>
-                          <li>
-                            <NavLink
-                              exact
-                              to="/about"
-                              onClick={this.hideLeftPane}
-                            >
-                              About
-                            </NavLink>
-                          </li>
-                        </ul>
-                        <h1>Archipelago</h1>
-                        <ul>
-                          <li>
-                            <NavLink
-                              exact
-                              to="/archipelago/islands"
-                              onClick={this.hideLeftPane}
-                            >
-                              Islands
-                            </NavLink>
-                          </li>
-                        </ul>
-                      </nav>
-                      <footer>
-                        <p>
-                          Made by <a href="https://mfcl.io">mfcl</a>.
-                        </p>
-                      </footer>
-                    </div>
-                  </div>
-                </div>
-                <div id="under-pane-shadow" onClick={this.hideLeftPane}></div>
-              </Fragment>
-            )
-          }
-        </Media>
-        <div id="main">
-          <div className="top-bar">
-            <Media
-              query="(max-width: 699px)"
-              render={() => <nav>{!this.state.showLeftPane && menuBtn}</nav>}
-            />
+        <div id="top-bar-left" className="top-bar">
+          <Media
+            query="(max-width: 699px)"
+            render={() => <nav>{menuBtn}</nav>}
+          />
+        </div>
+        <div id="top-bar-right" className="top-bar"></div>
+        <div id="left-pane" className={leftPaneClassName}>
+          <div className="scrollable" style={{ marginTop: '50px' }}>
+            <div id="menu">
+              <nav>
+                <h1>Main</h1>
+                <ul>
+                  <li>
+                    <NavLink exact to="/" onClick={this.hideLeftPane}>
+                      Home
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink exact to="/login" onClick={this.hideLeftPane}>
+                      Login
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink
+                      exact
+                      to="/registration"
+                      onClick={this.hideLeftPane}
+                    >
+                      Register
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink exact to="/about" onClick={this.hideLeftPane}>
+                      About
+                    </NavLink>
+                  </li>
+                  <h1>Archipelago</h1>
+                  <ul>
+                    <li>
+                      <NavLink
+                        exact
+                        to="/archipelago/islands"
+                        onClick={this.hideLeftPane}
+                      >
+                        Islands
+                      </NavLink>
+                    </li>
+                  </ul>
+                </ul>
+              </nav>
+              <footer>
+                <p>
+                  Made by <a href="https://mfcl.io">mfcl</a>.
+                </p>
+              </footer>
+            </div>
           </div>
+        </div>
+        <div
+          id="under-pane-shadow"
+          className={underPaneShadow}
+          onClick={this.hideLeftPane}
+        ></div>
+        <div id="main">
           <div className="scrollable">
             <div id="content">
               <Route path="/" exact component={Home} />

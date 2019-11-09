@@ -1,0 +1,61 @@
+#main {
+  grid-column: 2;
+  grid-row: 2;
+  display: grid;
+  grid-template-rows: 1fr;
+  align-content: start;
+  min-height: 0;
+  height: 100%;
+  width: 100%;
+
+  @media all and (max-width: 699px) {
+    grid-column: 1 / span 2;
+    grid-row: 2;
+  }
+
+  #content {
+    display: grid;
+    grid-gap: 10px;
+    align-content: start;
+    min-height: 100%;
+    padding: 10px;
+
+    p {
+      font-size: 18px;
+    }
+
+    a {
+      color: #666;
+
+      &:hover {
+        color: #444;
+      }
+    }
+
+    form {
+      display: grid;
+      gap: 10px;
+
+      @media all and (max-width: 499px) {
+        button,
+        input {
+          width: 100%;
+        }
+      }
+
+      .hint {
+        color: #aaa;
+        font-size: 14px;
+      }
+
+      .hint-error {
+        color: #a00;
+        font-size: 14px;
+      }
+    }
+
+    .msg-error {
+      color: #a00;
+    }
+  }
+}
