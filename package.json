@@ -20,7 +20,7 @@
     "@babel/plugin-proposal-class-properties": "^7.7.0",
     "@babel/plugin-proposal-object-rest-spread": "^7.6.2",
     "@babel/preset-env": "^7.7.1",
-    "@babel/preset-react": "^7.7.0",
+    "@babel/preset-react": "^7.7.4",
     "@babel/preset-typescript": "^7.7.2",
     "babel-loader": "^8.0.6",
     "concurrently": "^5.0.0",
@@ -38,11 +38,11 @@
     "webpack-dev-server": "^3.9.0"
   },
   "dependencies": {
-    "@types/react": "^16.9.11",
+    "@types/react": "^16.9.13",
     "@types/react-dom": "^16.9.4",
     "@types/react-router-dom": "^5.1.2",
-    "react": "^16.11.0",
-    "react-dom": "^16.11.0",
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0",
     "react-media": "^1.10.0",
     "react-router-dom": "^5.1.2"
   }
