@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 
-const SessionContext = React.createContext({});
+const ClientContext = React.createContext({});
 
-class SessionProvider extends Component {
+class ClientProvider extends Component {
   constructor(props: props) {
     super(props);
 
@@ -11,13 +11,17 @@ class SessionProvider extends Component {
 
   render() {
     return (
-      <SessionContext.Provider value={{}}>
+      <ClientContext.Provider
+        value={{
+          test: 1,
+        }}
+      >
         {this.props.children}
-      </SessionContext.Provider>
+      </ClientContext.Provider>
     );
   }
 }
 
 type props = {};
 
-export { SessionContext, SessionProvider };
+export { ClientContext, ClientProvider };
