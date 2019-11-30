@@ -3,7 +3,7 @@ import {
   mapRequestToAsset,
 } from '@cloudflare/kv-asset-handler';
 
-const DEBUG = true;
+const DEBUG = false;
 
 addEventListener('fetch', event => {
   try {
