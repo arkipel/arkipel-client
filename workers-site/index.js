@@ -32,6 +32,16 @@ async function handleEvent(event) {
     let url = new URL(defaultReq.url);
     if (url.pathname.endsWith('index.html')) {
       url.pathname = '/index.html';
+
+      options.cacheControl = {
+        bypassCache: true,
+      };
+    } else if (!url.pathname.endsWith('favicon.ico')) {
+      options.cacheControl = {
+        browserTTL: 5 * 24 * 60 * 60,
+        edgeTTL: 5 * 24 * 60 * 60,
+        bypassCache: false,
+      };
     }
 
     return new Request(url.toString(), defaultReq);
