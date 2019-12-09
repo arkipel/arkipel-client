@@ -57,5 +57,26 @@
     .msg-error {
       color: #a00;
     }
+
+    table {
+      text-align: left;
+      // border: 1px solid black;
+      border-collapse: collapse;
+
+      tr:nth-child(even) {
+        background: #f6f6f6;
+      }
+
+      thead {
+        th {
+          border-bottom: 1px solid black;
+        }
+      }
+
+      th,
+      td {
+        padding: 4px;
+      }
+    }
   }
 }

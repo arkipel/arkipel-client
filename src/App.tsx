@@ -2,6 +2,8 @@ import React from 'react';
 import { BrowserRouter as Router, Route, NavLink } from 'react-router-dom';
 import Media from 'react-media';
 
+import { ClientProvider } from './libs/jsonapi/context';
+
 // Pages
 import About from './pages/About';
 import Home from './pages/Home';
@@ -45,83 +47,85 @@ class App extends React.PureComponent<props, state> {
     let leftPaneClassName = this.state.showLeftPane ? 'visible' : '';
 
     return (
-      <Router>
-        <div id="top-bar-left" className="top-bar">
-          <Media
-            query="(max-width: 699px)"
-            render={() => <nav>{menuBtn}</nav>}
-          />
-        </div>
-        <div id="top-bar-right" className="top-bar"></div>
-        <div id="left-pane" className={leftPaneClassName}>
-          <div className="scrollable" style={{ marginTop: '50px' }}>
-            <div id="menu">
-              <nav>
-                <h1>Main</h1>
-                <ul>
-                  <li>
-                    <NavLink exact to="/" onClick={this.hideLeftPane}>
-                      Home
-                    </NavLink>
-                  </li>
-                  <li>
-                    <NavLink exact to="/login" onClick={this.hideLeftPane}>
-                      Login
-                    </NavLink>
-                  </li>
-                  <li>
-                    <NavLink
-                      exact
-                      to="/registration"
-                      onClick={this.hideLeftPane}
-                    >
-                      Register
-                    </NavLink>
-                  </li>
-                  <li>
-                    <NavLink exact to="/about" onClick={this.hideLeftPane}>
-                      About
-                    </NavLink>
-                  </li>
-                  <h1>Archipelago</h1>
+      <ClientProvider>
+        <Router>
+          <div id="top-bar-left" className="top-bar">
+            <Media
+              query="(max-width: 699px)"
+              render={() => <nav>{menuBtn}</nav>}
+            />
+          </div>
+          <div id="top-bar-right" className="top-bar"></div>
+          <div id="left-pane" className={leftPaneClassName}>
+            <div className="scrollable" style={{ marginTop: '50px' }}>
+              <div id="menu">
+                <nav>
+                  <h1>Main</h1>
                   <ul>
+                    <li>
+                      <NavLink exact to="/" onClick={this.hideLeftPane}>
+                        Home
+                      </NavLink>
+                    </li>
+                    <li>
+                      <NavLink exact to="/login" onClick={this.hideLeftPane}>
+                        Login
+                      </NavLink>
+                    </li>
                     <li>
                       <NavLink
                         exact
-                        to="/archipelago/islands"
+                        to="/registration"
                         onClick={this.hideLeftPane}
                       >
-                        Islands
+                        Register
                       </NavLink>
                     </li>
+                    <li>
+                      <NavLink exact to="/about" onClick={this.hideLeftPane}>
+                        About
+                      </NavLink>
+                    </li>
+                    <h1>Archipelago</h1>
+                    <ul>
+                      <li>
+                        <NavLink
+                          exact
+                          to="/archipelago/islands"
+                          onClick={this.hideLeftPane}
+                        >
+                          Islands
+                        </NavLink>
+                      </li>
+                    </ul>
                   </ul>
-                </ul>
-              </nav>
-              <footer>
-                <p>
-                  Made by <a href="https://mfcl.io">mfcl</a>.
-                </p>
-              </footer>
+                </nav>
+                <footer>
+                  <p>
+                    Made by <a href="https://mfcl.io">mfcl</a>.
+                  </p>
+                </footer>
+              </div>
             </div>
           </div>
-        </div>
-        <div
-          id="under-pane-shadow"
-          className={underPaneShadow}
-          onClick={this.hideLeftPane}
-        ></div>
-        <div id="main">
-          <div className="scrollable">
-            <div id="content">
-              <Route path="/" exact component={Home} />
-              <Route path="/about" exact component={About} />
-              <Route path="/login" exact component={Login} />
-              <Route path="/registration" exact component={Registration} />
-              <Route path="/archipelago/islands" exact component={Islands} />
+          <div
+            id="under-pane-shadow"
+            className={underPaneShadow}
+            onClick={this.hideLeftPane}
+          ></div>
+          <div id="main">
+            <div className="scrollable">
+              <div id="content">
+                <Route path="/" exact component={Home} />
+                <Route path="/about" exact component={About} />
+                <Route path="/login" exact component={Login} />
+                <Route path="/registration" exact component={Registration} />
+                <Route path="/archipelago/islands" exact component={Islands} />
+              </div>
             </div>
           </div>
-        </div>
-      </Router>
+        </Router>
+      </ClientProvider>
     );
   }
 
