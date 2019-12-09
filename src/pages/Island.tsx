@@ -1,5 +1,4 @@
 import React, { Fragment } from 'react';
-import { NavLink } from 'react-router-dom';
 
 import { Client } from '../libs/jsonapi/client.ts';
 
