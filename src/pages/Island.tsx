@@ -2,14 +2,16 @@ import React, { Fragment } from 'react';
 
 import { Client } from '../libs/jsonapi/client.ts';
 
-class Island extends React.PureComponent<props, state> {
+import { Island } from '../models/Island.ts';
+
+class IslandPage extends React.PureComponent<props, state> {
   constructor(props: props) {
     super(props);
 
     let client = new Client('http://localhost:6280');
 
     // Get islands
-    let req = client.getOne<Island>();
+    let req = client.getOne<Island>('kiiwi');
     req.then(island => {
       this.setState({ island });
     });
@@ -22,7 +24,7 @@ class Island extends React.PureComponent<props, state> {
   render() {
     return (
       <Fragment>
-        <h1>{this.state.island.id}</h1>
+        <h1>{this.state.island.attributes.name}</h1>
         <h2>Map</h2>
         <p className="msg-error">Work in progress.</p>
       </Fragment>
@@ -38,4 +40,4 @@ type state = {
   island: Island;
 };
 
-export default Island;
+export default IslandPage;

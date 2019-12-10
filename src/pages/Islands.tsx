@@ -30,7 +30,6 @@ class Islands extends React.PureComponent<props, state> {
           <thead>
             <tr>
               <th>Name</th>
-              <th>Most powerful</th>
               <th>Population</th>
             </tr>
           </thead>
@@ -39,11 +38,10 @@ class Islands extends React.PureComponent<props, state> {
               return (
                 <tr key={island.id}>
                   <th>
-                    <NavLink to={'islands/' + island.id}>{island.id}</NavLink>
+                    <NavLink to={'islands/' + island.id}>
+                      {island.attributes.name}
+                    </NavLink>
                   </th>
-                  <td>
-                    <i>TBD</i>
-                  </td>
                   <td>0</td>
                 </tr>
               );

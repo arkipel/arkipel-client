@@ -113,20 +113,21 @@ class App extends React.PureComponent<props, state> {
               </div>
             </div>
           </div>
-        <div
-          id="under-pane-shadow"
-          className={underPaneShadow}
-          onClick={this.hideLeftPane}
-        ></div>
-        <div id="main">
-          <div className="scrollable">
-            <div id="content">
-              <Switch>
-                <Route path="/" exact component={Home} />
-                <Route path="/about" exact component={About} />
-                <Route path="/login" exact component={Login} />
-                <Route path="/registration" exact component={Registration} />
-              </Switch>
+          <div
+            id="under-pane-shadow"
+            className={underPaneShadow}
+            onClick={this.hideLeftPane}
+          ></div>
+          <div id="main">
+            <div className="scrollable">
+              <div id="content">
+                <Switch>
+                  <Route path="/" exact component={Home} />
+                  <Route path="/about" exact component={About} />
+                  <Route path="/login" exact component={Login} />
+                  <Route path="/registration" exact component={Registration} />
+                </Switch>
+              </div>
             </div>
           </div>
         </Router>
