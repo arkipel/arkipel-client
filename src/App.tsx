@@ -1,5 +1,10 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, NavLink } from 'react-router-dom';
+import {
+  BrowserRouter as Router,
+  Route,
+  NavLink,
+  Switch,
+} from 'react-router-dom';
 import Media from 'react-media';
 
 import { ClientProvider } from './libs/jsonapi/context';
@@ -108,20 +113,20 @@ class App extends React.PureComponent<props, state> {
               </div>
             </div>
           </div>
-          <div
-            id="under-pane-shadow"
-            className={underPaneShadow}
-            onClick={this.hideLeftPane}
-          ></div>
-          <div id="main">
-            <div className="scrollable">
-              <div id="content">
+        <div
+          id="under-pane-shadow"
+          className={underPaneShadow}
+          onClick={this.hideLeftPane}
+        ></div>
+        <div id="main">
+          <div className="scrollable">
+            <div id="content">
+              <Switch>
                 <Route path="/" exact component={Home} />
                 <Route path="/about" exact component={About} />
                 <Route path="/login" exact component={Login} />
                 <Route path="/registration" exact component={Registration} />
-                <Route path="/archipelago/islands" exact component={Islands} />
-              </div>
+              </Switch>
             </div>
           </div>
         </Router>
