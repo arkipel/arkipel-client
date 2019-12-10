@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react';
+import { NavLink } from 'react-router-dom';
 
 import { Client } from '../libs/jsonapi/client.ts';
 
@@ -27,15 +28,22 @@ class IslandPage extends React.PureComponent<props, state> {
     return (
       <Fragment>
         <h1>{this.state.island.id}</h1>
-        <h2>Map</h2>
+        <nav>
+          <ul>
+            <li>
+              <NavLink to="kiiwi/map">Map</NavLink>
+            </li>
+            <li>
+              <NavLink to="kiiwi/info">Info</NavLink>
+            </li>
+          </ul>
+        </nav>
         <div className="island">
           {(() => {
             let tiles = new Array<any>();
             for (let i = 0; i < 400; i++) {
               tiles.push(<div key={i} className="tile"></div>);
             }
-            console.log('the length is', tiles.length);
-            console.log('tiles', tiles);
             return tiles;
           })()}
         </div>
