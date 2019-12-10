@@ -46,10 +46,14 @@
           a {
             display: block;
             width: auto;
-            padding: 10px;
+            padding: 8px 10px;
             color: #444;
             text-decoration: none;
             background: #eee;
+
+            &.active {
+              background: #cccccc;
+            }
 
             &:hover {
               background: #ddd;
