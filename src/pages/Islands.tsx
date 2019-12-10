@@ -5,7 +5,7 @@ import { Client } from '../libs/jsonapi/client.ts';
 
 import { Island } from '../models/Island.ts';
 
-class Islands extends React.PureComponent<props, state> {
+class IslandsPage extends React.PureComponent<props, state> {
   constructor(props: props) {
     super(props);
 
@@ -59,4 +59,4 @@ type state = {
   islands: Array<Island>;
 };
 
-export default Islands;
+export default IslandsPage;

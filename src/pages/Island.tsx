@@ -22,11 +22,23 @@ class IslandPage extends React.PureComponent<props, state> {
   }
 
   render() {
+    console.log('island', this.state.island);
+
     return (
       <Fragment>
-        <h1>{this.state.island.attributes.name}</h1>
+        <h1>{this.state.island.id}</h1>
         <h2>Map</h2>
-        <p className="msg-error">Work in progress.</p>
+        <div className="island">
+          {(() => {
+            let tiles = new Array<any>();
+            for (let i = 0; i < 400; i++) {
+              tiles.push(<div key={i} className="tile"></div>);
+            }
+            console.log('the length is', tiles.length);
+            console.log('tiles', tiles);
+            return tiles;
+          })()}
+        </div>
       </Fragment>
     );
   }
