@@ -10,8 +10,8 @@ import Media from 'react-media';
 // Pages
 import About from './pages/About';
 import Home from './pages/Home';
-import IslandPage from './pages/Island';
-import IslandsPage from './pages/Islands';
+import IslandPage from './pages/islands/Island';
+import IslandsPage from './pages/islands/List';
 import Login from './pages/Login';
 import Registration from './pages/Registration';
 

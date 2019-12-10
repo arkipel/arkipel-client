@@ -1,11 +1,11 @@
 import React, { Fragment } from 'react';
 import { NavLink } from 'react-router-dom';
 
-import { IslandMap } from 'Map';
+import IslandMap from './Map';
 
-import { Client } from '../libs/jsonapi/client.ts';
+import { Client } from '../../libs/jsonapi/client.ts';
 
-import { Island } from '../models/Island.ts';
+import { Island } from '../../models/Island.ts';
 
 class IslandPage extends React.PureComponent<props, state> {
   constructor(props: props) {
