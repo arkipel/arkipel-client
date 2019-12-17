@@ -3,9 +3,9 @@ import { NavLink } from 'react-router-dom';
 
 import IslandMap from './Map';
 
-import { Client } from '../../libs/jsonapi/client.ts';
+import { Client } from '../../libs/jsonapi/client';
 
-import { Island } from '../../models/Island.ts';
+import { Island } from '../../models/Island';
 
 class IslandPage extends React.PureComponent<props, state> {
   constructor(props: props) {

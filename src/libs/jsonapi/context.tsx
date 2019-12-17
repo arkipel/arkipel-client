@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 
-import { Client } from './client.ts';
+import { Client } from './client';
 
 const ClientContext = React.createContext({
-  client: new Client(),
+  client: new Client('http://localhost:6280'),
 });
 
 class ClientProvider extends Component<props, state> {
@@ -11,7 +11,7 @@ class ClientProvider extends Component<props, state> {
     super(props);
 
     this.state = {
-      client: new Client(),
+      client: new Client('http://localhost:6280'),
     };
   }
 
