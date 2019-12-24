@@ -4,7 +4,7 @@ node_js:
   - 10
 
 deploy:
-  provider: script
-  script: wrangler publish
+  - provider: script
+    script: wrangler publish
     on:
       branch: master
