@@ -14,4 +14,4 @@ plugins:
 functions:
   deploy-from-travis:
     name: travis-deployed-worker
-    script: worker
+    script: workers-site/worker/script.js
