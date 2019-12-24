@@ -8,4 +8,4 @@ deploy:
     script: sls deploy
     skip_cleanup: true
     on:
-      branch: master
+      branch: cloudflare-workers
