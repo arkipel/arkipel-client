@@ -5,7 +5,7 @@ node_js:
 
 deploy:
   - provider: script
-  script: sls deploy
-  skip_cleanup: true
-  on:
-    branch: master
+    script: sls deploy
+    skip_cleanup: true
+    on:
+      branch: master
