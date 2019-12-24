@@ -5,3 +5,5 @@ node_js:
 
 deploy:
   - script: wrangler publish
+    on:
+      branch: master
