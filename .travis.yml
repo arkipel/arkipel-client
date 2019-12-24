@@ -5,6 +5,6 @@ node_js:
 
 deploy:
   - provider: script
-    script: wrangler publish
+    script: npx wrangler publish
     on:
       branch: cloudflare-workers
