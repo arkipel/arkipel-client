@@ -4,8 +4,4 @@ node_js:
   - 10
 
 deploy:
-  - provider: script
-    script: sls deploy
-    skip_cleanup: true
-    on:
-      branch: cloudflare-workers
+  - script: wrangler publish
