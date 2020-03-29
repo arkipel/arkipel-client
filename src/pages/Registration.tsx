@@ -29,7 +29,7 @@ class Registration extends React.PureComponent<props, state> {
               value={this.state.username}
               placeholder="Username"
               disabled
-              onChange={event => {
+              onChange={(event) => {
                 this.setState({ username: event.target.value }, () => {
                   this.checkInputs();
                 });
@@ -50,7 +50,7 @@ class Registration extends React.PureComponent<props, state> {
               value={this.state.password}
               placeholder="Password"
               disabled
-              onChange={event => {
+              onChange={(event) => {
                 this.setState({ password: event.target.value }, () => {
                   this.checkInputs();
                 });
@@ -71,7 +71,7 @@ class Registration extends React.PureComponent<props, state> {
               value={this.state.passwordAgain}
               placeholder="Password again"
               disabled
-              onChange={event => {
+              onChange={(event) => {
                 this.setState({ passwordAgain: event.target.value }, () => {
                   this.checkInputs();
                 });
