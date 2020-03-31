@@ -1,50 +1,47 @@
+import { Schema } from './schema';
+import { Query } from './query';
+import { Resource, flatten } from './resource';
+
 class Client {
   constructor(base: string) {
     this.base = base;
   }
 
   base: string;
+  schema = new Schema();
 
-  async getOne<T extends Resource>(id: string): Promise<T> {
-    // let typeName = ;
-    let typeName = 'islands';
-    console.log('Type name:', typeName);
+  async getOne<T extends Resource>(
+    type: string,
+    id: string,
+  ): Promise<T | null> {
+    if (!this.schema.hasType(type)) {
+      return null;
+    }
 
-    let url = `${this.base}/${typeName}/${id}`;
+    let url = `${this.base}/${type}/${id}`;
 
-    let res = await fetch(url);
-    let body = await res.json();
+    let resp = await fetch(url);
+    let body = await resp.json();
 
-    return body.data;
+    let res = flatten<T>(body.data);
+
+    return res;
   }
 
-  async getMany<T extends Resource>(): Promise<Array<T>> {
-    // let typeName = ;
-    let typeName = 'islands';
-    console.log('Type name:', typeName);
+  async getMany<T extends Resource>(query: Query): Promise<Array<T>> {
+    let url = `${this.base}/${query.type}`;
 
-    let url = `${this.base}/${typeName}`;
-
-    let res = await fetch(url);
-    let body = await res.json();
+    let resp = await fetch(url);
+    let body = await resp.json();
 
     let collection = new Array<T>();
 
     for (let i in body.data) {
-      let elem = body.data[i];
-      console.log('element:', elem);
-      collection.push(elem);
+      collection.push(flatten<T>(body.data[i]));
     }
 
     return collection;
   }
 }
 
-interface Resource {
-  readonly type: string;
-  id: string;
-
-  getType: () => string;
-}
-
-export { Client, Resource };
+export { Client };

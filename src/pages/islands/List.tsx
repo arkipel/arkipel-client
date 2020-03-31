@@ -9,11 +9,13 @@ class IslandsList extends React.PureComponent<props, state> {
   constructor(props: props) {
     super(props);
 
-    let client = new Client('http://localhost:6280');
+    let client = new Client('http://127.0.0.1:9192');
+
+    client.schema.addType(new Island());
 
     // Get islands
-    let req = client.getMany<Island>();
-    req.then(islands => {
+    let req = client.getMany<Island>({ type: 'islands' });
+    req.then((islands) => {
       this.setState({ islands });
     });
 
@@ -34,13 +36,11 @@ class IslandsList extends React.PureComponent<props, state> {
             </tr>
           </thead>
           <tbody>
-            {this.state.islands.map(island => {
+            {this.state.islands.map((island) => {
               return (
                 <tr key={island.id}>
                   <th>
-                    <NavLink to={'islands/' + island.id}>
-                      {island.attributes.name}
-                    </NavLink>
+                    <NavLink to={'islands/' + island.id}>{island.name}</NavLink>
                   </th>
                   <td>0</td>
                 </tr>

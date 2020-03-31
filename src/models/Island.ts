@@ -1,17 +1,16 @@
-import { Resource } from '../libs/jsonapi/client';
+import { Resource } from '../libs/jsonapi/resource';
+
+import { Tile } from './Tile';
 
 class Island implements Resource {
-  constructor(id: string) {
-    this.id = id;
-    this.type = 'islands';
-  }
+  readonly type = 'islands';
+  id = '';
 
-  id: string;
-  type: string = 'islands';
+  // Attributes
+  name = '';
 
-  getType() {
-    return 'islands';
-  }
+  // Relationships
+  tiles = new Array<Tile>();
 }
 
 export { Island };

@@ -130,8 +130,7 @@ class App extends React.PureComponent<props, state> {
                   component={IslandsPage}
                 />
                 <Route
-                  path="/archipelago/islands/kiiwi"
-                  exact
+                  path="/archipelago/islands/:island"
                   component={IslandPage}
                 />
               </Switch>

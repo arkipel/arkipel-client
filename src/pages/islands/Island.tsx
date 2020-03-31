@@ -1,7 +1,8 @@
 import React, { Fragment } from 'react';
-import { NavLink } from 'react-router-dom';
+import { Route, NavLink, Switch } from 'react-router-dom';
 
 import IslandMap from './Map';
+import IslandInfo from './Info';
 
 import { Client } from '../../libs/jsonapi/client';
 
@@ -11,51 +12,43 @@ class IslandPage extends React.PureComponent<props, state> {
   constructor(props: props) {
     super(props);
 
-    let client = new Client('http://localhost:6280');
+    let client = new Client('https://api.arkipel.io');
+
+    client.schema.addType(new Island());
 
     // Get islands
-    let req = client.getOne<Island>('kiiwi');
-    req.then(island => {
-      this.setState({ island });
+    let req = client.getOne<Island>('islands', 'kiiwi');
+    req.then((island) => {
+      this.setState({ island: island ?? new Island() });
     });
 
     this.state = {
-      island: new Island('abc'),
+      island: new Island(),
     };
   }
 
   render() {
-    console.log('island', this.state.island);
-
     return (
       <Fragment>
-        <h1>{this.state.island.id}</h1>
+        <h1>{this.state.island.name}</h1>
         <nav>
           <ul>
             <li>
-              <NavLink to="kiiwi" activeClassName="active">
-                Map
-              </NavLink>
+              <NavLink to="/archipelago/islands/kiiwi">Map</NavLink>
             </li>
             <li>
-              <NavLink to="kiiwi/info" activeClassName="active">
-                Info
-              </NavLink>
-            </li>
-            <li>
-              <NavLink to="kiiwi/people" activeClassName="active">
-                People
-              </NavLink>
-            </li>
-            <li>
-              <NavLink to="kiiwi/events" activeClassName="active">
-                Events
-              </NavLink>
+              <NavLink to="/archipelago/islands/kiiwi/info">Info</NavLink>
             </li>
           </ul>
         </nav>
-        <h2>Map</h2>
-        <IslandMap />
+        <Switch>
+          <Route path="/archipelago/islands/:id" exact component={IslandMap} />
+          <Route
+            path="/archipelago/islands/:id/info"
+            exact
+            component={IslandInfo}
+          />
+        </Switch>
       </Fragment>
     );
   }
