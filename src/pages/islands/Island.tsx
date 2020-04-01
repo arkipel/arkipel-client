@@ -1,10 +1,10 @@
 import React, { Fragment } from 'react';
 import { Route, NavLink, Switch } from 'react-router-dom';
 
+import { APIContext } from '../../libs/jsonapi/context';
+
 import IslandMap from './Map';
 import IslandInfo from './Info';
-
-import { Client } from '../../libs/jsonapi/client';
 
 import { Island } from '../../models/Island';
 
@@ -12,19 +12,17 @@ class IslandPage extends React.PureComponent<props, state> {
   constructor(props: props) {
     super(props);
 
-    let client = new Client('https://api.arkipel.io');
-
-    client.schema.addType(new Island());
-
-    // Get islands
-    let req = client.getOne<Island>('islands', 'kiiwi');
-    req.then((island) => {
-      this.setState({ island: island ?? new Island() });
-    });
-
     this.state = {
       island: new Island(),
     };
+  }
+
+  componentDidMount() {
+    // Get islands
+    let req = this.context.client.getOne<Island>('islands', 'kiiwi');
+    req.then((island) => {
+      this.setState({ island: island ?? new Island() });
+    });
   }
 
   render() {
@@ -34,7 +32,9 @@ class IslandPage extends React.PureComponent<props, state> {
         <nav>
           <ul>
             <li>
-              <NavLink to="/archipelago/islands/kiiwi">Map</NavLink>
+              <NavLink to="/archipelago/islands/kiiwi" exact>
+                Map
+              </NavLink>
             </li>
             <li>
               <NavLink to="/archipelago/islands/kiiwi/info">Info</NavLink>
@@ -52,7 +52,12 @@ class IslandPage extends React.PureComponent<props, state> {
       </Fragment>
     );
   }
+
+  // static contextType = APIContext;
+  context!: React.ContextType<typeof APIContext>;
 }
+
+IslandPage.contextType = APIContext;
 
 type props = {
   id: string;

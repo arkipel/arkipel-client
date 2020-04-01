@@ -2,24 +2,29 @@ import React, { Component } from 'react';
 
 import { Client } from './client';
 
-const ClientContext = React.createContext({
-  client: new Client('http://localhost:6280'),
+import { Island } from '../../models/Island';
+
+const APIContext = React.createContext<state>({
+  client: new Client(''),
 });
 
-class ClientProvider extends Component<props, state> {
+class APIProvider extends Component<props, state> {
   constructor(props: props) {
     super(props);
 
-    this.state = {
-      client: new Client('http://localhost:6280'),
-    };
+    let client = new Client('https://api.arkipel.io');
+
+    // Build schema
+    client.schema.addType(new Island());
+
+    this.state = { client };
   }
 
   render() {
     return (
-      <ClientContext.Provider value={this.state}>
+      <APIContext.Provider value={this.state}>
         {this.props.children}
-      </ClientContext.Provider>
+      </APIContext.Provider>
     );
   }
 }
@@ -30,4 +35,4 @@ type state = {
   client: Client;
 };
 
-export { ClientContext, ClientProvider };
+export { APIContext, APIProvider };
