@@ -1,16 +1,16 @@
-#left-pane {
+#menu-pane {
   grid-column: 1;
   grid-row: 1 / span 2;
   display: grid;
   grid-template-rows: 1fr;
   min-height: 0;
   height: 100%;
-  width: $leftPaneWidth;
+  width: $menuPaneWidth;
   align-content: start;
   color: white;
   background: rgb(40, 40, 40);
   z-index: 100;
-  transform: translateX(-$leftPaneWidth);
+  transform: translateX(-$menuPaneWidth);
   transition: 0.4s cubic-bezier(0.23, 1, 0.32, 1);
 
   .top-bar {

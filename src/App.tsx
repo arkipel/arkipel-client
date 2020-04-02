@@ -22,7 +22,7 @@ class App extends React.PureComponent<props, state> {
     super(props);
 
     this.state = {
-      showLeftPane: false,
+      showMenuPane: true,
     };
 
     // let breakpoints = {
@@ -35,18 +35,18 @@ class App extends React.PureComponent<props, state> {
   render() {
     let invertColors = '';
     let underPaneShadow = '';
-    if (this.state.showLeftPane) {
+    if (this.state.showMenuPane) {
       invertColors = 'invert-colors';
       underPaneShadow = 'visible';
     }
 
     let menuBtn = (
-      <div onClick={this.toggleLeftPane} className="button">
+      <div onClick={this.toggleMenuPane} className="button">
         <img src={menu} alt="&#9776;" className={invertColors} />
       </div>
     );
 
-    let leftPaneClassName = this.state.showLeftPane ? 'visible' : '';
+    let menuPaneClassName = this.state.showMenuPane ? 'visible' : '';
 
     return (
       <Router>
@@ -57,19 +57,19 @@ class App extends React.PureComponent<props, state> {
           />
         </div>
         <div id="top-bar-right" className="top-bar"></div>
-        <div id="left-pane" className={leftPaneClassName}>
+        <div id="menu-pane" className={menuPaneClassName}>
           <div className="scrollable" style={{ marginTop: '50px' }}>
             <div id="menu">
               <nav>
                 <h1>Main</h1>
                 <ul>
                   <li>
-                    <NavLink exact to="/" onClick={this.hideLeftPane}>
+                    <NavLink exact to="/" onClick={this.hideMenuPane}>
                       Home
                     </NavLink>
                   </li>
                   <li>
-                    <NavLink exact to="/login" onClick={this.hideLeftPane}>
+                    <NavLink exact to="/login" onClick={this.hideMenuPane}>
                       Login
                     </NavLink>
                   </li>
@@ -77,13 +77,13 @@ class App extends React.PureComponent<props, state> {
                     <NavLink
                       exact
                       to="/registration"
-                      onClick={this.hideLeftPane}
+                      onClick={this.hideMenuPane}
                     >
                       Register
                     </NavLink>
                   </li>
                   <li>
-                    <NavLink exact to="/about" onClick={this.hideLeftPane}>
+                    <NavLink exact to="/about" onClick={this.hideMenuPane}>
                       About
                     </NavLink>
                   </li>
@@ -100,7 +100,7 @@ class App extends React.PureComponent<props, state> {
         <div
           id="under-pane-shadow"
           className={underPaneShadow}
-          onClick={this.hideLeftPane}
+          onClick={this.hideMenuPane}
         ></div>
         <div id="main">
           <div className="scrollable">
@@ -118,22 +118,22 @@ class App extends React.PureComponent<props, state> {
     );
   }
 
-  toggleLeftPane = () => {
-    this.setState((state) => {
-      let showLeftPane = !state.showLeftPane;
-      return { showLeftPane };
+  toggleMenuPane = () => {
+    this.setState(state => {
+      let showMenuPane = !state.showMenuPane;
+      return { showMenuPane };
     });
   };
 
-  hideLeftPane = () => {
-    this.setState({ showLeftPane: false });
+  hideMenuPane = () => {
+    this.setState({ showMenuPane: false });
   };
 }
 
 type props = {};
 
 type state = {
-  showLeftPane: boolean;
+  showMenuPane: boolean;
 };
 
 export default App;
