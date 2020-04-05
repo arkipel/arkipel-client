@@ -22,7 +22,7 @@ class App extends React.PureComponent<props, state> {
     super(props);
 
     this.state = {
-      showMenuPane: true,
+      showMenuPane: false,
     };
 
     // let breakpoints = {
@@ -119,7 +119,7 @@ class App extends React.PureComponent<props, state> {
   }
 
   toggleMenuPane = () => {
-    this.setState(state => {
+    this.setState((state) => {
       let showMenuPane = !state.showMenuPane;
       return { showMenuPane };
     });
