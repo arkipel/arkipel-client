@@ -8,11 +8,9 @@ class Registration extends React.PureComponent<props, state> {
       username: '',
       password: '',
       passwordAgain: '',
-      invitation: '',
       usernameErrors: '',
       passwordErrors: '',
       passwordAgainErrors: '',
-      invitationErrors: '',
     };
   }
 
@@ -88,38 +86,6 @@ class Registration extends React.PureComponent<props, state> {
             <span className="hint">same password</span>
           </p>
           <p>
-            Since this game is based on a realistic economy, where wealth can't
-            be created out of thin air to support new players, an invitation
-            code is required.
-          </p>
-          <p>
-            Current players can invite other players by spending a certain
-            amount of gold in exchange for invitation codes. That amount of gold
-            is what is given to new players to get started.
-          </p>
-          <p>
-            <input
-              type="text"
-              value={this.state.invitation}
-              placeholder="Invitation code"
-              onChange={(event) => {
-                this.setState({ invitation: event.target.value }, () => {
-                  this.checkInputs();
-                });
-              }}
-            />
-            {this.state.invitationErrors !== '' && (
-              <Fragment>
-                <br />
-                <span className="hint-error">
-                  {this.state.invitationErrors}
-                </span>
-              </Fragment>
-            )}
-            <br />
-            <span className="hint">A-Z, 0-9, 6 characters</span>
-          </p>
-          <p>
             <input type="submit" value="Register" />
           </p>
         </form>
@@ -159,24 +125,10 @@ class Registration extends React.PureComponent<props, state> {
       }
     }
 
-    // Invitation
-    let invitationErrors: Array<string> = [];
-    if (this.state.invitation.length !== 6) {
-      if (this.state.invitation.length < 4) {
-        invitationErrors.push('not long enough');
-      } else if (this.state.invitation.length > 20) {
-        invitationErrors.push('too long');
-      }
-      if (this.state.invitation.match(/[^a-zA-Z0-9]+/)) {
-        invitationErrors.push('invalid characters');
-      }
-    }
-
     this.setState({
       usernameErrors: usernameErrors.join(', '),
       passwordErrors: passwordErrors.join(', '),
       passwordAgainErrors: passwordAgainErrors.join(', '),
-      invitationErrors: invitationErrors.join(', '),
     });
   };
 
@@ -192,11 +144,9 @@ type state = {
   username: string;
   password: string;
   passwordAgain: string;
-  invitation: string;
   usernameErrors: string;
   passwordErrors: string;
   passwordAgainErrors: string;
-  invitationErrors: string;
 };
 
 export default Registration;
