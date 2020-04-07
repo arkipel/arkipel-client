@@ -22,7 +22,7 @@ class App extends React.PureComponent<props, state> {
     super(props);
 
     this.state = {
-      showMenuPane: true,
+      showMenuPane: false,
     };
 
     // let breakpoints = {
