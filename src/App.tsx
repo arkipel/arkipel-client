@@ -97,11 +97,13 @@ class App extends React.PureComponent<props, state> {
             </div>
           </div>
         </div>
-        <div
-          id="under-pane-shadow"
-          className={underPaneShadow}
-          onClick={this.hideMenuPane}
-        ></div>
+        <Media query="(max-width: 699px)">
+          <div
+            id="under-pane-shadow"
+            className={underPaneShadow}
+            onClick={this.hideMenuPane}
+          />
+        </Media>
         <div id="main">
           <div className="scrollable">
             <div id="content">
