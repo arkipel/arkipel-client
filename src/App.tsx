@@ -119,7 +119,7 @@ class App extends React.PureComponent<props, state> {
   }
 
   toggleMenuPane = () => {
-    this.setState(state => {
+    this.setState((state) => {
       let showMenuPane = !state.showMenuPane;
       return { showMenuPane };
     });
