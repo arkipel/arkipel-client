@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react';
+// import HCaptcha from 'react-hcaptcha';
 
 class Registration extends React.PureComponent<props, state> {
   constructor(props: any) {
@@ -85,6 +86,10 @@ class Registration extends React.PureComponent<props, state> {
             <br />
             <span className="hint">same password</span>
           </p>
+          {/* <HCaptcha
+            sitekey="36cde9f3-38a3-4fd7-9314-bac28f55545b"
+            onVerify={this.onVerifyCaptcha}
+          ></HCaptcha> */}
           <p>
             <input type="submit" value="Register" />
           </p>
@@ -130,6 +135,10 @@ class Registration extends React.PureComponent<props, state> {
       passwordErrors: passwordErrors.join(', '),
       passwordAgainErrors: passwordAgainErrors.join(', '),
     });
+  };
+
+  onVerifyCaptcha = () => {
+    console.log('captcha verified!');
   };
 
   submit = (event: React.FormEvent) => {
