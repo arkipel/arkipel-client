@@ -24,14 +24,6 @@ class Home extends React.PureComponent {
             control in order to accumulate wealth and power.
           </i>
         </p>
-        <p>
-          <i>
-            Anything that players want to trade can be traded, such as land,
-            money, resources, votes, debt, etc. When a new account is created,
-            nothing is given for free. A new player should seek help from an
-            already existing player.
-          </i>
-        </p>
       </Fragment>
     );
   }
