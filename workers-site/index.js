@@ -5,7 +5,7 @@ import {
 
 const DEBUG = false;
 
-addEventListener('fetch', event => {
+addEventListener('fetch', (event) => {
   try {
     event.respondWith(handleEvent(event));
   } catch (e) {
@@ -26,7 +26,7 @@ async function handleEvent(event) {
   //
   // TODO This should probably be improved.
   let options = {};
-  options.mapRequestToAsset = req => {
+  options.mapRequestToAsset = (req) => {
     let defaultReq = mapRequestToAsset(req);
 
     let url = new URL(defaultReq.url);
@@ -58,7 +58,7 @@ async function handleEvent(event) {
     if (!DEBUG) {
       try {
         let notFoundResponse = await getAssetFromKV(event, {
-          mapRequestToAsset: req =>
+          mapRequestToAsset: (req) =>
             new Request(`${new URL(req.url).origin}/404.html`, req),
         });
 
