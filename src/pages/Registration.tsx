@@ -1,17 +1,32 @@
 import React, { Fragment } from 'react';
+
+import ApolloClient from 'apollo-boost';
+import { gql } from 'apollo-boost';
+
+import { debounce } from 'lodash';
+
 import HCaptcha from 'react-hcaptcha';
+
+const client = new ApolloClient({
+  uri: 'http://arkipel.local:9192/query',
+});
 
 class Registration extends React.PureComponent<props, state> {
   constructor(props: any) {
     super(props);
 
     this.state = {
-      username: '',
-      password: '',
-      passwordAgain: '',
+      username: 'testusername',
+      password: 'testpassword',
+      passwordAgain: 'testpassword',
+      knownAvailableUsernames: new Array<string>(),
+      knownExistingUsernames: new Array<string>(),
       usernameErrors: '',
       passwordErrors: '',
       passwordAgainErrors: '',
+      notBot: false,
+      termsAccepted: true,
+      allowSubmit: false,
     };
   }
 
@@ -30,7 +45,9 @@ class Registration extends React.PureComponent<props, state> {
               value={this.state.username}
               placeholder="Username"
               onChange={(event) => {
-                this.setState({ username: event.target.value }, () => {
+                let username = event.target.value;
+                this.setState({ username }, () => {
+                  this.checkUsernameAvailability(username);
                   this.checkInputs();
                 });
               }}
@@ -87,13 +104,18 @@ class Registration extends React.PureComponent<props, state> {
             <span className="hint">same password</span>
           </p>
           <HCaptcha
-            sitekey="36cde9f3-38a3-4fd7-9314-bac28f55545b"
+            sitekey="10000000-ffff-ffff-ffff-000000000001"
+            // sitekey="36cde9f3-38a3-4fd7-9314-bac28f55545b"
             onVerify={this.onVerifyCaptcha}
             onExpire={this.onExpireCaptcha}
             onError={this.onErrorCaptcha}
           ></HCaptcha>
           <p>
-            <input type="submit" value="Register" />
+            <input
+              type="submit"
+              value="Register"
+              disabled={!this.state.allowSubmit}
+            />
           </p>
         </form>
       </Fragment>
@@ -101,16 +123,32 @@ class Registration extends React.PureComponent<props, state> {
   }
 
   checkInputs = () => {
+    let allowSubmit = true;
+
     // Username
     let usernameErrors: Array<string> = [];
     if (this.state.username.length > 0) {
       if (this.state.username.length < 4) {
         usernameErrors.push('not long enough');
+        allowSubmit = false;
       } else if (this.state.username.length > 20) {
         usernameErrors.push('too long');
+        allowSubmit = false;
       }
       if (this.state.username.match(/[^a-zA-Z0-9]+/)) {
         usernameErrors.push('invalid characters');
+        allowSubmit = false;
+      }
+      if (usernameErrors.length === 0) {
+        if (this.state.knownExistingUsernames.includes(this.state.username)) {
+          usernameErrors.push('username already taken');
+          allowSubmit = false;
+        } else if (
+          !this.state.knownAvailableUsernames.includes(this.state.username)
+        ) {
+          usernameErrors.push('checking username...');
+          allowSubmit = false;
+        }
       }
     }
 
@@ -119,8 +157,10 @@ class Registration extends React.PureComponent<props, state> {
     if (this.state.password.length > 0) {
       if (this.state.password.length < 8) {
         passwordErrors.push('not long enough');
+        allowSubmit = false;
       } else if (this.state.password.length > 200) {
         passwordErrors.push('too long');
+        allowSubmit = false;
       }
     }
 
@@ -129,31 +169,98 @@ class Registration extends React.PureComponent<props, state> {
     if (this.state.passwordAgain.length > 0) {
       if (this.state.password !== this.state.passwordAgain) {
         passwordAgainErrors.push('not the same');
+        allowSubmit = false;
       }
+    }
+
+    if (!this.state.notBot) {
+      allowSubmit = false;
+    }
+    if (!this.state.termsAccepted) {
+      allowSubmit = false;
     }
 
     this.setState({
       usernameErrors: usernameErrors.join(', '),
       passwordErrors: passwordErrors.join(', '),
       passwordAgainErrors: passwordAgainErrors.join(', '),
+      allowSubmit,
     });
   };
 
+  checkUsernameAvailability = debounce((username: string) => {
+    client
+      .query({
+        query: gql`
+          query checkUsernameAvailability($username: String!) {
+            checkUsernameAvailability(username: $username)
+          }
+        `,
+        variables: {
+          username: username,
+        },
+      })
+      .then((result) => {
+        let available = result.data.checkUsernameAvailability;
+
+        let knownAvailableUsernames = this.state.knownAvailableUsernames;
+        let knownExistingUsernames = this.state.knownExistingUsernames;
+        if (available) {
+          knownAvailableUsernames.push(username);
+        } else {
+          knownExistingUsernames.push(username);
+        }
+
+        this.setState(
+          () => {
+            return {
+              knownAvailableUsernames,
+              knownExistingUsernames,
+            };
+          },
+          () => {
+            this.checkInputs();
+          },
+        );
+      })
+      .catch((err) => {
+        console.log('username check error', err);
+      });
+  }, 400);
+
   onVerifyCaptcha = () => {
-    console.log('captcha verified!');
+    this.setState({ notBot: true });
+    this.checkInputs();
   };
 
-  onExpireCaptcha = () => {
-    console.log('captcha expired...');
-  };
+  onExpireCaptcha = () => {};
 
-  onErrorCaptcha = () => {
-    console.log('captcha errored.');
-  };
+  onErrorCaptcha = () => {};
 
   submit = (event: React.FormEvent) => {
     event.preventDefault();
-    console.log('This has not been implemented yet.');
+
+    client
+      .mutate({
+        mutation: gql`
+          mutation registration($username: String!, $password: String!) {
+            register(username: $username, password: $password) {
+              id
+              username
+            }
+          }
+        `,
+        variables: {
+          username: this.state.username,
+          password: this.state.password,
+        },
+      })
+      .then((result) => {
+        console.log('new id', result.data.register.id);
+      })
+      .catch((err) => {
+        console.log('error', err);
+      });
   };
 }
 
@@ -163,9 +270,14 @@ type state = {
   username: string;
   password: string;
   passwordAgain: string;
+  knownAvailableUsernames: Array<string>;
+  knownExistingUsernames: Array<string>;
   usernameErrors: string;
   passwordErrors: string;
   passwordAgainErrors: string;
+  notBot: boolean;
+  termsAccepted: boolean;
+  allowSubmit: boolean;
 };
 
 export default Registration;
