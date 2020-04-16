@@ -91,6 +91,11 @@
 
   &.visible {
     transform: translateX(0);
-    box-shadow: 1px 0 10px #111;
+  }
+
+  @media all and (max-width: 699px) {
+    &.visible {
+      box-shadow: 1px 0 10px #111;
+    }
   }
 }
