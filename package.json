@@ -22,7 +22,6 @@
     "@babel/preset-env": "^7.9.5",
     "@babel/preset-react": "^7.9.4",
     "@babel/preset-typescript": "^7.9.0",
-    "@cloudflare/wrangler": "^1.6.0",
     "babel-loader": "^8.1.0",
     "concurrently": "^5.1.0",
     "css-loader": "^3.5.2",
