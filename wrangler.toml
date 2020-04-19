@@ -5,4 +5,4 @@ workers_dev = false
 
 [site]
 bucket = "./dist"
-entrypoint = "workers-site"
+entry-point = "workers-site"
