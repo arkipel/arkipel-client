@@ -1,0 +1,8 @@
+name = "arkipel"
+type = "webpack"
+route = "arkipel.io/*"
+workers_dev = false
+
+[site]
+bucket = "./dist"
+entrypoint = "workers-site"
