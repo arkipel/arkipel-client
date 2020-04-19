@@ -24,6 +24,7 @@ class Home extends React.PureComponent {
             control in order to accumulate wealth and power.
           </i>
         </p>
+        <p>gh actions test</p>
       </Fragment>
     );
   }
