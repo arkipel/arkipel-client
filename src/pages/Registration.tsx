@@ -5,7 +5,7 @@ import { gql } from 'apollo-boost';
 
 import { debounce } from 'lodash';
 
-import HCaptcha from 'react-hcaptcha';
+import HCaptcha from '@hcaptcha/react-hcaptcha';
 
 const client = new ApolloClient({
   uri: 'http://arkipel.local:9192/query',
