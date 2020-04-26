@@ -24,7 +24,7 @@ class Registration extends React.PureComponent<props, state> {
       usernameErrors: '',
       passwordErrors: '',
       passwordAgainErrors: '',
-      notBot: false,
+      captcha: '',
       termsAccepted: true,
       allowSubmit: false,
     };
@@ -104,8 +104,8 @@ class Registration extends React.PureComponent<props, state> {
             <span className="hint">same password</span>
           </p>
           <HCaptcha
-            sitekey="10000000-ffff-ffff-ffff-000000000001"
-            // sitekey="36cde9f3-38a3-4fd7-9314-bac28f55545b"
+            // sitekey="10000000-ffff-ffff-ffff-000000000001"
+            sitekey="36cde9f3-38a3-4fd7-9314-bac28f55545b"
             onVerify={this.onVerifyCaptcha}
             onExpire={this.onExpireCaptcha}
             onError={this.onErrorCaptcha}
@@ -173,7 +173,7 @@ class Registration extends React.PureComponent<props, state> {
       }
     }
 
-    if (!this.state.notBot) {
+    if (this.state.captcha === '') {
       allowSubmit = false;
     }
     if (!this.state.termsAccepted) {
@@ -228,8 +228,8 @@ class Registration extends React.PureComponent<props, state> {
       });
   }, 400);
 
-  onVerifyCaptcha = () => {
-    this.setState({ notBot: true });
+  onVerifyCaptcha = (captcha: string) => {
+    this.setState({ captcha });
     this.checkInputs();
   };
 
@@ -243,16 +243,31 @@ class Registration extends React.PureComponent<props, state> {
     client
       .mutate({
         mutation: gql`
-          mutation registration($username: String!, $password: String!) {
-            register(username: $username, password: $password) {
-              id
-              username
+          mutation registration(
+            $username: String!
+            $password: String!
+            $captcha: String!
+          ) {
+            register(
+              username: $username
+              password: $password
+              captcha: $captcha
+            ) {
+              __typename
+              ... on User {
+                id
+                username
+              }
+              ... on UsernameAlreadyTaken {
+                username
+              }
             }
           }
         `,
         variables: {
           username: this.state.username,
           password: this.state.password,
+          captcha: this.state.captcha,
         },
         errorPolicy: 'none',
       })
@@ -286,7 +301,7 @@ type state = {
   usernameErrors: string;
   passwordErrors: string;
   passwordAgainErrors: string;
-  notBot: boolean;
+  captcha: string;
   termsAccepted: boolean;
   allowSubmit: boolean;
 };
