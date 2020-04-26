@@ -254,12 +254,23 @@ class Registration extends React.PureComponent<props, state> {
           username: this.state.username,
           password: this.state.password,
         },
+        errorPolicy: 'none',
       })
       .then((result) => {
         console.log('new id', result.data.register.id);
       })
       .catch((err) => {
-        console.log('error', err);
+        console.log('GraphQL Errors:', err.graphQLErrors);
+        let gqlErrors = err.graphQLErrors;
+        for (const i in gqlErrors) {
+          if (gqlErrors.hasOwnProperty(i)) {
+            const gqlError = gqlErrors[i];
+            console.log('GraphQL Error:', gqlError);
+            console.log('GraphQL Error extensions:', gqlError.extensions);
+            if (gqlError.extensions) {
+            }
+          }
+        }
       });
   };
 }
