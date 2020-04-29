@@ -25,13 +25,15 @@ const Registration = () => {
   if (error) {
     console.log('got error', error);
   }
+  let checkUsernameAvailability = true;
   if (data) {
     console.log('got data', data);
+    checkUsernameAvailability = data.checkUsernameAvailability;
   }
 
   const checkInputs = () => {};
 
-  const checkUsernameAvailability = debounce((username: string) => {}, 400);
+  // const checkUsernameAvailability = debounce((username: string) => {}, 400);
 
   const onVerifyCaptcha = (captcha: string) => {};
 
@@ -60,13 +62,19 @@ const Registration = () => {
               checkInputs();
             }}
           />
-          <Fragment>
-            <br />
-            {checkingUsername === true && (
+          {checkingUsername === true && (
+            <Fragment>
+              <br />
               <span className="hint-error">checking availability...</span>
-            )}
-            {/* <span className="hint-error">{usernameErrors}</span> */}
-          </Fragment>
+            </Fragment>
+          )}
+          {checkUsernameAvailability === false && (
+            <Fragment>
+              <br />
+              <span className="hint-error">username already taken</span>
+            </Fragment>
+          )}
+          {/* <span className="hint-error">{usernameErrors}</span> */}
           <br />
           <span className="hint">a-z, A-Z, 0-9, 4-20 characters</span>
         </p>
