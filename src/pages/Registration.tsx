@@ -10,38 +10,41 @@ const Registration = () => {
   const [username, setUsername] = useState('testusername');
   const [password, setPassword] = useState('testpassword');
   const [passwordAgain, setPasswordAgain] = useState('testpassword');
+  const [captcha, setCaptcha] = useState('');
 
-  let { loading: checkingUsername, error, data } = useQuery(
+  // Inputs
+  let {
+    usernameErrors,
+    passwordErrors,
+    passwordAgainErrors,
+    allowSubmit,
+  } = checkInputs(username, password, passwordAgain);
+
+  if (captcha === '') {
+    allowSubmit = false;
+  }
+
+  // Form submission
+  let [submit, { data }] = useMutation(
     gql`
-      query checkUsernameAvailability($username: String!) {
-        checkUsernameAvailability(username: $username)
+      mutation register(
+        $username: String!
+        $password: String!
+        $captcha: String!
+      ) {
+        register(username: $username, password: $password, captcha: $captcha) {
+          __typename
+          ... on User {
+            id
+            username
+          }
+          ... on UsernameAlreadyTaken {
+            username
+          }
+        }
       }
     `,
-    { variables: { username } },
   );
-  if (checkingUsername) {
-    console.log('checking username');
-  }
-  if (error) {
-    console.log('got error', error);
-  }
-  let checkUsernameAvailability = true;
-  if (data) {
-    console.log('got data', data);
-    checkUsernameAvailability = data.checkUsernameAvailability;
-  }
-
-  const checkInputs = () => {};
-
-  // const checkUsernameAvailability = debounce((username: string) => {}, 400);
-
-  const onVerifyCaptcha = (captcha: string) => {};
-
-  const onExpireCaptcha = () => {};
-
-  const onErrorCaptcha = () => {};
-
-  const submit = (event: React.FormEvent) => {};
 
   return (
     <Fragment>
@@ -50,31 +53,34 @@ const Registration = () => {
         This game is still a work in progress. You should expect bugs and an
         incomplete gameplay.
       </p>
-      <form onSubmit={submit}>
+      <form
+        onSubmit={(ev: React.FormEvent<HTMLFormElement>) => {
+          ev.preventDefault();
+
+          let result = submit({ variables: { username, password, captcha } });
+          if (!result) {
+            console.log('Regristration failed... :(');
+          } else {
+            console.log('Registration succeeded! :D');
+          }
+        }}
+      >
         <p>
           <input
             type="text"
             value={username}
             placeholder="Username"
+            maxLength={20}
             onChange={(event) => {
               setUsername(event.target.value);
-              checkUsernameAvailability(username);
-              checkInputs();
             }}
           />
-          {checkingUsername === true && (
+          {usernameErrors.length > 0 && (
             <Fragment>
               <br />
-              <span className="hint-error">checking availability...</span>
+              <span className="hint-error">{usernameErrors.join(', ')}</span>
             </Fragment>
           )}
-          {checkUsernameAvailability === false && (
-            <Fragment>
-              <br />
-              <span className="hint-error">username already taken</span>
-            </Fragment>
-          )}
-          {/* <span className="hint-error">{usernameErrors}</span> */}
           <br />
           <span className="hint">a-z, A-Z, 0-9, 4-20 characters</span>
         </p>
@@ -85,15 +91,14 @@ const Registration = () => {
             placeholder="Password"
             onChange={(event) => {
               setPassword(event.target.value);
-              checkInputs();
             }}
           />
-          {/* {passwordErrors !== '' && (
+          {passwordErrors.length > 0 && (
             <Fragment>
               <br />
-              <span className="hint-error">{passwordErrors}</span>
+              <span className="hint-error">{passwordErrors.join(', ')}</span>
             </Fragment>
-          )} */}
+          )}
           <br />
           <span className="hint">at least 8 characters</span>
         </p>
@@ -104,335 +109,116 @@ const Registration = () => {
             placeholder="Password again"
             onChange={(event) => {
               setPasswordAgain(event.target.value);
-              checkInputs();
             }}
           />
-          {/* {passwordAgainErrors !== '' && (
+          {passwordAgainErrors.length > 0 && (
             <Fragment>
               <br />
-              <span className="hint-error">{passwordAgainErrors}</span>
+              <span className="hint-error">
+                {passwordAgainErrors.join(', ')}
+              </span>
             </Fragment>
-          )} */}
+          )}
           <br />
           <span className="hint">same password</span>
         </p>
         <HCaptcha
           sitekey="10000000-ffff-ffff-ffff-000000000001"
           // sitekey="36cde9f3-38a3-4fd7-9314-bac28f55545b"
-          // onVerify={this.onVerifyCaptcha}
-          // onExpire={this.onExpireCaptcha}
-          // onError={this.onErrorCaptcha}
+          onVerify={(c: any) => {
+            setCaptcha(c);
+          }}
+          onExpire={() => {
+            setCaptcha('');
+          }}
         ></HCaptcha>
         <p>
-          <input type="submit" value="Register" disabled={false} />
+          <input type="submit" value="Register" disabled={!allowSubmit} />
         </p>
       </form>
     </Fragment>
   );
 };
 
-// class Registration extends React.PureComponent<props, state> {
-//   constructor(props: any) {
-//     super(props);
+const checkInputs = (
+  username: string,
+  password: string,
+  passwordAgain: string,
+) => {
+  // Check username
+  let usernameErrors = new Array<string>();
+  if (username.length > 0 && username.length < 4) {
+    usernameErrors.push('too short');
+  } else if (username.length > 20) {
+    usernameErrors.push('too long');
+  }
+  if (username.match(/[^a-zA-Z0-9]+/)) {
+    usernameErrors.push('invalid characters');
+  }
 
-//     this.state = {
-//       username: 'testusername',
-//       password: 'testpassword',
-//       passwordAgain: 'testpassword',
-//       knownAvailableUsernames: new Array<string>(),
-//       knownExistingUsernames: new Array<string>(),
-//       usernameErrors: '',
-//       passwordErrors: '',
-//       passwordAgainErrors: '',
-//       captcha: '',
-//       termsAccepted: true,
-//       allowSubmit: false,
-//     };
-//   }
+  // Check username availability
+  let { data, loading } = useQuery(
+    gql`
+      query checkUsernameAvailability($username: String!) {
+        checkUsernameAvailability(username: $username)
+      }
+    `,
+    { variables: { username }, skip: usernameErrors.length > 0 },
+  );
 
-//   render() {
-//     return (
-//       <Fragment>
-//         <h1>Register</h1>
-//         <p className="msg-error">
-//           This game is still a work in progress. You should expect bugs and an
-//           incomplete gameplay.
-//         </p>
-//         <form onSubmit={this.submit}>
-//           <p>
-//             <input
-//               type="text"
-//               value={this.state.username}
-//               placeholder="Username"
-//               onChange={(event) => {
-//                 let username = event.target.value;
-//                 this.setState({ username }, () => {
-//                   this.checkUsernameAvailability(username);
-//                   this.checkInputs();
-//                 });
-//               }}
-//             />
-//             {this.state.usernameErrors !== '' && (
-//               <Fragment>
-//                 <br />
-//                 <span className="hint-error">{this.state.usernameErrors}</span>
-//               </Fragment>
-//             )}
-//             <br />
-//             <span className="hint">a-z, A-Z, 0-9, 4-20 characters</span>
-//           </p>
-//           <p>
-//             <input
-//               type="password"
-//               value={this.state.password}
-//               placeholder="Password"
-//               onChange={(event) => {
-//                 this.setState({ password: event.target.value }, () => {
-//                   this.checkInputs();
-//                 });
-//               }}
-//             />
-//             {this.state.passwordErrors !== '' && (
-//               <Fragment>
-//                 <br />
-//                 <span className="hint-error">{this.state.passwordErrors}</span>
-//               </Fragment>
-//             )}
-//             <br />
-//             <span className="hint">at least 8 characters</span>
-//           </p>
-//           <p>
-//             <input
-//               type="password"
-//               value={this.state.passwordAgain}
-//               placeholder="Password again"
-//               onChange={(event) => {
-//                 this.setState({ passwordAgain: event.target.value }, () => {
-//                   this.checkInputs();
-//                 });
-//               }}
-//             />
-//             {this.state.passwordAgainErrors !== '' && (
-//               <Fragment>
-//                 <br />
-//                 <span className="hint-error">
-//                   {this.state.passwordAgainErrors}
-//                 </span>
-//               </Fragment>
-//             )}
-//             <br />
-//             <span className="hint">same password</span>
-//           </p>
-//           <HCaptcha
-//             sitekey="10000000-ffff-ffff-ffff-000000000001"
-//             // sitekey="36cde9f3-38a3-4fd7-9314-bac28f55545b"
-//             onVerify={this.onVerifyCaptcha}
-//             onExpire={this.onExpireCaptcha}
-//             onError={this.onErrorCaptcha}
-//           ></HCaptcha>
-//           <p>
-//             <input
-//               type="submit"
-//               value="Register"
-//               disabled={!this.state.allowSubmit}
-//             />
-//           </p>
-//         </form>
-//       </Fragment>
-//     );
-//   }
+  if (usernameErrors.length === 0) {
+    if (loading) {
+      usernameErrors.push('checking availability...');
+    } else if (data && !data.checkUsernameAvailability) {
+      usernameErrors.push('already taken');
+    }
+  }
 
-// checkInputs = () => {
-//   let allowSubmit = true;
+  // Check password
+  let passwordErrors = new Array<string>();
+  if (password.length > 0 && password.length < 8) {
+    passwordErrors.push('too short');
+    passwordErrors.push('too short');
+  }
 
-//   // Username
-//   let usernameErrors: Array<string> = [];
-//   if (this.state.username.length > 0) {
-//     if (this.state.username.length < 4) {
-//       usernameErrors.push('not long enough');
-//       allowSubmit = false;
-//     } else if (this.state.username.length > 20) {
-//       usernameErrors.push('too long');
-//       allowSubmit = false;
-//     }
-//     if (this.state.username.match(/[^a-zA-Z0-9]+/)) {
-//       usernameErrors.push('invalid characters');
-//       allowSubmit = false;
-//     }
-//     if (usernameErrors.length === 0) {
-//       if (this.state.knownExistingUsernames.includes(this.state.username)) {
-//         usernameErrors.push('username already taken');
-//         allowSubmit = false;
-//       } else if (
-//         !this.state.knownAvailableUsernames.includes(this.state.username)
-//       ) {
-//         usernameErrors.push('checking username...');
-//         allowSubmit = false;
-//       }
-//     }
-//   }
+  let passwordAgainErrors = new Array<string>();
+  if (passwordAgain.length > 0 && passwordAgain !== password) {
+    passwordAgainErrors.push('not the same');
+  }
 
-//   // Password
-//   let passwordErrors: Array<string> = [];
-//   if (this.state.password.length > 0) {
-//     if (this.state.password.length < 8) {
-//       passwordErrors.push('not long enough');
-//       allowSubmit = false;
-//     } else if (this.state.password.length > 200) {
-//       passwordErrors.push('too long');
-//       allowSubmit = false;
-//     }
-//   }
+  // Allow subtmitting or not
+  let allowSubmit = false;
+  if (
+    usernameErrors.length === 0 &&
+    passwordErrors.length === 0 &&
+    passwordAgainErrors.length === 0
+  ) {
+    allowSubmit = true;
+  }
 
-//   // Password (again)
-//   let passwordAgainErrors: Array<string> = [];
-//   if (this.state.passwordAgain.length > 0) {
-//     if (this.state.password !== this.state.passwordAgain) {
-//       passwordAgainErrors.push('not the same');
-//       allowSubmit = false;
-//     }
-//   }
+  return {
+    usernameErrors,
+    passwordErrors,
+    passwordAgainErrors,
+    allowSubmit,
+  };
+};
 
-//   if (this.state.captcha === '') {
-//     allowSubmit = false;
-//   }
-//   if (!this.state.termsAccepted) {
-//     allowSubmit = false;
-//   }
+const submit = (username: string, password: string, captcha: string) => {
+  submit({ variables: { username, password, captcha } });
 
-//   this.setState({
-//     usernameErrors: usernameErrors.join(', '),
-//     passwordErrors: passwordErrors.join(', '),
-//     passwordAgainErrors: passwordAgainErrors.join(', '),
-//     allowSubmit,
-//   });
-// };
+  if (error) {
+    return false;
+  }
 
-// checkUsernameAvailability = debounce((username: string) => {
-//  const = [] useQuery(
-//     gql`
-//       query checkUsernameAvailability($username: String!) {
-//         checkUsernameAvailability(username: $username)
-//       }
-//     `,
-//   );
-// client
-//   .query({
-//     query: gql`
-//       query checkUsernameAvailability($username: String!) {
-//         checkUsernameAvailability(username: $username)
-//       }
-//     `,
-//     variables: {
-//       username: username,
-//     },
-//   })
-//   .then((result) => {
-//     let available = result.data.checkUsernameAvailability;
-//     let knownAvailableUsernames = this.state.knownAvailableUsernames;
-//     let knownExistingUsernames = this.state.knownExistingUsernames;
-//     if (available) {
-//       knownAvailableUsernames.push(username);
-//     } else {
-//       knownExistingUsernames.push(username);
-//     }
-//     this.setState(
-//       () => {
-//         return {
-//           knownAvailableUsernames,
-//           knownExistingUsernames,
-//         };
-//       },
-//       () => {
-//         this.checkInputs();
-//       },
-//     );
-//   })
-//   .catch((err) => {
-//     console.log('username check error', err);
-//   });
-// }, 400);
+  if (data) {
+    if (data.__typename === 'UsernameAlreadyExists') {
+      console.log('dude,', username, 'is already taken, sorry');
+      return false;
+    }
+  }
 
-// onVerifyCaptcha = (captcha: string) => {
-//   this.setState({ captcha });
-//   this.checkInputs();
-// };
-
-// onExpireCaptcha = () => {};
-
-// onErrorCaptcha = () => {};
-
-// submit = (event: React.FormEvent) => {
-//   event.preventDefault();
-
-// client
-//   .mutate({
-//     mutation: gql`
-//       mutation registration(
-//         $username: String!
-//         $password: String!
-//         $captcha: String!
-//       ) {
-//         register(
-//           username: $username
-//           password: $password
-//           captcha: $captcha
-//         ) {
-//           __typename
-//           ... on User {
-//             id
-//             username
-//           }
-//           ... on UsernameAlreadyTaken {
-//             username
-//           }
-//         }
-//       }
-//     `,
-//     variables: {
-//       username: this.state.username,
-//       password: this.state.password,
-//       captcha: this.state.captcha,
-//     },
-//     errorPolicy: 'none',
-//   })
-//   .then((result) => {
-//     console.log('mutation register call succeeded:', result);
-//     console.log('new id', result.data.register.id);
-//   })
-//   .catch((err) => {
-//     console.log('mutation register call failed:', err);
-//     console.log('GraphQL Errors:', err.graphQLErrors);
-//     let gqlErrors = err.graphQLErrors;
-//     for (const i in gqlErrors) {
-//       if (gqlErrors.hasOwnProperty(i)) {
-//         const gqlError = gqlErrors[i];
-//         console.log('GraphQL Error:', gqlError);
-//         console.log('GraphQL Error extensions:', gqlError.extensions);
-//         if (gqlError.extensions) {
-//         }
-//       }
-//     }
-//   });
-// };
-
-// client!: React.ContextType<typeof ApolloContext>;
-// }
-
-// type props = {};
-
-// type state = {
-//   username: string;
-//   password: string;
-//   passwordAgain: string;
-//   knownAvailableUsernames: Array<string>;
-//   knownExistingUsernames: Array<string>;
-//   usernameErrors: string;
-//   passwordErrors: string;
-//   passwordAgainErrors: string;
-//   captcha: string;
-//   termsAccepted: boolean;
-//   allowSubmit: boolean;
-// };
+  return true;
+};
 
 export default Registration;
