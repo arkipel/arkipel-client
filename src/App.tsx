@@ -7,6 +7,13 @@ import {
 } from 'react-router-dom';
 import Media from 'react-media';
 
+import {
+  ApolloClient,
+  ApolloProvider,
+  HttpLink,
+  InMemoryCache,
+} from '@apollo/client';
+
 // Pages
 import About from './pages/About';
 import Home from './pages/Home';
@@ -16,6 +23,14 @@ import Registration from './pages/Registration';
 // Assets
 import './styles/index.scss';
 import menu from './assets/icons/menu.png';
+
+const client = new ApolloClient({
+  cache: new InMemoryCache(),
+  link: new HttpLink({
+    uri: 'https://api.arkipel.io/query',
+    // uri: 'http://local.arkipel.io:9192/query',
+  }),
+});
 
 class App extends React.PureComponent<props, state> {
   constructor(props: any) {
@@ -49,74 +64,76 @@ class App extends React.PureComponent<props, state> {
     let menuPaneClassName = this.state.showMenuPane ? 'visible' : '';
 
     return (
-      <Router>
-        <div id="top-bar-left" className="top-bar">
-          <Media
-            query="(max-width: 699px)"
-            render={() => <nav>{menuBtn}</nav>}
-          />
-        </div>
-        <div id="top-bar-right" className="top-bar"></div>
-        <div id="menu-pane" className={menuPaneClassName}>
-          <div className="scrollable" style={{ marginTop: '50px' }}>
-            <div id="menu">
-              <nav>
-                <h1>Main</h1>
-                <ul>
-                  <li>
-                    <NavLink exact to="/" onClick={this.hideMenuPane}>
-                      Home
-                    </NavLink>
-                  </li>
-                  <li>
-                    <NavLink exact to="/login" onClick={this.hideMenuPane}>
-                      Login
-                    </NavLink>
-                  </li>
-                  <li>
-                    <NavLink
-                      exact
-                      to="/registration"
-                      onClick={this.hideMenuPane}
-                    >
-                      Register
-                    </NavLink>
-                  </li>
-                  <li>
-                    <NavLink exact to="/about" onClick={this.hideMenuPane}>
-                      About
-                    </NavLink>
-                  </li>
-                </ul>
-              </nav>
-              <footer>
-                <p>
-                  Made by <a href="https://mfcl.io">mfcl</a>.
-                </p>
-              </footer>
+      <ApolloProvider client={client}>
+        <Router>
+          <div id="top-bar-left" className="top-bar">
+            <Media
+              query="(max-width: 699px)"
+              render={() => <nav>{menuBtn}</nav>}
+            />
+          </div>
+          <div id="top-bar-right" className="top-bar"></div>
+          <div id="menu-pane" className={menuPaneClassName}>
+            <div className="scrollable" style={{ marginTop: '50px' }}>
+              <div id="menu">
+                <nav>
+                  <h1>Main</h1>
+                  <ul>
+                    <li>
+                      <NavLink exact to="/" onClick={this.hideMenuPane}>
+                        Home
+                      </NavLink>
+                    </li>
+                    <li>
+                      <NavLink exact to="/login" onClick={this.hideMenuPane}>
+                        Login
+                      </NavLink>
+                    </li>
+                    <li>
+                      <NavLink
+                        exact
+                        to="/registration"
+                        onClick={this.hideMenuPane}
+                      >
+                        Register
+                      </NavLink>
+                    </li>
+                    <li>
+                      <NavLink exact to="/about" onClick={this.hideMenuPane}>
+                        About
+                      </NavLink>
+                    </li>
+                  </ul>
+                </nav>
+                <footer>
+                  <p>
+                    Made by <a href="https://mfcl.io">mfcl</a>.
+                  </p>
+                </footer>
+              </div>
             </div>
           </div>
-        </div>
-        <Media query="(max-width: 699px)">
-          <div
-            id="under-pane-shadow"
-            className={underPaneShadow}
-            onClick={this.hideMenuPane}
-          />
-        </Media>
-        <div id="main">
-          <div className="scrollable">
-            <div id="content">
-              <Switch>
-                <Route path="/" exact component={Home} />
-                <Route path="/about" exact component={About} />
-                <Route path="/login" exact component={Login} />
-                <Route path="/registration" exact component={Registration} />
-              </Switch>
+          <Media query="(max-width: 699px)">
+            <div
+              id="under-pane-shadow"
+              className={underPaneShadow}
+              onClick={this.hideMenuPane}
+            />
+          </Media>
+          <div id="main">
+            <div className="scrollable">
+              <div id="content">
+                <Switch>
+                  <Route path="/" exact component={Home} />
+                  <Route path="/about" exact component={About} />
+                  <Route path="/login" exact component={Login} />
+                  <Route path="/registration" exact component={Registration} />
+                </Switch>
+              </div>
             </div>
           </div>
-        </div>
-      </Router>
+        </Router>
+      </ApolloProvider>
     );
   }
 

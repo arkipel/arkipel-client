@@ -22,6 +22,7 @@
     "@babel/preset-env": "^7.9.6",
     "@babel/preset-react": "^7.9.4",
     "@babel/preset-typescript": "^7.9.0",
+    "@types/hcaptcha__react-hcaptcha": "^0.1.0",
     "babel-loader": "^8.1.0",
     "concurrently": "^5.2.0",
     "css-loader": "^3.5.3",
@@ -38,6 +39,8 @@
     "webpack-dev-server": "^3.10.3"
   },
   "dependencies": {
+    "@apollo/client": "^3.0.0-beta.44",
+    "@hcaptcha/react-hcaptcha": "^0.1.8",
     "@types/react": "^16.9.32",
     "@types/react-dom": "^16.9.7",
     "@types/react-router-dom": "^5.1.5",
