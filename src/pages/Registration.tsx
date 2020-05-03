@@ -5,9 +5,9 @@ import { useQuery, gql, useMutation } from '@apollo/client';
 import HCaptcha from '@hcaptcha/react-hcaptcha';
 
 const Registration = () => {
-  const [username, setUsername] = useState('testusername');
-  const [password, setPassword] = useState('testpassword');
-  const [passwordAgain, setPasswordAgain] = useState('testpassword');
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [passwordAgain, setPasswordAgain] = useState('');
   const [captcha, setCaptcha] = useState('');
 
   // Inputs
@@ -184,7 +184,7 @@ const checkInputs = (
     { variables: { username }, skip: usernameErrors.length > 0 },
   );
 
-  if (usernameErrors.length === 0) {
+  if (username.length > 0 && usernameErrors.length === 0) {
     if (loading) {
       usernameErrors.push('checking availability...');
     } else if (data && !data.checkUsernameAvailability) {
