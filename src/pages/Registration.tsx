@@ -2,8 +2,6 @@ import React, { Fragment, useState } from 'react';
 
 import { useQuery, gql, useMutation } from '@apollo/client';
 
-import { debounce } from 'lodash';
-
 import HCaptcha from '@hcaptcha/react-hcaptcha';
 
 const Registration = () => {
@@ -25,7 +23,10 @@ const Registration = () => {
   }
 
   // Form submission
-  let [submit, { data }] = useMutation(
+  let [
+    submit,
+    { loading: registrationLoading, data: registrationResult },
+  ] = useMutation(
     gql`
       mutation register(
         $username: String!
@@ -46,6 +47,14 @@ const Registration = () => {
     `,
   );
 
+  let registered = false;
+  if (registrationResult) {
+    if (registrationResult.register.__typename === 'User') {
+      registered = true;
+      allowSubmit = false;
+    }
+  }
+
   return (
     <Fragment>
       <h1>Register</h1>
@@ -57,12 +66,7 @@ const Registration = () => {
         onSubmit={(ev: React.FormEvent<HTMLFormElement>) => {
           ev.preventDefault();
 
-          let result = submit({ variables: { username, password, captcha } });
-          if (!result) {
-            console.log('Regristration failed... :(');
-          } else {
-            console.log('Registration succeeded! :D');
-          }
+          submit({ variables: { username, password, captcha } });
         }}
       >
         <p>
@@ -71,6 +75,7 @@ const Registration = () => {
             value={username}
             placeholder="Username"
             maxLength={20}
+            disabled={registered}
             onChange={(event) => {
               setUsername(event.target.value);
             }}
@@ -89,6 +94,7 @@ const Registration = () => {
             type="password"
             value={password}
             placeholder="Password"
+            disabled={registered}
             onChange={(event) => {
               setPassword(event.target.value);
             }}
@@ -107,6 +113,7 @@ const Registration = () => {
             type="password"
             value={passwordAgain}
             placeholder="Password again"
+            disabled={registered}
             onChange={(event) => {
               setPasswordAgain(event.target.value);
             }}
@@ -123,9 +130,9 @@ const Registration = () => {
           <span className="hint">same password</span>
         </p>
         <HCaptcha
-          sitekey="10000000-ffff-ffff-ffff-000000000001"
-          // sitekey="36cde9f3-38a3-4fd7-9314-bac28f55545b"
-          onVerify={(c: any) => {
+          // sitekey="10000000-ffff-ffff-ffff-000000000001"
+          sitekey="36cde9f3-38a3-4fd7-9314-bac28f55545b"
+          onVerify={(c: string) => {
             setCaptcha(c);
           }}
           onExpire={() => {
@@ -133,9 +140,20 @@ const Registration = () => {
           }}
         ></HCaptcha>
         <p>
-          <input type="submit" value="Register" disabled={!allowSubmit} />
+          <input
+            type="submit"
+            value="Register"
+            disabled={!allowSubmit || registrationLoading}
+          />
         </p>
       </form>
+      {registrationLoading && <p>Please wait...</p>}
+      {registrationResult &&
+        registrationResult.register.__typename === 'User' && (
+          <p className="msg-success">
+            The registration succeeded. You may now log in.
+          </p>
+        )}
     </Fragment>
   );
 };
@@ -202,23 +220,6 @@ const checkInputs = (
     passwordAgainErrors,
     allowSubmit,
   };
-};
-
-const submit = (username: string, password: string, captcha: string) => {
-  submit({ variables: { username, password, captcha } });
-
-  if (error) {
-    return false;
-  }
-
-  if (data) {
-    if (data.__typename === 'UsernameAlreadyExists') {
-      console.log('dude,', username, 'is already taken, sorry');
-      return false;
-    }
-  }
-
-  return true;
 };
 
 export default Registration;

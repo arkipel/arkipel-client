@@ -27,7 +27,7 @@ import menu from './assets/icons/menu.png';
 const client = new ApolloClient({
   cache: new InMemoryCache(),
   link: new HttpLink({
-    uri: 'http://127.0.0.1:9192/query',
+    uri: 'http://local.arkipel.io:9192/query',
   }),
 });
 
