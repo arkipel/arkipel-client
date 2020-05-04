@@ -1,154 +1,225 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useState } from 'react';
 
-class Registration extends React.PureComponent<props, state> {
-  constructor(props: any) {
-    super(props);
+import { useQuery, gql, useMutation } from '@apollo/client';
 
-    this.state = {
-      username: '',
-      password: '',
-      passwordAgain: '',
-      usernameErrors: '',
-      passwordErrors: '',
-      passwordAgainErrors: '',
-    };
+import HCaptcha from '@hcaptcha/react-hcaptcha';
+
+const Registration = () => {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [passwordAgain, setPasswordAgain] = useState('');
+  const [captcha, setCaptcha] = useState('');
+
+  // Inputs
+  let {
+    usernameErrors,
+    passwordErrors,
+    passwordAgainErrors,
+    allowSubmit,
+  } = checkInputs(username, password, passwordAgain);
+
+  if (captcha === '') {
+    allowSubmit = false;
   }
 
-  render() {
-    return (
-      <Fragment>
-        <h1>Register</h1>
-        <p className="msg-error">
-          This game is still a work in progress. It is not currently possible to
-          register.
+  // Form submission
+  let [
+    submit,
+    { loading: registrationLoading, data: registrationResult },
+  ] = useMutation(
+    gql`
+      mutation register(
+        $username: String!
+        $password: String!
+        $captcha: String!
+      ) {
+        register(username: $username, password: $password, captcha: $captcha) {
+          __typename
+          ... on User {
+            id
+            username
+          }
+          ... on UsernameAlreadyTaken {
+            username
+          }
+        }
+      }
+    `,
+  );
+
+  let registered = false;
+  if (registrationResult) {
+    if (registrationResult.register.__typename === 'User') {
+      registered = true;
+      allowSubmit = false;
+    }
+  }
+
+  return (
+    <Fragment>
+      <h1>Register</h1>
+      <p className="msg-error">
+        This game is still a work in progress. You should expect bugs and an
+        incomplete gameplay.
+      </p>
+      <form
+        onSubmit={(ev: React.FormEvent<HTMLFormElement>) => {
+          ev.preventDefault();
+
+          submit({ variables: { username, password, captcha } });
+        }}
+      >
+        <p>
+          <input
+            type="text"
+            value={username}
+            placeholder="Username"
+            maxLength={20}
+            disabled={registered}
+            onChange={(event) => {
+              setUsername(event.target.value);
+            }}
+          />
+          {usernameErrors.length > 0 && (
+            <Fragment>
+              <br />
+              <span className="hint-error">{usernameErrors.join(', ')}</span>
+            </Fragment>
+          )}
+          <br />
+          <span className="hint">a-z, A-Z, 0-9, 4-20 characters</span>
         </p>
-        <form onSubmit={this.submit}>
-          <p>
-            <input
-              type="text"
-              value={this.state.username}
-              placeholder="Username"
-              disabled
-              onChange={(event) => {
-                this.setState({ username: event.target.value }, () => {
-                  this.checkInputs();
-                });
-              }}
-            />
-            {this.state.usernameErrors !== '' && (
-              <Fragment>
-                <br />
-                <span className="hint-error">{this.state.usernameErrors}</span>
-              </Fragment>
-            )}
-            <br />
-            <span className="hint">a-z, A-Z, 0-9, 4-20 characters</span>
+        <p>
+          <input
+            type="password"
+            value={password}
+            placeholder="Password"
+            disabled={registered}
+            onChange={(event) => {
+              setPassword(event.target.value);
+            }}
+          />
+          {passwordErrors.length > 0 && (
+            <Fragment>
+              <br />
+              <span className="hint-error">{passwordErrors.join(', ')}</span>
+            </Fragment>
+          )}
+          <br />
+          <span className="hint">at least 8 characters</span>
+        </p>
+        <p>
+          <input
+            type="password"
+            value={passwordAgain}
+            placeholder="Password again"
+            disabled={registered}
+            onChange={(event) => {
+              setPasswordAgain(event.target.value);
+            }}
+          />
+          {passwordAgainErrors.length > 0 && (
+            <Fragment>
+              <br />
+              <span className="hint-error">
+                {passwordAgainErrors.join(', ')}
+              </span>
+            </Fragment>
+          )}
+          <br />
+          <span className="hint">same password</span>
+        </p>
+        <HCaptcha
+          // sitekey="10000000-ffff-ffff-ffff-000000000001"
+          sitekey="36cde9f3-38a3-4fd7-9314-bac28f55545b"
+          onVerify={(c: string) => {
+            setCaptcha(c);
+          }}
+          onExpire={() => {
+            setCaptcha('');
+          }}
+        ></HCaptcha>
+        <p>
+          <input
+            type="submit"
+            value="Register"
+            disabled={!allowSubmit || registrationLoading}
+          />
+        </p>
+      </form>
+      {registrationLoading && <p>Please wait...</p>}
+      {registrationResult &&
+        registrationResult.register.__typename === 'User' && (
+          <p className="msg-success">
+            The registration succeeded. You may now log in.
           </p>
-          <p>
-            <input
-              type="password"
-              value={this.state.password}
-              placeholder="Password"
-              disabled
-              onChange={(event) => {
-                this.setState({ password: event.target.value }, () => {
-                  this.checkInputs();
-                });
-              }}
-            />
-            {this.state.passwordErrors !== '' && (
-              <Fragment>
-                <br />
-                <span className="hint-error">{this.state.passwordErrors}</span>
-              </Fragment>
-            )}
-            <br />
-            <span className="hint">at least 8 characters</span>
-          </p>
-          <p>
-            <input
-              type="password"
-              value={this.state.passwordAgain}
-              placeholder="Password again"
-              disabled
-              onChange={(event) => {
-                this.setState({ passwordAgain: event.target.value }, () => {
-                  this.checkInputs();
-                });
-              }}
-            />
-            {this.state.passwordAgainErrors !== '' && (
-              <Fragment>
-                <br />
-                <span className="hint-error">
-                  {this.state.passwordAgainErrors}
-                </span>
-              </Fragment>
-            )}
-            <br />
-          </p>
-          <p>
-            <input type="submit" value="Register" disabled={true} />
-          </p>
-        </form>
-      </Fragment>
-    );
+        )}
+    </Fragment>
+  );
+};
+
+const checkInputs = (
+  username: string,
+  password: string,
+  passwordAgain: string,
+) => {
+  // Check username
+  let usernameErrors = new Array<string>();
+  if (username.length > 0 && username.length < 4) {
+    usernameErrors.push('too short');
+  } else if (username.length > 20) {
+    usernameErrors.push('too long');
+  }
+  if (username.match(/[^a-zA-Z0-9]+/)) {
+    usernameErrors.push('invalid characters');
   }
 
-  checkInputs = () => {
-    // Username
-    let usernameErrors: Array<string> = [];
-    if (this.state.username.length > 0) {
-      if (this.state.username.length < 4) {
-        usernameErrors.push('not long enough');
-      } else if (this.state.username.length > 20) {
-        usernameErrors.push('too long');
+  // Check username availability
+  let { data, loading } = useQuery(
+    gql`
+      query checkUsernameAvailability($username: String!) {
+        checkUsernameAvailability(username: $username)
       }
-      if (this.state.username.match(/[^a-zA-Z0-9]+/)) {
-        usernameErrors.push('invalid characters');
-      }
-    }
+    `,
+    { variables: { username }, skip: usernameErrors.length > 0 },
+  );
 
-    // Password
-    let passwordErrors: Array<string> = [];
-    if (this.state.password.length > 0) {
-      if (this.state.password.length < 8) {
-        passwordErrors.push('not long enough');
-      } else if (this.state.password.length > 200) {
-        passwordErrors.push('too long');
-      }
+  if (username.length > 0 && usernameErrors.length === 0) {
+    if (loading) {
+      usernameErrors.push('checking availability...');
+    } else if (data && !data.checkUsernameAvailability) {
+      usernameErrors.push('already taken');
     }
+  }
 
-    // Password (again)
-    let passwordAgainErrors: Array<string> = [];
-    if (this.state.passwordAgain.length > 0) {
-      if (this.state.password !== this.state.passwordAgain) {
-        passwordAgainErrors.push('not the same');
-      }
-    }
+  // Check password
+  let passwordErrors = new Array<string>();
+  if (password.length > 0 && password.length < 8) {
+    passwordErrors.push('too short');
+    passwordErrors.push('too short');
+  }
 
-    this.setState({
-      usernameErrors: usernameErrors.join(', '),
-      passwordErrors: passwordErrors.join(', '),
-      passwordAgainErrors: passwordAgainErrors.join(', '),
-    });
+  let passwordAgainErrors = new Array<string>();
+  if (passwordAgain.length > 0 && passwordAgain !== password) {
+    passwordAgainErrors.push('not the same');
+  }
+
+  // Allow subtmitting or not
+  let allowSubmit = false;
+  if (
+    usernameErrors.length === 0 &&
+    passwordErrors.length === 0 &&
+    passwordAgainErrors.length === 0
+  ) {
+    allowSubmit = true;
+  }
+
+  return {
+    usernameErrors,
+    passwordErrors,
+    passwordAgainErrors,
+    allowSubmit,
   };
-
-  submit = (event: React.FormEvent) => {
-    event.preventDefault();
-    console.log('This has not been implemented yet.');
-  };
-}
-
-type props = {};
-
-type state = {
-  username: string;
-  password: string;
-  passwordAgain: string;
-  usernameErrors: string;
-  passwordErrors: string;
-  passwordAgainErrors: string;
 };
 
 export default Registration;
