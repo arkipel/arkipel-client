@@ -40,6 +40,12 @@ const SessionProvider: FunctionComponent = ({ children }) => {
             return;
           }
 
+          setLoggedIn(false);
+          setUsername('');
+          removeCookie('session', {
+            domain: '.arkipel.io',
+          });
+
           setCookie('session', token, {
             domain: '.arkipel.io',
             maxAge: 60 * 60, // 1 hour
