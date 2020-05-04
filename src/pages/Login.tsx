@@ -60,7 +60,6 @@ const Login = () => {
             type="text"
             placeholder="Username"
             name="username"
-            defaultValue="master"
             ref={register({
               required: true,
             })}
@@ -71,7 +70,6 @@ const Login = () => {
             type="password"
             placeholder="Password"
             name="password"
-            defaultValue="master"
             ref={register({
               required: true,
             })}
