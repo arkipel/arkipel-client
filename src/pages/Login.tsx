@@ -1,65 +1,92 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect, useContext } from 'react';
+import { useHistory } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
 
-class Login extends React.PureComponent<props, state> {
-  constructor(props: any) {
-    super(props);
+import { useLazyQuery, gql } from '@apollo/client';
 
-    this.state = {
-      username: '',
-      password: '',
-    };
-  }
+import { SessionContext } from '../libs/session/session';
 
-  render() {
-    return (
-      <Fragment>
-        <h1>Login</h1>
-        <form onSubmit={this.submit}>
-          <p>
-            <input
-              type="text"
-              value={this.state.username}
-              placeholder="Username"
-              onChange={(event) => {
-                this.setState({ username: event.target.value });
-              }}
-            />
-          </p>
-          <p>
-            <input
-              type="password"
-              value={this.state.password}
-              placeholder="Password"
-              onChange={(event) => {
-                this.setState({ password: event.target.value });
-              }}
-            />
-          </p>
-          <p>
-            <input
-              type="submit"
-              value="Log in"
-              disabled={
-                this.state.username === '' || this.state.password === ''
-              }
-            />
-          </p>
-        </form>
-      </Fragment>
-    );
-  }
+const Login = () => {
+  // Router
+  let history = useHistory();
 
-  submit = (event: React.FormEvent) => {
-    event.preventDefault();
-    console.log('This has not been implemented yet.');
+  // Form
+  const { register, handleSubmit, formState } = useForm({
+    mode: 'onChange',
+    validateCriteriaMode: 'all',
+  });
+
+  let allowSubmit = formState.isValid;
+
+  const [getToken, { data, loading }] = useLazyQuery(
+    gql`
+      query login($username: String!, $password: String!) {
+        sessionToken(username: $username, password: $password)
+      }
+    `,
+    { fetchPolicy: 'network-only' },
+  );
+
+  const submit = (formData: any) => {
+    getToken({
+      variables: {
+        username: formData.username,
+        password: formData.password,
+      },
+    });
   };
-}
 
-type props = {};
+  if (loading) {
+    allowSubmit = false;
+  }
 
-type state = {
-  username: string;
-  password: string;
+  const sessionContext = useContext(SessionContext);
+
+  useEffect(() => {
+    if (data && data.sessionToken !== '') {
+      sessionContext.logIn(data.sessionToken);
+
+      // Redirect
+      history.push('/');
+    }
+  });
+
+  return (
+    <Fragment>
+      <h1>Login</h1>
+      <form onSubmit={handleSubmit(submit)}>
+        <p>
+          <input
+            type="text"
+            placeholder="Username"
+            name="username"
+            defaultValue="master"
+            ref={register({
+              required: true,
+            })}
+          />
+        </p>
+        <p>
+          <input
+            type="password"
+            placeholder="Password"
+            name="password"
+            defaultValue="master"
+            ref={register({
+              required: true,
+            })}
+          />
+        </p>
+        <p>
+          <input type="submit" value="Log in" disabled={!allowSubmit} />
+        </p>
+      </form>
+      {loading && <p>Logging in...</p>}
+      {data && data.sessionToken === '' && (
+        <p className="msg-error">Login failed, wrong credentials.</p>
+      )}
+    </Fragment>
+  );
 };
 
 export default Login;
