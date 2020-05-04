@@ -14,7 +14,7 @@ const SessionProvider: FunctionComponent = ({ children }) => {
   const [loggedIn, setLoggedIn] = useState(false);
   const [username, setUsername] = useState('');
 
-  const [cookies, setCookie] = useCookies(['session']);
+  const [cookies, setCookie, removeCookie] = useCookies(['session']);
 
   const client = useApolloClient();
 
@@ -41,6 +41,7 @@ const SessionProvider: FunctionComponent = ({ children }) => {
           }
 
           setCookie('session', token, {
+            domain: '.arkipel.io',
             maxAge: 60 * 60, // 1 hour
             // httpOnly: true,
             // sameSite: 'strict',
@@ -50,7 +51,9 @@ const SessionProvider: FunctionComponent = ({ children }) => {
         logOut: () => {
           setLoggedIn(false);
           setUsername('');
-          setCookie('session', '');
+          removeCookie('session', {
+            domain: '.arkipel.io',
+          });
         },
       }}
     >
