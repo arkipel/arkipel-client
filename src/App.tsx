@@ -78,20 +78,25 @@ class App extends React.PureComponent<props, state> {
             </div>
             <div id="top-bar-right" className="top-bar">
               <SessionContext.Consumer>
-                {(value) => {
-                  if (value.loggedIn) {
-                    return (
-                      <Fragment>
-                        {value.loggedIn && (
-                          <Fragment>
-                            <p>"{value.username}"</p>
-                            <p onClick={() => value.logOut()}>&#x23FB;</p>
-                          </Fragment>
+                {(session) => {
+                  return (
+                    <Fragment>
+                      <div>
+                        {session.loggedIn && <span>{session.username}</span>}
+                      </div>
+                      <div>
+                        {session.loggedIn && (
+                          <button
+                            onClick={() => {
+                              session.logOut();
+                            }}
+                          >
+                            Log out
+                          </button>
                         )}
-                      </Fragment>
-                    );
-                  }
-                  return <Fragment></Fragment>;
+                      </div>
+                    </Fragment>
+                  );
                 }}
               </SessionContext.Consumer>
             </div>

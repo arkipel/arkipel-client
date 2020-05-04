@@ -44,8 +44,6 @@ const Login = () => {
 
   useEffect(() => {
     if (data && data.sessionToken !== '') {
-      console.log('data', data);
-      console.log('data.sessionToken', data.sessionToken);
       sessionContext.logIn(data.sessionToken);
 
       // Redirect

@@ -24,4 +24,8 @@
   .scrollable {
     overflow: auto;
   }
+
+  @media all and (max-width: 699px) {
+    grid-template-columns: auto 1fr;
+  }
 }
