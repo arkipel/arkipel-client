@@ -36,7 +36,7 @@ const SessionProvider: FunctionComponent = ({ children }) => {
         username,
 
         logIn: (token: string) => {
-          if (!token) {
+          if (!token || token === '') {
             return;
           }
 
@@ -64,6 +64,10 @@ const getPersonalProfile = (
   token: string,
   cb: (result: any) => void,
 ) => {
+  if (!token || token === '') {
+    return;
+  }
+
   let data = JSON.parse(atob(token.split('.')[1]));
 
   client
