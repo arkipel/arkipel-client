@@ -1,20 +1,24 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment } from 'react';
 import { NavLink } from 'react-router-dom';
 
 import { useQuery, gql } from '@apollo/client';
 
 const IslandsList = () => {
-  // const islands = useState<Array<Island>>();
-
   const { data, loading, error } = useQuery(
     gql`
-      query listOfIslands {
-        islands {
+      {
+        islands(sort: null) {
+          id
           name
+          active
         }
       }
     `,
   );
+
+  if (loading || error) {
+    return <></>;
+  }
 
   return (
     <Fragment>
@@ -27,7 +31,7 @@ const IslandsList = () => {
           </tr>
         </thead>
         <tbody>
-          {/* {islands.map((island) => {
+          {data.islands.map((island: any) => {
             return (
               <tr key={island.id}>
                 <th>
@@ -36,7 +40,7 @@ const IslandsList = () => {
                 <td>0</td>
               </tr>
             );
-          })} */}
+          })}
         </tbody>
       </table>
     </Fragment>

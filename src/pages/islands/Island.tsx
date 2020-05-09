@@ -1,33 +1,60 @@
-import React, { Fragment, useState } from 'react';
-import { Route, NavLink, Switch } from 'react-router-dom';
+import React, { Fragment } from 'react';
+import { Route, NavLink, Switch, useParams } from 'react-router-dom';
+
+import { useQuery, gql } from '@apollo/client';
 
 import IslandMap from './Map';
-import IslandInfo from './Info';
+import IslandOverview from './Overview';
 
 const IslandPage = () => {
-  const [islandName] = useState('');
+  const { islandID } = useParams();
+
+  const { data, loading, error } = useQuery(
+    gql`
+      query getIsland($islandID: String!) {
+        island(islandID: $islandID) {
+          ... on Island {
+            id
+            name
+            active
+          }
+        }
+      }
+    `,
+    { variables: { islandID } },
+  );
+
+  if (loading || error) {
+    return <></>;
+  }
 
   return (
     <Fragment>
-      <h1>{islandName}</h1>
+      <h1>{data.island.name}</h1>
       <nav>
         <ul>
           <li>
-            <NavLink to="/archipelago/islands/kiiwi" exact>
+            <NavLink to={'/archipelago/islands/' + islandID} exact>
               Map
             </NavLink>
           </li>
           <li>
-            <NavLink to="/archipelago/islands/kiiwi/info">Info</NavLink>
+            <NavLink to={'/archipelago/islands/' + islandID + '/info'}>
+              Overview
+            </NavLink>
           </li>
         </ul>
       </nav>
       <Switch>
-        <Route path="/archipelago/islands/:id" exact component={IslandMap} />
         <Route
-          path="/archipelago/islands/:id/info"
+          path="/archipelago/islands/:islandId"
           exact
-          component={IslandInfo}
+          component={IslandMap}
+        />
+        <Route
+          path="/archipelago/islands/:islandId/info"
+          exact
+          component={IslandOverview}
         />
       </Switch>
     </Fragment>

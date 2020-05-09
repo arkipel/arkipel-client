@@ -31,8 +31,8 @@ import menu from './assets/icons/menu.png';
 const client = new ApolloClient({
   cache: new InMemoryCache(),
   link: new HttpLink({
-    uri: 'https://api.arkipel.io/query',
-    // uri: 'http://local.arkipel.io:9192/query',
+    // uri: 'https://api.arkipel.io/query',
+    uri: 'http://local.arkipel.io:9192/query',
     credentials: 'include',
   }),
 });
@@ -179,7 +179,7 @@ class App extends React.PureComponent<props, state> {
                       component={IslandsPage}
                     />
                     <Route
-                      path="/archipelago/islands/:island"
+                      path="/archipelago/islands/:islandID"
                       component={IslandPage}
                     />
                   </Switch>
