@@ -1,8 +1,6 @@
-import { Resource } from '../libs/jsonapi/resource';
-
 import { Tile } from './Tile';
 
-class Island implements Resource {
+class Island {
   readonly type = 'islands';
   id = '';
 

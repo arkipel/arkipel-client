@@ -112,7 +112,7 @@ class App extends React.PureComponent<props, state> {
                         <NavLink
                           exact
                           to="/archipelago/islands"
-                          onClick={this.hideLeftPane}
+                          onClick={this.hideMenuPane}
                         >
                           Islands
                         </NavLink>
