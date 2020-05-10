@@ -21,13 +21,13 @@ const IslandMap = () => {
     { variables: { islandID } },
   );
 
-  if (loading || error) {
+  if (error) {
     return <></>;
   }
 
   let dna: string;
 
-  if (data.island.__typename === 'NotFound') {
+  if (loading || data.island.__typename === 'NotFound') {
     dna = '0'.repeat(400);
   } else {
     dna = data.island.dna;
