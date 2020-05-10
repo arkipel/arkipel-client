@@ -32,6 +32,36 @@
       }
     }
 
+    nav {
+      ul {
+        display: grid;
+        gap: 4px;
+        grid-auto-columns: min-content;
+        grid-auto-flow: column;
+
+        li {
+          width: auto;
+
+          a {
+            display: block;
+            width: auto;
+            padding: 8px 10px;
+            color: #444;
+            text-decoration: none;
+            background: #eee;
+
+            &.active {
+              background: #ccc;
+            }
+
+            &:hover {
+              background: #ccc;
+            }
+          }
+        }
+      }
+    }
+
     form {
       display: grid;
       gap: 10px;
@@ -60,6 +90,26 @@
 
     .msg-success {
       color: #080;
+    }
+
+    table {
+      text-align: left;
+      border-collapse: collapse;
+
+      tr:nth-child(even) {
+        background: #f6f6f6;
+      }
+
+      thead {
+        th {
+          border-bottom: 1px solid black;
+        }
+      }
+
+      th,
+      td {
+        padding: 4px;
+      }
     }
   }
 }

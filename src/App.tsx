@@ -19,6 +19,8 @@ import { SessionProvider, SessionContext } from './libs/session/session';
 // Pages
 import About from './pages/About';
 import Home from './pages/Home';
+import IslandPage from './pages/islands/Island';
+import IslandsPage from './pages/islands/List';
 import Login from './pages/Login';
 import Registration from './pages/Registration';
 
@@ -104,6 +106,18 @@ class App extends React.PureComponent<props, state> {
               <div className="scrollable" style={{ marginTop: '50px' }}>
                 <div id="menu">
                   <nav>
+                    <h1>Archipelago</h1>
+                    <ul>
+                      <li>
+                        <NavLink
+                          exact
+                          to="/archipelago/islands"
+                          onClick={this.hideMenuPane}
+                        >
+                          Islands
+                        </NavLink>
+                      </li>
+                    </ul>
                     <h1>Main</h1>
                     <ul>
                       <li>
@@ -158,6 +172,15 @@ class App extends React.PureComponent<props, state> {
                       path="/registration"
                       exact
                       component={Registration}
+                    />
+                    <Route
+                      path="/archipelago/islands"
+                      exact
+                      component={IslandsPage}
+                    />
+                    <Route
+                      path="/archipelago/islands/:islandID"
+                      component={IslandPage}
                     />
                   </Switch>
                 </div>
