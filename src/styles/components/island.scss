@@ -1,10 +1,8 @@
 .island {
   display: grid;
-  //   grid-template-columns: repeat(0.05fr, 20);
   grid-template-columns: repeat(20, 0.05fr);
   grid-template-rows: repeat(20, 0.05fr);
   gap: 1px;
-  //   border: 1px solid black;
 
   .tile {
     width: 100%;

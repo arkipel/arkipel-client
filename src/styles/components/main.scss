@@ -41,7 +41,6 @@
 
         li {
           width: auto;
-          // border: 1px solid black;
 
           a {
             display: block;
@@ -52,11 +51,11 @@
             background: #eee;
 
             &.active {
-              background: #cccccc;
+              background: #ccc;
             }
 
             &:hover {
-              background: #ddd;
+              background: #ccc;
             }
           }
         }
