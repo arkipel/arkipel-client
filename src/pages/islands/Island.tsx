@@ -28,6 +28,10 @@ const IslandPage = () => {
     return <></>;
   }
 
+  if (data.island.__typename === 'NotFound') {
+    return <p>Island does not exist.</p>;
+  }
+
   return (
     <Fragment>
       <h1>{data.island.name}</h1>
@@ -47,12 +51,12 @@ const IslandPage = () => {
       </nav>
       <Switch>
         <Route
-          path="/archipelago/islands/:islandId"
+          path="/archipelago/islands/:islandID"
           exact
           component={IslandMap}
         />
         <Route
-          path="/archipelago/islands/:islandId/info"
+          path="/archipelago/islands/:islandID/info"
           exact
           component={IslandOverview}
         />
