@@ -23,6 +23,7 @@ import IslandPage from './pages/islands/Island';
 import IslandsPage from './pages/islands/List';
 import Login from './pages/Login';
 import Registration from './pages/Registration';
+import Settings from './pages/account/Settings';
 
 // Assets
 import './styles/index.scss';
@@ -118,6 +119,18 @@ class App extends React.PureComponent<props, state> {
                         </NavLink>
                       </li>
                     </ul>
+                    <h1>Account</h1>
+                    <ul>
+                      <li>
+                        <NavLink
+                          exact
+                          to="/account/settings"
+                          onClick={this.hideMenuPane}
+                        >
+                          Settings
+                        </NavLink>
+                      </li>
+                    </ul>
                     <h1>Main</h1>
                     <ul>
                       <li>
@@ -172,6 +185,11 @@ class App extends React.PureComponent<props, state> {
                       path="/registration"
                       exact
                       component={Registration}
+                    />
+                    <Route
+                      path="/account/settings"
+                      exact
+                      component={Settings}
                     />
                     <Route
                       path="/archipelago/islands"
