@@ -4,10 +4,10 @@
   "description": "Client for Arkipel",
   "main": "index.js",
   "scripts": {
-    "build": "webpack --mode production",
+    "build": "webpack --config webpack.prod.js",
     "format": "prettier --write \"**/*.{md,js,jsx,ts,tsx,json,css,scss}\"",
     "format-watch": "onchange \"**/*.{md,js,jsx,ts,tsx,json,css,scss}\" -- prettier --write {{changed}}",
-    "start": "concurrently --kill-others \"webpack-dev-server --mode development --allowed-hosts local.arkipel.io\" \"npm:*-watch\"",
+    "start": "concurrently --kill-others \"webpack-dev-server --config webpack.dev.js --allowed-hosts local.arkipel.io\" \"npm:*-watch\"",
     "test-onchange": "onchange \"**/*.js\" \"**/*.jsx\" -- npm test"
   },
   "keywords": [
@@ -36,7 +36,8 @@
     "typescript": "^3.8.3",
     "webpack": "^4.43.0",
     "webpack-cli": "^3.3.11",
-    "webpack-dev-server": "^3.10.3"
+    "webpack-dev-server": "^3.10.3",
+    "webpack-merge": "^4.2.2"
   },
   "dependencies": {
     "@apollo/client": "^3.0.0-beta.44",
