@@ -66,6 +66,18 @@
       display: grid;
       gap: 10px;
 
+      // p {
+      //   display: grid;
+      //   grid-auto-flow: column;
+      //   grid-auto-columns: min-content;
+      //   gap: 10px;
+      //   // background: red;
+      // }
+
+      // input:not([type='submit']) {
+      //   width: 300px;
+      // }
+
       @media all and (max-width: 499px) {
         button,
         input {
