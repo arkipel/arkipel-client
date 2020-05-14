@@ -9,8 +9,8 @@ const Settings = () => {
       <ChangeUsernameForm />
       <h2>Email address</h2>
       <p>
-        Email addresses are not verified and are only used to reset passwords.
-        Make sure it is correctly entered.
+        Your email address will always be private and only used for necessary
+        communication like password resets.
       </p>
       <ChangeEmailAddress />
       <h2>Password</h2>
@@ -18,8 +18,8 @@ const Settings = () => {
       <h2>Delete account</h2>
       <p>
         To delete your account, simply stop logging in. Accounts hold no
-        personal information except for the email address (which is never
-        public) and are deleted after 30 days of inactivity.
+        personal information except for the email address (which is never public
+        and can be deleted) and are deleted after 30 days of inactivity.
       </p>
     </Fragment>
   );
@@ -28,7 +28,7 @@ const Settings = () => {
 const ChangeUsernameForm = () => {
   const { register, handleSubmit } = useForm();
 
-  const setEmailAddress = (formData) => {
+  const setEmailAddress = (formData: any) => {
     console.log('update username:', formData);
   };
 
@@ -41,6 +41,12 @@ const ChangeUsernameForm = () => {
           name="username"
           ref={register({
             required: true,
+            min: 4,
+            max: 20,
+            pattern: {
+              value: /[^a-zA-Z0-9]+/,
+              message: 'invalid characters',
+            },
           })}
         />
       </p>
@@ -71,7 +77,8 @@ const ChangeEmailAddress = () => {
         />
       </p>
       <p>
-        <input type="submit" value="Update" disabled={true} />
+        <input type="submit" value="Update" disabled={true} />{' '}
+        <input type="submit" value="Delete" disabled={true} />
       </p>
     </form>
   );
@@ -89,8 +96,8 @@ const ChangePassword = () => {
       <p>
         <input
           type="text"
-          placeholder="Password"
-          name="password"
+          placeholder="Current password"
+          name="currentPassword"
           ref={register({
             required: true,
           })}
@@ -99,8 +106,18 @@ const ChangePassword = () => {
       <p>
         <input
           type="text"
-          placeholder="Password again"
-          name="password_again"
+          placeholder="New password"
+          name="new_password"
+          ref={register({
+            required: true,
+          })}
+        />
+      </p>
+      <p>
+        <input
+          type="text"
+          placeholder="New password again"
+          name="new_password_again"
           ref={register({
             required: true,
           })}
