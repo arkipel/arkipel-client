@@ -3,12 +3,14 @@ import { useCookies } from 'react-cookie';
 
 import { gql, useApolloClient, ApolloClient } from '@apollo/client';
 
-const SessionContext = React.createContext({
-  loggedIn: false,
-  username: '',
-  logIn: (_: string) => {},
-  logOut: () => {},
-});
+class Session {
+  loggedIn = false;
+  username = '';
+  logIn = (_: string) => {};
+  logOut = () => {};
+}
+
+const SessionContext = React.createContext(new Session());
 
 const SessionProvider: FunctionComponent = ({ children }) => {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -99,4 +101,4 @@ const getPersonalProfile = (
     .then(cb);
 };
 
-export { SessionContext, SessionProvider };
+export { SessionContext, SessionProvider, Session };
