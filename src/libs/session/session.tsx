@@ -6,12 +6,8 @@ const SessionProvider: FunctionComponent = ({ children }) => {
 
   const [cookies, setCookie, removeCookie] = useCookies(['session']);
 
-  if (cookies.session && cookies.session.length > 0) {
-    let data = JSON.parse(atob(cookies.session.split('.')[1]));
-
-    session.loggedIn = true;
-    session.id = data.id;
-    session.username = data.username;
+  if (!session.loggedIn && cookies.session && cookies.session.length > 0) {
+    setSession(new Session(cookies.session));
   }
 
   return (
@@ -54,7 +50,11 @@ const SessionProvider: FunctionComponent = ({ children }) => {
 class Session {
   constructor(token: string) {
     if (token.length > 0) {
+      let data = JSON.parse(atob(token.split('.')[1]));
+
       this.loggedIn = true;
+      this.id = data.id;
+      this.username = data.username;
     }
   }
 
