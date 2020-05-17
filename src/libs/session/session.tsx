@@ -37,7 +37,7 @@ const SessionProvider: FunctionComponent = ({ children }) => {
 
         logOut: () => {
           removeCookie('session', {
-            domain: '.arkipel.io',
+            domain: '.' + Config.domain,
             path: '/',
           });
 
