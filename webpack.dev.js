@@ -12,6 +12,7 @@ module.exports = merge(common, {
 
   externals: {
     Config: JSON.stringify({
+      domain: 'local.arkipel.io',
       arkipelEndpoint: 'http://local.arkipel.io:9192/query',
     }),
   },
