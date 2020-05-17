@@ -5,6 +5,7 @@ import { gql, useApolloClient, ApolloClient } from '@apollo/client';
 
 class Session {
   loggedIn = false;
+  id = '';
   username = '';
   logIn = (_: string) => {};
   logOut = () => {};
@@ -14,17 +15,27 @@ const SessionContext = React.createContext(new Session());
 
 const SessionProvider: FunctionComponent = ({ children }) => {
   const [loggedIn, setLoggedIn] = useState(false);
+  const [id, setId] = useState('');
   const [username, setUsername] = useState('');
 
   const [cookies, setCookie, removeCookie] = useCookies(['session']);
 
   const client = useApolloClient();
 
-  if (!loggedIn && cookies.session !== '') {
-    getPersonalProfile(client, cookies.session, (result: any): void => {
+  let session = new Session();
+
+  if (cookies.session && cookies.session.length > 0) {
+    let data = JSON.parse(atob(cookies.session.split('.')[1]));
+
+    session.loggedIn = true;
+    session.id = data.id;
+    session.username = data.username;
+
+    getPersonalProfile(client, session.id, (result: any): void => {
       if (result) {
         if (result.data.me.__typename === 'User') {
           setLoggedIn(true);
+          setId(result.data.me.id);
           setUsername(result.data.me.username);
         }
       }
@@ -35,6 +46,7 @@ const SessionProvider: FunctionComponent = ({ children }) => {
     <SessionContext.Provider
       value={{
         loggedIn,
+        id,
         username,
 
         logIn: (token: string) => {
@@ -43,6 +55,7 @@ const SessionProvider: FunctionComponent = ({ children }) => {
           }
 
           setLoggedIn(false);
+          setId('');
           setUsername('');
           removeCookie('session', {
             domain: '.arkipel.io',
@@ -58,6 +71,7 @@ const SessionProvider: FunctionComponent = ({ children }) => {
 
         logOut: () => {
           setLoggedIn(false);
+          setId('');
           setUsername('');
           removeCookie('session', {
             domain: '.arkipel.io',
@@ -72,15 +86,9 @@ const SessionProvider: FunctionComponent = ({ children }) => {
 
 const getPersonalProfile = (
   client: ApolloClient<object>,
-  token: string,
+  userID: String,
   cb: (result: any) => void,
 ) => {
-  if (!token || token === '') {
-    return;
-  }
-
-  let data = JSON.parse(atob(token.split('.')[1]));
-
   client
     .query({
       query: gql`
@@ -96,7 +104,7 @@ const getPersonalProfile = (
           }
         }
       `,
-      variables: { userID: data.ID },
+      variables: { userID },
     })
     .then(cb);
 };
