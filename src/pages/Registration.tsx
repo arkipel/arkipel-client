@@ -1,24 +1,29 @@
 import React, { Fragment, useState } from 'react';
 
-import { useQuery, gql, useMutation } from '@apollo/client';
+import { gql, useMutation } from '@apollo/client';
 
 import HCaptcha from '@hcaptcha/react-hcaptcha';
 
+import UsernameForm from '../components/usernameForm';
+
 const Registration = () => {
   const [username, setUsername] = useState('');
+  const [usernameIsValid, setUsernameIsValid] = useState(false);
   const [password, setPassword] = useState('');
   const [passwordAgain, setPasswordAgain] = useState('');
   const [captcha, setCaptcha] = useState('');
 
   // Inputs
-  let {
-    usernameErrors,
-    passwordErrors,
-    passwordAgainErrors,
-    allowSubmit,
-  } = checkInputs(username, password, passwordAgain);
+  let { passwordErrors, passwordAgainErrors, allowSubmit } = checkInputs(
+    password,
+    passwordAgain,
+  );
 
   if (captcha === '') {
+    allowSubmit = false;
+  }
+
+  if (!usernameIsValid) {
     allowSubmit = false;
   }
 
@@ -69,26 +74,13 @@ const Registration = () => {
           submit({ variables: { username, password, captcha } });
         }}
       >
-        <p>
-          <input
-            type="text"
-            value={username}
-            placeholder="Username"
-            maxLength={20}
-            disabled={registered}
-            onChange={(event) => {
-              setUsername(event.target.value);
-            }}
-          />
-          {usernameErrors.length > 0 && (
-            <Fragment>
-              <br />
-              <span className="hint-error">{usernameErrors.join(', ')}</span>
-            </Fragment>
-          )}
-          <br />
-          <span className="hint">a-z, A-Z, 0-9, 4-20 characters</span>
-        </p>
+        <UsernameForm
+          disabled={registered}
+          onUpdate={({ username, valid }) => {
+            setUsername(username);
+            setUsernameIsValid(valid);
+          }}
+        />
         <p>
           <input
             type="password"
@@ -158,40 +150,7 @@ const Registration = () => {
   );
 };
 
-const checkInputs = (
-  username: string,
-  password: string,
-  passwordAgain: string,
-) => {
-  // Check username
-  let usernameErrors = new Array<string>();
-  if (username.length > 0 && username.length < 4) {
-    usernameErrors.push('too short');
-  } else if (username.length > 20) {
-    usernameErrors.push('too long');
-  }
-  if (username.match(/[^a-zA-Z0-9]+/)) {
-    usernameErrors.push('invalid characters');
-  }
-
-  // Check username availability
-  let { data, loading } = useQuery(
-    gql`
-      query checkUsernameAvailability($username: String!) {
-        checkUsernameAvailability(username: $username)
-      }
-    `,
-    { variables: { username }, skip: usernameErrors.length > 0 },
-  );
-
-  if (username.length > 0 && usernameErrors.length === 0) {
-    if (loading) {
-      usernameErrors.push('checking availability...');
-    } else if (data && !data.checkUsernameAvailability) {
-      usernameErrors.push('already taken');
-    }
-  }
-
+const checkInputs = (password: string, passwordAgain: string) => {
   // Check password
   let passwordErrors = new Array<string>();
   if (password.length > 0 && password.length < 8) {
@@ -206,16 +165,11 @@ const checkInputs = (
 
   // Allow subtmitting or not
   let allowSubmit = false;
-  if (
-    usernameErrors.length === 0 &&
-    passwordErrors.length === 0 &&
-    passwordAgainErrors.length === 0
-  ) {
+  if (passwordErrors.length === 0 && passwordAgainErrors.length === 0) {
     allowSubmit = true;
   }
 
   return {
-    usernameErrors,
     passwordErrors,
     passwordAgainErrors,
     allowSubmit,
