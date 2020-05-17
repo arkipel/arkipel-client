@@ -2,7 +2,7 @@ import React, { Fragment, useContext, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 
-import { gql } from '@apollo/client';
+import { useMutation, gql } from '@apollo/client';
 
 import { SessionContext } from '../../libs/session/session';
 
@@ -13,11 +13,9 @@ const Settings = () => {
   // Session
   const session = useContext(SessionContext);
 
-  console.log('Is logged in? -->', session.loggedIn);
-
   useEffect(() => {
     if (!session.loggedIn) {
-      // history.push('/');
+      history.push('/');
     }
   });
 
@@ -48,20 +46,36 @@ const ChangeUsernameForm = () => {
   const session = useContext(SessionContext);
 
   const { register, handleSubmit, reset, formState } = useForm<{
+    userID: string;
     username: string;
   }>();
 
   useEffect(() => {
-    console.log('current username is', session.username);
     reset({ username: session.username });
   }, [reset]);
 
-  const setUsername = (formData: any) => {
-    console.log('update username:', formData);
-  };
+  const [setUsername, { data, loading, error }] = useMutation(
+    gql`
+      mutation setUsername($userID: String!, $username: String!) {
+        setUsername(userID: $userID, new: $username) {
+          __typename
+        }
+      }
+    `,
+  );
+
+  // const setUsername = (formData: { userID: string; username: string }) => {
+  //   console.log('update username:', formData);
+
+  //   set({ variables: { userID: formData.userID, new: formData.username } });
+  // };
 
   return (
-    <form onSubmit={handleSubmit(setUsername)}>
+    <form
+      onSubmit={handleSubmit(({ userID, username }) => {
+        setUsername({ variables: { userID, username } }).then();
+      })}
+    >
       <p>
         <input
           type="text"
@@ -79,7 +93,11 @@ const ChangeUsernameForm = () => {
         />
       </p>
       <p>
-        <input type="submit" value="Update" disabled={formState.dirty} />
+        <input
+          type="submit"
+          value="Update"
+          disabled={!formState.dirty || loading}
+        />
       </p>
     </form>
   );
