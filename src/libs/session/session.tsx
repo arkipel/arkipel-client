@@ -51,38 +51,11 @@ const SessionProvider: FunctionComponent = ({ children }) => {
   );
 };
 
-// const getPersonalProfile = (
-//   client: ApolloClient<object>,
-//   userID: string,
-//   cb: (result: any) => void,
-// ) => {
-//   client
-//     .query({
-//       query: gql`
-//         query me($userID: String!) {
-//           me(userID: $userID) {
-//             __typename
-//             ... on User {
-//               username
-//               groups {
-//                 id
-//               }
-//             }
-//           }
-//         }
-//       `,
-//       variables: { userID },
-//     })
-//     .then(cb);
-// };
-
 class Session {
   constructor(token: string) {
-    if (token === '') {
-      return;
+    if (token.length > 0) {
+      this.loggedIn = true;
     }
-
-    this.loggedIn = true;
   }
 
   loggedIn = false;
@@ -91,7 +64,7 @@ class Session {
 }
 
 const SessionContext = React.createContext<
-  Session | { logIn: (_: string) => void; logOut: () => void }
->({ logIn: (_: string) => {}, logOut: () => {} });
+  Session & { logIn: (_: string) => void; logOut: () => void }
+>({ ...new Session(''), logIn: (_: string) => {}, logOut: () => {} });
 
 export { SessionContext, SessionProvider, Session };
