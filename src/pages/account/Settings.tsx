@@ -1,7 +1,26 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useContext, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 
+import { gql } from '@apollo/client';
+
+import { SessionContext } from '../../libs/session/session';
+
 const Settings = () => {
+  // Router
+  let history = useHistory();
+
+  // Session
+  const session = useContext(SessionContext);
+
+  console.log('Is logged in? -->', session.loggedIn);
+
+  useEffect(() => {
+    if (!session.loggedIn) {
+      // history.push('/');
+    }
+  });
+
   return (
     <Fragment>
       <h1>Settings</h1>
@@ -26,14 +45,23 @@ const Settings = () => {
 };
 
 const ChangeUsernameForm = () => {
-  const { register, handleSubmit } = useForm();
+  const session = useContext(SessionContext);
 
-  const setEmailAddress = (formData: any) => {
+  const { register, handleSubmit, reset, formState } = useForm<{
+    username: string;
+  }>();
+
+  useEffect(() => {
+    console.log('current username is', session.username);
+    reset({ username: session.username });
+  }, [reset]);
+
+  const setUsername = (formData: any) => {
     console.log('update username:', formData);
   };
 
   return (
-    <form onSubmit={handleSubmit(setEmailAddress)}>
+    <form onSubmit={handleSubmit(setUsername)}>
       <p>
         <input
           type="text"
@@ -51,7 +79,7 @@ const ChangeUsernameForm = () => {
         />
       </p>
       <p>
-        <input type="submit" value="Update" disabled={true} />
+        <input type="submit" value="Update" disabled={formState.dirty} />
       </p>
     </form>
   );
@@ -60,7 +88,7 @@ const ChangeUsernameForm = () => {
 const ChangeEmailAddress = () => {
   const { register, handleSubmit } = useForm();
 
-  const setEmailAddress = (formData) => {
+  const setEmailAddress = (formData: any) => {
     console.log('update username:', formData);
   };
 
@@ -87,7 +115,7 @@ const ChangeEmailAddress = () => {
 const ChangePassword = () => {
   const { register, handleSubmit } = useForm();
 
-  const setEmailAddress = (formData) => {
+  const setEmailAddress = (formData: any) => {
     console.log('update username:', formData);
   };
 
