@@ -6,6 +6,9 @@ import { useMutation, gql } from '@apollo/client';
 
 import { SessionContext } from '../../libs/session/session';
 
+import UsernameInput from 'components/usernameInput';
+import PasswordInput from 'components/passwordInput';
+
 const Settings = () => {
   // Router
   let history = useHistory();
@@ -76,22 +79,7 @@ const ChangeUsernameForm = () => {
         setUsername({ variables: { userID, username } }).then();
       })}
     >
-      <p>
-        <input
-          type="text"
-          placeholder="Username"
-          name="username"
-          ref={register({
-            required: true,
-            min: 4,
-            max: 20,
-            pattern: {
-              value: /[^a-zA-Z0-9]+/,
-              message: 'invalid characters',
-            },
-          })}
-        />
-      </p>
+      <UsernameInput />
       <p>
         <input
           type="submit"
@@ -139,36 +127,7 @@ const ChangePassword = () => {
 
   return (
     <form onSubmit={handleSubmit(setEmailAddress)}>
-      <p>
-        <input
-          type="text"
-          placeholder="Current password"
-          name="currentPassword"
-          ref={register({
-            required: true,
-          })}
-        />
-      </p>
-      <p>
-        <input
-          type="text"
-          placeholder="New password"
-          name="new_password"
-          ref={register({
-            required: true,
-          })}
-        />
-      </p>
-      <p>
-        <input
-          type="text"
-          placeholder="New password again"
-          name="new_password_again"
-          ref={register({
-            required: true,
-          })}
-        />
-      </p>
+      <PasswordInput />
       <p>
         <input type="submit" value="Update" disabled={true} />
       </p>
