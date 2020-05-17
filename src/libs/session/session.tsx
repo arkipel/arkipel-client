@@ -1,6 +1,9 @@
 import React, { FunctionComponent, useState } from 'react';
 import { useCookies } from 'react-cookie';
 
+// Config
+import Config from 'Config';
+
 const SessionProvider: FunctionComponent = ({ children }) => {
   const [session, setSession] = useState(new Session(''));
 
@@ -17,12 +20,12 @@ const SessionProvider: FunctionComponent = ({ children }) => {
 
         logIn: (token: string) => {
           removeCookie('session', {
-            domain: '.arkipel.io',
+            domain: '.' + Config.domain,
             path: '/',
           });
 
           setCookie('session', token, {
-            domain: '.arkipel.io',
+            domain: '.' + Config.domain,
             path: '/',
             maxAge: 60 * 60, // 1 hour
             // httpOnly: true,
@@ -34,7 +37,7 @@ const SessionProvider: FunctionComponent = ({ children }) => {
 
         logOut: () => {
           removeCookie('session', {
-            domain: '.arkipel.io',
+            domain: '.' + Config.domain,
             path: '/',
           });
 
