@@ -1,4 +1,4 @@
-import React, { Fragment, useContext, useEffect } from 'react';
+import React, { Fragment, useContext, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 
@@ -6,8 +6,8 @@ import { useMutation, gql } from '@apollo/client';
 
 import { SessionContext } from '../../libs/session/session';
 
-import UsernameInput from 'components/usernameInput';
-import PasswordInput from 'components/passwordInput';
+import UsernameInput from '../../components/usernameInput';
+import PasswordInput from '../../components/passwordInput';
 
 const Settings = () => {
   // Router
@@ -45,7 +45,10 @@ const Settings = () => {
   );
 };
 
-const ChangeUsernameForm = () => {
+const ChangeUsernameForm = (options: { current: string }) => {
+  const [newUsername, setNewUsername] = useState(options.current);
+  const [newUsernameIsValid, setNewUsernameIsValid] = useState(false);
+
   const session = useContext(SessionContext);
 
   const { register, handleSubmit, reset, formState } = useForm<{
@@ -79,7 +82,7 @@ const ChangeUsernameForm = () => {
         setUsername({ variables: { userID, username } }).then();
       })}
     >
-      <UsernameInput />
+      <UsernameInput onUpdate={({ dirty, valid }) => {}} />
       <p>
         <input
           type="submit"
