@@ -1,6 +1,6 @@
 import React, { Fragment, useState, FunctionComponent, useEffect } from 'react';
 
-const UsernameInput: FunctionComponent<{
+const PasswordInput: FunctionComponent<{
   disabled?: boolean;
   onUpdate?: (data: { password: string; valid: boolean }) => void;
 }> = ({ disabled, onUpdate }) => {
@@ -89,4 +89,4 @@ const check = (password: string, passwordAgain: string) => {
   };
 };
 
-export default UsernameInput;
+export default PasswordInput;
