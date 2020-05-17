@@ -4,26 +4,18 @@ import { gql, useMutation } from '@apollo/client';
 
 import HCaptcha from '@hcaptcha/react-hcaptcha';
 
-import UsernameForm from '../components/usernameForm';
+import UsernameInput from '../components/usernameInput';
+import PasswordInput from '../components/passwordInput';
 
 const Registration = () => {
   const [username, setUsername] = useState('');
   const [usernameIsValid, setUsernameIsValid] = useState(false);
   const [password, setPassword] = useState('');
-  const [passwordAgain, setPasswordAgain] = useState('');
+  const [passwordIsValid, setPasswordIsValid] = useState(false);
   const [captcha, setCaptcha] = useState('');
 
-  // Inputs
-  let { passwordErrors, passwordAgainErrors, allowSubmit } = checkInputs(
-    password,
-    passwordAgain,
-  );
-
-  if (captcha === '') {
-    allowSubmit = false;
-  }
-
-  if (!usernameIsValid) {
+  let allowSubmit = true;
+  if (!usernameIsValid || !passwordIsValid || captcha === '') {
     allowSubmit = false;
   }
 
@@ -74,53 +66,20 @@ const Registration = () => {
           submit({ variables: { username, password, captcha } });
         }}
       >
-        <UsernameForm
+        <UsernameInput
           disabled={registered}
           onUpdate={({ username, valid }) => {
             setUsername(username);
             setUsernameIsValid(valid);
           }}
         />
-        <p>
-          <input
-            type="password"
-            value={password}
-            placeholder="Password"
-            disabled={registered}
-            onChange={(event) => {
-              setPassword(event.target.value);
-            }}
-          />
-          {passwordErrors.length > 0 && (
-            <Fragment>
-              <br />
-              <span className="hint-error">{passwordErrors.join(', ')}</span>
-            </Fragment>
-          )}
-          <br />
-          <span className="hint">at least 8 characters</span>
-        </p>
-        <p>
-          <input
-            type="password"
-            value={passwordAgain}
-            placeholder="Password again"
-            disabled={registered}
-            onChange={(event) => {
-              setPasswordAgain(event.target.value);
-            }}
-          />
-          {passwordAgainErrors.length > 0 && (
-            <Fragment>
-              <br />
-              <span className="hint-error">
-                {passwordAgainErrors.join(', ')}
-              </span>
-            </Fragment>
-          )}
-          <br />
-          <span className="hint">same password</span>
-        </p>
+        <PasswordInput
+          disabled={registered}
+          onUpdate={({ password, valid }) => {
+            setPassword(password);
+            setPasswordIsValid(valid);
+          }}
+        />
         <HCaptcha
           // sitekey="10000000-ffff-ffff-ffff-000000000001"
           sitekey="36cde9f3-38a3-4fd7-9314-bac28f55545b"
@@ -148,32 +107,6 @@ const Registration = () => {
         )}
     </Fragment>
   );
-};
-
-const checkInputs = (password: string, passwordAgain: string) => {
-  // Check password
-  let passwordErrors = new Array<string>();
-  if (password.length > 0 && password.length < 8) {
-    passwordErrors.push('too short');
-    passwordErrors.push('too short');
-  }
-
-  let passwordAgainErrors = new Array<string>();
-  if (passwordAgain.length > 0 && passwordAgain !== password) {
-    passwordAgainErrors.push('not the same');
-  }
-
-  // Allow subtmitting or not
-  let allowSubmit = false;
-  if (passwordErrors.length === 0 && passwordAgainErrors.length === 0) {
-    allowSubmit = true;
-  }
-
-  return {
-    passwordErrors,
-    passwordAgainErrors,
-    allowSubmit,
-  };
 };
 
 export default Registration;
