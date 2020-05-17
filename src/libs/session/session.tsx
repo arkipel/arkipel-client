@@ -4,10 +4,10 @@ import { useCookies } from 'react-cookie';
 import { gql, useApolloClient, ApolloClient } from '@apollo/client';
 
 class Session {
-  loggedIn: false,
-  username: '',
-  logIn: (_: string) => {},
-  logOut: () => {},
+  loggedIn = false;
+  username = '';
+  logIn = (_: string) => {};
+  logOut = () => {};
 }
 
 const SessionContext = React.createContext(new Session());
