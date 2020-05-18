@@ -1,40 +1,36 @@
-import React, { Fragment, useState, FunctionComponent, useEffect } from 'react';
+import React, { Fragment, FunctionComponent } from 'react';
+import { useFormContext } from 'react-hook-form';
 
-const PasswordInput: FunctionComponent<{
-  disabled?: boolean;
-  onUpdate?: (data: { password: string; valid: boolean }) => void;
-}> = ({ disabled, onUpdate }) => {
-  const [password, setPassword] = useState('');
-  const [passwordAgain, setPasswordAgain] = useState('');
+const PasswordInput: FunctionComponent<props> = ({ disabled }) => {
+  const { register, errors, watch, triggerValidation } = useFormContext();
 
-  // Inputs
-  let { passwordErrors, passwordAgainErrors } = check(password, passwordAgain);
-
-  useEffect(() => {
-    if (onUpdate) {
-      onUpdate({
-        password,
-        valid: passwordErrors.length === 0 && passwordAgainErrors.length === 0,
-      });
-    }
-  });
+  let errorMsgs = Object.values(errors.password?.types || {}).join(', ');
+  let errorMsgsAg = Object.values(errors.passwordAgain?.types || {}).join(', ');
 
   return (
     <Fragment>
       <p>
         <input
           type="password"
-          value={password}
+          name="password"
           placeholder="Password"
           disabled={disabled || false}
-          onChange={(event) => {
-            setPassword(event.target.value);
-          }}
+          onChange={() => triggerValidation('passwordAgain')}
+          ref={register({
+            required: {
+              value: true,
+              message: 'required',
+            },
+            minLength: {
+              value: 8,
+              message: 'too short',
+            },
+          })}
         />
-        {passwordErrors.length > 0 && (
+        {errorMsgs && (
           <Fragment>
             <br />
-            <span className="hint-error">{passwordErrors.join(', ')}</span>
+            <span className="hint-error">{errorMsgs}</span>
           </Fragment>
         )}
         <br />
@@ -43,17 +39,27 @@ const PasswordInput: FunctionComponent<{
       <p>
         <input
           type="password"
-          value={passwordAgain}
+          name="passwordAgain"
           placeholder="Password again"
           disabled={disabled || false}
-          onChange={(event) => {
-            setPasswordAgain(event.target.value);
-          }}
+          ref={register({
+            validate: {
+              same: (passwordAgain: string) => {
+                const password = watch('password');
+                if (passwordAgain !== '') {
+                  if (passwordAgain !== password) {
+                    return 'not the same';
+                  }
+                }
+                return true;
+              },
+            },
+          })}
         />
-        {passwordAgainErrors.length > 0 && (
+        {errorMsgsAg && (
           <Fragment>
             <br />
-            <span className="hint-error">{passwordAgainErrors.join(', ')}</span>
+            <span className="hint-error">{errorMsgsAg}</span>
           </Fragment>
         )}
         <br />
@@ -63,30 +69,8 @@ const PasswordInput: FunctionComponent<{
   );
 };
 
-const check = (password: string, passwordAgain: string) => {
-  // Check password
-  let passwordErrors = new Array<string>();
-  if (password.length > 0 && password.length < 8) {
-    passwordErrors.push('too short');
-    passwordErrors.push('too short');
-  }
-
-  let passwordAgainErrors = new Array<string>();
-  if (passwordAgain.length > 0 && passwordAgain !== password) {
-    passwordAgainErrors.push('not the same');
-  }
-
-  // Allow subtmitting or not
-  let allowSubmit = false;
-  if (passwordErrors.length === 0 && passwordAgainErrors.length === 0) {
-    allowSubmit = true;
-  }
-
-  return {
-    passwordErrors,
-    passwordAgainErrors,
-    allowSubmit,
-  };
-};
+class props {
+  disabled: boolean = false;
+}
 
 export default PasswordInput;
