@@ -1,6 +1,8 @@
 import React, { FunctionComponent, useState } from 'react';
 import { useCookies } from 'react-cookie';
 
+import { useApolloClient, gql } from '@apollo/client';
+
 // Config
 import Config from 'Config';
 
@@ -13,26 +15,51 @@ const SessionProvider: FunctionComponent = ({ children }) => {
     setSession(new Session(cookies.session));
   }
 
+  const client = useApolloClient();
+
   return (
     <SessionContext.Provider
       value={{
         ...session,
 
-        logIn: (token: string) => {
-          removeCookie('session', {
-            domain: '.' + Config.domain,
-            path: '/',
-          });
+        logIn: async (username: string, password: string): Promise<boolean> => {
+          return client
+            .query({
+              query: gql`
+                query login($username: String!, $password: String!) {
+                  sessionToken(username: $username, password: $password)
+                }
+              `,
+              fetchPolicy: 'network-only',
+              variables: { username, password },
+            })
+            .then((response) => {
+              const token = response.data.sessionToken;
 
-          setCookie('session', token, {
-            domain: '.' + Config.domain,
-            path: '/',
-            maxAge: 60 * 60, // 1 hour
-            // httpOnly: true,
-            // sameSite: 'strict',
-          });
+              if (token.length > 0) {
+                removeCookie('session', {
+                  domain: '.' + Config.domain,
+                  path: '/',
+                });
 
-          setSession(new Session(token));
+                setCookie('session', token, {
+                  domain: '.' + Config.domain,
+                  path: '/',
+                  maxAge: 60 * 60, // 1 hour
+                  // httpOnly: true,
+                  // sameSite: 'strict',
+                });
+
+                setSession(new Session(token));
+
+                return true;
+              }
+
+              return false;
+            })
+            .catch((err) => {
+              throw err;
+            });
         },
 
         logOut: () => {
@@ -44,9 +71,47 @@ const SessionProvider: FunctionComponent = ({ children }) => {
           setSession(new Session(''));
         },
 
-        update: (newValues: Partial<Session>) => {
+        update: (newValues: Partial<Session>): void => {
           let newSession = { ...session, ...newValues };
           setSession(newSession);
+
+          client
+            .query({
+              query: gql`
+                query refreshToken($username: String!, $password: String!) {
+                  newSessionToken(old: $token)
+                }
+              `,
+              fetchPolicy: 'network-only',
+              variables: { old: session.token },
+            })
+            .then((response) => {
+              const token = response.data.newSessionToken;
+
+              if (token.length > 0) {
+                removeCookie('session', {
+                  domain: '.' + Config.domain,
+                  path: '/',
+                });
+
+                setCookie('session', token, {
+                  domain: '.' + Config.domain,
+                  path: '/',
+                  maxAge: 60 * 60, // 1 hour
+                  // httpOnly: true,
+                  // sameSite: 'strict',
+                });
+
+                setSession(new Session(token));
+
+                return true;
+              }
+
+              return false;
+            })
+            .catch((err) => {
+              throw err;
+            });
         },
       }}
     >
@@ -57,6 +122,8 @@ const SessionProvider: FunctionComponent = ({ children }) => {
 
 class Session {
   constructor(token: string) {
+    this.token = token;
+
     if (token.length > 0) {
       let data = JSON.parse(atob(token.split('.')[1]));
 
@@ -66,6 +133,7 @@ class Session {
     }
   }
 
+  token = '';
   loggedIn = false;
   id = '';
   username = '';
@@ -73,13 +141,15 @@ class Session {
 
 const SessionContext = React.createContext<
   Session & {
-    logIn: (_: string) => void;
+    logIn: (username: string, password: string) => Promise<boolean>;
     logOut: () => void;
     update: (options: Partial<Session>) => void;
   }
 >({
   ...new Session(''),
-  logIn: (_: string) => {},
+  logIn: (_username: string, _password: string) => {
+    return Promise.resolve(true);
+  },
   logOut: () => {},
   update: () => {},
 });

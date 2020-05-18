@@ -1,12 +1,13 @@
-import React, { Fragment, useEffect, useContext } from 'react';
+import React, { Fragment, useState, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
-
-import { useLazyQuery, gql } from '@apollo/client';
 
 import { SessionContext } from '../libs/session/session';
 
 const Login = () => {
+  const [loginFailed, setLoginFailure] = useState(false);
+  const [networkFailed, setNetworkailure] = useState(false);
+
   // Router
   let history = useHistory();
 
@@ -18,38 +19,27 @@ const Login = () => {
 
   let allowSubmit = formState.isValid;
 
-  const [getToken, { data, loading }] = useLazyQuery(
-    gql`
-      query login($username: String!, $password: String!) {
-        sessionToken(username: $username, password: $password)
-      }
-    `,
-    { fetchPolicy: 'network-only' },
-  );
+  const session = useContext(SessionContext);
 
-  const submit = (formData: any) => {
-    getToken({
-      variables: {
-        username: formData.username,
-        password: formData.password,
-      },
-    });
-  };
+  const submit = async (formData: any) => {
+    setLoginFailure(false);
+    setNetworkailure(false);
 
-  if (loading) {
-    allowSubmit = false;
-  }
+    let success = false;
+    try {
+      success = await session.logIn(formData.username, formData.password);
+    } catch (err) {
+      setNetworkailure(true);
+      return;
+    }
 
-  const sessionContext = useContext(SessionContext);
-
-  useEffect(() => {
-    if (data && data.sessionToken !== '') {
-      sessionContext.logIn(data.sessionToken);
-
+    if (success) {
       // Redirect
       history.push('/');
+    } else {
+      setLoginFailure(true);
     }
-  });
+  };
 
   return (
     <Fragment>
@@ -79,9 +69,11 @@ const Login = () => {
           <input type="submit" value="Log in" disabled={!allowSubmit} />
         </p>
       </form>
-      {loading && <p>Logging in...</p>}
-      {data && data.sessionToken === '' && (
+      {loginFailed && (
         <p className="msg-error">Login failed, wrong credentials.</p>
+      )}
+      {networkFailed && (
+        <p className="msg-error">Request failed, please try again later.</p>
       )}
     </Fragment>
   );
