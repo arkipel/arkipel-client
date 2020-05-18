@@ -3,7 +3,10 @@ import { useFormContext } from 'react-hook-form';
 
 import { gql, useApolloClient } from '@apollo/client';
 
-const UsernameInput: FunctionComponent<Partial<props>> = ({ disabled }) => {
+const UsernameInput: FunctionComponent<Partial<props>> = ({
+  current,
+  disabled,
+}) => {
   const { register, errors } = useFormContext<{
     username: string;
   }>();
@@ -40,6 +43,10 @@ const UsernameInput: FunctionComponent<Partial<props>> = ({ disabled }) => {
             },
             validate: async (username: string): Promise<string | boolean> => {
               if (username.length < 4) {
+                return true;
+              }
+
+              if (username === current) {
                 return true;
               }
 

@@ -43,6 +43,11 @@ const SessionProvider: FunctionComponent = ({ children }) => {
 
           setSession(new Session(''));
         },
+
+        update: (newValues: Partial<Session>) => {
+          let newSession = { ...session, ...newValues };
+          setSession(newSession);
+        },
       }}
     >
       {children}
@@ -67,7 +72,16 @@ class Session {
 }
 
 const SessionContext = React.createContext<
-  Session & { logIn: (_: string) => void; logOut: () => void }
->({ ...new Session(''), logIn: (_: string) => {}, logOut: () => {} });
+  Session & {
+    logIn: (_: string) => void;
+    logOut: () => void;
+    update: (options: Partial<Session>) => void;
+  }
+>({
+  ...new Session(''),
+  logIn: (_: string) => {},
+  logOut: () => {},
+  update: () => {},
+});
 
 export { SessionContext, SessionProvider, Session };

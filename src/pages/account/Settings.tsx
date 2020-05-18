@@ -1,8 +1,8 @@
-import React, { Fragment, useContext, useEffect, useState } from 'react';
+import React, { Fragment, useContext, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
-import { useForm } from 'react-hook-form';
+import { useForm, FormContext } from 'react-hook-form';
 
-import { useMutation, gql } from '@apollo/client';
+import { useMutation, gql, useApolloClient } from '@apollo/client';
 
 import { SessionContext } from '../../libs/session/session';
 
@@ -45,20 +45,17 @@ const Settings = () => {
   );
 };
 
-const ChangeUsernameForm = (options: { current: string }) => {
-  const [newUsername, setNewUsername] = useState(options.current);
-  const [newUsernameIsValid, setNewUsernameIsValid] = useState(false);
-
+const ChangeUsernameForm = () => {
   const session = useContext(SessionContext);
 
-  const { register, handleSubmit, reset, formState } = useForm<{
-    userID: string;
+  const formFunctions = useForm<{
     username: string;
-  }>();
-
-  useEffect(() => {
-    reset({ username: session.username });
-  }, [reset]);
+  }>({
+    mode: 'onChange',
+    validateCriteriaMode: 'all',
+    defaultValues: { username: session.username },
+  });
+  const { handleSubmit, formState, errors, setError, watch } = formFunctions;
 
   const [setUsername, { data, loading, error }] = useMutation(
     gql`
@@ -70,27 +67,61 @@ const ChangeUsernameForm = (options: { current: string }) => {
     `,
   );
 
-  // const setUsername = (formData: { userID: string; username: string }) => {
-  //   console.log('update username:', formData);
+  const username = watch('username');
 
-  //   set({ variables: { userID: formData.userID, new: formData.username } });
-  // };
+  if (
+    data?.setUsername?.__typename === 'Result' &&
+    username !== session.username
+  ) {
+    session.update({ username });
+  }
+
+  const client = useApolloClient();
 
   return (
-    <form
-      onSubmit={handleSubmit(({ userID, username }) => {
-        setUsername({ variables: { userID, username } }).then();
-      })}
-    >
-      <UsernameInput onUpdate={({ dirty, valid }) => {}} />
-      <p>
-        <input
-          type="submit"
-          value="Update"
-          disabled={!formState.dirty || loading}
-        />
-      </p>
-    </form>
+    <Fragment>
+      <FormContext {...formFunctions}>
+        <form
+          onSubmit={handleSubmit(async ({ username }) => {
+            try {
+              let response = await client.mutate({
+                mutation: gql`
+                  mutation setUsername($userID: String!, $username: String!) {
+                    setUsername(userID: $userID, new: $username) {
+                      __typename
+                    }
+                  }
+                `,
+                variables: { userID: session.id, username },
+              });
+
+              if (response?.data?.setUsername?.__typename === 'Result') {
+                session.update({ username });
+              }
+            } catch {
+              console.log('FAIL!');
+              setError('username', 'submit', 'that did not work');
+            }
+            // setUsername({
+            //   variables: { userID: session.id, username },
+            // });
+          })}
+        >
+          <UsernameInput current={session.username} />
+          <p>
+            <input
+              type="submit"
+              value="Update"
+              disabled={!formState.dirty || loading}
+            />
+          </p>
+        </form>
+      </FormContext>
+      {loading && <p>Please wait...</p>}
+      {data?.setUsername?.__typename === 'Result' && (
+        <p className="msg-success">Username modified.</p>
+      )}
+    </Fragment>
   );
 };
 
@@ -130,7 +161,7 @@ const ChangePassword = () => {
 
   return (
     <form onSubmit={handleSubmit(setEmailAddress)}>
-      <PasswordInput />
+      {/* <PasswordInput /> */}
       <p>
         <input type="submit" value="Update" disabled={true} />
       </p>
