@@ -53,19 +53,19 @@ const UsernameInput: FunctionComponent<Partial<props>> = ({
               try {
                 let response = await client.query<
                   {
-                    checkUsernameAvailability: boolean;
+                    usernameAvailability: boolean;
                   },
                   { username: string }
                 >({
                   query: gql`
-                    query checkUsernameAvailability($username: String!) {
-                      checkUsernameAvailability(username: $username)
+                    query usernameAvailability($username: String!) {
+                      usernameAvailability(username: $username)
                     }
                   `,
                   variables: { username },
                 });
 
-                if (!response.data?.checkUsernameAvailability) {
+                if (!response.data?.usernameAvailability) {
                   return 'already taken';
                 }
 
