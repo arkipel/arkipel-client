@@ -78,12 +78,12 @@ const SessionProvider: FunctionComponent = ({ children }) => {
           client
             .query({
               query: gql`
-                query refreshToken($username: String!, $password: String!) {
+                query refreshToken($token: String!) {
                   newSessionToken(old: $token)
                 }
               `,
               fetchPolicy: 'network-only',
-              variables: { old: session.token },
+              variables: { token: session.token },
             })
             .then((response) => {
               const token = response.data.newSessionToken;

@@ -1,4 +1,4 @@
-import React, { Fragment, useContext, useEffect } from 'react';
+import React, { Fragment, useContext, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useForm, FormContext } from 'react-hook-form';
 
@@ -46,6 +46,11 @@ const Settings = () => {
 };
 
 const ChangeUsernameForm = () => {
+  const [updateSucceeded, setUpdateSuccess] = useState(false);
+  const [updateFailed, setUpdateFailure] = useState(false);
+  const [networkFailed, setNetworkailure] = useState(false);
+
+  const client = useApolloClient();
   const session = useContext(SessionContext);
 
   const formFunctions = useForm<{
@@ -55,34 +60,21 @@ const ChangeUsernameForm = () => {
     validateCriteriaMode: 'all',
     defaultValues: { username: session.username },
   });
-  const { handleSubmit, formState, errors, setError, watch } = formFunctions;
+  const { handleSubmit, formState, watch } = formFunctions;
 
-  const [setUsername, { data, loading, error }] = useMutation(
-    gql`
-      mutation setUsername($userID: String!, $username: String!) {
-        setUsername(userID: $userID, new: $username) {
-          __typename
-        }
-      }
-    `,
-  );
+  let username = watch('username');
 
-  const username = watch('username');
-
-  if (
-    data?.setUsername?.__typename === 'Result' &&
-    username !== session.username
-  ) {
-    session.update({ username });
-  }
-
-  const client = useApolloClient();
+  let different = username !== session.username;
 
   return (
     <Fragment>
       <FormContext {...formFunctions}>
         <form
           onSubmit={handleSubmit(async ({ username }) => {
+            setUpdateSuccess(false);
+            setUpdateFailure(false);
+            setNetworkailure(false);
+
             try {
               let response = await client.mutate({
                 mutation: gql`
@@ -95,16 +87,15 @@ const ChangeUsernameForm = () => {
                 variables: { userID: session.id, username },
               });
 
+              console.log('response', response);
+
               if (response?.data?.setUsername?.__typename === 'Result') {
                 session.update({ username });
+                setUpdateSuccess(true);
               }
             } catch {
-              console.log('FAIL!');
-              setError('username', 'submit', 'that did not work');
+              setNetworkailure(true);
             }
-            // setUsername({
-            //   variables: { userID: session.id, username },
-            // });
           })}
         >
           <UsernameInput current={session.username} />
@@ -112,14 +103,22 @@ const ChangeUsernameForm = () => {
             <input
               type="submit"
               value="Update"
-              disabled={!formState.dirty || loading}
+              disabled={!formState.isValid || !different}
             />
           </p>
         </form>
       </FormContext>
-      {loading && <p>Please wait...</p>}
-      {data?.setUsername?.__typename === 'Result' && (
-        <p className="msg-success">Username modified.</p>
+      {updateSucceeded && (
+        <p className="msg-success">
+          Your username has been updated.{' '}
+          <a onClick={() => setUpdateSuccess(false)}>OK</a>
+        </p>
+      )}
+      {updateFailed && (
+        <p className="msg-error">Something went wrong, please try again.</p>
+      )}
+      {networkFailed && (
+        <p className="msg-error">Request failed, please try again later.</p>
       )}
     </Fragment>
   );
