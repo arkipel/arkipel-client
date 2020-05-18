@@ -1,48 +1,78 @@
-import React, { Fragment, useState, FunctionComponent, useEffect } from 'react';
+import React, { Fragment, FunctionComponent } from 'react';
+import { useFormContext } from 'react-hook-form';
 
-import { useQuery, gql } from '@apollo/client';
+import { gql, useApolloClient } from '@apollo/client';
 
-const UsernameInput: FunctionComponent<{
-  current?: string;
-  disabled?: boolean;
-  onUpdate?: (data: {
+const UsernameInput: FunctionComponent<Partial<props>> = ({ disabled }) => {
+  const { register, errors } = useFormContext<{
     username: string;
-    dirty: boolean;
-    valid: boolean;
-  }) => void;
-}> = ({ current, disabled, onUpdate }) => {
-  const [username, setUsername] = useState(current || '');
+  }>();
 
-  // Inputs
-  let { usernameErrors } = check(username);
+  const client = useApolloClient();
 
-  useEffect(() => {
-    if (onUpdate) {
-      onUpdate({
-        username,
-        dirty: current !== username,
-        valid: usernameErrors.length === 0,
-      });
-    }
-  });
+  let errorMsgs = Object.values(errors.username?.types || {}).join(', ');
 
   return (
     <Fragment>
       <p>
         <input
           type="text"
-          value={username}
+          name="username"
           placeholder="Username"
           maxLength={20}
           disabled={disabled || false}
-          onChange={(event) => {
-            setUsername(event.target.value);
-          }}
+          ref={register({
+            required: {
+              value: true,
+              message: 'required',
+            },
+            minLength: {
+              value: 4,
+              message: 'too short',
+            },
+            maxLength: {
+              value: 20,
+              message: 'too long',
+            },
+            pattern: {
+              value: /^[a-zA-Z0-9]+$/,
+              message: 'invalid characters',
+            },
+            validate: async (username: string): Promise<string | boolean> => {
+              if (username.length < 4) {
+                return true;
+              }
+
+              try {
+                let response = await client.query<
+                  {
+                    checkUsernameAvailability: boolean;
+                  },
+                  { username: string }
+                >({
+                  query: gql`
+                    query checkUsernameAvailability($username: String!) {
+                      checkUsernameAvailability(username: $username)
+                    }
+                  `,
+                  variables: { username },
+                });
+
+                if (!response.data?.checkUsernameAvailability) {
+                  return 'already taken';
+                }
+
+                return true;
+              } catch (err) {
+                return 'could not check availability';
+              }
+            },
+          })}
         />
-        {usernameErrors.length > 0 && (
+        {errorMsgs && (
           <Fragment>
             <br />
-            <span className="hint-error">{usernameErrors.join(', ')}</span>
+            <span className="hint-error">{errorMsgs}</span>
           </Fragment>
         )}
         <br />
@@ -52,45 +82,9 @@ const UsernameInput: FunctionComponent<{
   );
 };
 
-const check = (username: string) => {
-  // Check username
-  let usernameErrors = new Array<string>();
-  if (username.length > 0 && username.length < 4) {
-    usernameErrors.push('too short');
-  } else if (username.length > 20) {
-    usernameErrors.push('too long');
-  }
-  if (username.match(/[^a-zA-Z0-9]+/)) {
-    usernameErrors.push('invalid characters');
-  }
-
-  // Check username availability
-  let { data, loading } = useQuery(
-    gql`
-      query checkUsernameAvailability($username: String!) {
-        checkUsernameAvailability(username: $username)
-      }
-    `,
-    { variables: { username }, skip: usernameErrors.length > 0 },
-  );
-
-  if (username.length > 0 && usernameErrors.length === 0) {
-    if (loading) {
-      usernameErrors.push('checking availability...');
-    } else if (data && !data.checkUsernameAvailability) {
-      usernameErrors.push('already taken');
-    }
-  }
-
-  // Allow subtmitting or not
-  let allowSubmit = false;
-  if (usernameErrors.length === 0) {
-    allowSubmit = true;
-  }
-
-  return {
-    usernameErrors,
-  };
-};
+class props {
+  current: string = '';
+  disabled: boolean = false;
+}
 
 export default UsernameInput;
