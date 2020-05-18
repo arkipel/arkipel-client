@@ -20,8 +20,6 @@ const Registration = () => {
   });
   const { formState, errors } = formFunctions;
 
-  console.log('errors', errors);
-
   let allowSubmit = true;
   if (!formState.isValid) {
     allowSubmit = false;
