@@ -33,6 +33,13 @@ const Settings = () => {
         communication like password resets.
       </p>
       <ChangeEmailAddress />
+      <p>
+        There is currently no verification. Make sure the address is correct.
+        The owner of the address is considered the owner of this account.
+      </p>
+      <p>
+        It is impossible to recover a lost password without an email address.
+      </p>
       <h2>Password</h2>
       <ChangePassword />
       <h2>Delete account</h2>
@@ -125,29 +132,83 @@ const ChangeUsernameForm = () => {
 };
 
 const ChangeEmailAddress = () => {
-  const { register, handleSubmit } = useForm();
+  const [updateSucceeded, setUpdateSuccess] = useState(false);
+  const [updateFailed, setUpdateFailure] = useState(false);
+  const [networkFailed, setNetworkailure] = useState(false);
 
-  const setEmailAddress = (formData: any) => {
-    console.log('update username:', formData);
-  };
+  const client = useApolloClient();
+  const session = useContext(SessionContext);
+
+  const formFunctions = useForm<{
+    email_address: string;
+  }>({
+    mode: 'onChange',
+    validateCriteriaMode: 'all',
+    defaultValues: { email_address: '' },
+  });
+  const { handleSubmit, formState, register, watch } = formFunctions;
 
   return (
-    <form onSubmit={handleSubmit(setEmailAddress)}>
-      <p>
-        <input
-          type="text"
-          placeholder="Email address"
-          name="enail_address"
-          ref={register({
-            required: true,
-          })}
-        />
-      </p>
-      <p>
-        <input type="submit" value="Update" disabled={true} />{' '}
-        <input type="submit" value="Delete" disabled={true} />
-      </p>
-    </form>
+    <Fragment>
+      <form
+        onSubmit={handleSubmit(async ({ email_address: emailAddress }) => {
+          setUpdateSuccess(false);
+          setUpdateFailure(false);
+          setNetworkailure(false);
+
+          try {
+            let response = await client.mutate({
+              mutation: gql`
+                mutation setEmailAddress(
+                  $userID: String!
+                  $emailAddress: String!
+                ) {
+                  setUsername(userID: $userID, new: $emailAddress) {
+                    __typename
+                  }
+                }
+              `,
+              variables: { userID: session.id, emailAddress },
+            });
+
+            console.log('response', response);
+
+            if (response?.data?.setUsername?.__typename === 'Result') {
+              setUpdateSuccess(true);
+            }
+          } catch {
+            setNetworkailure(true);
+          }
+        })}
+      >
+        <p>
+          <input
+            type="email"
+            placeholder="Email address"
+            name="email_address"
+            ref={register({
+              required: true,
+            })}
+          />
+        </p>
+        <p>
+          <input type="submit" value="Update" disabled={true} />{' '}
+          <input type="submit" value="Delete" disabled={true} />
+        </p>
+      </form>
+      {updateSucceeded && (
+        <p className="msg-success">
+          Your email address has been updated.{' '}
+          <a onClick={() => setUpdateSuccess(false)}>OK</a>
+        </p>
+      )}
+      {updateFailed && (
+        <p className="msg-error">Something went wrong, please try again.</p>
+      )}
+      {networkFailed && (
+        <p className="msg-error">Request failed, please try again later.</p>
+      )}
+    </Fragment>
   );
 };
 
