@@ -350,11 +350,6 @@ const ChangePassword = () => {
     }
   };
 
-  let disabled = false;
-  if (!formState.isValid) {
-    disabled = true;
-  }
-
   let errorMsgs = Object.values(errors.current_password?.types || {}).join(
     ', ',
   );
@@ -368,7 +363,6 @@ const ChangePassword = () => {
             type="password"
             name="current_password"
             placeholder="Current password"
-            disabled={false}
             ref={register({
               required: {
                 value: true,
