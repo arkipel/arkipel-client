@@ -18,7 +18,7 @@ const Registration = () => {
     mode: 'onChange',
     validateCriteriaMode: 'all',
   });
-  const { formState, errors } = formFunctions;
+  const { formState } = formFunctions;
 
   let allowSubmit = true;
   if (!formState.isValid) {
