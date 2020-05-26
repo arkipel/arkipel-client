@@ -94,8 +94,6 @@ const ChangeUsernameForm = () => {
                 variables: { userID: session.id, username },
               });
 
-              console.log('response', response);
-
               if (response?.data?.setUsername?.__typename === 'User') {
                 session.update({ username });
                 setUpdateSuccess(true);
@@ -181,8 +179,6 @@ const ChangeEmailAddress = () => {
 
   const { handleSubmit, formState, register } = formFunctions;
 
-  console.log('currentAddress', currentAddress);
-
   return (
     <Fragment>
       <form
@@ -210,8 +206,6 @@ const ChangeEmailAddress = () => {
               variables: { userID: session.id, emailAddress },
             });
 
-            console.log('response', response);
-
             if (response?.data?.setEmailAddress?.__typename === 'User') {
               setUpdateSuccess(true);
             } else if (
@@ -220,7 +214,6 @@ const ChangeEmailAddress = () => {
               setAlreadyUsed(true);
             }
           } catch (err) {
-            console.log('network error', err);
             setNetworkailure(true);
           }
         })}
@@ -263,13 +256,10 @@ const ChangeEmailAddress = () => {
                   variables: { userID: session.id },
                 });
 
-                console.log('response', response);
-
                 if (response?.data?.deleteEmailAddress?.__typename === 'User') {
                   setUpdateSuccess(true);
                 }
               } catch (err) {
-                console.log('network error', err);
                 setNetworkailure(true);
               }
             }}
@@ -321,8 +311,6 @@ const ChangePassword = () => {
   const currentPassword = watch('current_password');
 
   const setPassword = async (formData: any) => {
-    console.log('setpassword form data:', formData);
-
     try {
       let response = await client.mutate({
         mutation: gql`
@@ -339,13 +327,10 @@ const ChangePassword = () => {
         },
       });
 
-      console.log('response', response);
-
       if (response?.data?.setPassword?.__typename === 'User') {
         setUpdateSuccess(true);
       }
     } catch (err) {
-      console.log('network error', err);
       setNetworkailure(true);
     }
   };
@@ -369,9 +354,6 @@ const ChangePassword = () => {
                 message: 'required',
               },
             })}
-            onChange={(value) => {
-              console.log('value:', value);
-            }}
           />
           {errorMsgs && (
             <Fragment>
