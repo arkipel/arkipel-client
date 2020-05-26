@@ -2,13 +2,7 @@ import React, { Fragment, useContext, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useForm, FormContext } from 'react-hook-form';
 
-import {
-  useMutation,
-  gql,
-  useApolloClient,
-  useQuery,
-  resetApolloContext,
-} from '@apollo/client';
+import { gql, useApolloClient, useQuery } from '@apollo/client';
 
 import { SessionContext } from '../../libs/session/session';
 
@@ -131,7 +125,10 @@ const ChangeUsernameForm = () => {
         <p className="msg-error">Something went wrong, please try again.</p>
       )}
       {networkFailed && (
-        <p className="msg-error">Request failed, please try again later.</p>
+        <p className="msg-error">
+          Request could not be sent, please try again later.{' '}
+          <a onClick={() => setNetworkailure(false)}>OK</a>
+        </p>
       )}
     </Fragment>
   );
@@ -182,7 +179,7 @@ const ChangeEmailAddress = () => {
     }
   });
 
-  const { handleSubmit, formState, register, watch } = formFunctions;
+  const { handleSubmit, formState, register } = formFunctions;
 
   console.log('currentAddress', currentAddress);
 
@@ -299,7 +296,7 @@ const ChangeEmailAddress = () => {
       )}
       {networkFailed && (
         <p className="msg-error">
-          Request failed, please try again later.{' '}
+          Request could not be sent, please try again later.{' '}
           <a onClick={() => setNetworkailure(false)}>OK</a>
         </p>
       )}
@@ -308,19 +305,114 @@ const ChangeEmailAddress = () => {
 };
 
 const ChangePassword = () => {
-  const { register, handleSubmit } = useForm();
+  const [updateSucceeded, setUpdateSuccess] = useState(false);
+  const [updateFailed, setUpdateFailure] = useState(false);
+  const [networkFailed, setNetworkailure] = useState(false);
 
-  const setEmailAddress = (formData: any) => {
-    console.log('update username:', formData);
+  const client = useApolloClient();
+  const session = useContext(SessionContext);
+
+  const formFunctions = useForm({
+    mode: 'onChange',
+    validateCriteriaMode: 'all',
+  });
+  const { handleSubmit, register, formState, watch, errors } = formFunctions;
+
+  const currentPassword = watch('current_password');
+
+  const setPassword = async (formData: any) => {
+    console.log('setpassword form data:', formData);
+
+    try {
+      let response = await client.mutate({
+        mutation: gql`
+          mutation setPassword($userID: String!, $old: String!, $new: String!) {
+            setPassword(userID: $userID, old: $old, new: $new) {
+              __typename
+            }
+          }
+        `,
+        variables: {
+          userID: session.id,
+          old: formData.current_password,
+          new: formData.password,
+        },
+      });
+
+      console.log('response', response);
+
+      if (response?.data?.setPassword?.__typename === 'User') {
+        setUpdateSuccess(true);
+      }
+    } catch (err) {
+      console.log('network error', err);
+      setNetworkailure(true);
+    }
   };
 
+  let disabled = false;
+  if (!formState.isValid) {
+    disabled = true;
+  }
+
+  let errorMsgs = Object.values(errors.current_password?.types || {}).join(
+    ', ',
+  );
+
   return (
-    <form onSubmit={handleSubmit(setEmailAddress)}>
-      {/* <PasswordInput /> */}
-      <p>
-        <input type="submit" value="Update" disabled={true} />
-      </p>
-    </form>
+    <FormContext {...formFunctions}>
+      <form onSubmit={handleSubmit(setPassword)}>
+        <PasswordInput disabled={false} />
+        <p>
+          <input
+            type="password"
+            name="current_password"
+            placeholder="Current password"
+            disabled={false}
+            ref={register({
+              required: {
+                value: true,
+                message: 'required',
+              },
+            })}
+            onChange={(value) => {
+              console.log('value:', value);
+            }}
+          />
+          {errorMsgs && (
+            <Fragment>
+              <br />
+              <span className="hint-error">{errorMsgs}</span>
+            </Fragment>
+          )}
+        </p>
+        <p>
+          <input
+            type="submit"
+            value="Update"
+            disabled={!formState.isValid || currentPassword === ''}
+          />
+        </p>
+      </form>
+      {updateSucceeded && (
+        <p className="msg-success">
+          Your password has been updated.{' '}
+          <a onClick={() => setUpdateSuccess(false)}>OK</a>
+        </p>
+      )}
+      {updateFailed && (
+        <p className="msg-error">
+          Something went wrong, please try again.{' '}
+          <a onClick={() => setUpdateFailure(false)}>OK</a>
+        </p>
+      )}
+      {networkFailed && (
+        <p className="msg-error">
+          Request could not be sent, please try again later.{' '}
+          <a onClick={() => setNetworkailure(false)}>OK</a>
+        </p>
+      )}
+    </FormContext>
   );
 };
 
