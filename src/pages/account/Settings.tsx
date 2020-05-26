@@ -2,7 +2,13 @@ import React, { Fragment, useContext, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useForm, FormContext } from 'react-hook-form';
 
-import { useMutation, gql, useApolloClient } from '@apollo/client';
+import {
+  useMutation,
+  gql,
+  useApolloClient,
+  useQuery,
+  resetApolloContext,
+} from '@apollo/client';
 
 import { SessionContext } from '../../libs/session/session';
 
@@ -96,7 +102,7 @@ const ChangeUsernameForm = () => {
 
               console.log('response', response);
 
-              if (response?.data?.setUsername?.__typename === 'Result') {
+              if (response?.data?.setUsername?.__typename === 'User') {
                 session.update({ username });
                 setUpdateSuccess(true);
               }
@@ -132,12 +138,31 @@ const ChangeUsernameForm = () => {
 };
 
 const ChangeEmailAddress = () => {
+  const [currentAddress, setCurrentAddress] = useState('');
   const [updateSucceeded, setUpdateSuccess] = useState(false);
+  const [alreadyUsed, setAlreadyUsed] = useState(false);
   const [updateFailed, setUpdateFailure] = useState(false);
   const [networkFailed, setNetworkailure] = useState(false);
 
   const client = useApolloClient();
   const session = useContext(SessionContext);
+
+  const { data, loading } = useQuery(
+    gql`
+      query getEmailAddress($userID: String!) {
+        me(userID: $userID) {
+          __typename
+          ... on User {
+            id
+            emailAddress
+          }
+        }
+      }
+    `,
+    {
+      variables: { userID: session.id },
+    },
+  );
 
   const formFunctions = useForm<{
     email_address: string;
@@ -146,7 +171,20 @@ const ChangeEmailAddress = () => {
     validateCriteriaMode: 'all',
     defaultValues: { email_address: '' },
   });
+
+  useEffect(() => {
+    if (
+      data?.me?.__typename === 'User' &&
+      data?.me?.emailAddress !== currentAddress
+    ) {
+      formFunctions.reset({ email_address: data.me.emailAddress });
+      setCurrentAddress(data.me.emailAddress);
+    }
+  });
+
   const { handleSubmit, formState, register, watch } = formFunctions;
+
+  console.log('currentAddress', currentAddress);
 
   return (
     <Fragment>
@@ -163,8 +201,12 @@ const ChangeEmailAddress = () => {
                   $userID: String!
                   $emailAddress: String!
                 ) {
-                  setUsername(userID: $userID, new: $emailAddress) {
+                  setEmailAddress(userID: $userID, new: $emailAddress) {
                     __typename
+                    ... on User {
+                      id
+                      emailAddress
+                    }
                   }
                 }
               `,
@@ -173,10 +215,15 @@ const ChangeEmailAddress = () => {
 
             console.log('response', response);
 
-            if (response?.data?.setUsername?.__typename === 'Result') {
+            if (response?.data?.setEmailAddress?.__typename === 'User') {
               setUpdateSuccess(true);
+            } else if (
+              response?.data?.setEmailAddress?.__typename === 'AlreadyExists'
+            ) {
+              setAlreadyUsed(true);
             }
-          } catch {
+          } catch (err) {
+            console.log('network error', err);
             setNetworkailure(true);
           }
         })}
@@ -184,16 +231,52 @@ const ChangeEmailAddress = () => {
         <p>
           <input
             type="email"
-            placeholder="Email address"
+            placeholder={loading ? 'Loading...' : 'Email address'}
             name="email_address"
             ref={register({
               required: true,
+              minLength: 5,
             })}
           />
         </p>
         <p>
-          <input type="submit" value="Update" disabled={true} />{' '}
-          <input type="submit" value="Delete" disabled={true} />
+          <input
+            type="submit"
+            value="Update"
+            disabled={!formState.dirty || !formState.isValid}
+          />{' '}
+          <input
+            type="button"
+            value="Delete"
+            disabled={!currentAddress}
+            onClick={async () => {
+              try {
+                let response = await client.mutate({
+                  mutation: gql`
+                    mutation deleteEmailAddress($userID: String!) {
+                      deleteEmailAddress(userID: $userID) {
+                        __typename
+                        ... on User {
+                          id
+                          emailAddress
+                        }
+                      }
+                    }
+                  `,
+                  variables: { userID: session.id },
+                });
+
+                console.log('response', response);
+
+                if (response?.data?.deleteEmailAddress?.__typename === 'User') {
+                  setUpdateSuccess(true);
+                }
+              } catch (err) {
+                console.log('network error', err);
+                setNetworkailure(true);
+              }
+            }}
+          />
         </p>
       </form>
       {updateSucceeded && (
@@ -202,11 +285,23 @@ const ChangeEmailAddress = () => {
           <a onClick={() => setUpdateSuccess(false)}>OK</a>
         </p>
       )}
+      {alreadyUsed && (
+        <p className="msg-error">
+          Sorry, that email address is already used.{' '}
+          <a onClick={() => setAlreadyUsed(false)}>OK</a>
+        </p>
+      )}
       {updateFailed && (
-        <p className="msg-error">Something went wrong, please try again.</p>
+        <p className="msg-error">
+          Something went wrong, please try again.{' '}
+          <a onClick={() => setUpdateFailure(false)}>OK</a>
+        </p>
       )}
       {networkFailed && (
-        <p className="msg-error">Request failed, please try again later.</p>
+        <p className="msg-error">
+          Request failed, please try again later.{' '}
+          <a onClick={() => setNetworkailure(false)}>OK</a>
+        </p>
       )}
     </Fragment>
   );
