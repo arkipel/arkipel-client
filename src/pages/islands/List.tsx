@@ -26,34 +26,36 @@ const IslandsList = () => {
   return (
     <Fragment>
       <h1>Islands</h1>
-      <table>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Population</th>
-          </tr>
-        </thead>
-        <tbody>
-          {error && <p className="msg-error">Sorry, an error occurred.</p>}
-          {loading && (
+      {error && <p className="msg-error">Sorry, an error occurred.</p>}
+      {!error && (
+        <table>
+          <thead>
             <tr>
-              <td colSpan={2} style={{ textAlign: 'center' }}>
-                Loading...
-              </td>
+              <th>Name</th>
+              <th>Population</th>
             </tr>
-          )}
-          {islands.map((island: any) => {
-            return (
-              <tr key={island.id}>
-                <th>
-                  <NavLink to={'islands/' + island.id}>{island.name}</NavLink>
-                </th>
-                <td>0</td>
+          </thead>
+          <tbody>
+            {loading && (
+              <tr>
+                <td colSpan={2} style={{ textAlign: 'center' }}>
+                  Loading...
+                </td>
               </tr>
-            );
-          })}
-        </tbody>
-      </table>
+            )}
+            {islands.map((island: any) => {
+              return (
+                <tr key={island.id}>
+                  <th>
+                    <NavLink to={'islands/' + island.id}>{island.name}</NavLink>
+                  </th>
+                  <td>0</td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      )}
     </Fragment>
   );
 };
