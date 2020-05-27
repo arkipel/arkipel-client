@@ -1,8 +1,12 @@
 import React, { Fragment, FunctionComponent } from 'react';
+import { useHistory } from 'react-router-dom';
 
 import Island from '../../models/Island';
 
 const IslandMap: FunctionComponent<props> = ({ island }) => {
+  const history = useHistory();
+
+  let islandId = island.id || '';
   let dna = island.dna;
 
   if (!dna) {
@@ -29,7 +33,15 @@ const IslandMap: FunctionComponent<props> = ({ island }) => {
 
     let className = 'tile ' + kind;
 
-    map.push(<div key={Math.random()} className={className}></div>);
+    map.push(
+      <div
+        key={Math.random()}
+        className={className}
+        onClick={() => {
+          history.push('/archipelago/islands/' + islandId + '/tiles/' + i);
+        }}
+      ></div>,
+    );
   }
 
   return (

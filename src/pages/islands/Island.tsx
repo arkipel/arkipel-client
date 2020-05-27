@@ -8,6 +8,7 @@ import Island from '../../models/Island';
 
 import IslandMap from './Map';
 import IslandOverview from './Overview';
+import TilePage from '../tile/Tile';
 
 const IslandPage = () => {
   const { islandID } = useParams();
@@ -68,6 +69,9 @@ const IslandPage = () => {
         </Route>
         <Route path="/archipelago/islands/:islandID/info" exact>
           <IslandOverview island={island} />
+        </Route>
+        <Route path="/archipelago/islands/:islandID/tiles/:tileID">
+          <TilePage />
         </Route>
       </Switch>
     </Fragment>
