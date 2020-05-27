@@ -17,7 +17,7 @@ import {
 import { SessionProvider, SessionContext } from './libs/session/session';
 
 // Config
-import Config from 'Config';
+import { arkipelEndpoint } from 'Config';
 
 // Pages
 import About from './pages/About';
@@ -35,7 +35,7 @@ import menu from './assets/icons/menu.png';
 const client = new ApolloClient({
   cache: new InMemoryCache(),
   link: new HttpLink({
-    uri: Config.arkipelEndpoint,
+    uri: arkipelEndpoint,
     credentials: 'include',
   }),
 });
