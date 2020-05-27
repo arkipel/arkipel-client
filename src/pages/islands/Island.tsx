@@ -28,15 +28,22 @@ const IslandPage = () => {
     { variables: { islandID } },
   );
 
-  if (loading || !data || error) {
-    return <></>;
+  if (data?.island.__typename === 'NotFound') {
+    return <p className="msg-error">Sorry, this island does not exist.</p>;
   }
 
-  if (data.island.__typename === 'NotFound') {
-    return <p>Island does not exist.</p>;
+  if (error || data?.island.__typename === 'NotAuthorized') {
+    return <p className="msg-error">Sorry, an error occurred.</p>;
   }
 
-  let island = new Island(data.island);
+  let island: Island;
+  if (data?.island.__typename === 'Island') {
+    island = new Island(data.island);
+  } else if (loading) {
+    island = new Island({ name: 'Loading...' });
+  } else {
+    island = new Island({});
+  }
 
   return (
     <Fragment>
@@ -44,12 +51,12 @@ const IslandPage = () => {
       <nav>
         <ul>
           <li>
-            <NavLink to={'/archipelago/islands/' + island.id} exact>
+            <NavLink to={'/archipelago/islands/' + islandID} exact>
               Map
             </NavLink>
           </li>
           <li>
-            <NavLink to={'/archipelago/islands/' + island.id + '/info'}>
+            <NavLink to={'/archipelago/islands/' + islandID + '/info'}>
               Overview
             </NavLink>
           </li>
