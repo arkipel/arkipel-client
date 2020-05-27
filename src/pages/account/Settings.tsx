@@ -192,7 +192,7 @@ const ChangeEmailAddress = () => {
       formFunctions.reset({ email_address: data.me.emailAddress || '' });
       setCurrentAddress(data.me.emailAddress || '');
     }
-  });
+  }, [data]);
 
   const { handleSubmit, formState, register } = formFunctions;
 
