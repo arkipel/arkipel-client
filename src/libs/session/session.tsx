@@ -4,7 +4,7 @@ import { useCookies } from 'react-cookie';
 import { useApolloClient, gql } from '@apollo/client';
 
 // Config
-import Config from 'Config';
+import { domain } from 'Config';
 
 const SessionProvider: FunctionComponent = ({ children }) => {
   const [session, setSession] = useState(new Session(''));
@@ -38,12 +38,12 @@ const SessionProvider: FunctionComponent = ({ children }) => {
 
               if (token.length > 0) {
                 removeCookie('session', {
-                  domain: '.' + Config.domain,
+                  domain: '.' + domain,
                   path: '/',
                 });
 
                 setCookie('session', token, {
-                  domain: '.' + Config.domain,
+                  domain: '.' + domain,
                   path: '/',
                   maxAge: 60 * 60, // 1 hour
                   // httpOnly: true,
@@ -64,7 +64,7 @@ const SessionProvider: FunctionComponent = ({ children }) => {
 
         logOut: () => {
           removeCookie('session', {
-            domain: '.' + Config.domain,
+            domain: '.' + domain,
             path: '/',
           });
 
@@ -90,12 +90,12 @@ const SessionProvider: FunctionComponent = ({ children }) => {
 
               if (token.length > 0) {
                 removeCookie('session', {
-                  domain: '.' + Config.domain,
+                  domain: '.' + domain,
                   path: '/',
                 });
 
                 setCookie('session', token, {
-                  domain: '.' + Config.domain,
+                  domain: '.' + domain,
                   path: '/',
                   maxAge: 60 * 60, // 1 hour
                   // httpOnly: true,
