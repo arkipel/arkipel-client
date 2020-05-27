@@ -41,8 +41,8 @@ const Registration = () => {
             id
             username
           }
-          ... on UsernameAlreadyTaken {
-            username
+          ... on AlreadyExists {
+            identifier
           }
         }
       }
