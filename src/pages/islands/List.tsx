@@ -17,10 +17,6 @@ const IslandsList = () => {
     }
   `);
 
-  if (loading || error) {
-    return <></>;
-  }
-
   let islands = new Array<Island>();
   data?.islands.forEach((i) => {
     let island = new Island(i);
@@ -38,6 +34,14 @@ const IslandsList = () => {
           </tr>
         </thead>
         <tbody>
+          {error && <p className="msg-error">Sorry, an error occurred.</p>}
+          {loading && (
+            <tr>
+              <td colSpan={2} style={{ textAlign: 'center' }}>
+                Loading...
+              </td>
+            </tr>
+          )}
           {islands.map((island: any) => {
             return (
               <tr key={island.id}>
