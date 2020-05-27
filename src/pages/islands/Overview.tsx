@@ -8,7 +8,7 @@ const IslandOverview = () => {
 
   const { data, loading, error } = useQuery(
     gql`
-      query getIsland($islandID: String!) {
+      query getIsland3($islandID: String!) {
         island(islandID: $islandID) {
           ... on Island {
             name

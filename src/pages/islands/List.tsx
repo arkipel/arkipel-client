@@ -6,7 +6,7 @@ import { useQuery, gql } from '@apollo/client';
 const IslandsList = () => {
   const { data, loading, error } = useQuery(
     gql`
-      {
+      query islands {
         islands(sort: null) {
           id
           name
