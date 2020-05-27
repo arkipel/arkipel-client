@@ -1,6 +1,8 @@
 import React, { Fragment, useState } from 'react';
 import { useForm, FormContext } from 'react-hook-form';
+
 import { gql, useMutation } from '@apollo/client';
+import { Register, RegisterVariables } from '../generated/Register';
 
 import HCaptcha from '@hcaptcha/react-hcaptcha';
 
@@ -28,9 +30,9 @@ const Registration = () => {
   }
 
   // Form submission
-  let [submit, { loading, data }] = useMutation(
+  let [submit, { loading, data }] = useMutation<Register, RegisterVariables>(
     gql`
-      mutation register(
+      mutation Register(
         $username: String!
         $password: String!
         $captcha: String!

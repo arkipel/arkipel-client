@@ -2,6 +2,10 @@ import React, { Fragment, FunctionComponent } from 'react';
 import { useFormContext } from 'react-hook-form';
 
 import { gql, useApolloClient } from '@apollo/client';
+import {
+  GetUsernameAvailability,
+  GetUsernameAvailabilityVariables,
+} from '../generated/GetUsernameAvailability';
 
 const UsernameInput: FunctionComponent<Partial<props>> = ({
   current,
@@ -52,13 +56,11 @@ const UsernameInput: FunctionComponent<Partial<props>> = ({
 
               try {
                 let response = await client.query<
-                  {
-                    usernameAvailability: boolean;
-                  },
-                  { username: string }
+                  GetUsernameAvailability,
+                  GetUsernameAvailabilityVariables
                 >({
                   query: gql`
-                    query usernameAvailability($username: String!) {
+                    query GetUsernameAvailability($username: String!) {
                       usernameAvailability(username: $username)
                     }
                   `,

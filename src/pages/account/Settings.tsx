@@ -3,6 +3,20 @@ import { useHistory } from 'react-router-dom';
 import { useForm, FormContext } from 'react-hook-form';
 
 import { gql, useApolloClient, useQuery } from '@apollo/client';
+import { SetUsername, SetUsernameVariables } from 'generated/SetUsername';
+import {
+  GetEmailAddress,
+  GetEmailAddressVariables,
+} from 'generated/GetEmailAddress';
+import {
+  SetEmailAddress,
+  SetEmailAddressVariables,
+} from 'generated/SetEmailAddress';
+import {
+  DeleteEmailAddress,
+  DeleteEmailAddressVariables,
+} from '../../generated/DeleteEmailAddress';
+import { SetPassword, SetPasswordVariables } from '../../generated/SetPassword';
 
 import { SessionContext } from '../../libs/session/session';
 
@@ -83,9 +97,12 @@ const ChangeUsernameForm = () => {
             setNetworkailure(false);
 
             try {
-              let response = await client.mutate({
+              let response = await client.mutate<
+                SetUsername,
+                SetUsernameVariables
+              >({
                 mutation: gql`
-                  mutation setUsername($userID: String!, $username: String!) {
+                  mutation SetUsername($userID: String!, $username: String!) {
                     setUsername(userID: $userID, new: $username) {
                       __typename
                     }
@@ -142,9 +159,9 @@ const ChangeEmailAddress = () => {
   const client = useApolloClient();
   const session = useContext(SessionContext);
 
-  const { data, loading } = useQuery(
+  const { data, loading } = useQuery<GetEmailAddress, GetEmailAddressVariables>(
     gql`
-      query getEmailAddress($userID: String!) {
+      query GetEmailAddress($userID: String!) {
         me(userID: $userID) {
           __typename
           ... on User {
@@ -172,8 +189,8 @@ const ChangeEmailAddress = () => {
       data?.me?.__typename === 'User' &&
       data?.me?.emailAddress !== currentAddress
     ) {
-      formFunctions.reset({ email_address: data.me.emailAddress });
-      setCurrentAddress(data.me.emailAddress);
+      formFunctions.reset({ email_address: data.me.emailAddress || '' });
+      setCurrentAddress(data.me.emailAddress || '');
     }
   });
 
@@ -188,9 +205,12 @@ const ChangeEmailAddress = () => {
           setNetworkailure(false);
 
           try {
-            let response = await client.mutate({
+            let response = await client.mutate<
+              SetEmailAddress,
+              SetEmailAddressVariables
+            >({
               mutation: gql`
-                mutation setEmailAddress(
+                mutation SetEmailAddress(
                   $userID: String!
                   $emailAddress: String!
                 ) {
@@ -241,9 +261,12 @@ const ChangeEmailAddress = () => {
             disabled={!currentAddress}
             onClick={async () => {
               try {
-                let response = await client.mutate({
+                let response = await client.mutate<
+                  DeleteEmailAddress,
+                  DeleteEmailAddressVariables
+                >({
                   mutation: gql`
-                    mutation deleteEmailAddress($userID: String!) {
+                    mutation DeleteEmailAddress($userID: String!) {
                       deleteEmailAddress(userID: $userID) {
                         __typename
                         ... on User {
@@ -312,9 +335,9 @@ const ChangePassword = () => {
 
   const setPassword = async (formData: any) => {
     try {
-      let response = await client.mutate({
+      let response = await client.mutate<SetPassword, SetPasswordVariables>({
         mutation: gql`
-          mutation setPassword($userID: String!, $old: String!, $new: String!) {
+          mutation SetPassword($userID: String!, $old: String!, $new: String!) {
             setPassword(userID: $userID, old: $old, new: $new) {
               __typename
             }

@@ -1,36 +1,12 @@
-import React, { Fragment } from 'react';
-import { useParams } from 'react-router-dom';
+import React, { Fragment, FunctionComponent } from 'react';
 
-import { useQuery, gql } from '@apollo/client';
+import Island from '../../models/Island';
 
-const IslandMap = () => {
-  const { islandID } = useParams();
+const IslandMap: FunctionComponent<props> = ({ island }) => {
+  let dna = island.dna;
 
-  const { data, loading, error } = useQuery(
-    gql`
-      query getIsland($islandID: String!) {
-        island(islandID: $islandID) {
-          ... on Island {
-            id
-            name
-            dna
-          }
-        }
-      }
-    `,
-    { variables: { islandID } },
-  );
-
-  if (error) {
-    return <></>;
-  }
-
-  let dna: string;
-
-  if (loading || data.island.__typename === 'NotFound') {
+  if (!dna) {
     dna = '0'.repeat(400);
-  } else {
-    dna = data.island.dna;
   }
 
   let map = new Array<JSX.Element>();
@@ -63,5 +39,9 @@ const IslandMap = () => {
     </Fragment>
   );
 };
+
+class props {
+  island: Island = new Island({});
+}
 
 export default IslandMap;

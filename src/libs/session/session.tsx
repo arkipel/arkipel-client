@@ -2,6 +2,11 @@ import React, { FunctionComponent, useState } from 'react';
 import { useCookies } from 'react-cookie';
 
 import { useApolloClient, gql } from '@apollo/client';
+import { Login, LoginVariables } from '../../generated/Login';
+import {
+  RefreshToken,
+  RefreshTokenVariables,
+} from '../../generated/RefreshToken';
 
 // Config
 import { domain } from 'Config';
@@ -24,9 +29,9 @@ const SessionProvider: FunctionComponent = ({ children }) => {
 
         logIn: async (username: string, password: string): Promise<boolean> => {
           return client
-            .query({
+            .query<Login, LoginVariables>({
               query: gql`
-                query login($username: String!, $password: String!) {
+                query Login($username: String!, $password: String!) {
                   sessionToken(username: $username, password: $password)
                 }
               `,
@@ -34,7 +39,7 @@ const SessionProvider: FunctionComponent = ({ children }) => {
               variables: { username, password },
             })
             .then((response) => {
-              const token = response.data.sessionToken;
+              const token = response.data?.sessionToken || '';
 
               if (token.length > 0) {
                 removeCookie('session', {
@@ -76,9 +81,9 @@ const SessionProvider: FunctionComponent = ({ children }) => {
           setSession(newSession);
 
           client
-            .query({
+            .query<RefreshToken, RefreshTokenVariables>({
               query: gql`
-                query refreshToken($token: String!) {
+                query RefreshToken($token: String!) {
                   newSessionToken(old: $token)
                 }
               `,
@@ -86,7 +91,7 @@ const SessionProvider: FunctionComponent = ({ children }) => {
               variables: { token: session.token },
             })
             .then((response) => {
-              const token = response.data.newSessionToken;
+              const token = response.data?.newSessionToken || '';
 
               if (token.length > 0) {
                 removeCookie('session', {
