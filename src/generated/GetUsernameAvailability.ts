@@ -4,13 +4,13 @@
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL query operation: usernameAvailability
+// GraphQL query operation: GetUsernameAvailability
 // ====================================================
 
-export interface usernameAvailability {
-  usernameAvailability: boolean;
+export interface GetUsernameAvailability {
+  readonly usernameAvailability: boolean;
 }
 
-export interface usernameAvailabilityVariables {
-  username: string;
+export interface GetUsernameAvailabilityVariables {
+  readonly username: string;
 }

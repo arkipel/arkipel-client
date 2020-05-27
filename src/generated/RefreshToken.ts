@@ -4,16 +4,13 @@
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL query operation: islands
+// GraphQL query operation: RefreshToken
 // ====================================================
 
-export interface islands_islands {
-  __typename: 'Island';
-  id: string;
-  name: string;
-  active: boolean;
+export interface RefreshToken {
+  readonly newSessionToken: string;
 }
 
-export interface islands {
-  islands: islands_islands[];
+export interface RefreshTokenVariables {
+  readonly token: string;
 }

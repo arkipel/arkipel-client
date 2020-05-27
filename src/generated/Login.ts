@@ -4,13 +4,14 @@
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL query operation: refreshToken
+// GraphQL query operation: Login
 // ====================================================
 
-export interface refreshToken {
-  newSessionToken: string;
+export interface Login {
+  readonly sessionToken: string;
 }
 
-export interface refreshTokenVariables {
-  token: string;
+export interface LoginVariables {
+  readonly username: string;
+  readonly password: string;
 }

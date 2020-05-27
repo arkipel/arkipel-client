@@ -2,6 +2,9 @@ import React, { Fragment } from 'react';
 import { Route, NavLink, Switch, useParams } from 'react-router-dom';
 
 import { useQuery, gql } from '@apollo/client';
+import { GetIsland, GetIslandVariables } from 'generated/GetIsland';
+
+import Island from '../../models/Island';
 
 import IslandMap from './Map';
 import IslandOverview from './Overview';
@@ -9,13 +12,14 @@ import IslandOverview from './Overview';
 const IslandPage = () => {
   const { islandID } = useParams();
 
-  const { data, loading, error } = useQuery(
+  const { data, loading, error } = useQuery<GetIsland, GetIslandVariables>(
     gql`
-      query getIsland1($islandID: String!) {
+      query GetIsland($islandID: String!) {
         island(islandID: $islandID) {
           ... on Island {
             id
             name
+            dna
             active
           }
         }
@@ -24,7 +28,7 @@ const IslandPage = () => {
     { variables: { islandID } },
   );
 
-  if (loading || error) {
+  if (loading || !data || error) {
     return <></>;
   }
 
@@ -32,34 +36,32 @@ const IslandPage = () => {
     return <p>Island does not exist.</p>;
   }
 
+  let island = new Island(data.island);
+
   return (
     <Fragment>
-      <h1>{data.island.name}</h1>
+      <h1>{island.name}</h1>
       <nav>
         <ul>
           <li>
-            <NavLink to={'/archipelago/islands/' + islandID} exact>
+            <NavLink to={'/archipelago/islands/' + island.id} exact>
               Map
             </NavLink>
           </li>
           <li>
-            <NavLink to={'/archipelago/islands/' + islandID + '/info'}>
+            <NavLink to={'/archipelago/islands/' + island.id + '/info'}>
               Overview
             </NavLink>
           </li>
         </ul>
       </nav>
       <Switch>
-        <Route
-          path="/archipelago/islands/:islandID"
-          exact
-          component={IslandMap}
-        />
-        <Route
-          path="/archipelago/islands/:islandID/info"
-          exact
-          component={IslandOverview}
-        />
+        <Route path="/archipelago/islands/:islandID" exact>
+          <IslandMap island={island} />
+        </Route>
+        <Route path="/archipelago/islands/:islandID/info" exact>
+          <IslandOverview island={island} />
+        </Route>
       </Switch>
     </Fragment>
   );

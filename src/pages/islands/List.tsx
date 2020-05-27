@@ -2,23 +2,30 @@ import React, { Fragment } from 'react';
 import { NavLink } from 'react-router-dom';
 
 import { useQuery, gql } from '@apollo/client';
+import { GetIslands } from '../../generated/GetIslands';
+
+import Island from '../../models/Island';
 
 const IslandsList = () => {
-  const { data, loading, error } = useQuery(
-    gql`
-      query islands {
-        islands(sort: null) {
-          id
-          name
-          active
-        }
+  const { data, loading, error } = useQuery<GetIslands>(gql`
+    query GetIslands {
+      islands(sort: null) {
+        id
+        name
+        active
       }
-    `,
-  );
+    }
+  `);
 
   if (loading || error) {
     return <></>;
   }
+
+  let islands = new Array<Island>();
+  data?.islands.forEach((i) => {
+    let island = new Island(i);
+    islands.push(island);
+  });
 
   return (
     <Fragment>
@@ -31,7 +38,7 @@ const IslandsList = () => {
           </tr>
         </thead>
         <tbody>
-          {data.islands.map((island: any) => {
+          {islands.map((island: any) => {
             return (
               <tr key={island.id}>
                 <th>

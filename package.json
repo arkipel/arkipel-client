@@ -4,7 +4,7 @@
   "description": "Client for Arkipel",
   "main": "index.js",
   "scripts": {
-    "apollo-codegen": "apollo client:codegen --endpoint=http://local.arkipel.io:9192/query --target=typescript --excludes=node_modules/* --includes=**/*.tsx --outputFlat src/generated",
+    "apollo-codegen": "apollo client:codegen --endpoint=http://local.arkipel.io:9192/query --target=typescript --excludes=node_modules/* --includes=**/*.tsx --outputFlat src/generated --useReadOnlyTypes",
     "build": "webpack --config webpack.prod.js",
     "format": "prettier --write \"**/*.{md,js,jsx,ts,tsx,json,css,scss}\"",
     "format-watch": "onchange \"**/*.{md,js,jsx,ts,tsx,json,css,scss}\" -- prettier --write {{changed}}",
