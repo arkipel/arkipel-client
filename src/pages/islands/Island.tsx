@@ -70,7 +70,7 @@ const IslandPage = () => {
         <Route path="/archipelago/islands/:islandID/info" exact>
           <IslandOverview island={island} />
         </Route>
-        <Route path="/archipelago/islands/:islandID/tiles/:tileID">
+        <Route path="/archipelago/islands/:islandID/tiles/:position">
           <TilePage />
         </Route>
       </Switch>

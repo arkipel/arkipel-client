@@ -2,49 +2,50 @@ import React, { Fragment } from 'react';
 import { Route, NavLink, Switch, useParams } from 'react-router-dom';
 
 import { useQuery, gql } from '@apollo/client';
-import { GetIsland, GetIslandVariables } from 'generated/GetIsland';
-
-import Island from '../../models/Island';
+import { GetTile, GetTileVariables } from '../../generated/GetTile';
 
 import TileSummary from './Summary';
 import TileManagement from './Management';
 import TileActions from './Actions';
 
+import Tile from '../../models/Tile';
+
 const TilePage = () => {
-  const { islandID, tileID } = useParams();
+  const { islandID, position } = useParams();
 
-  //   const { data, loading, error } = useQuery<GetIsland, GetIslandVariables>(
-  //     gql`
-  //       query GetIsland($islandID: String!) {
-  //         island(islandID: $islandID) {
-  //           ... on Island {
-  //             id
-  //             name
-  //             dna
-  //             active
-  //           }
-  //         }
-  //       }
-  //     `,
-  //     { variables: { islandID } },
-  //   );
+  const { data, loading, error } = useQuery<GetTile, GetTileVariables>(
+    gql`
+      query GetTile($islandID: String!, $position: Int!) {
+        tile(islandID: $islandID, position: $position) {
+          ... on Tile {
+            id
+            position
+            kind
+            infrastructure
+            level
+          }
+        }
+      }
+    `,
+    { variables: { islandID, position } },
+  );
 
-  //   if (data?.island.__typename === 'NotFound') {
-  //     return <p className="msg-error">Sorry, this island does not exist.</p>;
-  //   }
+  if (data?.tile.__typename === 'NotFound') {
+    return <p className="msg-error">Sorry, this tile does not exist.</p>;
+  }
 
-  //   if (error || data?.island.__typename === 'NotAuthorized') {
-  //     return <p className="msg-error">Sorry, an error occurred.</p>;
-  //   }
+  if (error) {
+    return <p className="msg-error">Sorry, an error occurred.</p>;
+  }
 
-  //   let island: Island;
-  //   if (data?.island.__typename === 'Island') {
-  //     island = new Island(data.island);
-  //   } else if (loading) {
-  //     island = new Island({ name: 'Loading...' });
-  //   } else {
-  //     island = new Island({});
-  //   }
+  let tile: Tile;
+  if (data?.tile.__typename === 'Tile') {
+    tile = new Tile(data.tile);
+  } else if (loading) {
+    tile = new Tile({ name: 'Loading...' });
+  } else {
+    tile = new Tile({});
+  }
 
   return (
     <Fragment>
@@ -53,7 +54,7 @@ const TilePage = () => {
         <ul>
           <li>
             <NavLink
-              to={'/archipelago/islands/' + islandID + '/tiles/' + tileID}
+              to={'/archipelago/islands/' + islandID + '/tiles/' + position}
               exact
             >
               Summary
@@ -65,7 +66,7 @@ const TilePage = () => {
                 '/archipelago/islands/' +
                 islandID +
                 '/tiles/' +
-                tileID +
+                position +
                 '/management'
               }
             >
@@ -78,7 +79,7 @@ const TilePage = () => {
                 '/archipelago/islands/' +
                 islandID +
                 '/tiles/' +
-                tileID +
+                position +
                 '/actions'
               }
             >
@@ -88,17 +89,17 @@ const TilePage = () => {
         </ul>
       </nav>
       <Switch>
-        <Route path="/archipelago/islands/:islandID/tiles/:tileID" exact>
-          <TileSummary />
+        <Route path="/archipelago/islands/:islandID/tiles/:position" exact>
+          <TileSummary tile={tile} />
         </Route>
         <Route
-          path="/archipelago/islands/:islandID/tiles/:tileID/management"
+          path="/archipelago/islands/:islandID/tiles/:position/management"
           exact
         >
           <TileManagement />
         </Route>
         <Route
-          path="/archipelago/islands/:islandID/tiles/:tileID/actions"
+          path="/archipelago/islands/:islandID/tiles/:position/actions"
           exact
         >
           <TileActions />
