@@ -1,11 +1,8 @@
 import React, { Fragment, FunctionComponent } from 'react';
-// import { Route, NavLink, Switch, useParams } from 'react-router-dom';
 
 import Tile from '../../models/Tile';
 
 const TileSummary: FunctionComponent<props> = ({ tile }) => {
-  //   const { islandID, tileID } = useParams();
-
   return (
     <Fragment>
       <h3>Summary</h3>
