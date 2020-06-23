@@ -75,37 +75,13 @@ class App extends React.PureComponent<props, state> {
       <ApolloProvider client={client}>
         <SessionProvider>
           <Router>
-            <div id="top-bar-left" className="top-bar">
-              <Media
-                query="(max-width: 699px)"
-                render={() => <nav>{menuBtn}</nav>}
-              />
-            </div>
-            <div id="top-bar-right" className="top-bar">
-              <SessionContext.Consumer>
-                {(session) => {
-                  return (
-                    <Fragment>
-                      <div>
-                        {session.loggedIn && <span>{session.username}</span>}
-                      </div>
-                      <div>
-                        {session.loggedIn && (
-                          <button
-                            onClick={() => {
-                              session.logOut();
-                            }}
-                          >
-                            Log out
-                          </button>
-                        )}
-                      </div>
-                    </Fragment>
-                  );
-                }}
-              </SessionContext.Consumer>
-            </div>
             <div id="menu-pane" className={menuPaneClassName}>
+              <div id="top-bar-left" className="top-bar">
+                <Media
+                  query="(max-width: 699px)"
+                  render={() => <nav>{menuBtn}</nav>}
+                />
+              </div>
               <div className="scrollable" style={{ marginTop: '50px' }}>
                 <div id="menu">
                   <nav>
@@ -188,6 +164,30 @@ class App extends React.PureComponent<props, state> {
               />
             </Media>
             <div id="main">
+              <div id="top-bar-right" className="top-bar">
+                <SessionContext.Consumer>
+                  {(session) => {
+                    return (
+                      <Fragment>
+                        <div>
+                          {session.loggedIn && <span>{session.username}</span>}
+                        </div>
+                        <div>
+                          {session.loggedIn && (
+                            <button
+                              onClick={() => {
+                                session.logOut();
+                              }}
+                            >
+                              Log out
+                            </button>
+                          )}
+                        </div>
+                      </Fragment>
+                    );
+                  }}
+                </SessionContext.Consumer>
+              </div>
               <div className="scrollable">
                 <div id="content">
                   <Switch>
