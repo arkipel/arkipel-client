@@ -82,7 +82,7 @@ class App extends React.PureComponent<props, state> {
                   render={() => <nav>{menuBtn}</nav>}
                 />
               </div>
-              <div className="scrollable" style={{ marginTop: '50px' }}>
+              <div className="scrollable">
                 <div id="menu">
                   <nav>
                     <h1>Archipelago</h1>

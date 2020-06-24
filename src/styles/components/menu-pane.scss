@@ -1,8 +1,9 @@
 #menu-pane {
-  grid-column: 1;
-  grid-row: 1 / span 2;
   display: grid;
-  grid-template-rows: 1fr;
+  // grid-column: 1;
+  // grid-row: 1 / span 2;
+  display: grid;
+  grid-template-rows: auto 1fr;
   min-height: 0;
   height: 100%;
   width: $menuPaneWidth;
