@@ -56,16 +56,16 @@ class App extends React.PureComponent<props, state> {
   }
 
   render() {
-    let invertColors = '';
+    // let invertColors = '';
     let underPaneShadow = '';
     if (this.state.showMenuPane) {
-      invertColors = 'invert-colors';
+      // invertColors = 'invert-colors';
       underPaneShadow = 'visible';
     }
 
     let menuBtn = (
-      <div onClick={this.toggleMenuPane} className="button">
-        <img src={menu} alt="&#9776;" className={invertColors} />
+      <div onClick={this.openMenuPane} className="button">
+        <img src={menu} alt="&#9776;" />
       </div>
     );
 
@@ -79,7 +79,11 @@ class App extends React.PureComponent<props, state> {
               <div id="top-bar-left" className="top-bar">
                 <Media
                   query="(max-width: 699px)"
-                  render={() => <nav>{menuBtn}</nav>}
+                  render={() => (
+                    <div onClick={this.closeMenuPane} className="button">
+                      <img src={menu} alt="&#10092;" />
+                    </div>
+                  )}
                 />
               </div>
               <div className="scrollable">
@@ -91,7 +95,7 @@ class App extends React.PureComponent<props, state> {
                         <NavLink
                           exact
                           to="/archipelago/islands"
-                          onClick={this.hideMenuPane}
+                          onClick={this.closeMenuPane}
                         >
                           Islands
                         </NavLink>
@@ -108,7 +112,7 @@ class App extends React.PureComponent<props, state> {
                                   <NavLink
                                     exact
                                     to="/account/settings"
-                                    onClick={this.hideMenuPane}
+                                    onClick={this.closeMenuPane}
                                   >
                                     Settings
                                   </NavLink>
@@ -123,12 +127,12 @@ class App extends React.PureComponent<props, state> {
                     <h1>Main</h1>
                     <ul>
                       <li>
-                        <NavLink exact to="/" onClick={this.hideMenuPane}>
+                        <NavLink exact to="/" onClick={this.closeMenuPane}>
                           Home
                         </NavLink>
                       </li>
                       <li>
-                        <NavLink exact to="/login" onClick={this.hideMenuPane}>
+                        <NavLink exact to="/login" onClick={this.closeMenuPane}>
                           Login
                         </NavLink>
                       </li>
@@ -136,13 +140,13 @@ class App extends React.PureComponent<props, state> {
                         <NavLink
                           exact
                           to="/registration"
-                          onClick={this.hideMenuPane}
+                          onClick={this.closeMenuPane}
                         >
                           Register
                         </NavLink>
                       </li>
                       <li>
-                        <NavLink exact to="/about" onClick={this.hideMenuPane}>
+                        <NavLink exact to="/about" onClick={this.closeMenuPane}>
                           About
                         </NavLink>
                       </li>
@@ -160,7 +164,7 @@ class App extends React.PureComponent<props, state> {
               <div
                 id="under-pane-shadow"
                 className={underPaneShadow}
-                onClick={this.hideMenuPane}
+                onClick={this.closeMenuPane}
               />
             </Media>
             <div id="main">
@@ -170,6 +174,17 @@ class App extends React.PureComponent<props, state> {
                     return (
                       <Fragment>
                         <div>
+                          <Media
+                            query="(max-width: 699px)"
+                            render={() => (
+                              <div
+                                onClick={this.closeMenuPane}
+                                className="button"
+                              >
+                                <img src={menu} alt="&#10092;" />
+                              </div>
+                            )}
+                          />
                           {session.loggedIn && <span>{session.username}</span>}
                         </div>
                         <div>
@@ -223,15 +238,16 @@ class App extends React.PureComponent<props, state> {
     );
   }
 
-  toggleMenuPane = () => {
-    this.setState((state) => {
-      let showMenuPane = !state.showMenuPane;
-      return { showMenuPane };
+  openMenuPane = () => {
+    this.setState(() => {
+      return { showMenuPane: true };
     });
   };
 
-  hideMenuPane = () => {
-    this.setState({ showMenuPane: false });
+  closeMenuPane = () => {
+    this.setState(() => {
+      return { showMenuPane: false };
+    });
   };
 }
 
