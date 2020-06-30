@@ -178,7 +178,7 @@ class App extends React.PureComponent<props, state> {
                             query="(max-width: 699px)"
                             render={() => (
                               <div
-                                onClick={this.closeMenuPane}
+                                onClick={this.openMenuPane}
                                 className="button"
                               >
                                 <img src={menu} alt="&#10092;" />
