@@ -1,3 +1,7 @@
+body {
+  background: #7eae6a url('https://icons.arkipel.io/bg/main.png');
+}
+
 #app {
   width: 800px;
   max-width: 100%;
@@ -6,6 +10,7 @@
   margin: auto;
   grid-template-columns: $menuPaneWidth 1fr;
   grid-template-rows: 50px 1fr;
+  background: #ffffff;
 
   #under-pane-shadow {
     grid-column: 1 / span 2;
