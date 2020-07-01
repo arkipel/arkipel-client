@@ -1,16 +1,15 @@
 #main {
-  grid-column: 2;
-  grid-row: 2;
   display: grid;
-  grid-template-rows: 1fr;
+  grid-template-rows: auto 1fr;
   align-content: start;
   min-height: 0;
   height: 100%;
   width: 100%;
+  background: #fff;
 
   @media all and (max-width: 699px) {
     grid-column: 1 / span 2;
-    grid-row: 2;
+    grid-row: 1;
   }
 
   #content {

@@ -1,8 +1,6 @@
 #menu-pane {
-  grid-column: 1;
-  grid-row: 1 / span 2;
   display: grid;
-  grid-template-rows: 1fr;
+  grid-template-rows: auto 1fr;
   min-height: 0;
   height: 100%;
   width: $menuPaneWidth;
@@ -13,16 +11,7 @@
   transform: translateX(-$menuPaneWidth);
   transition: 0.4s cubic-bezier(0.23, 1, 0.32, 1);
 
-  .top-bar {
-    background: rgba(0, 0, 0, 0.2);
-
-    img {
-      filter: invert(100%);
-    }
-  }
-
   #menu {
-    grid-row: 2;
     display: grid;
     height: 100%;
     grid-template-rows: 1fr auto;

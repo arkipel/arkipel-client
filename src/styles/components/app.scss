@@ -5,7 +5,7 @@
   display: grid;
   margin: auto;
   grid-template-columns: $menuPaneWidth 1fr;
-  grid-template-rows: 50px 1fr;
+  grid-template-rows: 1fr;
 
   #under-pane-shadow {
     grid-column: 1 / span 2;
@@ -27,6 +27,6 @@
   }
 
   @media all and (max-width: 699px) {
-    grid-template-columns: auto 1fr;
+    grid-template-columns: 1fr;
   }
 }

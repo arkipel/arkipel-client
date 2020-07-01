@@ -30,7 +30,6 @@ import Settings from './pages/account/Settings';
 
 // Assets
 import './styles/index.scss';
-import menu from './assets/icons/menu.png';
 
 const client = new ApolloClient({
   cache: new InMemoryCache(),
@@ -56,18 +55,10 @@ class App extends React.PureComponent<props, state> {
   }
 
   render() {
-    let invertColors = '';
     let underPaneShadow = '';
     if (this.state.showMenuPane) {
-      invertColors = 'invert-colors';
       underPaneShadow = 'visible';
     }
-
-    let menuBtn = (
-      <div onClick={this.toggleMenuPane} className="button">
-        <img src={menu} alt="&#9776;" className={invertColors} />
-      </div>
-    );
 
     let menuPaneClassName = this.state.showMenuPane ? 'visible' : '';
 
@@ -75,38 +66,23 @@ class App extends React.PureComponent<props, state> {
       <ApolloProvider client={client}>
         <SessionProvider>
           <Router>
-            <div id="top-bar-left" className="top-bar">
-              <Media
-                query="(max-width: 699px)"
-                render={() => <nav>{menuBtn}</nav>}
-              />
-            </div>
-            <div id="top-bar-right" className="top-bar">
-              <SessionContext.Consumer>
-                {(session) => {
-                  return (
-                    <Fragment>
-                      <div>
-                        {session.loggedIn && <span>{session.username}</span>}
-                      </div>
-                      <div>
-                        {session.loggedIn && (
-                          <button
-                            onClick={() => {
-                              session.logOut();
-                            }}
-                          >
-                            Log out
-                          </button>
-                        )}
-                      </div>
-                    </Fragment>
-                  );
-                }}
-              </SessionContext.Consumer>
-            </div>
             <div id="menu-pane" className={menuPaneClassName}>
-              <div className="scrollable" style={{ marginTop: '50px' }}>
+              <div id="top-bar-left" className="top-bar">
+                <div>
+                  <Media
+                    query="(max-width: 699px)"
+                    render={() => (
+                      <div onClick={this.closeMenuPane} className="button">
+                        <img
+                          src="https://icons.arkipel.io/ui/arrow_left.svg"
+                          alt="&#10092;"
+                        />
+                      </div>
+                    )}
+                  />
+                </div>
+              </div>
+              <div className="scrollable">
                 <div id="menu">
                   <nav>
                     <h1>Archipelago</h1>
@@ -115,7 +91,7 @@ class App extends React.PureComponent<props, state> {
                         <NavLink
                           exact
                           to="/archipelago/islands"
-                          onClick={this.hideMenuPane}
+                          onClick={this.closeMenuPane}
                         >
                           Islands
                         </NavLink>
@@ -132,7 +108,7 @@ class App extends React.PureComponent<props, state> {
                                   <NavLink
                                     exact
                                     to="/account/settings"
-                                    onClick={this.hideMenuPane}
+                                    onClick={this.closeMenuPane}
                                   >
                                     Settings
                                   </NavLink>
@@ -147,12 +123,12 @@ class App extends React.PureComponent<props, state> {
                     <h1>Main</h1>
                     <ul>
                       <li>
-                        <NavLink exact to="/" onClick={this.hideMenuPane}>
+                        <NavLink exact to="/" onClick={this.closeMenuPane}>
                           Home
                         </NavLink>
                       </li>
                       <li>
-                        <NavLink exact to="/login" onClick={this.hideMenuPane}>
+                        <NavLink exact to="/login" onClick={this.closeMenuPane}>
                           Login
                         </NavLink>
                       </li>
@@ -160,13 +136,13 @@ class App extends React.PureComponent<props, state> {
                         <NavLink
                           exact
                           to="/registration"
-                          onClick={this.hideMenuPane}
+                          onClick={this.closeMenuPane}
                         >
                           Register
                         </NavLink>
                       </li>
                       <li>
-                        <NavLink exact to="/about" onClick={this.hideMenuPane}>
+                        <NavLink exact to="/about" onClick={this.closeMenuPane}>
                           About
                         </NavLink>
                       </li>
@@ -184,10 +160,48 @@ class App extends React.PureComponent<props, state> {
               <div
                 id="under-pane-shadow"
                 className={underPaneShadow}
-                onClick={this.hideMenuPane}
+                onClick={this.closeMenuPane}
               />
             </Media>
             <div id="main">
+              <div id="top-bar-right" className="top-bar">
+                <SessionContext.Consumer>
+                  {(session) => {
+                    return (
+                      <Fragment>
+                        <div>
+                          <Media
+                            query="(max-width: 699px)"
+                            render={() => (
+                              <div
+                                onClick={this.openMenuPane}
+                                className="button"
+                              >
+                                <img
+                                  src="https://icons.arkipel.io/ui/menu.svg"
+                                  alt="&#10092;"
+                                />
+                              </div>
+                            )}
+                          />
+                          {session.loggedIn && <span>{session.username}</span>}
+                        </div>
+                        <div>
+                          {session.loggedIn && (
+                            <button
+                              onClick={() => {
+                                session.logOut();
+                              }}
+                            >
+                              Log out
+                            </button>
+                          )}
+                        </div>
+                      </Fragment>
+                    );
+                  }}
+                </SessionContext.Consumer>
+              </div>
               <div className="scrollable">
                 <div id="content">
                   <Switch>
@@ -223,15 +237,16 @@ class App extends React.PureComponent<props, state> {
     );
   }
 
-  toggleMenuPane = () => {
-    this.setState((state) => {
-      let showMenuPane = !state.showMenuPane;
-      return { showMenuPane };
+  openMenuPane = () => {
+    this.setState(() => {
+      return { showMenuPane: true };
     });
   };
 
-  hideMenuPane = () => {
-    this.setState({ showMenuPane: false });
+  closeMenuPane = () => {
+    this.setState(() => {
+      return { showMenuPane: false };
+    });
   };
 }
 
