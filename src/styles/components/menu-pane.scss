@@ -1,10 +1,11 @@
 #menu-pane {
   display: grid;
   grid-template-rows: auto 1fr;
+  grid-column: 1;
+  grid-row: 1;
   min-height: 0;
   height: 100%;
   width: $menuPaneWidth;
-  align-content: start;
   color: white;
   background: rgb(40, 40, 40);
   z-index: 100;
@@ -15,7 +16,6 @@
     display: grid;
     height: 100%;
     grid-template-rows: 1fr auto;
-    align-content: start;
 
     h1 {
       display: block;
@@ -39,21 +39,6 @@
     }
   }
 
-  #attributions {
-    padding: 10px;
-    color: #333;
-    font-size: 10px;
-    text-align: center;
-
-    a {
-      color: #444;
-
-      &:hover {
-        color: #666;
-      }
-    }
-  }
-
   footer {
     padding: 10px;
     color: #444;
@@ -69,21 +54,14 @@
     color: #fff;
   }
 
-  @media all and (max-width: 699px) {
-    grid-column: 1 / span 2;
-    grid-row: 1 / span 2;
-  }
-
   @media all and (min-width: 700px) {
     transform: translateX(0);
   }
 
   &.visible {
     transform: translateX(0);
-  }
 
-  @media all and (max-width: 699px) {
-    &.visible {
+    @media all and (max-width: 699px) {
       box-shadow: 1px 0 10px #111;
     }
   }
