@@ -30,7 +30,6 @@ import Settings from './pages/account/Settings';
 
 // Assets
 import './styles/index.scss';
-import menu from './assets/icons/menu.png';
 
 const client = new ApolloClient({
   cache: new InMemoryCache(),
@@ -45,7 +44,7 @@ class App extends React.PureComponent<props, state> {
     super(props);
 
     this.state = {
-      showMenuPane: false,
+      showMenuPane: true,
     };
 
     // let breakpoints = {
@@ -71,17 +70,19 @@ class App extends React.PureComponent<props, state> {
           <Router>
             <div id="menu-pane" className={menuPaneClassName}>
               <div id="top-bar-left" className="top-bar">
-                <Media
-                  query="(max-width: 699px)"
-                  render={() => (
-                    <div onClick={this.closeMenuPane} className="button">
-                      <img
-                        src="https://icons.arkipel.io/ui/arrow_left.svg"
-                        alt="&#10092;"
-                      />
-                    </div>
-                  )}
-                />
+                <div>
+                  <Media
+                    query="(max-width: 699px)"
+                    render={() => (
+                      <div onClick={this.closeMenuPane} className="button">
+                        <img
+                          src="https://icons.arkipel.io/ui/arrow_left.svg"
+                          alt="&#10092;"
+                        />
+                      </div>
+                    )}
+                  />
+                </div>
               </div>
               <div className="scrollable">
                 <div id="menu">

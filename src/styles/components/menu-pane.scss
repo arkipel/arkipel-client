@@ -14,14 +14,6 @@
   transform: translateX(-$menuPaneWidth);
   transition: 0.4s cubic-bezier(0.23, 1, 0.32, 1);
 
-  .top-bar {
-    background: rgba(0, 0, 0, 0.2);
-
-    img {
-      filter: invert(100%);
-    }
-  }
-
   #menu {
     grid-row: 2;
     display: grid;
