@@ -63,12 +63,6 @@ class App extends React.PureComponent<props, state> {
       underPaneShadow = 'visible';
     }
 
-    let menuBtn = (
-      <div onClick={this.openMenuPane} className="button">
-        <img src={menu} alt="&#9776;" />
-      </div>
-    );
-
     let menuPaneClassName = this.state.showMenuPane ? 'visible' : '';
 
     return (
@@ -81,7 +75,10 @@ class App extends React.PureComponent<props, state> {
                   query="(max-width: 699px)"
                   render={() => (
                     <div onClick={this.closeMenuPane} className="button">
-                      <img src={menu} alt="&#10092;" />
+                      <img
+                        src="https://icons.arkipel.io/ui/arrow_left.svg"
+                        alt="&#10092;"
+                      />
                     </div>
                   )}
                 />
@@ -181,7 +178,10 @@ class App extends React.PureComponent<props, state> {
                                 onClick={this.openMenuPane}
                                 className="button"
                               >
-                                <img src={menu} alt="&#10092;" />
+                                <img
+                                  src="https://icons.arkipel.io/ui/menu.svg"
+                                  alt="&#10092;"
+                                />
                               </div>
                             )}
                           />
