@@ -44,7 +44,7 @@ class App extends React.PureComponent<props, state> {
     super(props);
 
     this.state = {
-      showMenuPane: true,
+      showMenuPane: false,
     };
 
     // let breakpoints = {
@@ -55,10 +55,8 @@ class App extends React.PureComponent<props, state> {
   }
 
   render() {
-    // let invertColors = '';
     let underPaneShadow = '';
     if (this.state.showMenuPane) {
-      // invertColors = 'invert-colors';
       underPaneShadow = 'visible';
     }
 
