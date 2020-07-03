@@ -1,6 +1,6 @@
 @import './styles/config.scss';
 
-#menu-pane {
+.menu-pane {
   display: grid;
   grid-template-rows: auto 1fr;
   grid-column: 1;
@@ -14,7 +14,7 @@
   transform: translateX(-$menuPaneWidth);
   transition: 0.4s cubic-bezier(0.23, 1, 0.32, 1);
 
-  #menu {
+  .menu {
     display: grid;
     height: 100%;
     grid-template-rows: 1fr auto;

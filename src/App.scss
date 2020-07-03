@@ -1,30 +1,11 @@
 @import './styles/config.scss';
 
-#app {
+.app {
   display: grid;
   grid-template-rows: 1fr;
   height: 100%;
   max-width: 800px;
   margin: auto;
-
-  #under-pane-shadow {
-    grid-column: 1 / span 3;
-    grid-row: 1;
-    min-height: 0;
-    width: 100%;
-    transition: background-color 0.4s cubic-bezier(0.23, 1, 0.32, 1);
-    pointer-events: none;
-    z-index: 80;
-
-    &.visible {
-      background: rgba(0, 0, 0, 0.8);
-      pointer-events: all;
-    }
-  }
-
-  .scrollable {
-    overflow: auto;
-  }
 
   @media all and (max-width: 699px) {
     grid-template-columns: 1fr;
@@ -33,4 +14,23 @@
   @media all and (min-width: 700px) {
     grid-template-columns: $menuPaneWidth 1fr;
   }
+}
+
+.under-pane-shadow {
+  grid-column: 1 / span 3;
+  grid-row: 1;
+  min-height: 0;
+  width: 100%;
+  transition: background-color 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+  pointer-events: none;
+  z-index: 80;
+
+  &.visible {
+    background: rgba(0, 0, 0, 0.8);
+    pointer-events: all;
+  }
+}
+
+.scrollable {
+  overflow: auto;
 }

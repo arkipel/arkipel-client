@@ -30,8 +30,10 @@ import Settings from './pages/account/Settings';
 
 // Assets
 import './styles/index.scss';
-import { appStyles } from './App.scss';
-import { menuPaneStyles } from './MenuPane.scss';
+import appStyles from './App.scss';
+import mainStyles from './Main.scss';
+import menuPaneStyles from './MenuPane.scss';
+import topBarStyles from './TopBar.scss';
 
 const client = new ApolloClient({
   cache: new InMemoryCache(),
@@ -59,22 +61,31 @@ class App extends React.PureComponent<props, state> {
   render() {
     let underPaneShadow = '';
     if (this.state.showMenuPane) {
-      underPaneShadow = 'visible';
+      underPaneShadow = appStyles.visible + ' ';
     }
+    underPaneShadow += appStyles['under-pane-shadow'];
 
-    let menuPaneClassName = this.state.showMenuPane ? 'visible' : '';
+    let menuPaneClassName = this.state.showMenuPane
+      ? menuPaneStyles.visible + ' '
+      : '';
+    menuPaneClassName += menuPaneStyles['menu-pane'];
+
+    // console.log('appStyles: ', appStyles);
+    // console.log('mainStyles: ', mainStyles);
+    // console.log('menuPaneStyles: ', menuPaneStyles);
+    console.log('topBarStyles: ', topBarStyles);
 
     return (
-      <div id="app" style={appStyles} className="hello">
+      <div id="app" className={appStyles.app}>
         <ApolloProvider client={client}>
           <SessionProvider>
             <Router>
-              <div
-                id="menu-pane"
-                className={menuPaneClassName}
-                style={menuPaneStyles}
-              >
-                <div id="top-bar-left" className="top-bar">
+              <div id="menu-pane" className={menuPaneClassName}>
+                <div
+                  className={
+                    topBarStyles.topBar + ' ' + topBarStyles.topBarLeft
+                  }
+                >
                   <div>
                     <Media
                       query="(max-width: 699px)"
@@ -89,8 +100,8 @@ class App extends React.PureComponent<props, state> {
                     />
                   </div>
                 </div>
-                <div className="scrollable">
-                  <div id="menu">
+                <div className={appStyles.scrollable}>
+                  <div className={menuPaneStyles.menu}>
                     <nav>
                       <h1>Archipelago</h1>
                       <ul>
@@ -172,14 +183,14 @@ class App extends React.PureComponent<props, state> {
                 </div>
               </div>
               <Media query="(max-width: 699px)">
-                <div
-                  id="under-pane-shadow"
-                  className={underPaneShadow}
-                  onClick={this.closeMenuPane}
-                />
+                <div className={underPaneShadow} onClick={this.closeMenuPane} />
               </Media>
-              <div id="main">
-                <div id="top-bar-right" className="top-bar">
+              <div className={mainStyles.main}>
+                <div
+                  className={
+                    topBarStyles.topBar + ' ' + topBarStyles.topBarRight
+                  }
+                >
                   <SessionContext.Consumer>
                     {(session) => {
                       return (
@@ -219,8 +230,8 @@ class App extends React.PureComponent<props, state> {
                     }}
                   </SessionContext.Consumer>
                 </div>
-                <div className="scrollable">
-                  <div id="content">
+                <div className={appStyles.scrollable}>
+                  <div className={mainStyles.content}>
                     <Switch>
                       <Route path="/" exact component={Home} />
                       <Route path="/about" exact component={About} />

@@ -9,21 +9,21 @@
     height: 0;
     padding-bottom: 100%;
     cursor: pointer;
-  }
 
-  .deep_water {
-    background: #1c5b88;
-  }
+    &.deepWater {
+      background: #1c5b88;
+    }
 
-  .water {
-    background: #648eab;
-  }
+    &.water {
+      background: #648eab;
+    }
 
-  .sand {
-    background: #f5e9b4;
-  }
+    &.sand {
+      background: #f5e9b4;
+    }
 
-  .land {
-    background: #7eae6a;
+    &.land {
+      background: #7eae6a;
+    }
   }
 }
