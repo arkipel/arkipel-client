@@ -1,3 +1,6 @@
+// This file is a dump of random stuff for now. A lot of it
+// probably needs to be refactored at some point.
+
 // Fonts
 @import './fonts.scss';
 
@@ -40,4 +43,16 @@ button {
 
 nav ul {
   list-style-type: none;
+}
+
+// To be moved once we have the proper
+// UI components for forms.
+:global(.hint) {
+  color: #aaa;
+  font-size: 14px;
+}
+
+:global(.hint-error) {
+  color: #a00;
+  font-size: 14px;
 }

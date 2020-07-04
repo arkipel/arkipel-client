@@ -6,7 +6,7 @@ import { GetIsland, GetIslandVariables } from 'generated/GetIsland';
 
 import Island from '../../models/Island';
 
-import IslandMap from './Map';
+import IslandMap from '../../components/IslandMap';
 import IslandOverview from './Overview';
 import TilePage from '../tile/Tile';
 
