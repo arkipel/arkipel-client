@@ -57,6 +57,7 @@
 
   img {
     transition: 0.2s linear;
+    filter: invert(100%);
     rotate: 180deg;
   }
 }

@@ -60,7 +60,7 @@ class App extends React.PureComponent<props, state> {
                 visible={this.state.showMenuPane}
                 onCloseClick={this.closeMenuPane}
               />
-              <Media query="(max-width: 699px)">
+              <Media query="(max-width: 999px)">
                 <Shadow
                   visible={showShadow}
                   onClick={() => {

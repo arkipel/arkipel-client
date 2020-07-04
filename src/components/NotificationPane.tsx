@@ -20,17 +20,19 @@ const NotificationPane: FunctionComponent<props> = ({
       <div
         className={topBarStyles.topBar + ' ' + topBarStyles.topBarNotification}
       >
-        <Media
-          query="(max-width: 999px)"
-          render={() => (
-            <div onClick={onCloseClick} className="button">
-              <img
-                src="https://icons.arkipel.io/ui/arrow_left.svg"
-                alt="&#10092;"
-              />
-            </div>
-          )}
-        />
+        <div>
+          <Media
+            query="(max-width: 999px)"
+            render={() => (
+              <div onClick={onCloseClick} className="button">
+                <img
+                  src="https://icons.arkipel.io/ui/arrow_left.svg"
+                  alt="&#10092;"
+                />
+              </div>
+            )}
+          />
+        </div>
       </div>
       <Scrollable>
         <div className={styles.content}>
