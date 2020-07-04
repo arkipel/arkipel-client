@@ -66,7 +66,6 @@ const MainContent: FunctionComponent<props> = ({
                       </div>
                     )}
                   />
-                  {session.loggedIn && <span>{session.username}</span>}
                 </div>
               </Fragment>
             );
