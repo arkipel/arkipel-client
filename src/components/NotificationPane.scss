@@ -3,41 +3,41 @@
 .notificationPane {
   display: grid;
   grid-template-rows: auto 1fr;
-  grid-column: 1;
   grid-row: 1;
+  justify-self: flex-end;
   min-height: 0;
   height: 100%;
-  width: $menuPaneWidth;
-  color: white;
-  background: rgb(40, 40, 40);
+  width: $notificationPaneWidth;
+  background: #fff;
   z-index: 100;
-  transform: translateX(-$menuPaneWidth);
+  transform: translateX($notificationPaneWidth);
   transition: 0.4s cubic-bezier(0.23, 1, 0.32, 1);
 
-  footer {
-    padding: 10px;
-    color: #444;
-    text-align: center;
-    font-size: 12px;
-
-    a {
-      color: #666;
-    }
+  @media all and (max-width: 699px) {
+    grid-column: 1;
+    // transform: translateX(0);
   }
 
-  a {
-    color: #fff;
+  @media all and (min-width: 700px) and (max-width: 999px) {
+    grid-column: 2;
+    // transform: translateX(0);
   }
 
-  @media all and (min-width: 700px) {
-    transform: translateX(0);
+  @media all and (min-width: 1000px) {
+    grid-column: 3;
+    // transform: translateX(0);
   }
 
   &.visible {
     transform: translateX(0);
 
-    @media all and (max-width: 699px) {
+    @media all and (max-width: 999px) {
       box-shadow: 1px 0 10px #111;
     }
+  }
+
+  .content {
+    grid-gap: 10px;
+    padding: 10px;
   }
 }

@@ -17,6 +17,7 @@ import { arkipelEndpoint } from 'Config';
 // Components
 import MenuPane from './components/MenuPane';
 import MainContent from './components/MainContent';
+import NotificationPane from './components/NotificationPane';
 import Shadow from './ui/misc/Shadow';
 
 // Assets
@@ -37,6 +38,7 @@ class App extends React.PureComponent<props, state> {
 
     this.state = {
       showMenuPane: false,
+      showNotificationPane: true,
     };
 
     // let breakpoints = {
@@ -47,6 +49,8 @@ class App extends React.PureComponent<props, state> {
   }
 
   render() {
+    let showShadow = this.state.showMenuPane || this.state.showNotificationPane;
+
     return (
       <div id="app" className={appStyles.app}>
         <ApolloProvider client={client}>
@@ -58,11 +62,21 @@ class App extends React.PureComponent<props, state> {
               />
               <Media query="(max-width: 699px)">
                 <Shadow
-                  visible={this.state.showMenuPane}
-                  onClick={this.closeMenuPane}
+                  visible={showShadow}
+                  onClick={() => {
+                    this.closeMenuPane();
+                    this.closeNotificationPane();
+                  }}
                 />
               </Media>
-              <MainContent onMenuOpen={this.openMenuPane} />
+              <MainContent
+                onMenuOpen={this.openMenuPane}
+                onNotificationOpen={this.openNotificationPane}
+              />
+              <NotificationPane
+                visible={this.state.showNotificationPane}
+                onCloseClick={this.closeNotificationPane}
+              />
             </Router>
           </SessionProvider>
         </ApolloProvider>
@@ -81,12 +95,25 @@ class App extends React.PureComponent<props, state> {
       return { showMenuPane: false };
     });
   };
+
+  openNotificationPane = () => {
+    this.setState(() => {
+      return { showNotificationPane: true };
+    });
+  };
+
+  closeNotificationPane = () => {
+    this.setState(() => {
+      return { showNotificationPane: false };
+    });
+  };
 }
 
 type props = {};
 
 type state = {
   showMenuPane: boolean;
+  showNotificationPane: boolean;
 };
 
 export default App;

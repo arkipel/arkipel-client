@@ -45,6 +45,22 @@
   }
 }
 
+.topBarNotification {
+  background: orange;
+  justify-content: flex-end;
+
+  div {
+    :global(.button) {
+      width: 40px;
+    }
+  }
+
+  img {
+    transition: 0.2s linear;
+    rotate: 180deg;
+  }
+}
+
 .topBarRight {
   grid-template-rows: 1fr;
   grid-template-columns: 1fr 1fr;
