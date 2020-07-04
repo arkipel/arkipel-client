@@ -9,6 +9,8 @@ import HCaptcha from '@hcaptcha/react-hcaptcha';
 import UsernameInput from '../components/usernameInput';
 import PasswordInput from '../components/passwordInput';
 
+import { Info, Success, Error } from '../ui/dialog/Msg';
+
 const Registration = () => {
   // const [username, setUsername] = useState('');
   // const [usernameIsValid, setUsernameIsValid] = useState(false);
@@ -62,10 +64,10 @@ const Registration = () => {
   return (
     <Fragment>
       <h1>Register</h1>
-      <p className="msg-error">
+      <Error>
         This game is still a work in progress. You should expect bugs and an
         incomplete gameplay.
-      </p>
+      </Error>
       <FormContext {...formFunctions}>
         <form
           onSubmit={formFunctions.handleSubmit((formData) => {
@@ -99,12 +101,10 @@ const Registration = () => {
           </p>
         </form>
       </FormContext>
-      {loading && <p>Please wait...</p>}
-      {data && data.register.__typename === 'User' && (
-        <p className="msg-success">
-          The registration succeeded. You may now log in.
-        </p>
-      )}
+      <Info visible={loading}>Please wait...</Info>
+      <Success visible={data !== null && data?.register?.__typename === 'User'}>
+        The registration succeeded. You may now log in.
+      </Success>
     </Fragment>
   );
 };

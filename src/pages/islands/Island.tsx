@@ -10,6 +10,8 @@ import IslandMap from './Map';
 import IslandOverview from './Overview';
 import TilePage from '../tile/Tile';
 
+import { Error } from '../../ui/dialog/Msg';
+
 const IslandPage = () => {
   const { islandID } = useParams();
 
@@ -30,11 +32,11 @@ const IslandPage = () => {
   );
 
   if (data?.island.__typename === 'NotFound') {
-    return <p className="msg-error">Sorry, this island does not exist.</p>;
+    return <Error>Sorry, this island does not exist.</Error>;
   }
 
   if (error || data?.island.__typename === 'NotAuthorized') {
-    return <p className="msg-error">Sorry, an error occurred.</p>;
+    return <Error>Sorry, an error occurred.</Error>;
   }
 
   let island: Island;

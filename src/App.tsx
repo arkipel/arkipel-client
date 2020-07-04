@@ -70,11 +70,6 @@ class App extends React.PureComponent<props, state> {
       : '';
     menuPaneClassName += menuPaneStyles['menu-pane'];
 
-    // console.log('appStyles: ', appStyles);
-    // console.log('mainStyles: ', mainStyles);
-    // console.log('menuPaneStyles: ', menuPaneStyles);
-    console.log('topBarStyles: ', topBarStyles);
-
     return (
       <div id="app" className={appStyles.app}>
         <ApolloProvider client={client}>
