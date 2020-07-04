@@ -9,7 +9,6 @@ import Scrollable from '../ui/misc/Scrollable';
 
 // Assets
 import menuPaneStyles from './MenuPane.scss';
-import topBarStyles from '../styles/top-bar.scss';
 
 const MenuPane: FunctionComponent<props> = ({ visible, onCloseClick }) => {
   let menuPaneClassName = visible ? menuPaneStyles.visible + ' ' : '';
@@ -17,7 +16,7 @@ const MenuPane: FunctionComponent<props> = ({ visible, onCloseClick }) => {
 
   return (
     <div className={menuPaneClassName}>
-      <div className={topBarStyles.topBar + ' ' + topBarStyles.topBarLeft}>
+      <div className={menuPaneStyles.topBar}>
         <div>
           <Media
             query="(max-width: 699px)"

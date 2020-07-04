@@ -6,7 +6,6 @@ import Scrollable from '../ui/misc/Scrollable';
 
 // Assets
 import styles from './NotificationPane.scss';
-import topBarStyles from '../styles/top-bar.scss';
 
 const NotificationPane: FunctionComponent<props> = ({
   visible,
@@ -17,9 +16,7 @@ const NotificationPane: FunctionComponent<props> = ({
 
   return (
     <div className={notificationPaneClassName}>
-      <div
-        className={topBarStyles.topBar + ' ' + topBarStyles.topBarNotification}
-      >
+      <div className={styles.topBar}>
         <div>
           <Media
             query="(max-width: 999px)"

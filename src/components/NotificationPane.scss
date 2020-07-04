@@ -1,4 +1,5 @@
 @import '../styles/config.scss';
+@import '../styles/top-bar.scss';
 
 .notificationPane {
   display: grid;
@@ -39,5 +40,24 @@
   .content {
     grid-gap: 10px;
     padding: 10px;
+  }
+}
+
+.topBar {
+  @include topBar;
+
+  background: orange;
+  justify-content: flex-end;
+
+  div {
+    :global(.button) {
+      width: 40px;
+    }
+  }
+
+  img {
+    transition: 0.2s linear;
+    filter: invert(100%);
+    rotate: 180deg;
   }
 }

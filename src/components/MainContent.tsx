@@ -18,7 +18,6 @@ import Scrollable from '../ui/misc/Scrollable';
 
 // Assets
 import styles from './MainContent.scss';
-import topBarStyles from '../styles/top-bar.scss';
 
 const MainContent: FunctionComponent<props> = ({
   onMenuOpen,
@@ -26,7 +25,7 @@ const MainContent: FunctionComponent<props> = ({
 }) => {
   return (
     <div className={styles.main}>
-      <div className={topBarStyles.topBar + ' ' + topBarStyles.topBarRight}>
+      <div className={styles.topBar}>
         <SessionContext.Consumer>
           {(session) => {
             return (

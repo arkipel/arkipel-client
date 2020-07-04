@@ -1,4 +1,4 @@
-.topBar {
+@mixin topBar {
   display: grid;
   height: 50px;
   font-size: 30px;
@@ -23,77 +23,5 @@
 
   img {
     height: 30px;
-  }
-}
-
-.topBarLeft {
-  background: rgba(0, 0, 0, 0.2);
-
-  div {
-    :global(.button) {
-      width: 40px;
-    }
-  }
-
-  img {
-    transition: 0.2s linear;
-    filter: invert(100%);
-  }
-
-  @media all and (min-width: 700px) {
-    background: rgba(0, 0, 0, 0.12);
-  }
-}
-
-.topBarNotification {
-  background: orange;
-  justify-content: flex-end;
-
-  div {
-    :global(.button) {
-      width: 40px;
-    }
-  }
-
-  img {
-    transition: 0.2s linear;
-    filter: invert(100%);
-    rotate: 180deg;
-  }
-}
-
-.topBarRight {
-  grid-template-rows: 1fr;
-  grid-template-columns: 1fr 1fr;
-
-  div {
-    display: grid;
-    grid-auto-flow: column;
-    grid-auto-columns: max-content;
-    align-items: center;
-
-    span,
-    button {
-      display: grid;
-      align-content: center;
-      padding: 4px 10px;
-      height: 100%;
-      font-size: 18px;
-    }
-
-    button {
-      background: none;
-      color: black;
-      text-decoration: underline;
-
-      &:hover {
-        cursor: pointer;
-        background: rgba(0, 0, 0, 0.1);
-      }
-    }
-  }
-
-  & div:nth-child(2) {
-    justify-content: flex-end;
   }
 }
