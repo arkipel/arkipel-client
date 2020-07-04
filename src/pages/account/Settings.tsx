@@ -1,6 +1,6 @@
 import React, { Fragment, useContext, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { useForm, FormContext } from 'react-hook-form';
+import { useForm, FormProvider } from 'react-hook-form';
 
 import { gql, useApolloClient, useQuery } from '@apollo/client';
 import { SetUsername, SetUsernameVariables } from 'generated/SetUsername';
@@ -78,7 +78,7 @@ const ChangeUsernameForm = () => {
     username: string;
   }>({
     mode: 'onChange',
-    validateCriteriaMode: 'all',
+    criteriaMode: 'all',
     defaultValues: { username: session.username },
   });
   const { handleSubmit, formState, watch } = formFunctions;
@@ -89,7 +89,7 @@ const ChangeUsernameForm = () => {
 
   return (
     <Fragment>
-      <FormContext {...formFunctions}>
+      <FormProvider {...formFunctions}>
         <form
           onSubmit={handleSubmit(async ({ username }) => {
             setUpdateSuccess(false);
@@ -129,7 +129,7 @@ const ChangeUsernameForm = () => {
             />
           </p>
         </form>
-      </FormContext>
+      </FormProvider>
       {updateSucceeded && (
         <p className="msg-success">
           Your username has been updated.{' '}
@@ -180,7 +180,7 @@ const ChangeEmailAddress = () => {
     email_address: string;
   }>({
     mode: 'onChange',
-    validateCriteriaMode: 'all',
+    criteriaMode: 'all',
     defaultValues: { email_address: '' },
   });
 
@@ -253,7 +253,7 @@ const ChangeEmailAddress = () => {
           <input
             type="submit"
             value="Update"
-            disabled={!formState.dirty || !formState.isValid}
+            disabled={!formState.isDirty || !formState.isValid}
           />{' '}
           <input
             type="button"
@@ -327,7 +327,7 @@ const ChangePassword = () => {
 
   const formFunctions = useForm({
     mode: 'onChange',
-    validateCriteriaMode: 'all',
+    criteriaMode: 'all',
   });
   const { handleSubmit, register, formState, watch, errors } = formFunctions;
 
@@ -363,7 +363,7 @@ const ChangePassword = () => {
   );
 
   return (
-    <FormContext {...formFunctions}>
+    <FormProvider {...formFunctions}>
       <form onSubmit={handleSubmit(setPassword)}>
         <PasswordInput disabled={false} />
         <p>
@@ -411,7 +411,7 @@ const ChangePassword = () => {
           <a onClick={() => setNetworkailure(false)}>OK</a>
         </p>
       )}
-    </FormContext>
+    </FormProvider>
   );
 };
 

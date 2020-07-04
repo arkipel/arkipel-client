@@ -1,5 +1,5 @@
 import React, { Fragment, useState } from 'react';
-import { useForm, FormContext } from 'react-hook-form';
+import { useForm, FormProvider } from 'react-hook-form';
 
 import { gql, useMutation } from '@apollo/client';
 import { Register, RegisterVariables } from '../generated/Register';
@@ -18,7 +18,7 @@ const Registration = () => {
 
   const formFunctions = useForm({
     mode: 'onChange',
-    validateCriteriaMode: 'all',
+    criteriaMode: 'all',
   });
   const { formState } = formFunctions;
 
@@ -66,7 +66,7 @@ const Registration = () => {
         This game is still a work in progress. You should expect bugs and an
         incomplete gameplay.
       </p>
-      <FormContext {...formFunctions}>
+      <FormProvider {...formFunctions}>
         <form
           onSubmit={formFunctions.handleSubmit((formData) => {
             submit({
@@ -98,7 +98,7 @@ const Registration = () => {
             />
           </p>
         </form>
-      </FormContext>
+      </FormProvider>
       {loading && <p>Please wait...</p>}
       {data && data.register.__typename === 'User' && (
         <p className="msg-success">

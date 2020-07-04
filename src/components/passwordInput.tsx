@@ -2,7 +2,7 @@ import React, { Fragment, FunctionComponent } from 'react';
 import { useFormContext } from 'react-hook-form';
 
 const PasswordInput: FunctionComponent<props> = ({ disabled }) => {
-  const { register, errors, watch, triggerValidation } = useFormContext();
+  const { register, errors, watch, trigger } = useFormContext();
 
   let errorMsgs = Object.values(errors.password?.types || {}).join(', ');
   let errorMsgsAg = Object.values(errors.passwordAgain?.types || {}).join(', ');
@@ -15,7 +15,7 @@ const PasswordInput: FunctionComponent<props> = ({ disabled }) => {
           name="password"
           placeholder="Password"
           disabled={disabled || false}
-          onChange={() => triggerValidation('passwordAgain')}
+          onChange={() => trigger('passwordAgain')}
           ref={register({
             required: {
               value: true,
