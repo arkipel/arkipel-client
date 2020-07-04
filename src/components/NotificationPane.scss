@@ -1,0 +1,43 @@
+@import '../styles/config.scss';
+
+.notificationPane {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  grid-column: 1;
+  grid-row: 1;
+  min-height: 0;
+  height: 100%;
+  width: $menuPaneWidth;
+  color: white;
+  background: rgb(40, 40, 40);
+  z-index: 100;
+  transform: translateX(-$menuPaneWidth);
+  transition: 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+
+  footer {
+    padding: 10px;
+    color: #444;
+    text-align: center;
+    font-size: 12px;
+
+    a {
+      color: #666;
+    }
+  }
+
+  a {
+    color: #fff;
+  }
+
+  @media all and (min-width: 700px) {
+    transform: translateX(0);
+  }
+
+  &.visible {
+    transform: translateX(0);
+
+    @media all and (max-width: 699px) {
+      box-shadow: 1px 0 10px #111;
+    }
+  }
+}
