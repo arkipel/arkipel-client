@@ -1,0 +1,43 @@
+@import '../styles/config.scss';
+
+.notificationPane {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  grid-row: 1;
+  justify-self: flex-end;
+  min-height: 0;
+  height: 100%;
+  width: $notificationPaneWidth;
+  background: #fff;
+  z-index: 120;
+  transform: translateX($notificationPaneWidth);
+  transition: 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+
+  @media all and (max-width: 699px) {
+    grid-column: 1;
+    // transform: translateX(0);
+  }
+
+  @media all and (min-width: 700px) and (max-width: 999px) {
+    grid-column: 2;
+    // transform: translateX(0);
+  }
+
+  @media all and (min-width: 1000px) {
+    grid-column: 3;
+    transform: translateX(0);
+  }
+
+  &.visible {
+    transform: translateX(0);
+
+    @media all and (max-width: 999px) {
+      box-shadow: 1px 0 10px #111;
+    }
+  }
+
+  .content {
+    grid-gap: 10px;
+    padding: 10px;
+  }
+}

@@ -8,8 +8,18 @@
   background: #fff;
 
   @media all and (max-width: 699px) {
-    grid-column: 1;
     grid-row: 1;
+    grid-column: 1;
+  }
+
+  @media all and (min-width: 700px) and (max-width: 999px) {
+    grid-row: 1;
+    grid-column: 2;
+  }
+
+  @media all and (min-width: 1000px) {
+    grid-row: 1;
+    grid-column: 2;
   }
 }
 

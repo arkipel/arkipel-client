@@ -20,7 +20,10 @@ import Scrollable from '../ui/misc/Scrollable';
 import styles from './MainContent.scss';
 import topBarStyles from '../styles/top-bar.scss';
 
-const MainContent: FunctionComponent<props> = ({ onMenuOpen }) => {
+const MainContent: FunctionComponent<props> = ({
+  onMenuOpen,
+  onNotificationOpen,
+}) => {
   return (
     <div className={styles.main}>
       <div className={topBarStyles.topBar + ' ' + topBarStyles.topBarRight}>
@@ -52,6 +55,18 @@ const MainContent: FunctionComponent<props> = ({ onMenuOpen }) => {
                       Log out
                     </button>
                   )}
+                  <Media
+                    query="(max-width: 999px)"
+                    render={() => (
+                      <div onClick={onNotificationOpen} className="button">
+                        <img
+                          src="https://icons.arkipel.io/ui/notification.svg"
+                          alt="&#128276;"
+                        />
+                      </div>
+                    )}
+                  />
+                  {session.loggedIn && <span>{session.username}</span>}
                 </div>
               </Fragment>
             );
@@ -80,6 +95,7 @@ const MainContent: FunctionComponent<props> = ({ onMenuOpen }) => {
 
 type props = {
   onMenuOpen: () => void;
+  onNotificationOpen: () => void;
 };
 
 export default MainContent;
