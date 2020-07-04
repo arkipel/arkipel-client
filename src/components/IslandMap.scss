@@ -1,3 +1,5 @@
+@import '../styles/config.scss';
+
 .island {
   display: grid;
   grid-template-columns: repeat(20, 0.05fr);
@@ -14,20 +16,24 @@
 
 .deepWater {
   @include tile;
-  background: #1c5b88;
+
+  background: $deepWater;
 }
 
 .water {
   @include tile;
-  background: #648eab;
+
+  background: $water;
 }
 
 .sand {
   @include tile;
-  background: #f5e9b4;
+
+  background: $sand;
 }
 
 .land {
   @include tile;
-  background: #7eae6a;
+
+  background: $land;
 }

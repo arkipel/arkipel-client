@@ -9,19 +9,17 @@
   min-height: 0;
   height: 100%;
   width: $notificationPaneWidth;
-  background: #fff;
+  background: #ffffff;
   z-index: 120;
   transform: translateX($notificationPaneWidth);
   transition: 0.4s cubic-bezier(0.23, 1, 0.32, 1);
 
   @media all and (max-width: 699px) {
     grid-column: 1;
-    // transform: translateX(0);
   }
 
   @media all and (min-width: 700px) and (max-width: 999px) {
     grid-column: 2;
-    // transform: translateX(0);
   }
 
   @media all and (min-width: 1000px) {
@@ -33,7 +31,7 @@
     transform: translateX(0);
 
     @media all and (max-width: 999px) {
-      box-shadow: 1px 0 10px #111;
+      box-shadow: -1px 0 10px #111;
     }
   }
 
@@ -46,7 +44,7 @@
 .topBar {
   @include topBar;
 
-  background: orange;
+  background: lighten($color: #e76f51, $amount: 10);
   justify-content: flex-end;
 
   div {
@@ -57,7 +55,7 @@
 
   img {
     transition: 0.2s linear;
-    filter: invert(100%);
     rotate: 180deg;
+    opacity: 20%;
   }
 }

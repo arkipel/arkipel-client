@@ -10,19 +10,19 @@
   height: 100%;
   width: $menuPaneWidth;
   color: white;
-  background: rgb(40, 40, 40);
+  background: #264653;
   z-index: 100;
   transform: translateX(-$menuPaneWidth);
   transition: 0.4s cubic-bezier(0.23, 1, 0.32, 1);
 
   footer {
     padding: 10px;
-    color: #444;
+    color: rgba(255, 255, 255, 0.2);
     text-align: center;
     font-size: 12px;
 
     a {
-      color: #666;
+      color: rgba(255, 255, 255, 0.3);
     }
   }
 
@@ -73,7 +73,7 @@
 .topBar {
   @include topBar;
 
-  background: rgba(0, 0, 0, 0.2);
+  background: rgba(0, 0, 0, 0.14);
 
   div {
     :global(.button) {
@@ -84,9 +84,6 @@
   img {
     transition: 0.2s linear;
     filter: invert(100%);
-  }
-
-  @media all and (min-width: 700px) {
-    background: rgba(0, 0, 0, 0.12);
+    opacity: 20%;
   }
 }
