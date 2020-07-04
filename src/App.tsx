@@ -38,7 +38,7 @@ class App extends React.PureComponent<props, state> {
 
     this.state = {
       showMenuPane: false,
-      showNotificationPane: true,
+      showNotificationPane: false,
     };
 
     // let breakpoints = {
