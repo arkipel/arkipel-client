@@ -16,7 +16,7 @@ const Login = () => {
   // Form
   const { register, handleSubmit, formState } = useForm({
     mode: 'onChange',
-    validateCriteriaMode: 'all',
+    criteriaMode: 'all',
   });
 
   let allowSubmit = formState.isValid;
