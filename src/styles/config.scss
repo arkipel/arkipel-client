@@ -3,33 +3,7 @@ $menuPaneWidth: 200px;
 $notificationPaneWidth: 300px;
 
 // Island tiles
-// $deepWater: #1c5b88;
-// $water: #648eab;
-// $sand: #f5e9b4;
-// $land: #7eae6a;
-
-// Island tiles
-$deepWater: #2e80b8;
-$water: #58a1c4;
+$deepWater: #3a7ead;
+$water: #669abd;
 $sand: #e8e0c9;
 $land: #accfa0;
-
-$deepWater: desaturate(
-  $color: $deepWater,
-  $amount: 10%,
-);
-
-// $deepWater: #3d5a80;
-// $water: adjust-color($deepWater, $red: +40%, $blue: +40%, $green: +40%);
-// $water: adjust-color($deepWater, $hue: +10%);
-$water: lighten(
-  $color: $deepWater,
-  $amount: 12,
-);
-$water: desaturate(
-  $color: $water,
-  $amount: 10%,
-);
-// $water: #98c1d9;
-// $sand: #f0f3bd;
-// $land: #6cc551;
