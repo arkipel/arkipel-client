@@ -11,8 +11,6 @@
   width: $menuPaneWidth;
   color: white;
   background: #264653;
-  // background: darken($color: $deepWater, $amount: 20);
-  // background: darken($color: #2a9d8f, $amount: 30);
   z-index: 100;
   transform: translateX(-$menuPaneWidth);
   transition: 0.4s cubic-bezier(0.23, 1, 0.32, 1);
@@ -87,9 +85,5 @@
     transition: 0.2s linear;
     filter: invert(100%);
     opacity: 20%;
-  }
-
-  @media all and (min-width: 700px) {
-    // background: rgba(0, 0, 0, 0.12);
   }
 }
