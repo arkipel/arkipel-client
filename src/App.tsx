@@ -17,6 +17,7 @@ import { arkipelEndpoint } from 'Config';
 // Components
 import MenuPane from './components/MenuPane';
 import MainContent from './components/MainContent';
+import Shadow from './ui/misc/Shadow';
 
 // Assets
 import './styles/index.scss';
@@ -46,12 +47,6 @@ class App extends React.PureComponent<props, state> {
   }
 
   render() {
-    let underPaneShadow = '';
-    if (this.state.showMenuPane) {
-      underPaneShadow = appStyles.visible + ' ';
-    }
-    underPaneShadow += appStyles['under-pane-shadow'];
-
     return (
       <div id="app" className={appStyles.app}>
         <ApolloProvider client={client}>
@@ -62,7 +57,10 @@ class App extends React.PureComponent<props, state> {
                 onCloseClick={this.closeMenuPane}
               />
               <Media query="(max-width: 699px)">
-                <div className={underPaneShadow} onClick={this.closeMenuPane} />
+                <Shadow
+                  visible={this.state.showMenuPane}
+                  onClick={this.closeMenuPane}
+                />
               </Media>
               <MainContent onMenuOpen={this.openMenuPane} />
             </Router>

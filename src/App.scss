@@ -16,21 +16,6 @@
   }
 }
 
-.under-pane-shadow {
-  grid-column: 1 / span 3;
-  grid-row: 1;
-  min-height: 0;
-  width: 100%;
-  transition: background-color 0.4s cubic-bezier(0.23, 1, 0.32, 1);
-  pointer-events: none;
-  z-index: 80;
-
-  &.visible {
-    background: rgba(0, 0, 0, 0.8);
-    pointer-events: all;
-  }
-}
-
 .scrollable {
   overflow: auto;
 }

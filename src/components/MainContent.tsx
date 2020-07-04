@@ -13,8 +13,10 @@ import Login from '../pages/Login';
 import Registration from '../pages/Registration';
 import Settings from '../pages/account/Settings';
 
+// Components
+import Scrollable from '../ui/misc/Scrollable';
+
 // Assets
-import appStyles from '../App.scss';
 import styles from './MainContent.scss';
 import topBarStyles from '../styles/top-bar.scss';
 
@@ -56,7 +58,7 @@ const MainContent: FunctionComponent<props> = ({ onMenuOpen }) => {
           }}
         </SessionContext.Consumer>
       </div>
-      <div className={appStyles.scrollable}>
+      <Scrollable>
         <div className={styles.content}>
           <Switch>
             <Route path="/" exact component={Home} />
@@ -71,13 +73,12 @@ const MainContent: FunctionComponent<props> = ({ onMenuOpen }) => {
             />
           </Switch>
         </div>
-      </div>
+      </Scrollable>
     </div>
   );
 };
 
 type props = {
-  // visible: boolean;
   onMenuOpen: () => void;
 };
 

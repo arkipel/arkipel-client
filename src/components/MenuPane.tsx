@@ -4,8 +4,10 @@ import Media from 'react-media';
 
 import { SessionContext } from '../libs/session/session';
 
+// Components
+import Scrollable from '../ui/misc/Scrollable';
+
 // Assets
-import appStyles from '../App.scss';
 import menuPaneStyles from './MenuPane.scss';
 import topBarStyles from '../styles/top-bar.scss';
 
@@ -30,7 +32,7 @@ const MenuPane: FunctionComponent<props> = ({ visible, onCloseClick }) => {
           />
         </div>
       </div>
-      <div className={appStyles.scrollable}>
+      <Scrollable>
         <div className={menuPaneStyles.menu}>
           <nav>
             <h1>Archipelago</h1>
@@ -94,7 +96,7 @@ const MenuPane: FunctionComponent<props> = ({ visible, onCloseClick }) => {
             </p>
           </footer>
         </div>
-      </div>
+      </Scrollable>
     </div>
   );
 };
