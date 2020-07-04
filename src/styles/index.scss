@@ -1,17 +1,58 @@
-// Setup
-@import './reset.scss';
+// This file is a dump of random stuff for now. A lot of it
+// probably needs to be refactored at some point.
+
+// Fonts
 @import './fonts.scss';
 
-// Config
-@import './config.scss';
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Livvic', sans-serif;
+}
 
-// Random stuff
-// TODO Refactor.
-@import './random.scss';
+:global(#mount) {
+  height: 100%;
+}
 
-// Components
-@import './components/app.scss';
-@import './components/island.scss';
-@import './components/menu-pane.scss';
-@import './components/main.scss';
-@import './components/top-bar.scss';
+html,
+body {
+  height: 100%;
+}
+
+button,
+input {
+  padding: 10px;
+  font-size: 18px;
+  border: 1px solid #bbb;
+}
+
+input[type='submit'],
+input[type='button'],
+button {
+  cursor: pointer;
+  color: #fff;
+  border: none;
+  background: rgb(40, 40, 40);
+
+  &:disabled {
+    cursor: default;
+    background: rgb(120, 120, 120);
+  }
+}
+
+nav ul {
+  list-style-type: none;
+}
+
+// To be moved once we have the proper
+// UI components for forms.
+:global(.hint) {
+  color: #aaa;
+  font-size: 14px;
+}
+
+:global(.hint-error) {
+  color: #a00;
+  font-size: 14px;
+}

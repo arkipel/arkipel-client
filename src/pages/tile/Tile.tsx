@@ -10,6 +10,8 @@ import TileActions from './Actions';
 
 import Tile from '../../models/Tile';
 
+import { Error } from '../../ui/dialog/Msg';
+
 const TilePage = () => {
   const { islandID, position } = useParams();
 
@@ -31,11 +33,11 @@ const TilePage = () => {
   );
 
   if (data?.tile.__typename === 'NotFound') {
-    return <p className="msg-error">Sorry, this tile does not exist.</p>;
+    return <Error>Sorry, this tile does not exist.</Error>;
   }
 
   if (error) {
-    return <p className="msg-error">Sorry, an error occurred.</p>;
+    return <Error>Sorry, an error occurred.</Error>;
   }
 
   let tile: Tile;

@@ -1,0 +1,21 @@
+@import './styles/config.scss';
+
+.app {
+  display: grid;
+  grid-template-rows: 1fr;
+  height: 100%;
+  max-width: 800px;
+  margin: auto;
+
+  @media all and (max-width: 699px) {
+    grid-template-columns: 1fr;
+  }
+
+  @media all and (min-width: 700px) {
+    grid-template-columns: $menuPaneWidth 1fr;
+  }
+}
+
+.scrollable {
+  overflow: auto;
+}

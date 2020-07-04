@@ -1,4 +1,4 @@
-.top-bar {
+.topBar {
   display: grid;
   height: 50px;
   font-size: 30px;
@@ -7,7 +7,7 @@
   div {
     height: 100%;
 
-    .button {
+    :global(.button) {
       display: grid;
       align-items: center;
       justify-content: center;
@@ -26,11 +26,11 @@
   }
 }
 
-#top-bar-left {
+.topBarLeft {
   background: rgba(0, 0, 0, 0.2);
 
   div {
-    .button {
+    :global(.button) {
       width: 40px;
     }
   }
@@ -45,7 +45,7 @@
   }
 }
 
-#top-bar-right {
+.topBarRight {
   grid-template-rows: 1fr;
   grid-template-columns: 1fr 1fr;
 

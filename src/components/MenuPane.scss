@@ -1,4 +1,6 @@
-#menu-pane {
+@import '../styles/config.scss';
+
+.menuPane {
   display: grid;
   grid-template-rows: auto 1fr;
   grid-column: 1;
@@ -11,33 +13,6 @@
   z-index: 100;
   transform: translateX(-$menuPaneWidth);
   transition: 0.4s cubic-bezier(0.23, 1, 0.32, 1);
-
-  #menu {
-    display: grid;
-    height: 100%;
-    grid-template-rows: 1fr auto;
-
-    h1 {
-      display: block;
-      padding: 10px;
-      font-size: 28px;
-    }
-
-    nav a {
-      display: block;
-      padding: 10px;
-      font-size: 18px;
-      text-decoration: none;
-
-      &:hover {
-        background: rgba(0, 0, 0, 0.2);
-      }
-
-      &.active {
-        background: rgba(0, 0, 0, 0.2);
-      }
-    }
-  }
 
   footer {
     padding: 10px;
@@ -63,6 +38,33 @@
 
     @media all and (max-width: 699px) {
       box-shadow: 1px 0 10px #111;
+    }
+  }
+}
+
+.menu {
+  display: grid;
+  height: 100%;
+  grid-template-rows: 1fr auto;
+
+  h1 {
+    display: block;
+    padding: 10px;
+    font-size: 28px;
+  }
+
+  nav a {
+    display: block;
+    padding: 10px;
+    font-size: 18px;
+    text-decoration: none;
+
+    &:hover {
+      background: rgba(0, 0, 0, 0.2);
+    }
+
+    &.active {
+      background: rgba(0, 0, 0, 0.2);
     }
   }
 }

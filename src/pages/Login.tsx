@@ -4,6 +4,8 @@ import { useForm } from 'react-hook-form';
 
 import { SessionContext } from '../libs/session/session';
 
+import { Error } from '../ui/dialog/Msg';
+
 const Login = () => {
   const [loginFailed, setLoginFailure] = useState(false);
   const [networkFailed, setNetworkailure] = useState(false);
@@ -69,12 +71,10 @@ const Login = () => {
           <input type="submit" value="Log in" disabled={!allowSubmit} />
         </p>
       </form>
-      {loginFailed && (
-        <p className="msg-error">Login failed, wrong credentials.</p>
-      )}
-      {networkFailed && (
-        <p className="msg-error">Request failed, please try again later.</p>
-      )}
+      <Error visible={loginFailed}>Login failed, wrong credentials.</Error>
+      <Error visible={networkFailed}>
+        Request failed, please try again later.
+      </Error>
     </Fragment>
   );
 };
