@@ -1,21 +1,43 @@
+// Fonts
+@import './fonts.scss';
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Livvic', sans-serif;
+}
+
 :global(#mount) {
   height: 100%;
 }
 
-// Setup
-@import './reset.scss';
-@import './fonts.scss';
+html,
+body {
+  height: 100%;
+}
 
-// Config
-@import './config.scss';
+button,
+input {
+  padding: 10px;
+  font-size: 18px;
+  border: 1px solid #bbb;
+}
 
-// Random stuff
-// TODO Refactor.
-// @import './random.scss';
+input[type='submit'],
+input[type='button'],
+button {
+  cursor: pointer;
+  color: #fff;
+  border: none;
+  background: rgb(40, 40, 40);
 
-// Components
-// @import './components/app.scss';
-// @import './components/island.scss';
-// @import './components/menu-pane.scss';
-// @import './components/main.scss';
-// @import './components/top-bar.scss';
+  &:disabled {
+    cursor: default;
+    background: rgb(120, 120, 120);
+  }
+}
+
+nav ul {
+  list-style-type: none;
+}
