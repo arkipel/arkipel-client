@@ -1,6 +1,6 @@
 import React, { Fragment, useContext, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { useForm, FormContext } from 'react-hook-form';
+import { useForm, FormProvider } from 'react-hook-form';
 
 import { gql, useApolloClient, useQuery } from '@apollo/client';
 import { SetUsername, SetUsernameVariables } from 'generated/SetUsername';
@@ -22,6 +22,8 @@ import { SessionContext } from '../../libs/session/session';
 
 import UsernameInput from '../../components/usernameInput';
 import PasswordInput from '../../components/passwordInput';
+
+import { Success, Error } from '../../ui/dialog/Msg';
 
 const Settings = () => {
   // Router
@@ -78,7 +80,7 @@ const ChangeUsernameForm = () => {
     username: string;
   }>({
     mode: 'onChange',
-    validateCriteriaMode: 'all',
+    criteriaMode: 'all',
     defaultValues: { username: session.username },
   });
   const { handleSubmit, formState, watch } = formFunctions;
@@ -89,7 +91,7 @@ const ChangeUsernameForm = () => {
 
   return (
     <Fragment>
-      <FormContext {...formFunctions}>
+      <FormProvider {...formFunctions}>
         <form
           onSubmit={handleSubmit(async ({ username }) => {
             setUpdateSuccess(false);
@@ -129,22 +131,22 @@ const ChangeUsernameForm = () => {
             />
           </p>
         </form>
-      </FormContext>
-      {updateSucceeded && (
-        <p className="msg-success">
-          Your username has been updated.{' '}
-          <a onClick={() => setUpdateSuccess(false)}>OK</a>
-        </p>
-      )}
-      {updateFailed && (
-        <p className="msg-error">Something went wrong, please try again.</p>
-      )}
-      {networkFailed && (
-        <p className="msg-error">
-          Request could not be sent, please try again later.{' '}
-          <a onClick={() => setNetworkailure(false)}>OK</a>
-        </p>
-      )}
+      </FormProvider>
+      <Success
+        visible={updateSucceeded}
+        onConfirmation={() => setUpdateSuccess(false)}
+      >
+        Your username has been updated.{' '}
+      </Success>
+      <Error visible={updateFailed}>
+        Something went wrong, please try again.
+      </Error>
+      <Error
+        visible={networkFailed}
+        onConfirmation={() => setNetworkailure(false)}
+      >
+        Request could not be sent, Errorlease try again later.{' '}
+      </Error>
     </Fragment>
   );
 };
@@ -180,7 +182,7 @@ const ChangeEmailAddress = () => {
     email_address: string;
   }>({
     mode: 'onChange',
-    validateCriteriaMode: 'all',
+    criteriaMode: 'all',
     defaultValues: { email_address: '' },
   });
 
@@ -253,7 +255,7 @@ const ChangeEmailAddress = () => {
           <input
             type="submit"
             value="Update"
-            disabled={!formState.dirty || !formState.isValid}
+            disabled={!formState.isDirty || !formState.isValid}
           />{' '}
           <input
             type="button"
@@ -289,30 +291,27 @@ const ChangeEmailAddress = () => {
           />
         </p>
       </form>
-      {updateSucceeded && (
-        <p className="msg-success">
-          Your email address has been updated.{' '}
-          <a onClick={() => setUpdateSuccess(false)}>OK</a>
-        </p>
-      )}
-      {alreadyUsed && (
-        <p className="msg-error">
-          Sorry, that email address is already used.{' '}
-          <a onClick={() => setAlreadyUsed(false)}>OK</a>
-        </p>
-      )}
-      {updateFailed && (
-        <p className="msg-error">
-          Something went wrong, please try again.{' '}
-          <a onClick={() => setUpdateFailure(false)}>OK</a>
-        </p>
-      )}
-      {networkFailed && (
-        <p className="msg-error">
-          Request could not be sent, please try again later.{' '}
-          <a onClick={() => setNetworkailure(false)}>OK</a>
-        </p>
-      )}
+      <Success
+        visible={updateSucceeded}
+        onConfirmation={() => setUpdateSuccess(false)}
+      >
+        Your email address has been updated.
+      </Success>
+      <Error visible={alreadyUsed} onConfirmation={() => setAlreadyUsed(false)}>
+        Sorry, that email address is already used.
+      </Error>
+      <Error
+        visible={updateFailed}
+        onConfirmation={() => setUpdateFailure(false)}
+      >
+        Something went wrong, please try again.
+      </Error>
+      <Error
+        visible={networkFailed}
+        onConfirmation={() => setNetworkailure(false)}
+      >
+        Request could not be sent, please try again later.
+      </Error>
     </Fragment>
   );
 };
@@ -327,7 +326,7 @@ const ChangePassword = () => {
 
   const formFunctions = useForm({
     mode: 'onChange',
-    validateCriteriaMode: 'all',
+    criteriaMode: 'all',
   });
   const { handleSubmit, register, formState, watch, errors } = formFunctions;
 
@@ -363,7 +362,7 @@ const ChangePassword = () => {
   );
 
   return (
-    <FormContext {...formFunctions}>
+    <FormProvider {...formFunctions}>
       <form onSubmit={handleSubmit(setPassword)}>
         <PasswordInput disabled={false} />
         <p>
@@ -393,25 +392,25 @@ const ChangePassword = () => {
           />
         </p>
       </form>
-      {updateSucceeded && (
-        <p className="msg-success">
-          Your password has been updated.{' '}
-          <a onClick={() => setUpdateSuccess(false)}>OK</a>
-        </p>
-      )}
-      {updateFailed && (
-        <p className="msg-error">
-          Something went wrong, please try again.{' '}
-          <a onClick={() => setUpdateFailure(false)}>OK</a>
-        </p>
-      )}
-      {networkFailed && (
-        <p className="msg-error">
-          Request could not be sent, please try again later.{' '}
-          <a onClick={() => setNetworkailure(false)}>OK</a>
-        </p>
-      )}
-    </FormContext>
+      <Success
+        visible={updateSucceeded}
+        onConfirmation={() => setUpdateSuccess(false)}
+      >
+        Your password has been updated.
+      </Success>
+      <Error
+        visible={updateFailed}
+        onConfirmation={() => setUpdateFailure(false)}
+      >
+        Something went wrong, please try again.
+      </Error>
+      <Error
+        visible={networkFailed}
+        onConfirmation={() => setNetworkailure(false)}
+      >
+        Request could not be sent, please try again later.
+      </Error>
+    </FormProvider>
   );
 };
 

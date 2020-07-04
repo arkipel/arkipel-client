@@ -1,5 +1,5 @@
 import React, { Fragment, useState } from 'react';
-import { useForm, FormContext } from 'react-hook-form';
+import { useForm, FormProvider } from 'react-hook-form';
 
 import { gql, useMutation } from '@apollo/client';
 import { Register, RegisterVariables } from '../generated/Register';
@@ -8,6 +8,8 @@ import HCaptcha from '@hcaptcha/react-hcaptcha';
 
 import UsernameInput from '../components/usernameInput';
 import PasswordInput from '../components/passwordInput';
+
+import { Info, Success, Error } from '../ui/dialog/Msg';
 
 const Registration = () => {
   // const [username, setUsername] = useState('');
@@ -18,7 +20,7 @@ const Registration = () => {
 
   const formFunctions = useForm({
     mode: 'onChange',
-    validateCriteriaMode: 'all',
+    criteriaMode: 'all',
   });
   const { formState } = formFunctions;
 
@@ -62,11 +64,11 @@ const Registration = () => {
   return (
     <Fragment>
       <h1>Register</h1>
-      <p className="msg-error">
+      <Error>
         This game is still a work in progress. You should expect bugs and an
         incomplete gameplay.
-      </p>
-      <FormContext {...formFunctions}>
+      </Error>
+      <FormProvider {...formFunctions}>
         <form
           onSubmit={formFunctions.handleSubmit((formData) => {
             submit({
@@ -98,13 +100,11 @@ const Registration = () => {
             />
           </p>
         </form>
-      </FormContext>
-      {loading && <p>Please wait...</p>}
-      {data && data.register.__typename === 'User' && (
-        <p className="msg-success">
-          The registration succeeded. You may now log in.
-        </p>
-      )}
+      </FormProvider>
+      <Info visible={loading}>Please wait...</Info>
+      <Success visible={data !== null && data?.register?.__typename === 'User'}>
+        The registration succeeded. You may now log in.
+      </Success>
     </Fragment>
   );
 };

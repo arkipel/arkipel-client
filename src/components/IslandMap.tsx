@@ -1,7 +1,9 @@
 import React, { Fragment, FunctionComponent } from 'react';
 import { useHistory } from 'react-router-dom';
 
-import Island from '../../models/Island';
+import styles from './IslandMap.scss';
+
+import Island from '../models/Island';
 
 const IslandMap: FunctionComponent<props> = ({ island }) => {
   const history = useHistory();
@@ -18,7 +20,7 @@ const IslandMap: FunctionComponent<props> = ({ island }) => {
     const t = dna[i];
 
     // Tile kind
-    let kind = 'deep_water';
+    let kind = 'deepWater';
     switch (t) {
       case '1':
         kind = 'water';
@@ -31,7 +33,7 @@ const IslandMap: FunctionComponent<props> = ({ island }) => {
         break;
     }
 
-    let className = 'tile ' + kind;
+    let className = styles[kind];
 
     map.push(
       <div
@@ -47,7 +49,7 @@ const IslandMap: FunctionComponent<props> = ({ island }) => {
   return (
     <Fragment>
       <h2>Map</h2>
-      <div className="island">{map}</div>
+      <div className={styles.island}>{map}</div>
     </Fragment>
   );
 };

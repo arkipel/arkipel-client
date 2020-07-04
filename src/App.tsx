@@ -1,10 +1,5 @@
-import React, { Fragment } from 'react';
-import {
-  BrowserRouter as Router,
-  Route,
-  NavLink,
-  Switch,
-} from 'react-router-dom';
+import React from 'react';
+import { BrowserRouter as Router } from 'react-router-dom';
 import Media from 'react-media';
 
 import {
@@ -14,23 +9,20 @@ import {
   InMemoryCache,
 } from '@apollo/client';
 
-import { SessionProvider, SessionContext } from './libs/session/session';
+import { SessionProvider } from './libs/session/session';
 
 // Config
 import { arkipelEndpoint } from 'Config';
 
-// Pages
-import About from './pages/About';
-import Home from './pages/Home';
-import IslandPage from './pages/islands/Island';
-import IslandsPage from './pages/islands/List';
-import Login from './pages/Login';
-import Registration from './pages/Registration';
-import Settings from './pages/account/Settings';
+// Components
+import MenuPane from './components/MenuPane';
+import MainContent from './components/MainContent';
+import NotificationPane from './components/NotificationPane';
+import Shadow from './ui/misc/Shadow';
 
 // Assets
 import './styles/index.scss';
-import menu from './assets/icons/menu.png';
+import appStyles from './App.scss';
 
 const client = new ApolloClient({
   cache: new InMemoryCache(),
@@ -46,6 +38,7 @@ class App extends React.PureComponent<props, state> {
 
     this.state = {
       showMenuPane: false,
+      showNotificationPane: false,
     };
 
     // let breakpoints = {
@@ -56,182 +49,63 @@ class App extends React.PureComponent<props, state> {
   }
 
   render() {
-    let invertColors = '';
-    let underPaneShadow = '';
-    if (this.state.showMenuPane) {
-      invertColors = 'invert-colors';
-      underPaneShadow = 'visible';
-    }
-
-    let menuBtn = (
-      <div onClick={this.toggleMenuPane} className="button">
-        <img src={menu} alt="&#9776;" className={invertColors} />
-      </div>
-    );
-
-    let menuPaneClassName = this.state.showMenuPane ? 'visible' : '';
+    let showShadow = this.state.showMenuPane || this.state.showNotificationPane;
 
     return (
-      <ApolloProvider client={client}>
-        <SessionProvider>
-          <Router>
-            <div id="top-bar-left" className="top-bar">
-              <Media
-                query="(max-width: 699px)"
-                render={() => <nav>{menuBtn}</nav>}
+      <div id="app" className={appStyles.app}>
+        <ApolloProvider client={client}>
+          <SessionProvider>
+            <Router>
+              <MenuPane
+                visible={this.state.showMenuPane}
+                onCloseClick={this.closeMenuPane}
               />
-            </div>
-            <div id="top-bar-right" className="top-bar">
-              <SessionContext.Consumer>
-                {(session) => {
-                  return (
-                    <Fragment>
-                      <div>
-                        {session.loggedIn && <span>{session.username}</span>}
-                      </div>
-                      <div>
-                        {session.loggedIn && (
-                          <button
-                            onClick={() => {
-                              session.logOut();
-                            }}
-                          >
-                            Log out
-                          </button>
-                        )}
-                      </div>
-                    </Fragment>
-                  );
-                }}
-              </SessionContext.Consumer>
-            </div>
-            <div id="menu-pane" className={menuPaneClassName}>
-              <div className="scrollable" style={{ marginTop: '50px' }}>
-                <div id="menu">
-                  <nav>
-                    <h1>Archipelago</h1>
-                    <ul>
-                      <li>
-                        <NavLink
-                          exact
-                          to="/archipelago/islands"
-                          onClick={this.hideMenuPane}
-                        >
-                          Islands
-                        </NavLink>
-                      </li>
-                    </ul>
-                    <SessionContext.Consumer>
-                      {(session) => {
-                        if (session.loggedIn) {
-                          return (
-                            <Fragment>
-                              <h1>Account</h1>
-                              <ul>
-                                <li>
-                                  <NavLink
-                                    exact
-                                    to="/account/settings"
-                                    onClick={this.hideMenuPane}
-                                  >
-                                    Settings
-                                  </NavLink>
-                                </li>
-                              </ul>
-                            </Fragment>
-                          );
-                        }
-                        return <></>;
-                      }}
-                    </SessionContext.Consumer>
-                    <h1>Main</h1>
-                    <ul>
-                      <li>
-                        <NavLink exact to="/" onClick={this.hideMenuPane}>
-                          Home
-                        </NavLink>
-                      </li>
-                      <li>
-                        <NavLink exact to="/login" onClick={this.hideMenuPane}>
-                          Login
-                        </NavLink>
-                      </li>
-                      <li>
-                        <NavLink
-                          exact
-                          to="/registration"
-                          onClick={this.hideMenuPane}
-                        >
-                          Register
-                        </NavLink>
-                      </li>
-                      <li>
-                        <NavLink exact to="/about" onClick={this.hideMenuPane}>
-                          About
-                        </NavLink>
-                      </li>
-                    </ul>
-                  </nav>
-                  <footer>
-                    <p>
-                      Made by <a href="https://mfcl.io">mfcl</a>.
-                    </p>
-                  </footer>
-                </div>
-              </div>
-            </div>
-            <Media query="(max-width: 699px)">
-              <div
-                id="under-pane-shadow"
-                className={underPaneShadow}
-                onClick={this.hideMenuPane}
+              <Media query="(max-width: 999px)">
+                <Shadow
+                  visible={showShadow}
+                  onClick={() => {
+                    this.closeMenuPane();
+                    this.closeNotificationPane();
+                  }}
+                />
+              </Media>
+              <MainContent
+                onMenuOpen={this.openMenuPane}
+                onNotificationOpen={this.openNotificationPane}
               />
-            </Media>
-            <div id="main">
-              <div className="scrollable">
-                <div id="content">
-                  <Switch>
-                    <Route path="/" exact component={Home} />
-                    <Route path="/about" exact component={About} />
-                    <Route path="/login" exact component={Login} />
-                    <Route
-                      path="/registration"
-                      exact
-                      component={Registration}
-                    />
-                    <Route
-                      path="/account/settings"
-                      exact
-                      component={Settings}
-                    />
-                    <Route
-                      path="/archipelago/islands"
-                      exact
-                      component={IslandsPage}
-                    />
-                    <Route
-                      path="/archipelago/islands/:islandID"
-                      component={IslandPage}
-                    />
-                  </Switch>
-                </div>
-              </div>
-            </div>
-          </Router>
-        </SessionProvider>
-      </ApolloProvider>
+              <NotificationPane
+                visible={this.state.showNotificationPane}
+                onCloseClick={this.closeNotificationPane}
+              />
+            </Router>
+          </SessionProvider>
+        </ApolloProvider>
+      </div>
     );
   }
 
-  toggleMenuPane = () => {
-    this.setState((state) => {
-      let showMenuPane = !state.showMenuPane;
-      return { showMenuPane };
+  openMenuPane = () => {
+    this.setState(() => {
+      return { showMenuPane: true };
     });
   };
 
-  hideMenuPane = () => {
-    this.setState({ showMenuPane: false });
+  closeMenuPane = () => {
+    this.setState(() => {
+      return { showMenuPane: false };
+    });
+  };
+
+  openNotificationPane = () => {
+    this.setState(() => {
+      return { showNotificationPane: true };
+    });
+  };
+
+  closeNotificationPane = () => {
+    this.setState(() => {
+      return { showNotificationPane: false };
+    });
   };
 }
 
@@ -239,6 +113,7 @@ type props = {};
 
 type state = {
   showMenuPane: boolean;
+  showNotificationPane: boolean;
 };
 
 export default App;
