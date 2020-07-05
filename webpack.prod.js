@@ -10,6 +10,7 @@ module.exports = merge(common, {
     Config: JSON.stringify({
       domain: 'arkipel.io',
       arkipelEndpoint: 'https://api.arkipel.io/query',
+      mapsEndpoint: 'https://api.arkipel.io2/artefacts/maps/',
     }),
   },
 });

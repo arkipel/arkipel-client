@@ -4,6 +4,9 @@ import { NavLink } from 'react-router-dom';
 import { useQuery, gql } from '@apollo/client';
 import { GetIslands } from '../../generated/GetIslands';
 
+// Config
+import { mapsEndpoint } from 'Config';
+
 import Island from '../../models/Island';
 
 import { Info, Error } from '../../ui/dialog/Msg';
@@ -43,11 +46,7 @@ const IslandsList = () => {
                   className={styles.miniature}
                 >
                   <img
-                    src={
-                      'http://local.arkipel.io:9192/artefacts/maps/' +
-                      island.id +
-                      '.png'
-                    }
+                    src={mapsEndpoint + island.id + '.png'}
                     alt={'Map of ' + island.name}
                   />
                   <span>{island.name}</span>
