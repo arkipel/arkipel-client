@@ -13,7 +13,6 @@
   background: #264653;
   z-index: 100;
   transform: translateX(-$menuPaneWidth);
-  transition: 0.4s cubic-bezier(0.23, 1, 0.32, 1);
 
   footer {
     padding: 10px;
@@ -28,6 +27,10 @@
 
   a {
     color: #fff;
+  }
+
+  @media all and (max-width: 699px) {
+    transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
   }
 
   @media all and (min-width: 700px) {
