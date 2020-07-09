@@ -2,7 +2,7 @@
 
 .album {
   display: grid;
-  grid-template-columns: repeat(auto-fill, 100px);
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
   grid-gap: 10px;
   justify-content: space-between;
 }
@@ -16,8 +16,7 @@
     align-content: center;
     text-align: center;
     margin: auto;
-    width: 100px;
-    height: 100px;
+    width: 100%;
   }
 
   span {
