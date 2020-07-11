@@ -1,23 +1,44 @@
-import React, { Fragment } from 'react';
-import { BrowserRouter as Router, Route, NavLink } from 'react-router-dom';
+import React from 'react';
+import { BrowserRouter as Router } from 'react-router-dom';
 import Media from 'react-media';
 
-// Pages
-import About from './pages/About';
-import Home from './pages/Home';
-import Login from './pages/Login';
-import Registration from './pages/Registration';
+import {
+  ApolloClient,
+  ApolloProvider,
+  HttpLink,
+  InMemoryCache,
+} from '@apollo/client';
+
+import { SessionProvider } from './libs/session/session';
+
+// Config
+import { arkipelEndpoint } from 'Config';
+
+// Components
+import MenuPane from './components/MenuPane';
+import MainContent from './components/MainContent';
+import NotificationPane from './components/NotificationPane';
+import Shadow from './ui/misc/Shadow';
 
 // Assets
 import './styles/index.scss';
-import menu from './assets/icons/menu.png';
+import appStyles from './App.scss';
+
+const client = new ApolloClient({
+  cache: new InMemoryCache(),
+  link: new HttpLink({
+    uri: arkipelEndpoint,
+    credentials: 'include',
+  }),
+});
 
 class App extends React.PureComponent<props, state> {
   constructor(props: any) {
     super(props);
 
     this.state = {
-      showLeftPane: false,
+      showMenuPane: false,
+      showNotificationPane: false,
     };
 
     // let breakpoints = {
@@ -28,117 +49,71 @@ class App extends React.PureComponent<props, state> {
   }
 
   render() {
-    let menuBtn = (
-      <button onClick={this.toggleLeftPane}>
-        <img src={menu} alt="&#9776;" />
-      </button>
-    );
+    let showShadow = this.state.showMenuPane || this.state.showNotificationPane;
 
     return (
-      <Router>
-        <Media
-          query="(min-width: 700px)"
-          onChange={(match) => {
-            if (match) {
-              this.hideLeftPane();
-            }
-          }}
-        >
-          {(match) =>
-            (match || this.state.showLeftPane) && (
-              <Fragment>
-                <div id="left-pane">
-                  <div className="top-bar">
-                    {!match && <nav>{menuBtn}</nav>}
-                  </div>
-                  <div className="scrollable">
-                    <div id="menu">
-                      <nav>
-                        <h1>Main</h1>
-                        <ul>
-                          <li>
-                            <NavLink exact to="/" onClick={this.hideLeftPane}>
-                              Home
-                            </NavLink>
-                          </li>
-                          <li>
-                            <NavLink
-                              exact
-                              to="/login"
-                              onClick={this.hideLeftPane}
-                            >
-                              Login
-                            </NavLink>
-                          </li>
-                          <li>
-                            <NavLink
-                              exact
-                              to="/registration"
-                              onClick={this.hideLeftPane}
-                            >
-                              Register
-                            </NavLink>
-                          </li>
-                          <li>
-                            <NavLink
-                              exact
-                              to="/about"
-                              onClick={this.hideLeftPane}
-                            >
-                              About
-                            </NavLink>
-                          </li>
-                        </ul>
-                      </nav>
-                      <footer>
-                        <p>
-                          Made by <a href="https://mfcl.io">mfcl</a>.
-                        </p>
-                      </footer>
-                    </div>
-                  </div>
-                </div>
-                <div id="under-pane-shadow" onClick={this.hideLeftPane}></div>
-              </Fragment>
-            )
-          }
-        </Media>
-        <div id="main">
-          <div className="top-bar">
-            <Media
-              query="(max-width: 699px)"
-              render={() => <nav>{!this.state.showLeftPane && menuBtn}</nav>}
-            />
-          </div>
-          <div className="scrollable">
-            <div id="content">
-              <Route path="/" exact component={Home} />
-              <Route path="/about" exact component={About} />
-              <Route path="/login" exact component={Login} />
-              <Route path="/registration" exact component={Registration} />
-            </div>
-          </div>
-        </div>
-      </Router>
+      <div id="app" className={appStyles.app}>
+        <ApolloProvider client={client}>
+          <SessionProvider>
+            <Router>
+              <MenuPane
+                visible={this.state.showMenuPane}
+                onCloseClick={this.closeMenuPane}
+              />
+              <Media query="(max-width: 999px)">
+                <Shadow
+                  visible={showShadow}
+                  onClick={() => {
+                    this.closeMenuPane();
+                    this.closeNotificationPane();
+                  }}
+                />
+              </Media>
+              <MainContent
+                onMenuOpen={this.openMenuPane}
+                onNotificationOpen={this.openNotificationPane}
+              />
+              <NotificationPane
+                visible={this.state.showNotificationPane}
+                onCloseClick={this.closeNotificationPane}
+              />
+            </Router>
+          </SessionProvider>
+        </ApolloProvider>
+      </div>
     );
   }
 
-  toggleLeftPane = () => {
-    this.setState((state) => {
-      let showLeftPane = !state.showLeftPane;
-      return { showLeftPane };
+  openMenuPane = () => {
+    this.setState(() => {
+      return { showMenuPane: true };
     });
   };
 
-  hideLeftPane = () => {
-    this.setState({ showLeftPane: false });
+  closeMenuPane = () => {
+    this.setState(() => {
+      return { showMenuPane: false };
+    });
+  };
+
+  openNotificationPane = () => {
+    this.setState(() => {
+      return { showNotificationPane: true };
+    });
+  };
+
+  closeNotificationPane = () => {
+    this.setState(() => {
+      return { showNotificationPane: false };
+    });
   };
 }
 
 type props = {};
 
 type state = {
-  showLeftPane: boolean;
+  showMenuPane: boolean;
+  showNotificationPane: boolean;
 };
 
 export default App;

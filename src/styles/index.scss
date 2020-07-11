@@ -1,231 +1,29 @@
-// Livvic
-@font-face {
-  font-family: 'Livvic';
-  font-weight: normal;
-  font-style: normal;
-  src: url('../assets/fonts/livvic/livvic-regular.ttf');
-}
+// This file is a dump of random stuff for now. A lot of it
+// probably needs to be refactored at some point.
 
-@font-face {
-  font-family: 'Livvic';
-  font-weight: bold;
-  font-style: normal;
-  src: url('../assets/fonts/livvic/livvic-bold.ttf');
-}
-
-@font-face {
-  font-family: 'Livvic';
-  font-weight: normal;
-  font-style: italic;
-  src: url('../assets/fonts/livvic/livvic-italic.ttf');
-}
-
-@font-face {
-  font-family: 'Livvic';
-  font-weight: bold;
-  font-style: italic;
-  src: url('../assets/fonts/livvic/livvic-bold-italic.ttf');
-}
-
-html,
-body {
-  height: 100%;
-  font-family: 'Livvic', sans-serif;
-}
+// Fonts
+@import './fonts.scss';
 
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: 'Livvic', sans-serif;
 }
 
-#app {
-  width: 800px;
-  max-width: 100%;
+:global(#mount) {
   height: 100%;
-  display: grid;
-  grid-template-columns: auto 1fr;
-
-  @media all and (max-width: 699px) {
-    grid-template-columns: 1fr;
-  }
 }
 
-#under-pane-shadow {
-  grid-column: 1;
-  grid-row: 1;
-  min-height: 0;
-  width: 100%;
-  background: rgba(0, 0, 0, 0.8);
-  z-index: 80;
-}
-
-#left-pane {
-  display: grid;
-  grid-template-rows: 50px 1fr;
-  grid-column: 1;
-  grid-row: 1;
-  min-height: 0;
+html,
+body {
   height: 100%;
-  width: 200px;
-  align-content: start;
-  color: white;
-  background: rgb(40, 40, 40);
-  z-index: 100;
-
-  .top-bar {
-    background: rgba(0, 0, 0, 0.2);
-
-    img {
-      filter: invert(100%);
-    }
-  }
-
-  #menu {
-    display: grid;
-    height: 100%;
-    grid-template-rows: 1fr auto;
-    align-content: start;
-
-    h1 {
-      display: block;
-      padding: 10px;
-      font-size: 28px;
-    }
-
-    nav a {
-      display: block;
-      padding: 10px;
-      font-size: 18px;
-      text-decoration: none;
-
-      &:hover {
-        background: rgba(0, 0, 0, 0.2);
-      }
-
-      &.active {
-        background: rgba(0, 0, 0, 0.2);
-      }
-    }
-  }
-
-  #attributions {
-    padding: 10px;
-    color: #333;
-    font-size: 10px;
-    text-align: center;
-
-    a {
-      color: #444;
-
-      &:hover {
-        color: #666;
-      }
-    }
-  }
-
-  footer {
-    padding: 10px;
-    color: #444;
-    text-align: center;
-    font-size: 12px;
-
-    a {
-      color: #666;
-    }
-  }
-
-  a {
-    color: #fff;
-  }
+  overflow-x: hidden;
 }
 
-.top-bar {
-  height: 50px;
-  font-size: 30px;
-  background: rgba(0, 0, 0, 0.06);
-
-  nav {
-    height: 100%;
-
-    button {
-      display: grid;
-      align-items: center;
-      justify-content: center;
-      width: 50px;
-      height: 100%;
-      padding: 0 10px;
-      text-decoration: none;
-      border: none;
-      background: none;
-      cursor: pointer;
-    }
-  }
-
-  img {
-    height: 30px;
-  }
-}
-
-#main {
-  display: grid;
-  grid-template-rows: 50px 1fr;
-  grid-column: 2;
-  grid-row: 1;
-  align-content: start;
-  min-height: 0;
-  height: 100%;
-  width: 100%;
-
-  @media all and (max-width: 699px) {
-    grid-column: 1;
-  }
-}
-
-#content {
-  display: grid;
-  grid-gap: 10px;
-  align-content: start;
-  min-height: 100%;
-  padding: 10px;
-
-  p {
-    font-size: 18px;
-  }
-
-  a {
-    color: #666;
-
-    &:hover {
-      color: #444;
-    }
-  }
-
-  form {
-    display: grid;
-    gap: 10px;
-
-    @media all and (max-width: 499px) {
-      button,
-      input {
-        width: 100%;
-      }
-    }
-
-    .hint {
-      color: #aaa;
-      font-size: 14px;
-    }
-
-    .hint-error {
-      color: #a00;
-      font-size: 14px;
-    }
-  }
-
-  .msg-error {
-    color: #a00;
-  }
+body {
+  background: #2a9d8f url('https://icons.arkipel.io/bg/main.svg');
+  background-size: 800px 400px;
 }
 
 button,
@@ -236,6 +34,7 @@ input {
 }
 
 input[type='submit'],
+input[type='button'],
 button {
   cursor: pointer;
   color: #fff;
@@ -252,6 +51,14 @@ nav ul {
   list-style-type: none;
 }
 
-.scrollable {
-  overflow: auto;
+// To be moved once we have the proper
+// UI components for forms.
+:global(.hint) {
+  color: #aaa;
+  font-size: 14px;
+}
+
+:global(.hint-error) {
+  color: #a00;
+  font-size: 14px;
 }

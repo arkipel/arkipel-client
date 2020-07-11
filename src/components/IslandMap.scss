@@ -1,0 +1,43 @@
+@import '../styles/config.scss';
+
+.island {
+  display: grid;
+  grid-template-columns: repeat(20, 0.05fr);
+  grid-template-rows: repeat(20, 0.05fr);
+  gap: 1px;
+}
+
+@mixin tile {
+  width: 100%;
+  height: 0;
+  padding-bottom: 100%;
+  cursor: pointer;
+
+  img {
+    margin: 2px;
+  }
+}
+
+.deepWater {
+  @include tile;
+
+  background: $deepWater;
+}
+
+.water {
+  @include tile;
+
+  background: $water;
+}
+
+.sand {
+  @include tile;
+
+  background: $sand;
+}
+
+.land {
+  @include tile;
+
+  background: $land;
+}

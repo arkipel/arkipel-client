@@ -1,0 +1,27 @@
+@mixin topBar {
+  display: grid;
+  height: 50px;
+  font-size: 30px;
+  background: rgba(0, 0, 0, 0.06);
+
+  div {
+    height: 100%;
+
+    :global(.button) {
+      display: grid;
+      align-items: center;
+      justify-content: center;
+      width: 50px;
+      height: 100%;
+      padding: 0 10px;
+      text-decoration: none;
+      border: none;
+      background: none;
+      cursor: pointer;
+    }
+  }
+
+  img {
+    height: 30px;
+  }
+}
