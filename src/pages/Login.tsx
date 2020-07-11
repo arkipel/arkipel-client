@@ -20,7 +20,7 @@ class Login extends React.PureComponent<props, state> {
               type="text"
               value={this.state.username}
               placeholder="Username"
-              onChange={event => {
+              onChange={(event) => {
                 this.setState({ username: event.target.value });
               }}
             />
@@ -30,7 +30,7 @@ class Login extends React.PureComponent<props, state> {
               type="password"
               value={this.state.password}
               placeholder="Password"
-              onChange={event => {
+              onChange={(event) => {
                 this.setState({ password: event.target.value });
               }}
             />

@@ -38,13 +38,13 @@ class App extends React.PureComponent<props, state> {
       <Router>
         <Media
           query="(min-width: 700px)"
-          onChange={match => {
+          onChange={(match) => {
             if (match) {
               this.hideLeftPane();
             }
           }}
         >
-          {match =>
+          {(match) =>
             (match || this.state.showLeftPane) && (
               <Fragment>
                 <div id="left-pane">
@@ -124,7 +124,7 @@ class App extends React.PureComponent<props, state> {
   }
 
   toggleLeftPane = () => {
-    this.setState(state => {
+    this.setState((state) => {
       let showLeftPane = !state.showLeftPane;
       return { showLeftPane };
     });
