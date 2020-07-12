@@ -1,6 +1,8 @@
 import React, { Fragment, FunctionComponent } from 'react';
 import { useHistory } from 'react-router-dom';
 
+import MapTile from './MapTile';
+
 import styles from './IslandMap.scss';
 
 import Island from '../models/Island';
@@ -38,29 +40,13 @@ const IslandMap: FunctionComponent<props> = ({ island }) => {
 
     let tile = island.tiles[i];
 
-    let infraIcon = <></>;
-    if (tile) {
-      switch (tile.infrastructure) {
-        case Infrastructure.FOREST:
-          infraIcon = (
-            <img src="https://icons.arkipel.io/infra/jungle.svg" alt="Forest" />
-          );
-          break;
-        default:
-          break;
-      }
-    }
-
     map.push(
-      <div
-        key={Math.random()}
-        className={className}
-        onClick={() => {
-          history.push('/archipelago/islands/' + islandId + '/tiles/' + i);
-        }}
-      >
-        {infraIcon}
-      </div>,
+      <MapTile
+        tile={tile}
+        // onClick={() => {
+        //   history.push('/archipelago/islands/' + islandId + '/tiles/' + i);
+        // }}
+      />,
     );
   }
 
