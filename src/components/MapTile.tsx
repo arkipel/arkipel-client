@@ -1,26 +1,29 @@
 import React, { FunctionComponent } from 'react';
 
-import styles from './Tile.scss';
+import styles from './MapTile.scss';
 
 import Tile from '../models/Tile';
 import { Infrastructure, TileKind } from '../generated/globalTypes';
 
-const MapTile: FunctionComponent<props> = ({ tile }) => {
+const MapTile: FunctionComponent<props> = ({ tile, clickable, onClick }) => {
   // Tile kind
-  let kind = 'deepWater';
+  let className = styles['deepWater'];
   switch (tile.kind) {
     case TileKind.WATER:
-      kind = 'water';
+      className = styles['water'];
       break;
     case TileKind.SAND:
-      kind = 'sand';
+      className = styles['sand'];
       break;
     case TileKind.LAND:
-      kind = 'land';
+      className = styles['land'];
       break;
   }
 
-  let className = styles[kind];
+  if (!clickable) {
+    className += ' ' + styles.inactive;
+    onClick = () => {};
+  }
 
   let infraIcon = <></>;
   if (tile.infrastructure) {
@@ -36,7 +39,7 @@ const MapTile: FunctionComponent<props> = ({ tile }) => {
   }
 
   return (
-    <div key={Math.random()} className={className}>
+    <div className={className} onClick={onClick}>
       {infraIcon}
     </div>
   );
@@ -44,7 +47,8 @@ const MapTile: FunctionComponent<props> = ({ tile }) => {
 
 class props {
   tile: Tile = new Tile({});
-  onC;
+  clickable: boolean = false;
+  onClick: () => void = () => {};
 }
 
 export default MapTile;

@@ -25,7 +25,9 @@ const IslandPage = () => {
             dna
             active
             tiles {
+              kind
               infrastructure
+              level
             }
           }
         }
