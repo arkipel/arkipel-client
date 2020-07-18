@@ -1,32 +1,32 @@
 @import '../../styles/config.scss';
 
-.actionsBoard {
-  display: grid;
-  grid-template-columns: 1fr auto;
-  gap: 10px;
-  align-items: center;
-  // background: red;
-}
-
-// .action {
+// .actionsBoard {
 //   display: grid;
 //   grid-template-columns: 1fr auto;
-//   // background: green;
+//   gap: 10px;
+//   align-items: center;
+//   // background: red;
 // }
 
-.description {
-  padding: 10px 0;
-  // background: lightblue;
-}
+// // .action {
+// //   display: grid;
+// //   grid-template-columns: 1fr auto;
+// //   // background: green;
+// // }
 
-.buttons {
-  display: grid;
-  grid-auto-flow: column;
-  justify-content: flex-start;
-  gap: 10px;
-  // background: blue;
+// .description {
+//   padding: 10px 0;
+//   // background: lightblue;
+// }
 
-  button {
-    width: 140px;
-  }
-}
+// .buttons {
+//   display: grid;
+//   grid-auto-flow: column;
+//   justify-content: flex-start;
+//   gap: 10px;
+//   // background: blue;
+
+//   button {
+//     width: 140px;
+//   }
+// }

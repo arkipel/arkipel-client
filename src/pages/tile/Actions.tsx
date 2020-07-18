@@ -1,39 +1,35 @@
-import React, { Fragment, FunctionComponent, useState } from 'react';
+import React, {
+  Fragment,
+  FunctionComponent,
+  useState,
+  useContext,
+} from 'react';
 import { useForm, FormProvider } from 'react-hook-form';
 
-import { gql, useMutation } from '@apollo/client';
-import { Register, RegisterVariables } from '../generated/Register';
+import { gql, useQuery, useMutation } from '@apollo/client';
+import {
+  GetTileOwner,
+  GetTileOwnerVariables,
+} from '../../generated/GetTileOwner';
 
-import HCaptcha from '@hcaptcha/react-hcaptcha';
+import { SessionContext } from '../../libs/session/session';
 
-import UsernameInput from '../components/usernameInput';
-import PasswordInput from '../components/passwordInput';
-
-import { Info, Success, Error } from '../ui/dialog/Msg';
+import { Info, Success, Error } from '../../ui/dialog/Msg';
 
 import styles from './Actions.scss';
 
-const TileActions: FunctionComponent<props> = ({ islandId, position }) => {
+const TileActions: FunctionComponent<props> = ({ islandID, position }) => {
   // const [captcha, setCaptcha] = useState('');
 
-  const formFunctions = useForm({
-    mode: 'onChange',
-    criteriaMode: 'all',
-  });
-  const { formState } = formFunctions;
+  console.log('props:', islandID, position);
 
-  let allowSubmit = true;
-  if (!formState.isValid) {
-    allowSubmit = false;
-  } else if (captcha === '') {
-    allowSubmit = false;
-  }
+  const session = useContext(SessionContext);
 
   // Get tile owner
-  let [submit, { loading, data }] = useMutation(
+  let { data, loading, error } = useQuery<GetTileOwner, GetTileOwnerVariables>(
     gql`
-      mutation getTileOwner($islandID: String!, $position: String!) {
-        getTile(islandID: $islandID, position: $position) {
+      query GetTileOwner($islandID: String!, $position: Int!) {
+        tile(islandID: $islandID, position: $position) {
           __typename
           ... on Tile {
             owner {
@@ -43,49 +39,79 @@ const TileActions: FunctionComponent<props> = ({ islandId, position }) => {
         }
       }
     `,
+    { variables: { islandID, position } },
   );
+
+  // // Claim tile
+  // let [submit, { loading, data }] = useMutation(
+  //   gql`
+  //     mutation getTileOwner($islandID: String!, $position: String!) {
+  //       getTile(islandID: $islandID, position: $position) {
+  //         __typename
+  //         ... on Tile {
+  //           owner {
+  //             id
+  //           }
+  //         }
+  //       }
+  //     }
+  //   `,
+  // );
+
+  let isOwner = false;
+  let isOwned = false;
+
+  if (data && !loading && !error) {
+    if (data.tile.__typename === 'Tile') {
+      if (data.tile.owner !== null) {
+        isOwned = true;
+        if (data.tile.owner.id === session.id) {
+          isOwner = true;
+        }
+      }
+    }
+  }
+
+  let canBeClaimed = !isOwned;
+  let canBeAbandoned = isOwner;
+
+  isOwned = true;
 
   return (
     <Fragment>
       <h3>Actions</h3>
-      <FormProvider {...formFunctions}>
-        <form
-          onSubmit={formFunctions.handleSubmit((formData) => {
-            submit({
-              variables: {
-                username: formData.username,
-                password: formData.password,
-              },
-            });
-          })}
-        >
-          <UsernameInput disabled={registered} />
-          <PasswordInput disabled={registered} />
-          <HCaptcha
-            // sitekey="10000000-ffff-ffff-ffff-000000000001"
-            sitekey="36cde9f3-38a3-4fd7-9314-bac28f55545b"
-            onVerify={(c: string) => {
-              setCaptcha(c);
-            }}
-            onExpire={() => {
-              setCaptcha('');
-            }}
-          ></HCaptcha>
-          <p>
-            <input
-              type="submit"
-              value="Register"
-              disabled={!allowSubmit || loading}
-            />
-          </p>
-        </form>
-      </FormProvider>
+      {error && (
+        <Error>
+          An error occured. The following actions might not be accurate.
+        </Error>
+      )}
+      <div className={styles.action}>
+        <p>Claim this tile</p>
+        {!isOwned && <p className="hint-success">It is available.</p>}
+        {isOwned && isOwner && (
+          <p className="hint-error">You already own it.</p>
+        )}
+        {isOwned && !isOwner && (
+          <p className="hint-error">It is already owned.</p>
+        )}
+        <p>
+          <button disabled={!canBeClaimed}>Claim</button>
+        </p>
+      </div>
+
+      <div>
+        {canBeAbandoned && <p>You may abandon this tile.</p>}
+        {!canBeAbandoned && <p>You not abandon this tile.</p>}
+        <p>
+          <button disabled={!canBeAbandoned}>Abandon</button>
+        </p>
+      </div>
     </Fragment>
   );
 };
 
 class props {
-  islandId: string = '';
+  islandID: string = '';
   position: number = 0;
 }
 

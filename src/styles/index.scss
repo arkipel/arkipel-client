@@ -58,6 +58,11 @@ nav ul {
   font-size: 14px;
 }
 
+:global(.hint-success) {
+  color: #080;
+  font-size: 14px;
+}
+
 :global(.hint-error) {
   color: #a00;
   font-size: 14px;
