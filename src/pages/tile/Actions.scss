@@ -1,32 +1,18 @@
 @import '../../styles/config.scss';
 
-// .actionsBoard {
-//   display: grid;
-//   grid-template-columns: 1fr auto;
-//   gap: 10px;
-//   align-items: center;
-//   // background: red;
-// }
+.actions {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 10px;
+  //   background: red;
+}
 
-// // .action {
-// //   display: grid;
-// //   grid-template-columns: 1fr auto;
-// //   // background: green;
-// // }
+.action {
+  display: grid;
+}
 
-// .description {
-//   padding: 10px 0;
-//   // background: lightblue;
-// }
-
-// .buttons {
-//   display: grid;
-//   grid-auto-flow: column;
-//   justify-content: flex-start;
-//   gap: 10px;
-//   // background: blue;
-
-//   button {
-//     width: 140px;
-//   }
-// }
+.button {
+  button {
+    width: 100%;
+  }
+}

@@ -18,6 +18,7 @@ export interface GetTileOwner_tile_Tile_owner {
 
 export interface GetTileOwner_tile_Tile {
   readonly __typename: 'Tile';
+  readonly id: string;
   readonly owner: GetTileOwner_tile_Tile_owner | null;
 }
 
