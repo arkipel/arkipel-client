@@ -4,7 +4,6 @@ import React, {
   useState,
   useContext,
 } from 'react';
-import { useForm, FormProvider } from 'react-hook-form';
 
 import { gql, useQuery, useMutation } from '@apollo/client';
 import {
@@ -14,18 +13,49 @@ import {
 
 import { SessionContext } from '../../libs/session/session';
 
-import { Info, Success, Error } from '../../ui/dialog/Msg';
+import { Error } from '../../ui/dialog/Msg';
 
 import styles from './Actions.scss';
 import { ClaimTile, ClaimTileVariables } from 'generated/ClaimTile';
 import { AbandonTile, AbandonTileVariables } from 'generated/AbandonTile';
+import {
+  GetNumberTiles,
+  GetNumberTilesVariables,
+} from 'generated/GetNumberTiles';
 
 const TileActions: FunctionComponent<props> = ({ islandID, position }) => {
   const [getTileError, setGetTileError] = useState(false);
   const [claimError, setClaimError] = useState(false);
   const [abandonError, setAbandonError] = useState(false);
+  const [numberTiles, setNumberTiles] = useState(-1);
 
   const session = useContext(SessionContext);
+
+  // Get number of tiles
+  useQuery<GetNumberTiles, GetNumberTilesVariables>(
+    gql`
+      query GetNumberTiles($userID: String!) {
+        me(userID: $userID) {
+          __typename
+          ... on User {
+            id
+            numberTiles
+          }
+        }
+      }
+    `,
+    {
+      variables: { userID: session.id },
+      onError: () => {
+        setNumberTiles(-1);
+      },
+      onCompleted: (data) => {
+        if (data.me.__typename === 'User') {
+          setNumberTiles(data.me.numberTiles);
+        }
+      },
+    },
+  );
 
   // Get tile owner
   let { data, loading } = useQuery<GetTileOwner, GetTileOwnerVariables>(
@@ -67,6 +97,7 @@ const TileActions: FunctionComponent<props> = ({ islandID, position }) => {
             id
             owner {
               id
+              numberTiles
             }
           }
         }
@@ -97,6 +128,7 @@ const TileActions: FunctionComponent<props> = ({ islandID, position }) => {
             id
             owner {
               id
+              numberTiles
             }
           }
         }
@@ -124,8 +156,9 @@ const TileActions: FunctionComponent<props> = ({ islandID, position }) => {
     }
   }
 
-  let canBeClaimed = session.loggedIn && !isOwned;
-  let canBeAbandoned = session.loggedIn && isOwner;
+  let canBeClaimed =
+    session.loggedIn && !isOwned && numberTiles >= 0 && numberTiles <= 2;
+  let canBeAbandoned = session.loggedIn && isOwner && numberTiles <= 3;
 
   let claimFailed =
     claimData?.claimTile?.__typename === 'NotAuthorized' || claimError;
@@ -141,24 +174,16 @@ const TileActions: FunctionComponent<props> = ({ islandID, position }) => {
       <div className={styles.actions}>
         <div className={styles.action}>
           <h4>Claim tile</h4>
-          {!isOwned && <span className="hint-success">It is available.</span>}
-          {!isOwner && (
-            <span className="hint-success">
-              You are eligible to claim a tile.
-            </span>
-          )}
           {!session.loggedIn && (
             <span className="hint-error">You are not logged in.</span>
           )}
-          {isOwned && isOwner && (
-            <>
-              <span className="hint-error">You already own it.</span>
-              <br />
-              <span className="hint-error">You already own it.</span>
-              <br />
-              <span className="hint-error">You already own it.</span>
-            </>
+          {!isOwned && <span className="hint-success">It is available.</span>}
+          {!isOwner && numberTiles >= 0 && numberTiles <= 2 && (
+            <span className="hint-success">
+              You are eligible to claim a tile ({3 - numberTiles} left).
+            </span>
           )}
+          {isOwner && <span className="hint-error">You already own it.</span>}
           {isOwned && !isOwner && (
             <span className="hint-error">It is already owned.</span>
           )}
