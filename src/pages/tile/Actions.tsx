@@ -68,7 +68,6 @@ const TileActions: FunctionComponent<props> = ({ islandID, position }) => {
       getNumberTiles();
     }
 
-    console.log('getNumberTilesData changed!', getNumberTilesData);
     if (getNumberTilesData?.me.__typename === 'User') {
       if (getNumberTilesData.me) {
         setNumberTiles(getNumberTilesData.me.numberTiles);
@@ -180,7 +179,7 @@ const TileActions: FunctionComponent<props> = ({ islandID, position }) => {
     {
       variables: { userID: session.id, islandID, position },
       update: (cache) => {
-        let ref = cache.writeFragment<NumberTiles>({
+        cache.writeFragment<NumberTiles>({
           id: 'User:' + session.id,
           fragment: gql`
             fragment NumberTiles on User {
@@ -189,7 +188,6 @@ const TileActions: FunctionComponent<props> = ({ islandID, position }) => {
           `,
           data: { __typename: 'User', numberTiles: numberTiles - 1 },
         });
-        console.log('ref', ref);
       },
       onError: () => {
         setAbandonError(true);
