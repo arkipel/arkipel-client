@@ -265,12 +265,12 @@ const TileActions: FunctionComponent<props> = ({ islandID, position }) => {
           {!session.loggedIn && (
             <span className="hint-error">You are not logged in.</span>
           )}
-          {canClaim && (
+          {canAbandon && (
             <span className="hint-success">
               You are eligible to abandon a tile.
             </span>
           )}
-          {session.loggedIn && !canClaim && (
+          {session.loggedIn && !canAbandon && (
             <span className="hint-error">
               You own too many tiles to abandon one.
             </span>
