@@ -3,9 +3,10 @@ import React, {
   FunctionComponent,
   useState,
   useContext,
+  useEffect,
 } from 'react';
 
-import { gql, useQuery, useMutation } from '@apollo/client';
+import { gql, useQuery, useLazyQuery, useMutation } from '@apollo/client';
 import {
   GetTileOwner,
   GetTileOwnerVariables,
@@ -22,21 +23,26 @@ import {
   GetNumberTiles,
   GetNumberTilesVariables,
 } from 'generated/GetNumberTiles';
+import { NumberTiles } from 'generated/NumberTiles';
 
 const TileActions: FunctionComponent<props> = ({ islandID, position }) => {
   const [getTileError, setGetTileError] = useState(false);
   const [claimError, setClaimError] = useState(false);
   const [abandonError, setAbandonError] = useState(false);
   const [numberTiles, setNumberTiles] = useState(-1);
+  const [isOwned, setIsOwned] = useState(false);
+  const [isOwner, setIsOwner] = useState(false);
 
   const session = useContext(SessionContext);
 
   // Get number of tiles
-  useQuery<GetNumberTiles, GetNumberTilesVariables>(
+  let [getNumberTiles, { data: getNumberTilesData }] = useLazyQuery<
+    GetNumberTiles,
+    GetNumberTilesVariables
+  >(
     gql`
       query GetNumberTiles($userID: String!) {
         me(userID: $userID) {
-          __typename
           ... on User {
             id
             numberTiles
@@ -57,8 +63,23 @@ const TileActions: FunctionComponent<props> = ({ islandID, position }) => {
     },
   );
 
+  useEffect(() => {
+    if (session.loggedIn) {
+      getNumberTiles();
+    }
+
+    console.log('getNumberTilesData changed!', getNumberTilesData);
+    if (getNumberTilesData?.me.__typename === 'User') {
+      if (getNumberTilesData.me) {
+        setNumberTiles(getNumberTilesData.me.numberTiles);
+      } else {
+        setNumberTiles(-1);
+      }
+    }
+  }, [session.loggedIn, getNumberTilesData]);
+
   // Get tile owner
-  let { data, loading } = useQuery<GetTileOwner, GetTileOwnerVariables>(
+  useQuery<GetTileOwner, GetTileOwnerVariables>(
     gql`
       query GetTileOwner($islandID: String!, $position: Int!) {
         tile(islandID: $islandID, position: $position) {
@@ -77,11 +98,22 @@ const TileActions: FunctionComponent<props> = ({ islandID, position }) => {
       onError: () => {
         setGetTileError(true);
       },
+      onCompleted: (data) => {
+        if (data?.tile.__typename === 'Tile') {
+          if (data.tile.owner) {
+            setIsOwned(true);
+            setIsOwner(data.tile.owner.id === session.id);
+          } else {
+            setIsOwned(false);
+            setIsOwner(false);
+          }
+        }
+      },
     },
   );
 
   // Claim tile
-  let [claimTile, { data: claimData, loading: claimLoading }] = useMutation<
+  let [claimTile, { loading: claimLoading }] = useMutation<
     ClaimTile,
     ClaimTileVariables
   >(
@@ -92,7 +124,6 @@ const TileActions: FunctionComponent<props> = ({ islandID, position }) => {
         $position: Int!
       ) {
         claimTile(userID: $userID, islandID: $islandID, position: $position) {
-          __typename
           ... on Tile {
             id
             owner {
@@ -108,14 +139,27 @@ const TileActions: FunctionComponent<props> = ({ islandID, position }) => {
       onError: () => {
         setClaimError(true);
       },
+      onCompleted: (data) => {
+        setClaimError(false);
+
+        if (data.claimTile?.__typename === 'Tile') {
+          if (data.claimTile.owner) {
+            setNumberTiles(data.claimTile.owner.numberTiles);
+            setIsOwned(true);
+            setIsOwner(true);
+          }
+        } else if (data.claimTile?.__typename === 'NotAuthorized') {
+          setClaimError(true);
+        }
+      },
     },
   );
 
   // Abandon tile
-  let [
-    abandonTile,
-    { data: abandonData, loading: abandonLoading },
-  ] = useMutation<AbandonTile, AbandonTileVariables>(
+  let [abandonTile, { loading: abandonLoading }] = useMutation<
+    AbandonTile,
+    AbandonTileVariables
+  >(
     gql`
       mutation AbandonTile(
         $userID: String!
@@ -123,7 +167,6 @@ const TileActions: FunctionComponent<props> = ({ islandID, position }) => {
         $position: Int!
       ) {
         abandonTile(userID: $userID, islandID: $islandID, position: $position) {
-          __typename
           ... on Tile {
             id
             owner {
@@ -136,34 +179,41 @@ const TileActions: FunctionComponent<props> = ({ islandID, position }) => {
     `,
     {
       variables: { userID: session.id, islandID, position },
+      update: (cache) => {
+        let ref = cache.writeFragment<NumberTiles>({
+          id: 'User:' + session.id,
+          fragment: gql`
+            fragment NumberTiles on User {
+              numberTiles
+            }
+          `,
+          data: { __typename: 'User', numberTiles: numberTiles - 1 },
+        });
+        console.log('ref', ref);
+      },
       onError: () => {
         setAbandonError(true);
+      },
+      onCompleted: (data) => {
+        setAbandonError(false);
+
+        if (data.abandonTile?.__typename === 'Tile') {
+          setIsOwned(false);
+          setIsOwner(false);
+        } else if (data.abandonTile?.__typename === 'NotAuthorized') {
+          setAbandonError(true);
+        }
       },
     },
   );
 
-  let isOwner = false;
-  let isOwned = false;
+  // User
+  let canClaim = numberTiles >= 0 && numberTiles <= 2;
+  let canAbandon = numberTiles >= 1 && numberTiles <= 3;
 
-  if (data && !loading && !getTileError) {
-    if (data.tile.__typename === 'Tile') {
-      if (data.tile.owner !== null) {
-        isOwned = true;
-        if (data.tile.owner.id === session.id) {
-          isOwner = true;
-        }
-      }
-    }
-  }
-
-  let canBeClaimed =
-    session.loggedIn && !isOwned && numberTiles >= 0 && numberTiles <= 2;
-  let canBeAbandoned = session.loggedIn && isOwner && numberTiles <= 3;
-
-  let claimFailed =
-    claimData?.claimTile?.__typename === 'NotAuthorized' || claimError;
-  let abandonFailed =
-    abandonData?.abandonTile?.__typename === 'NotAuthorized' || abandonError;
+  // Tile
+  let canBeClaimed = session.loggedIn && !isOwned && canClaim;
+  let canBeAbandoned = session.loggedIn && isOwner && canAbandon;
 
   return (
     <Fragment>
@@ -177,28 +227,39 @@ const TileActions: FunctionComponent<props> = ({ islandID, position }) => {
           {!session.loggedIn && (
             <span className="hint-error">You are not logged in.</span>
           )}
-          {!isOwned && <span className="hint-success">It is available.</span>}
-          {!isOwner && numberTiles >= 0 && numberTiles <= 2 && (
+          {canClaim && (
             <span className="hint-success">
               You are eligible to claim a tile ({3 - numberTiles} left).
             </span>
           )}
+          {session.loggedIn && !canClaim && (
+            <span className="hint-error">
+              You own too many tiles to claim one.
+            </span>
+          )}
           {isOwner && <span className="hint-error">You already own it.</span>}
-          {isOwned && !isOwner && (
+          {!isOwner && isOwned && (
             <span className="hint-error">It is already owned.</span>
           )}
-          <Error visible={claimFailed} onConfirmation={() => {}}>
+          {!isOwned && <span className="hint-success">It is available.</span>}
+          <Error
+            visible={claimError}
+            onConfirmation={() => {
+              setClaimError(false);
+            }}
+          >
             Claiming failed, please try again later.
           </Error>
         </div>
         <div className={styles.button}>
           <button
-            disabled={!canBeClaimed || loading || claimLoading}
+            disabled={!canBeClaimed}
             onClick={() => {
               claimTile();
             }}
           >
-            Claim
+            {claimLoading && 'Loading...'}
+            {!claimLoading && 'Claim'}
           </button>
         </div>
         <div className={styles.action}>
@@ -206,18 +267,36 @@ const TileActions: FunctionComponent<props> = ({ islandID, position }) => {
           {!session.loggedIn && (
             <span className="hint-error">You are not logged in.</span>
           )}
-          <Error visible={abandonFailed} onConfirmation={() => {}}>
+          {canClaim && (
+            <span className="hint-success">
+              You are eligible to abandon a tile.
+            </span>
+          )}
+          {session.loggedIn && !canClaim && (
+            <span className="hint-error">
+              You own too many tiles to abandon one.
+            </span>
+          )}
+          {isOwner && <span className="hint-success">You own it.</span>}
+          {!isOwner && <span className="hint-error">You do not own it.</span>}
+          <Error
+            visible={abandonError}
+            onConfirmation={() => {
+              setAbandonError(false);
+            }}
+          >
             Abandoning failed, please try again later.
           </Error>
         </div>
         <div className={styles.button}>
           <button
-            disabled={!canBeAbandoned || loading || abandonLoading}
+            disabled={!canBeAbandoned}
             onClick={() => {
               abandonTile();
             }}
           >
-            Abandon
+            {abandonLoading && 'Loading...'}
+            {!abandonLoading && 'Abandon'}
           </button>
         </div>
       </div>

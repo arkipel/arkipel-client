@@ -14,6 +14,7 @@ export interface AbandonTile_abandonTile_NotAuthorized {
 export interface AbandonTile_abandonTile_Tile_owner {
   readonly __typename: 'User';
   readonly id: string;
+  readonly numberTiles: number;
 }
 
 export interface AbandonTile_abandonTile_Tile {

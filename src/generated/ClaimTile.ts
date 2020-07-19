@@ -14,6 +14,7 @@ export interface ClaimTile_claimTile_NotAuthorized {
 export interface ClaimTile_claimTile_Tile_owner {
   readonly __typename: 'User';
   readonly id: string;
+  readonly numberTiles: number;
 }
 
 export interface ClaimTile_claimTile_Tile {
