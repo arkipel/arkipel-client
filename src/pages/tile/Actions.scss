@@ -1,0 +1,17 @@
+@import '../../styles/config.scss';
+
+.actions {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 10px;
+}
+
+.action {
+  display: grid;
+}
+
+.button {
+  button {
+    width: 100%;
+  }
+}

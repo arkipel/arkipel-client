@@ -104,7 +104,7 @@ const TilePage = () => {
           path="/archipelago/islands/:islandID/tiles/:position/actions"
           exact
         >
-          <TileActions />
+          <TileActions islandID={islandID} position={position} />
         </Route>
       </Switch>
     </Fragment>
