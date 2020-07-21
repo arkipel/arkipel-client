@@ -26,6 +26,6 @@ export interface SetEmailAddress {
 }
 
 export interface SetEmailAddressVariables {
-  readonly userID: string;
+  readonly userId: string;
   readonly emailAddress: string;
 }

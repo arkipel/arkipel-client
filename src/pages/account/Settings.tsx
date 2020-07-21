@@ -104,13 +104,13 @@ const ChangeUsernameForm = () => {
                 SetUsernameVariables
               >({
                 mutation: gql`
-                  mutation SetUsername($userID: String!, $username: String!) {
-                    setUsername(userID: $userID, new: $username) {
+                  mutation SetUsername($userId: String!, $username: String!) {
+                    setUsername(userId: $userId, new: $username) {
                       __typename
                     }
                   }
                 `,
-                variables: { userID: session.id, username },
+                variables: { userId: session.id, username },
               });
 
               if (response?.data?.setUsername?.__typename === 'User') {
@@ -163,8 +163,8 @@ const ChangeEmailAddress = () => {
 
   const { data, loading } = useQuery<GetEmailAddress, GetEmailAddressVariables>(
     gql`
-      query GetEmailAddress($userID: String!) {
-        me(userID: $userID) {
+      query GetEmailAddress($userId: String!) {
+        me(userId: $userId) {
           __typename
           ... on User {
             id
@@ -174,7 +174,7 @@ const ChangeEmailAddress = () => {
       }
     `,
     {
-      variables: { userID: session.id },
+      variables: { userId: session.id },
     },
   );
 
@@ -213,10 +213,10 @@ const ChangeEmailAddress = () => {
             >({
               mutation: gql`
                 mutation SetEmailAddress(
-                  $userID: String!
+                  $userId: String!
                   $emailAddress: String!
                 ) {
-                  setEmailAddress(userID: $userID, new: $emailAddress) {
+                  setEmailAddress(userId: $userId, new: $emailAddress) {
                     __typename
                     ... on User {
                       id
@@ -225,7 +225,7 @@ const ChangeEmailAddress = () => {
                   }
                 }
               `,
-              variables: { userID: session.id, emailAddress },
+              variables: { userId: session.id, emailAddress },
             });
 
             if (response?.data?.setEmailAddress?.__typename === 'User') {
@@ -268,8 +268,8 @@ const ChangeEmailAddress = () => {
                   DeleteEmailAddressVariables
                 >({
                   mutation: gql`
-                    mutation DeleteEmailAddress($userID: String!) {
-                      deleteEmailAddress(userID: $userID) {
+                    mutation DeleteEmailAddress($userId: String!) {
+                      deleteEmailAddress(userId: $userId) {
                         __typename
                         ... on User {
                           id
@@ -278,7 +278,7 @@ const ChangeEmailAddress = () => {
                       }
                     }
                   `,
-                  variables: { userID: session.id },
+                  variables: { userId: session.id },
                 });
 
                 if (response?.data?.deleteEmailAddress?.__typename === 'User') {
@@ -336,14 +336,14 @@ const ChangePassword = () => {
     try {
       let response = await client.mutate<SetPassword, SetPasswordVariables>({
         mutation: gql`
-          mutation SetPassword($userID: String!, $old: String!, $new: String!) {
-            setPassword(userID: $userID, old: $old, new: $new) {
+          mutation SetPassword($userId: String!, $old: String!, $new: String!) {
+            setPassword(userId: $userId, old: $old, new: $new) {
               __typename
             }
           }
         `,
         variables: {
-          userID: session.id,
+          userId: session.id,
           old: formData.current_password,
           new: formData.password,
         },

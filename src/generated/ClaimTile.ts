@@ -32,7 +32,7 @@ export interface ClaimTile {
 }
 
 export interface ClaimTileVariables {
-  readonly userID: string;
-  readonly islandID: string;
+  readonly userId: string;
+  readonly islandId: string;
   readonly position: number;
 }

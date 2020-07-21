@@ -29,6 +29,6 @@ export interface GetTile {
 }
 
 export interface GetTileVariables {
-  readonly islandID: string;
+  readonly islandId: string;
   readonly position: number;
 }

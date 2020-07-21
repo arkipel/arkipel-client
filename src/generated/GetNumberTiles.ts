@@ -26,5 +26,5 @@ export interface GetNumberTiles {
 }
 
 export interface GetNumberTilesVariables {
-  readonly userID: string;
+  readonly userId: string;
 }

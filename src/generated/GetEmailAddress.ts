@@ -26,5 +26,5 @@ export interface GetEmailAddress {
 }
 
 export interface GetEmailAddressVariables {
-  readonly userID: string;
+  readonly userId: string;
 }
