@@ -25,7 +25,7 @@ import {
 } from 'generated/GetNumberTiles';
 import { NumberTiles } from 'generated/NumberTiles';
 
-const TileActions: FunctionComponent<props> = ({ islandID, position }) => {
+const TileActions: FunctionComponent<props> = ({ islandId, position }) => {
   const [getTileError, setGetTileError] = useState(false);
   const [claimError, setClaimError] = useState(false);
   const [abandonError, setAbandonError] = useState(false);
@@ -41,8 +41,8 @@ const TileActions: FunctionComponent<props> = ({ islandID, position }) => {
     GetNumberTilesVariables
   >(
     gql`
-      query GetNumberTiles($userID: String!) {
-        me(userID: $userID) {
+      query GetNumberTiles($userId: String!) {
+        me(userId: $userId) {
           ... on User {
             id
             numberTiles
@@ -51,7 +51,7 @@ const TileActions: FunctionComponent<props> = ({ islandID, position }) => {
       }
     `,
     {
-      variables: { userID: session.id },
+      variables: { userId: session.id },
       onError: () => {
         setNumberTiles(-1);
       },
@@ -80,8 +80,8 @@ const TileActions: FunctionComponent<props> = ({ islandID, position }) => {
   // Get tile owner
   useQuery<GetTileOwner, GetTileOwnerVariables>(
     gql`
-      query GetTileOwner($islandID: String!, $position: Int!) {
-        tile(islandID: $islandID, position: $position) {
+      query GetTileOwner($islandId: String!, $position: Int!) {
+        tile(islandId: $islandId, position: $position) {
           __typename
           ... on Tile {
             id
@@ -93,7 +93,7 @@ const TileActions: FunctionComponent<props> = ({ islandID, position }) => {
       }
     `,
     {
-      variables: { islandID, position },
+      variables: { islandId, position },
       onError: () => {
         setGetTileError(true);
       },
@@ -118,11 +118,11 @@ const TileActions: FunctionComponent<props> = ({ islandID, position }) => {
   >(
     gql`
       mutation ClaimTile(
-        $userID: String!
-        $islandID: String!
+        $userId: String!
+        $islandId: String!
         $position: Int!
       ) {
-        claimTile(userID: $userID, islandID: $islandID, position: $position) {
+        claimTile(userId: $userId, islandId: $islandId, position: $position) {
           ... on Tile {
             id
             owner {
@@ -134,7 +134,7 @@ const TileActions: FunctionComponent<props> = ({ islandID, position }) => {
       }
     `,
     {
-      variables: { userID: session.id, islandID, position },
+      variables: { userId: session.id, islandId, position },
       onError: () => {
         setClaimError(true);
       },
@@ -161,11 +161,11 @@ const TileActions: FunctionComponent<props> = ({ islandID, position }) => {
   >(
     gql`
       mutation AbandonTile(
-        $userID: String!
-        $islandID: String!
+        $userId: String!
+        $islandId: String!
         $position: Int!
       ) {
-        abandonTile(userID: $userID, islandID: $islandID, position: $position) {
+        abandonTile(userId: $userId, islandId: $islandId, position: $position) {
           ... on Tile {
             id
             owner {
@@ -177,7 +177,7 @@ const TileActions: FunctionComponent<props> = ({ islandID, position }) => {
       }
     `,
     {
-      variables: { userID: session.id, islandID, position },
+      variables: { userId: session.id, islandId, position },
       update: (cache) => {
         cache.writeFragment<NumberTiles>({
           id: 'User:' + session.id,
@@ -303,7 +303,7 @@ const TileActions: FunctionComponent<props> = ({ islandID, position }) => {
 };
 
 class props {
-  islandID: string = '';
+  islandId: string = '';
   position: number = 0;
 }
 

@@ -81,7 +81,7 @@ const MainContent: FunctionComponent<props> = ({
             <Route path="/account/settings" exact component={Settings} />
             <Route path="/archipelago/islands" exact component={IslandsPage} />
             <Route
-              path="/archipelago/islands/:islandID"
+              path="/archipelago/islands/:islandId"
               component={IslandPage}
             />
           </Switch>

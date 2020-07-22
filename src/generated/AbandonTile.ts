@@ -32,7 +32,7 @@ export interface AbandonTile {
 }
 
 export interface AbandonTileVariables {
-  readonly userID: string;
-  readonly islandID: string;
+  readonly userId: string;
+  readonly islandId: string;
   readonly position: number;
 }

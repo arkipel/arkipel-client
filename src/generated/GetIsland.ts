@@ -38,5 +38,5 @@ export interface GetIsland {
 }
 
 export interface GetIslandVariables {
-  readonly islandID: string;
+  readonly islandId: string;
 }

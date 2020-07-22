@@ -16,7 +16,7 @@ export interface SetPassword {
 }
 
 export interface SetPasswordVariables {
-  readonly userID: string;
+  readonly userId: string;
   readonly old: string;
   readonly new: string;
 }

@@ -13,12 +13,12 @@ import TilePage from '../tile/Tile';
 import { Error } from '../../ui/dialog/Msg';
 
 const IslandPage = () => {
-  const { islandID } = useParams();
+  const { islandId } = useParams();
 
   const { data, loading, error } = useQuery<GetIsland, GetIslandVariables>(
     gql`
-      query GetIsland($islandID: String!) {
-        island(islandID: $islandID) {
+      query GetIsland($islandId: String!) {
+        island(islandId: $islandId) {
           ... on Island {
             id
             name
@@ -33,7 +33,7 @@ const IslandPage = () => {
         }
       }
     `,
-    { variables: { islandID } },
+    { variables: { islandId } },
   );
 
   if (data?.island.__typename === 'NotFound') {
@@ -59,25 +59,25 @@ const IslandPage = () => {
       <nav>
         <ul>
           <li>
-            <NavLink to={'/archipelago/islands/' + islandID} exact>
+            <NavLink to={'/archipelago/islands/' + islandId} exact>
               Map
             </NavLink>
           </li>
           <li>
-            <NavLink to={'/archipelago/islands/' + islandID + '/info'}>
+            <NavLink to={'/archipelago/islands/' + islandId + '/info'}>
               Overview
             </NavLink>
           </li>
         </ul>
       </nav>
       <Switch>
-        <Route path="/archipelago/islands/:islandID" exact>
+        <Route path="/archipelago/islands/:islandId" exact>
           <IslandMap island={island} />
         </Route>
-        <Route path="/archipelago/islands/:islandID/info" exact>
+        <Route path="/archipelago/islands/:islandId/info" exact>
           <IslandOverview island={island} />
         </Route>
-        <Route path="/archipelago/islands/:islandID/tiles/:position">
+        <Route path="/archipelago/islands/:islandId/tiles/:position">
           <TilePage />
         </Route>
       </Switch>

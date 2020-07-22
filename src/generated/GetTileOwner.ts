@@ -31,6 +31,6 @@ export interface GetTileOwner {
 }
 
 export interface GetTileOwnerVariables {
-  readonly islandID: string;
+  readonly islandId: string;
   readonly position: number;
 }

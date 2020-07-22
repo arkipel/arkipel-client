@@ -26,5 +26,5 @@ export interface DeleteEmailAddress {
 }
 
 export interface DeleteEmailAddressVariables {
-  readonly userID: string;
+  readonly userId: string;
 }

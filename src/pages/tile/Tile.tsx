@@ -13,12 +13,12 @@ import Tile from '../../models/Tile';
 import { Error } from '../../ui/dialog/Msg';
 
 const TilePage = () => {
-  const { islandID, position } = useParams();
+  const { islandId, position } = useParams();
 
   const { data, loading, error } = useQuery<GetTile, GetTileVariables>(
     gql`
-      query GetTile($islandID: String!, $position: Int!) {
-        tile(islandID: $islandID, position: $position) {
+      query GetTile($islandId: String!, $position: Int!) {
+        tile(islandId: $islandId, position: $position) {
           ... on Tile {
             id
             position
@@ -29,7 +29,7 @@ const TilePage = () => {
         }
       }
     `,
-    { variables: { islandID, position } },
+    { variables: { islandId, position } },
   );
 
   if (data?.tile.__typename === 'NotFound') {
@@ -56,7 +56,7 @@ const TilePage = () => {
         <ul>
           <li>
             <NavLink
-              to={'/archipelago/islands/' + islandID + '/tiles/' + position}
+              to={'/archipelago/islands/' + islandId + '/tiles/' + position}
               exact
             >
               Summary
@@ -66,7 +66,7 @@ const TilePage = () => {
             <NavLink
               to={
                 '/archipelago/islands/' +
-                islandID +
+                islandId +
                 '/tiles/' +
                 position +
                 '/management'
@@ -79,7 +79,7 @@ const TilePage = () => {
             <NavLink
               to={
                 '/archipelago/islands/' +
-                islandID +
+                islandId +
                 '/tiles/' +
                 position +
                 '/actions'
@@ -91,20 +91,20 @@ const TilePage = () => {
         </ul>
       </nav>
       <Switch>
-        <Route path="/archipelago/islands/:islandID/tiles/:position" exact>
+        <Route path="/archipelago/islands/:islandId/tiles/:position" exact>
           <TileSummary tile={tile} />
         </Route>
         <Route
-          path="/archipelago/islands/:islandID/tiles/:position/management"
+          path="/archipelago/islands/:islandId/tiles/:position/management"
           exact
         >
           <TileManagement />
         </Route>
         <Route
-          path="/archipelago/islands/:islandID/tiles/:position/actions"
+          path="/archipelago/islands/:islandId/tiles/:position/actions"
           exact
         >
-          <TileActions islandID={islandID} position={position} />
+          <TileActions islandId={islandId} position={position} />
         </Route>
       </Switch>
     </Fragment>
