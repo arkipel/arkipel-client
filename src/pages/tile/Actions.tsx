@@ -51,7 +51,6 @@ const TileActions: FunctionComponent<props> = ({ islandId, position }) => {
       }
     `,
     {
-      variables: { userId: session.id },
       onError: () => {
         setNumberTiles(-1);
       },
@@ -65,7 +64,9 @@ const TileActions: FunctionComponent<props> = ({ islandId, position }) => {
 
   useEffect(() => {
     if (session.loggedIn) {
-      getNumberTiles();
+      getNumberTiles({
+        variables: { userId: session.id },
+      });
     }
 
     if (getNumberTilesData?.me.__typename === 'User') {
