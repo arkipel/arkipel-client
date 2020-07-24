@@ -2,7 +2,7 @@
 
 .island {
   display: grid;
-  grid-template-columns: repeat(20, 0.05fr);
-  grid-template-rows: repeat(20, 0.05fr);
+  grid-template-columns: repeat(16, 0.0625fr);
+  grid-template-rows: repeat(16, 0.0625fr);
   gap: 1px;
 }

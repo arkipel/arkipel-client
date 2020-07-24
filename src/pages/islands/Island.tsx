@@ -21,9 +21,6 @@ const IslandPage = () => {
         island(islandId: $islandId) {
           ... on Island {
             id
-            name
-            dna
-            active
             tiles {
               kind
               infrastructure
