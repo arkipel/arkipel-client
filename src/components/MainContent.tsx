@@ -8,8 +8,6 @@ import { SessionContext } from '../libs/session/session';
 import About from '../pages/About';
 import Home from '../pages/Home';
 import ArchipelagoOverview from '../pages/archipelago/Overview';
-import IslandPage from '../pages/islands/Island';
-import IslandsPage from '../pages/islands/List';
 import Login from '../pages/Login';
 import Registration from '../pages/Registration';
 import Settings from '../pages/account/Settings';
@@ -84,11 +82,6 @@ const MainContent: FunctionComponent<props> = ({
               path="/archipelago/overview"
               exact
               component={ArchipelagoOverview}
-            />
-            <Route path="/archipelago/islands" exact component={IslandsPage} />
-            <Route
-              path="/archipelago/islands/:islandId"
-              component={IslandPage}
             />
           </Switch>
         </div>
