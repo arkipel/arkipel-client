@@ -48,7 +48,7 @@ const IslandPage = () => {
   if (data?.island.__typename === 'Island') {
     island = new Island(data.island);
   } else if (loading) {
-    island = new Island({ name: 'Loading...' });
+    island = new Island({ owner: { username: 'Loading...' } });
   } else {
     island = new Island({});
   }
