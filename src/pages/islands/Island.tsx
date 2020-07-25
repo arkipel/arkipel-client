@@ -21,9 +21,9 @@ const IslandPage = () => {
         island(islandId: $islandId) {
           ... on Island {
             id
-            name
-            dna
-            active
+            owner {
+              username
+            }
             tiles {
               kind
               infrastructure
@@ -55,7 +55,7 @@ const IslandPage = () => {
 
   return (
     <Fragment>
-      <h1>{island.name}</h1>
+      <h1>{island.owner.username}</h1>
       <nav>
         <ul>
           <li>

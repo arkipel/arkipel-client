@@ -1,3 +1,4 @@
+import User from '../models/User';
 import Tile from '../models/Tile';
 
 import { TileKind } from '../generated/globalTypes';
@@ -5,16 +6,14 @@ import { TileKind } from '../generated/globalTypes';
 class Island {
   constructor(obj: any) {
     this.id = obj?.id || '';
-    this.name = obj?.name || '';
-    this.dna = obj?.dna || '0'.repeat(400);
-    this.active = obj?.active || '';
+    this.owner = obj?.owner || new User({});
 
     // Tiles
-    this.tiles = obj?.tiles || new Array<Tile>(400);
+    this.tiles = obj?.tiles || new Array<Tile>(256);
     if (obj?.tiles) {
       this.tiles = obj?.tiles;
     } else {
-      for (let i = 0; i < this.dna.length; i++) {
+      for (let i = 0; i < 256; i++) {
         this.tiles[i] = new Tile({
           kind: TileKind.DEEP_WATER,
         });
@@ -23,10 +22,7 @@ class Island {
   }
 
   id: string;
-  name: string;
-  dna: string;
-  active: boolean;
-
+  owner: User;
   tiles: Array<Tile>;
 }
 
