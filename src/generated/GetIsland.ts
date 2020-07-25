@@ -13,6 +13,11 @@ export interface GetIsland_island_NotFound {
   readonly __typename: 'NotFound' | 'NotAuthorized';
 }
 
+export interface GetIsland_island_Island_owner {
+  readonly __typename: 'User';
+  readonly username: string;
+}
+
 export interface GetIsland_island_Island_tiles {
   readonly __typename: 'Tile';
   readonly kind: TileKind;
@@ -23,9 +28,7 @@ export interface GetIsland_island_Island_tiles {
 export interface GetIsland_island_Island {
   readonly __typename: 'Island';
   readonly id: string;
-  readonly name: string;
-  readonly dna: string;
-  readonly active: boolean;
+  readonly owner: GetIsland_island_Island_owner;
   readonly tiles: ReadonlyArray<GetIsland_island_Island_tiles>;
 }
 

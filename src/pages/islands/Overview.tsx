@@ -7,7 +7,7 @@ const IslandOverview: FunctionComponent<props> = ({ island }) => {
     <Fragment>
       <h2>Overview</h2>
       <p>
-        <b>Name:</b> {island.name}
+        <b>Owner:</b> {island.owner.username}
         <br />
         <b>Population:</b> 0
       </p>

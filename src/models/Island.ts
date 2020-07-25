@@ -1,3 +1,4 @@
+import User from '../models/User';
 import Tile from '../models/Tile';
 
 import { TileKind } from '../generated/globalTypes';
@@ -5,8 +6,7 @@ import { TileKind } from '../generated/globalTypes';
 class Island {
   constructor(obj: any) {
     this.id = obj?.id || '';
-    this.name = obj?.name || '';
-    this.active = obj?.active || '';
+    this.owner = obj?.owner || new User({});
 
     // Tiles
     this.tiles = obj?.tiles || new Array<Tile>(256);
@@ -22,9 +22,7 @@ class Island {
   }
 
   id: string;
-  name: string;
-  active: boolean;
-
+  owner: User;
   tiles: Array<Tile>;
 }
 

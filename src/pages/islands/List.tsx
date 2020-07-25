@@ -18,8 +18,6 @@ const IslandsList = () => {
     query GetIslands {
       islands(sort: null) {
         id
-        name
-        active
       }
     }
   `);
