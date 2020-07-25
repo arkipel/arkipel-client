@@ -37,6 +37,15 @@ const MenuPane: FunctionComponent<props> = ({ visible, onCloseClick }) => {
             <h1>Archipelago</h1>
             <ul>
               <li>
+                <NavLink
+                  exact
+                  to="/archipelago/overview"
+                  onClick={onCloseClick}
+                >
+                  Overview
+                </NavLink>
+              </li>
+              <li>
                 <NavLink exact to="/archipelago/islands" onClick={onCloseClick}>
                   Islands
                 </NavLink>
