@@ -28,7 +28,7 @@
     "@types/hcaptcha__react-hcaptcha": "^0.1.1",
     "babel-loader": "^8.1.0",
     "concurrently": "^5.2.0",
-    "css-loader": "^3.6.0",
+    "css-loader": "^4.0.0",
     "file-loader": "^6.0.0",
     "html-webpack-plugin": "^4.3.0",
     "onchange": "^7.0.2",
