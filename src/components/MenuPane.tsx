@@ -34,6 +34,29 @@ const MenuPane: FunctionComponent<props> = ({ visible, onCloseClick }) => {
       <Scrollable>
         <div className={menuPaneStyles.menu}>
           <nav>
+            <SessionContext.Consumer>
+              {(session) => {
+                if (session.loggedIn) {
+                  return (
+                    <Fragment>
+                      <h1>Island</h1>
+                      <ul>
+                        <li>
+                          <NavLink
+                            exact
+                            to="/island/map"
+                            onClick={onCloseClick}
+                          >
+                            Map
+                          </NavLink>
+                        </li>
+                      </ul>
+                    </Fragment>
+                  );
+                }
+                return <></>;
+              }}
+            </SessionContext.Consumer>
             <h1>Archipelago</h1>
             <ul>
               <li>

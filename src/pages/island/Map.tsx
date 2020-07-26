@@ -1,19 +1,20 @@
-import React, { Fragment } from 'react';
-import { Route, NavLink, Switch, useParams } from 'react-router-dom';
+import React, { Fragment, useContext } from 'react';
 
 import { useQuery, gql } from '@apollo/client';
 import { GetIsland, GetIslandVariables } from 'generated/GetIsland';
 
+import { SessionContext } from '../../libs/session/session';
+
 import Island from '../../models/Island';
 
 import IslandMap from '../../components/IslandMap';
-import IslandOverview from './Overview';
-import TilePage from '../tile/Tile';
 
 import { Error } from '../../ui/dialog/Msg';
 
-const IslandPage = () => {
-  const { islandId } = useParams();
+const MapPage = () => {
+  const session = useContext(SessionContext);
+
+  let islandId = session.id;
 
   const { data, loading, error } = useQuery<GetIsland, GetIslandVariables>(
     gql`
@@ -55,34 +56,10 @@ const IslandPage = () => {
 
   return (
     <Fragment>
-      <h1>{island.owner.username}</h1>
-      <nav>
-        <ul>
-          <li>
-            <NavLink to={'/archipelago/islands/' + islandId} exact>
-              Map
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to={'/archipelago/islands/' + islandId + '/info'}>
-              Overview
-            </NavLink>
-          </li>
-        </ul>
-      </nav>
-      <Switch>
-        <Route path="/archipelago/islands/:islandId" exact>
-          <IslandMap island={island} />
-        </Route>
-        <Route path="/archipelago/islands/:islandId/info" exact>
-          <IslandOverview island={island} />
-        </Route>
-        <Route path="/archipelago/islands/:islandId/tiles/:position">
-          <TilePage />
-        </Route>
-      </Switch>
+      <h1>Map</h1>
+      <IslandMap island={island} />
     </Fragment>
   );
 };
 
-export default IslandPage;
+export default MapPage;

@@ -8,7 +8,8 @@ import { SessionContext } from '../libs/session/session';
 import About from '../pages/About';
 import Home from '../pages/Home';
 import ArchipelagoOverview from '../pages/archipelago/Overview';
-import IslandPage from '../pages/islands/Island';
+import MapPage from '../pages/island/Map';
+import TilePage from '../pages/island/Tile';
 import IslandsPage from '../pages/islands/List';
 import Login from '../pages/Login';
 import Registration from '../pages/Registration';
@@ -80,16 +81,14 @@ const MainContent: FunctionComponent<props> = ({
             <Route path="/login" exact component={Login} />
             <Route path="/registration" exact component={Registration} />
             <Route path="/account/settings" exact component={Settings} />
+            <Route path="/island/map" exact component={MapPage} />
+            <Route path="/island/tiles/:position" exact component={TilePage} />
             <Route
               path="/archipelago/overview"
               exact
               component={ArchipelagoOverview}
             />
             <Route path="/archipelago/islands" exact component={IslandsPage} />
-            <Route
-              path="/archipelago/islands/:islandId"
-              component={IslandPage}
-            />
           </Switch>
         </div>
       </Scrollable>

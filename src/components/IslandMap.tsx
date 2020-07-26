@@ -19,7 +19,7 @@ const IslandMap: FunctionComponent<props> = ({ island }) => {
         tile={tile}
         clickable={islandId !== ''}
         onClick={() => {
-          history.push('/archipelago/islands/' + islandId + '/tiles/' + i);
+          history.push('/island/tiles/' + i);
         }}
       />
     );
@@ -27,7 +27,6 @@ const IslandMap: FunctionComponent<props> = ({ island }) => {
 
   return (
     <Fragment>
-      <h2>Map</h2>
       <div className={styles.island}>{map}</div>
     </Fragment>
   );
