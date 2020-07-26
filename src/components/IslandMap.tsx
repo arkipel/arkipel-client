@@ -6,24 +6,24 @@ import MapTile from './MapTile';
 import styles from './IslandMap.scss';
 
 import Island from '../models/Island';
+import Tile from '../models/Tile';
 
 const IslandMap: FunctionComponent<props> = ({ island }) => {
   const history = useHistory();
 
-  let islandId = island.id || '';
-
-  let map = island.tiles.map((tile, i) => {
-    return (
+  let map = Array<any>(256);
+  for (let i = 0; i < 256; i++) {
+    map[i] = (
       <MapTile
-        key={Math.random()}
-        tile={tile}
-        clickable={islandId !== ''}
+        key={i}
+        tile={island.tiles[i] || new Tile({})}
+        clickable={island.id !== ''}
         onClick={() => {
           history.push('/island/tiles/' + i);
         }}
       />
     );
-  });
+  }
 
   return (
     <Fragment>

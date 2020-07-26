@@ -16,7 +16,6 @@ export interface GetTile_tile_NotFound {
 export interface GetTile_tile_Tile {
   readonly __typename: 'Tile';
   readonly id: string;
-  readonly position: number;
   readonly kind: TileKind;
   readonly infrastructure: Infrastructure;
   readonly level: number;
