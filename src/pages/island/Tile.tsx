@@ -60,6 +60,12 @@ const TilePage: FunctionComponent = () => {
             <br />
             <b>Level:</b> {tile.level}
           </p>
+          {tile.level === 0 && (
+            <Fragment>
+              <h2>Build</h2>
+              <p>You can build something.</p>
+            </Fragment>
+          )}
         </Fragment>
       )}
     </Fragment>
