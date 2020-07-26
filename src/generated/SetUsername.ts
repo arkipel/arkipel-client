@@ -16,6 +16,6 @@ export interface SetUsername {
 }
 
 export interface SetUsernameVariables {
-  readonly userID: string;
+  readonly userId: string;
   readonly username: string;
 }

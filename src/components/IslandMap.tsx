@@ -1,72 +1,34 @@
 import React, { Fragment, FunctionComponent } from 'react';
 import { useHistory } from 'react-router-dom';
 
+import MapTile from './MapTile';
+
 import styles from './IslandMap.scss';
 
 import Island from '../models/Island';
-import { Infrastructure } from '../generated/globalTypes';
+import Tile from '../models/Tile';
+import { TileKind } from '../generated/globalTypes';
 
 const IslandMap: FunctionComponent<props> = ({ island }) => {
   const history = useHistory();
 
-  let islandId = island.id || '';
-  let dna = island.dna;
-
-  if (!dna) {
-    dna = '0'.repeat(400);
-  }
-
-  let map = new Array<JSX.Element>();
-  for (let i = 0; i < dna.length; i++) {
-    const t = dna[i];
-
-    // Tile kind
-    let kind = 'deepWater';
-    switch (t) {
-      case '1':
-        kind = 'water';
-        break;
-      case '2':
-        kind = 'sand';
-        break;
-      case '3':
-        kind = 'land';
-        break;
-    }
-
-    let className = styles[kind];
-
-    let tile = island.tiles[i];
-
-    let infraIcon = <></>;
-    if (tile) {
-      switch (tile.infrastructure) {
-        case Infrastructure.FOREST:
-          infraIcon = (
-            <img src="https://icons.arkipel.io/infra/jungle.svg" alt="Forest" />
-          );
-          break;
-        default:
-          break;
-      }
-    }
-
-    map.push(
-      <div
-        key={Math.random()}
-        className={className}
+  let map = Array<any>(256);
+  for (let i = 0; i < 256; i++) {
+    map[i] = (
+      <MapTile
+        key={i}
+        kind={positionToKind(i)}
+        tile={island.tiles[i] || new Tile({ position: i })}
+        clickable={island.id !== ''}
         onClick={() => {
-          history.push('/archipelago/islands/' + islandId + '/tiles/' + i);
+          history.push('/island/tiles/' + i);
         }}
-      >
-        {infraIcon}
-      </div>,
+      />
     );
   }
 
   return (
     <Fragment>
-      <h2>Map</h2>
       <div className={styles.island}>{map}</div>
     </Fragment>
   );
@@ -77,3 +39,36 @@ class props {
 }
 
 export default IslandMap;
+
+const positionToKind = (pos: number): TileKind => {
+  let k = dna[pos];
+
+  switch (k) {
+    case '1':
+      return TileKind.WATER;
+    case '2':
+      return TileKind.SAND;
+    case '3':
+      return TileKind.LAND;
+    default:
+      return TileKind.DEEP_WATER;
+  }
+};
+
+const dna =
+  '0000000000000000' +
+  '0000011111100000' +
+  '0001112222111000' +
+  '0011222332221100' +
+  '0012233333322100' +
+  '0112333333332110' +
+  '0122333333332210' +
+  '0123333333333210' +
+  '0123333333333210' +
+  '0122333333332210' +
+  '0112333333332110' +
+  '0012233333322100' +
+  '0011222332221100' +
+  '0001112222111000' +
+  '0000011111100000' +
+  '0000000000000000';

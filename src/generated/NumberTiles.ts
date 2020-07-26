@@ -4,14 +4,10 @@
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL query operation: GetIslands
+// GraphQL fragment: NumberTiles
 // ====================================================
 
-export interface GetIslands_islands {
-  readonly __typename: 'Island';
-  readonly id: string;
-}
-
-export interface GetIslands {
-  readonly islands: ReadonlyArray<GetIslands_islands>;
+export interface NumberTiles {
+  readonly __typename: 'User';
+  readonly numberTiles: number;
 }

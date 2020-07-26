@@ -4,27 +4,27 @@
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL query operation: GetEmailAddress
+// GraphQL query operation: GetNumberTiles
 // ====================================================
 
-export interface GetEmailAddress_me_NotFound {
+export interface GetNumberTiles_me_NotFound {
   readonly __typename: 'NotFound' | 'NotAuthorized';
 }
 
-export interface GetEmailAddress_me_User {
+export interface GetNumberTiles_me_User {
   readonly __typename: 'User';
   readonly id: string;
-  readonly emailAddress: string | null;
+  readonly numberTiles: number;
 }
 
-export type GetEmailAddress_me =
-  | GetEmailAddress_me_NotFound
-  | GetEmailAddress_me_User;
+export type GetNumberTiles_me =
+  | GetNumberTiles_me_NotFound
+  | GetNumberTiles_me_User;
 
-export interface GetEmailAddress {
-  readonly me: GetEmailAddress_me;
+export interface GetNumberTiles {
+  readonly me: GetNumberTiles_me;
 }
 
-export interface GetEmailAddressVariables {
+export interface GetNumberTilesVariables {
   readonly userId: string;
 }

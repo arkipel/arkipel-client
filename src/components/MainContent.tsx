@@ -7,8 +7,9 @@ import { SessionContext } from '../libs/session/session';
 // Pages
 import About from '../pages/About';
 import Home from '../pages/Home';
-import IslandPage from '../pages/islands/Island';
-import IslandsPage from '../pages/islands/List';
+import ArchipelagoOverview from '../pages/archipelago/Overview';
+import MapPage from '../pages/island/Map';
+import TilePage from '../pages/island/Tile';
 import Login from '../pages/Login';
 import Registration from '../pages/Registration';
 import Settings from '../pages/account/Settings';
@@ -79,10 +80,12 @@ const MainContent: FunctionComponent<props> = ({
             <Route path="/login" exact component={Login} />
             <Route path="/registration" exact component={Registration} />
             <Route path="/account/settings" exact component={Settings} />
-            <Route path="/archipelago/islands" exact component={IslandsPage} />
+            <Route path="/island/map" exact component={MapPage} />
+            <Route path="/island/tiles/:position" exact component={TilePage} />
             <Route
-              path="/archipelago/islands/:islandID"
-              component={IslandPage}
+              path="/archipelago/overview"
+              exact
+              component={ArchipelagoOverview}
             />
           </Switch>
         </div>
