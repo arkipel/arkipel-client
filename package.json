@@ -4,11 +4,11 @@
   "description": "Client for Arkipel",
   "main": "index.js",
   "scripts": {
-    "apollo-codegen": "npx apollo client:codegen --endpoint=http://local.arkipel.io:9192/query --target=typescript --excludes=node_modules/* --includes=**/*.tsx --outputFlat src/generated --useReadOnlyTypes",
+    "apollo-codegen": "npx apollo client:codegen --endpoint=http://arkipel.local:9192/query --target=typescript --excludes=node_modules/* --includes=**/*.tsx --outputFlat src/generated --useReadOnlyTypes",
     "build": "webpack --config webpack.prod.js",
     "format": "prettier --write \"**/*.{md,js,jsx,ts,tsx,json,css,scss}\"",
     "format-watch": "onchange \"**/*.{md,js,jsx,ts,tsx,json,css,scss}\" -- prettier --write {{changed}}",
-    "start": "concurrently --kill-others \"webpack-dev-server --config webpack.dev.js --allowed-hosts local.arkipel.io\" \"npm:*-watch\"",
+    "start": "concurrently --kill-others \"webpack-dev-server --config webpack.dev.js --allowed-hosts arkipel.local\" \"npm:*-watch\"",
     "test-onchange": "onchange \"**/*.js\" \"**/*.jsx\" -- npm test"
   },
   "keywords": [
