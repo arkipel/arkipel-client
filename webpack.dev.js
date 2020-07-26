@@ -13,9 +13,9 @@ module.exports = merge(common, {
 
   externals: {
     Config: JSON.stringify({
-      domain: 'local.arkipel.io',
-      arkipelEndpoint: 'http://local.arkipel.io:9192/query',
-      mapsEndpoint: 'http://local.arkipel.io:9192/artifacts/maps/',
+      domain: 'arkipel.local',
+      arkipelEndpoint: 'http://arkipel.local:9192/query',
+      mapsEndpoint: 'http://arkipel.local:9192/artifacts/maps/',
     }),
   },
 });
