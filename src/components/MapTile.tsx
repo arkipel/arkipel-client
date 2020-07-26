@@ -5,10 +5,15 @@ import styles from './MapTile.scss';
 import Tile from '../models/Tile';
 import { Infrastructure, TileKind } from '../generated/globalTypes';
 
-const MapTile: FunctionComponent<props> = ({ tile, clickable, onClick }) => {
+const MapTile: FunctionComponent<props> = ({
+  tile,
+  kind,
+  clickable,
+  onClick,
+}) => {
   // Tile kind
   let className = styles['deepWater'];
-  switch (tile.kind) {
+  switch (kind) {
     case TileKind.WATER:
       className = styles['water'];
       break;
@@ -47,6 +52,7 @@ const MapTile: FunctionComponent<props> = ({ tile, clickable, onClick }) => {
 
 class props {
   tile: Tile = new Tile({});
+  kind: TileKind = TileKind.DEEP_WATER;
   clickable: boolean = false;
   onClick: () => void = () => {};
 }
