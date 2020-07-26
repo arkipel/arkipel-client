@@ -68,11 +68,6 @@ const MenuPane: FunctionComponent<props> = ({ visible, onCloseClick }) => {
                   Overview
                 </NavLink>
               </li>
-              <li>
-                <NavLink exact to="/archipelago/islands" onClick={onCloseClick}>
-                  Islands
-                </NavLink>
-              </li>
             </ul>
             <SessionContext.Consumer>
               {(session) => {

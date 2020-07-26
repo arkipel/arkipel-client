@@ -10,7 +10,6 @@ import Home from '../pages/Home';
 import ArchipelagoOverview from '../pages/archipelago/Overview';
 import MapPage from '../pages/island/Map';
 import TilePage from '../pages/island/Tile';
-import IslandsPage from '../pages/islands/List';
 import Login from '../pages/Login';
 import Registration from '../pages/Registration';
 import Settings from '../pages/account/Settings';
@@ -88,7 +87,6 @@ const MainContent: FunctionComponent<props> = ({
               exact
               component={ArchipelagoOverview}
             />
-            <Route path="/archipelago/islands" exact component={IslandsPage} />
           </Switch>
         </div>
       </Scrollable>

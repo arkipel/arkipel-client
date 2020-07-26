@@ -10,7 +10,7 @@ import Tile from '../../models/Tile';
 
 import { Error } from '../../ui/dialog/Msg';
 
-const TilePage: FunctionComponent<props> = () => {
+const TilePage: FunctionComponent = () => {
   const session = useContext(SessionContext);
   const { position } = useParams();
 
