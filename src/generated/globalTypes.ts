@@ -8,8 +8,18 @@
 //==============================================================
 
 export enum Infrastructure {
+  ANIMAL_FARM = 'ANIMAL_FARM',
+  APARTMENTS = 'APARTMENTS',
+  BANK = 'BANK',
   EMPTY = 'EMPTY',
   FOREST = 'FOREST',
+  HOUSE = 'HOUSE',
+  JUNGLE = 'JUNGLE',
+  NUCLEAR_PLANT = 'NUCLEAR_PLANT',
+  PORT = 'PORT',
+  QUARRY = 'QUARRY',
+  WHEAT_FIELD = 'WHEAT_FIELD',
+  WIND_TURBINE = 'WIND_TURBINE',
 }
 
 export enum TileKind {

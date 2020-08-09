@@ -8,8 +8,11 @@ import { TileKind } from '../../generated/globalTypes';
 import { SessionContext } from '../../libs/session/session';
 
 import Tile from '../../models/Tile';
+import Blueprint from '../../models/Blueprint';
 
 import { Error } from '../../ui/dialog/Msg';
+
+import styles from './Tile.scss';
 
 const TilePage: FunctionComponent = () => {
   const session = useContext(SessionContext);
@@ -26,6 +29,11 @@ const TilePage: FunctionComponent = () => {
             kind
             infrastructure
             level
+            blueprints {
+              infrastructure
+              materialCost
+              duration
+            }
           }
         }
       }
@@ -38,8 +46,12 @@ const TilePage: FunctionComponent = () => {
   }
 
   let tile: Tile;
+  let blueprints = new Array<Blueprint>();
   if (data?.tile.__typename === 'Tile') {
     tile = new Tile(data.tile);
+    data.tile.blueprints.forEach((bp) => {
+      blueprints.push(new Blueprint(bp));
+    });
   } else if (error) {
     return <Error>Sorry, an error occured.</Error>;
   } else {
@@ -63,7 +75,26 @@ const TilePage: FunctionComponent = () => {
           {tile.level === 0 && (
             <Fragment>
               <h2>Build</h2>
-              <p>You can build something.</p>
+              <div className={styles.infraCatalog}>
+                {blueprints.map((bp) => {
+                  return (
+                    <div key={Math.random()}>
+                      <img src={bp.iconUrl()} alt={bp.name()} />
+                      <div>
+                        <b>{bp.name()}</b>
+                      </div>
+                      <div className={styles.cost}>
+                        <img
+                          className={styles.materialIcon}
+                          src="https://icons.arkipel.io/res/material.svg"
+                        />
+                        <span>{bp.materialCost}</span>
+                      </div>
+                      <div className={styles.duration}>{bp.durationStr()}</div>
+                    </div>
+                  );
+                })}
+              </div>
             </Fragment>
           )}
         </Fragment>

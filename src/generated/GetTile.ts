@@ -9,8 +9,15 @@ import { TileKind, Infrastructure } from './globalTypes';
 // GraphQL query operation: GetTile
 // ====================================================
 
-export interface GetTile_tile_NotFound {
-  readonly __typename: 'NotFound';
+export interface GetTile_tile_NotAuthorized {
+  readonly __typename: 'NotAuthorized' | 'NotFound';
+}
+
+export interface GetTile_tile_Tile_blueprints {
+  readonly __typename: 'Blueprint';
+  readonly infrastructure: Infrastructure;
+  readonly materialCost: number;
+  readonly duration: number;
 }
 
 export interface GetTile_tile_Tile {
@@ -19,9 +26,10 @@ export interface GetTile_tile_Tile {
   readonly kind: TileKind;
   readonly infrastructure: Infrastructure;
   readonly level: number;
+  readonly blueprints: ReadonlyArray<GetTile_tile_Tile_blueprints>;
 }
 
-export type GetTile_tile = GetTile_tile_NotFound | GetTile_tile_Tile;
+export type GetTile_tile = GetTile_tile_NotAuthorized | GetTile_tile_Tile;
 
 export interface GetTile {
   readonly tile: GetTile_tile;
