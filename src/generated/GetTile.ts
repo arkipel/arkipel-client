@@ -13,6 +13,12 @@ export interface GetTile_tile_NotAuthorized {
   readonly __typename: 'NotAuthorized' | 'NotFound';
 }
 
+export interface GetTile_tile_Tile_constructionSite {
+  readonly __typename: 'ConstructionSite';
+  readonly infrastructure: Infrastructure;
+  readonly finishedAt: any;
+}
+
 export interface GetTile_tile_Tile_blueprints {
   readonly __typename: 'Blueprint';
   readonly infrastructure: Infrastructure;
@@ -26,6 +32,7 @@ export interface GetTile_tile_Tile {
   readonly kind: TileKind;
   readonly infrastructure: Infrastructure;
   readonly level: number;
+  readonly constructionSite: GetTile_tile_Tile_constructionSite | null;
   readonly blueprints: ReadonlyArray<GetTile_tile_Tile_blueprints>;
 }
 

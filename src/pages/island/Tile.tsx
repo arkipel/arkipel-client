@@ -1,13 +1,14 @@
 import React, { Fragment, FunctionComponent, useContext } from 'react';
 import { useParams } from 'react-router-dom';
 
-import { useQuery, gql } from '@apollo/client';
+import { useQuery, gql, useMutation } from '@apollo/client';
 import { GetTile, GetTileVariables } from '../../generated/GetTile';
 import { TileKind } from '../../generated/globalTypes';
 
 import { SessionContext } from '../../libs/session/session';
 
 import Tile from '../../models/Tile';
+import ConstructionSite from '../../models/ConstructionSite';
 import Blueprint from '../../models/Blueprint';
 
 import { Error } from '../../ui/dialog/Msg';
@@ -29,6 +30,10 @@ const TilePage: FunctionComponent = () => {
             kind
             infrastructure
             level
+            constructionSite {
+              infrastructure
+              finishedAt
+            }
             blueprints {
               infrastructure
               materialCost
@@ -47,8 +52,12 @@ const TilePage: FunctionComponent = () => {
 
   let tile: Tile;
   let blueprints = new Array<Blueprint>();
+  let constructionSite = new ConstructionSite(null);
   if (data?.tile.__typename === 'Tile') {
     tile = new Tile(data.tile);
+
+    constructionSite = new ConstructionSite(data.tile.constructionSite);
+
     data.tile.blueprints.forEach((bp) => {
       blueprints.push(new Blueprint(bp));
     });
@@ -71,27 +80,28 @@ const TilePage: FunctionComponent = () => {
             <b>Infrastructure:</b> {tile.infrastructure.toLowerCase()}
             <br />
             <b>Level:</b> {tile.level}
+            {constructionSite.exists && (
+              <Fragment>
+                <br />
+                <b>Construction in progress:</b>{' '}
+                {constructionSite.infrastructure.toLowerCase()} (level{' '}
+                {tile.level + 1}), done{' '}
+                {constructionSite.finishedAt.toRelative()}
+              </Fragment>
+            )}
           </p>
-          {tile.level === 0 && (
+          {tile.level === 0 && !constructionSite.exists && (
             <Fragment>
               <h2>Build</h2>
               <div className={styles.infraCatalog}>
                 {blueprints.map((bp) => {
                   return (
-                    <div key={Math.random()}>
-                      <img src={bp.iconUrl()} alt={bp.name()} />
-                      <div>
-                        <b>{bp.name()}</b>
-                      </div>
-                      <div className={styles.cost}>
-                        <img
-                          className={styles.materialIcon}
-                          src="https://icons.arkipel.io/res/material.svg"
-                        />
-                        <span>{bp.materialCost}</span>
-                      </div>
-                      <div className={styles.duration}>{bp.durationStr()}</div>
-                    </div>
+                    <InfrastructureOption
+                      key={Math.random()}
+                      islandId={islandId}
+                      position={position}
+                      bp={bp}
+                    />
                   );
                 })}
               </div>
@@ -100,6 +110,57 @@ const TilePage: FunctionComponent = () => {
         </Fragment>
       )}
     </Fragment>
+  );
+};
+
+const InfrastructureOption: FunctionComponent<{
+  islandId: string;
+  position: number;
+  bp: Blueprint;
+}> = ({ islandId, position, bp }) => {
+  const [build, { loading, error }] = useMutation(
+    gql`
+      mutation BuildInfrastructure(
+        $islandId: String!
+        $position: Int!
+        $infrastructure: Infrastructure!
+      ) {
+        buildInfrastructure(
+          islandId: $islandId
+          position: $position
+          infrastructure: $infrastructure
+        ) {
+          ... on Tile {
+            infrastructure
+            level
+            constructionSite {
+              infrastructure
+              finishedAt
+            }
+          }
+        }
+      }
+    `,
+    { variables: { islandId, position, infrastructure: bp.infrastructure } },
+  );
+
+  return (
+    <div onClick={() => build()}>
+      <img src={bp.iconUrl()} alt={bp.name()} />
+      <div>
+        {loading && <b>loading!</b>}
+        {error && <b>error!</b>}
+        <b>{bp.name()}</b>
+      </div>
+      <div className={styles.cost}>
+        <img
+          className={styles.materialIcon}
+          src="https://icons.arkipel.io/res/material.svg"
+        />
+        <span>{bp.materialCost}</span>
+      </div>
+      <div className={styles.duration}>{bp.durationStr()}</div>
+    </div>
   );
 };
 
