@@ -56,6 +56,7 @@ const TilePage: FunctionComponent = () => {
   if (data?.tile.__typename === 'Tile') {
     tile = new Tile(data.tile);
 
+    console.log('constructionSite', constructionSite);
     constructionSite = new ConstructionSite(data.tile.constructionSite);
 
     data.tile.blueprints.forEach((bp) => {
@@ -118,6 +119,10 @@ const InfrastructureOption: FunctionComponent<{
   position: number;
   bp: Blueprint;
 }> = ({ islandId, position, bp }) => {
+  console.log('build option:', bp);
+  let infra = bp.infrastructure;
+  console.log('build option infra:', infra);
+
   const [build, { loading, error }] = useMutation(
     gql`
       mutation BuildInfrastructure(
@@ -131,6 +136,7 @@ const InfrastructureOption: FunctionComponent<{
           infrastructure: $infrastructure
         ) {
           ... on Tile {
+            id
             infrastructure
             level
             constructionSite {
@@ -141,7 +147,7 @@ const InfrastructureOption: FunctionComponent<{
         }
       }
     `,
-    { variables: { islandId, position, infrastructure: bp.infrastructure } },
+    { variables: { islandId, position, infrastructure: infra } },
   );
 
   return (
