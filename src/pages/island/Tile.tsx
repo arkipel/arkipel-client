@@ -174,8 +174,6 @@ const InfrastructureOption: FunctionComponent<{
     <div onClick={() => build()}>
       <img src={bp.iconUrl()} alt={bp.name()} />
       <div>
-        {loading && <b>loading!</b>}
-        {error && <b>error!</b>}
         <b>{bp.name()}</b>
       </div>
       <div className={styles.cost}>
