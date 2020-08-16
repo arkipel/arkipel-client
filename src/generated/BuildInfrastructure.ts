@@ -21,6 +21,7 @@ export interface BuildInfrastructure_buildInfrastructure_Tile_constructionSite {
 
 export interface BuildInfrastructure_buildInfrastructure_Tile {
   readonly __typename: 'Tile';
+  readonly id: string;
   readonly infrastructure: Infrastructure;
   readonly level: number;
   readonly constructionSite: BuildInfrastructure_buildInfrastructure_Tile_constructionSite | null;

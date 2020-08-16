@@ -81,19 +81,20 @@ const TilePage: FunctionComponent = () => {
             <b>Infrastructure:</b> {tile.infrastructure.toLowerCase()}
             <br />
             <b>Level:</b> {tile.level}
+          </p>
+          <Fragment>
+            <h2>Build</h2>
             {constructionSite.exists && (
               <Fragment>
-                <br />
-                <b>Construction in progress:</b>{' '}
-                {constructionSite.infrastructure.toLowerCase()} (level{' '}
-                {tile.level + 1}), done{' '}
-                {constructionSite.finishedAt.toRelative()}
+                <p>
+                  There is a construction in progress to upgrade this{' '}
+                  {tile.infrastructure.toLowerCase()} to level {tile.level + 1}.
+                  It will be done {constructionSite.finishedAt.toRelative()}.
+                </p>
+                <CancelButton islandId={islandId} position={position} />
               </Fragment>
             )}
-          </p>
-          {tile.level === 0 && !constructionSite.exists && (
-            <Fragment>
-              <h2>Build</h2>
+            {tile.level === 0 && !constructionSite.exists && (
               <div className={styles.infraCatalog}>
                 {blueprints.map((bp) => {
                   return (
@@ -106,8 +107,8 @@ const TilePage: FunctionComponent = () => {
                   );
                 })}
               </div>
-            </Fragment>
-          )}
+            )}
+          </Fragment>
         </Fragment>
       )}
     </Fragment>
@@ -167,6 +168,48 @@ const InfrastructureOption: FunctionComponent<{
       </div>
       <div className={styles.duration}>{bp.durationStr()}</div>
     </div>
+  );
+};
+
+const CancelButton: FunctionComponent<{
+  islandId: string;
+  position: number;
+}> = ({ islandId, position }) => {
+  const [cancel, { loading, error }] = useMutation(
+    gql`
+      mutation CancelConstruction($islandId: String!, $position: Int!) {
+        cancelConstruction(islandId: $islandId, position: $position) {
+          ... on Tile {
+            id
+            infrastructure
+            level
+            constructionSite {
+              infrastructure
+              finishedAt
+            }
+          }
+        }
+      }
+    `,
+    { variables: { islandId, position } },
+  );
+
+  return (
+    <Fragment>
+      <button
+        onClick={() => {
+          cancel();
+        }}
+        disabled={loading}
+      >
+        {loading && 'Cancelling...'}
+        {!loading && 'Cancel'}
+      </button>
+      <Error visible={error !== undefined}>
+        Could not cancel. Maybe the construction was already done. If not, try
+        again.
+      </Error>
+    </Fragment>
   );
 };
 
