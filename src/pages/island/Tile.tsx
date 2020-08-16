@@ -1,21 +1,43 @@
-import React, { Fragment, FunctionComponent, useContext } from 'react';
+import React, {
+  Fragment,
+  FunctionComponent,
+  useContext,
+  useEffect,
+  useState,
+} from 'react';
 import { useParams } from 'react-router-dom';
 
-import { useQuery, gql } from '@apollo/client';
+import { useQuery, gql, useMutation } from '@apollo/client';
 import { GetTile, GetTileVariables } from '../../generated/GetTile';
 import { TileKind } from '../../generated/globalTypes';
+
+import { Duration } from 'luxon';
 
 import { SessionContext } from '../../libs/session/session';
 
 import Tile from '../../models/Tile';
+import ConstructionSite from '../../models/ConstructionSite';
+import Blueprint from '../../models/Blueprint';
 
 import { Error } from '../../ui/dialog/Msg';
 
+import styles from './Tile.scss';
+
 const TilePage: FunctionComponent = () => {
+  const [, forceUpdate] = useState(0);
   const session = useContext(SessionContext);
   const { position } = useParams();
 
   let islandId = session.id;
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      forceUpdate(Math.random());
+    }, 1000);
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
 
   const { data, loading, error } = useQuery<GetTile, GetTileVariables>(
     gql`
@@ -26,6 +48,16 @@ const TilePage: FunctionComponent = () => {
             kind
             infrastructure
             level
+            constructionSite {
+              infrastructure
+              workloadLeft
+              finishedAt
+            }
+            blueprints {
+              infrastructure
+              materialCost
+              duration
+            }
           }
         }
       }
@@ -38,8 +70,16 @@ const TilePage: FunctionComponent = () => {
   }
 
   let tile: Tile;
+  let blueprints = new Array<Blueprint>();
+  let constructionSite = new ConstructionSite(null);
   if (data?.tile.__typename === 'Tile') {
     tile = new Tile(data.tile);
+
+    constructionSite = new ConstructionSite(data.tile.constructionSite);
+
+    data.tile.blueprints.forEach((bp) => {
+      blueprints.push(new Blueprint(bp));
+    });
   } else if (error) {
     return <Error>Sorry, an error occured.</Error>;
   } else {
@@ -60,8 +100,176 @@ const TilePage: FunctionComponent = () => {
             <br />
             <b>Level:</b> {tile.level}
           </p>
+          <Fragment>
+            <h2>Infrastructure</h2>
+            {tile.level === 0 && !constructionSite.exists && (
+              <div className={styles.infraCatalog}>
+                {blueprints.map((bp) => {
+                  return (
+                    <InfrastructureOption
+                      key={Math.random()}
+                      islandId={islandId}
+                      position={position}
+                      bp={bp}
+                    />
+                  );
+                })}
+              </div>
+            )}
+            {constructionSite.exists && (
+              <Fragment>
+                <p>
+                  There is a construction in progress to upgrade this{' '}
+                  <b>{constructionSite.infrastructure.toLowerCase()}</b> to{' '}
+                  <b>level {tile.level + 1}</b>. It will be done{' '}
+                  <b>{constructionSite.finishedAt.toRelative()}</b>.
+                </p>
+                <CancelButton islandId={islandId} position={position} />
+              </Fragment>
+            )}
+            {tile.level !== 0 && !constructionSite.exists && (
+              <Fragment>
+                <DestroyButton islandId={islandId} position={position} />
+              </Fragment>
+            )}
+          </Fragment>
         </Fragment>
       )}
+    </Fragment>
+  );
+};
+
+const InfrastructureOption: FunctionComponent<{
+  islandId: string;
+  position: number;
+  bp: Blueprint;
+}> = ({ islandId, position, bp }) => {
+  let infra = bp.infrastructure;
+
+  const [build, { loading, error }] = useMutation(
+    gql`
+      mutation BuildInfrastructure(
+        $islandId: String!
+        $position: Int!
+        $infrastructure: Infrastructure!
+      ) {
+        buildInfrastructure(
+          islandId: $islandId
+          position: $position
+          infrastructure: $infrastructure
+        ) {
+          ... on Tile {
+            id
+            infrastructure
+            level
+            constructionSite {
+              finishedAt
+            }
+          }
+        }
+      }
+    `,
+    { variables: { islandId, position, infrastructure: infra } },
+  );
+
+  return (
+    <div onClick={() => build()}>
+      <img src={bp.iconUrl()} alt={bp.name()} />
+      <div>
+        {loading && <b>loading!</b>}
+        {error && <b>error!</b>}
+        <b>{bp.name()}</b>
+      </div>
+      <div className={styles.cost}>
+        <img
+          className={styles.materialIcon}
+          src="https://icons.arkipel.io/res/material.svg"
+        />
+        <span>{bp.materialCost}</span>
+      </div>
+      <div className={styles.duration}>{bp.durationStr()}</div>
+    </div>
+  );
+};
+
+const CancelButton: FunctionComponent<{
+  islandId: string;
+  position: number;
+}> = ({ islandId, position }) => {
+  const [cancel, { loading, error }] = useMutation(
+    gql`
+      mutation CancelConstruction($islandId: String!, $position: Int!) {
+        cancelConstruction(islandId: $islandId, position: $position) {
+          ... on Tile {
+            id
+            infrastructure
+            level
+            constructionSite {
+              finishedAt
+            }
+          }
+        }
+      }
+    `,
+    { variables: { islandId, position } },
+  );
+
+  return (
+    <Fragment>
+      <button
+        onClick={() => {
+          cancel();
+        }}
+        disabled={loading}
+      >
+        {loading && 'Cancelling...'}
+        {!loading && 'Cancel'}
+      </button>
+      <Error visible={error !== undefined}>
+        Could not cancel. Maybe the construction was already done. If not, try
+        again.
+      </Error>
+    </Fragment>
+  );
+};
+
+const DestroyButton: FunctionComponent<{
+  islandId: string;
+  position: number;
+}> = ({ islandId, position }) => {
+  const [cancel, { loading, error }] = useMutation(
+    gql`
+      mutation DestroyInfrastructure($islandId: String!, $position: Int!) {
+        destroyInfrastructure(islandId: $islandId, position: $position) {
+          ... on Tile {
+            id
+            infrastructure
+            level
+            constructionSite {
+              finishedAt
+            }
+          }
+        }
+      }
+    `,
+    { variables: { islandId, position } },
+  );
+
+  return (
+    <Fragment>
+      <button
+        onClick={() => {
+          cancel();
+        }}
+        disabled={loading}
+      >
+        {loading && 'Destroying...'}
+        {!loading && 'Destroy'}
+      </button>
+      <Error visible={error !== undefined}>
+        Could not cancel. Maybe the construction was already done. If not, try
+        again.
+      </Error>
     </Fragment>
   );
 };
