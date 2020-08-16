@@ -11,8 +11,6 @@ import { useQuery, gql, useMutation } from '@apollo/client';
 import { GetTile, GetTileVariables } from '../../generated/GetTile';
 import { TileKind } from '../../generated/globalTypes';
 
-import { Duration } from 'luxon';
-
 import { SessionContext } from '../../libs/session/session';
 
 import Tile from '../../models/Tile';
