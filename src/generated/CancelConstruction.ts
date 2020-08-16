@@ -15,7 +15,6 @@ export interface CancelConstruction_cancelConstruction_NotAuthorized {
 
 export interface CancelConstruction_cancelConstruction_Tile_constructionSite {
   readonly __typename: 'ConstructionSite';
-  readonly infrastructure: Infrastructure;
   readonly finishedAt: any;
 }
 

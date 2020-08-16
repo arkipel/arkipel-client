@@ -15,7 +15,6 @@ export interface BuildInfrastructure_buildInfrastructure_NotAuthorized {
 
 export interface BuildInfrastructure_buildInfrastructure_Tile_constructionSite {
   readonly __typename: 'ConstructionSite';
-  readonly infrastructure: Infrastructure;
   readonly finishedAt: any;
 }
 
