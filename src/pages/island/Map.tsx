@@ -26,6 +26,7 @@ const MapPage = () => {
               username
             }
             tiles {
+              id
               position
               infrastructure
               level
