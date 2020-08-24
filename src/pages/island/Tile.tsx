@@ -144,7 +144,7 @@ const InfrastructureOption: FunctionComponent<{
 }> = ({ islandId, position, bp }) => {
   let infra = bp.infrastructure;
 
-  const [build, { loading, error }] = useMutation(
+  const [build] = useMutation(
     gql`
       mutation BuildInfrastructure(
         $islandId: String!
