@@ -20,6 +20,7 @@ export interface GetIsland_island_Island_owner {
 
 export interface GetIsland_island_Island_tiles {
   readonly __typename: 'Tile';
+  readonly id: string;
   readonly position: number;
   readonly infrastructure: Infrastructure;
   readonly level: number;
