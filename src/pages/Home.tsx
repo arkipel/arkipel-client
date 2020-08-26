@@ -11,8 +11,8 @@ class Home extends React.PureComponent {
           <img
             src={arkipelLogo256}
             alt="Arkipel logo (256 pixels)"
-            height={80}
-            width={80}
+            height={120}
+            width={120}
           />
         </div>
         <p>
