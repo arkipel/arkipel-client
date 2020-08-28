@@ -244,6 +244,11 @@ const DestroyButton: FunctionComponent<{
             constructionSite {
               finishedAt
             }
+            blueprints {
+              infrastructure
+              materialCost
+              duration
+            }
           }
         }
       }
