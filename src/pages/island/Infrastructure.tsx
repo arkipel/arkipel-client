@@ -23,6 +23,7 @@ const MapPage = () => {
             tiles {
               id
               position
+              kind
               infrastructure
               level
             }
@@ -55,10 +56,12 @@ const MapPage = () => {
       <div>
         {island.tiles.map((t, i) => {
           return (
-            <div>
+            <div key={i}>
               <div>
                 <span>{i}</span>
-                <span>{t.infrastructure} on land</span>
+                <span>
+                  {t.infrastructureName()} on {t.kindName()}
+                </span>
               </div>
             </div>
           );
