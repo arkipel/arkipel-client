@@ -50,7 +50,7 @@ const SessionProvider: FunctionComponent = ({ children }) => {
                 setCookie('session', token, {
                   domain: '.' + domain,
                   path: '/',
-                  maxAge: 60 * 60, // 1 hour
+                  maxAge: 60 * 60 * 24 * 7, // ~1 week
                   // httpOnly: true,
                   // sameSite: 'strict',
                 });
@@ -102,7 +102,7 @@ const SessionProvider: FunctionComponent = ({ children }) => {
                 setCookie('session', token, {
                   domain: '.' + domain,
                   path: '/',
-                  maxAge: 60 * 60, // 1 hour
+                  maxAge: 60 * 60 * 24 * 7, // ~1 week
                   // httpOnly: true,
                   // sameSite: 'strict',
                 });
