@@ -6,8 +6,9 @@ class Island {
     this.id = obj?.id || '';
     this.owner = obj?.owner || new User({});
 
+    let tiles = obj?.tiles || [];
     this.tiles = new Array<Tile>();
-    for (const t in obj?.tiles) {
+    for (const t of tiles) {
       this.tiles.push(new Tile(t));
     }
   }

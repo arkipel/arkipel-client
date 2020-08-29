@@ -4,19 +4,30 @@ class Tile {
   constructor(obj: any) {
     this.id = obj?.id || '';
     this.position = obj?.position || 0;
-    this.kind = obj?.kind || TileKind.LAND;
     this.infrastructure = obj?.infrastructure || Infrastructure.EMPTY;
     this.level = obj?.level || 0;
   }
 
   id: string;
   position: number;
-  kind: TileKind;
   infrastructure: Infrastructure;
   level: number;
 
+  kind(): TileKind {
+    switch (dna[this.position]) {
+      case '1':
+        return TileKind.WATER;
+      case '2':
+        return TileKind.SAND;
+      case '3':
+        return TileKind.LAND;
+      default:
+        return TileKind.DEEP_WATER;
+    }
+  }
+
   kindName(): string {
-    switch (this.kind) {
+    switch (this.kind()) {
       case TileKind.DEEP_WATER:
         return 'deep water';
       case TileKind.WATER:
@@ -57,3 +68,21 @@ class Tile {
 }
 
 export default Tile;
+
+const dna =
+  '0000000000000000' +
+  '0000011111100000' +
+  '0001112222111000' +
+  '0011222332221100' +
+  '0012233333322100' +
+  '0112333333332110' +
+  '0122333333332210' +
+  '0123333333333210' +
+  '0123333333333210' +
+  '0122333333332210' +
+  '0112333333332110' +
+  '0012233333322100' +
+  '0011222332221100' +
+  '0001112222111000' +
+  '0000011111100000' +
+  '0000000000000000';
