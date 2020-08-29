@@ -5,7 +5,12 @@ class Island {
   constructor(obj: any) {
     this.id = obj?.id || '';
     this.owner = obj?.owner || new User({});
-    this.tiles = obj?.tiles || new Array<Tile>(256);
+
+    let tiles = obj?.tiles || [];
+    this.tiles = new Array<Tile>();
+    for (const t of tiles) {
+      this.tiles.push(new Tile(t));
+    }
   }
 
   id: string;
