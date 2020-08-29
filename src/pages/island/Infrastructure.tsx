@@ -7,8 +7,6 @@ import { SessionContext } from '../../libs/session/session';
 
 import Island from '../../models/Island';
 
-import IslandMap from '../../components/IslandMap';
-
 import { Error } from '../../ui/dialog/Msg';
 
 const MapPage = () => {
@@ -43,22 +41,27 @@ const MapPage = () => {
     return <Error>Sorry, an error occured</Error>;
   }
 
-  let island: Island;
+  let island = new Island({});
   if (data?.island.__typename === 'Island') {
     island = new Island(data.island);
-  } else if (loading) {
-    island = new Island({ owner: { username: 'Loading...' } });
-  } else {
-    island = new Island({});
   }
+
+  console.log('island:', island);
 
   return (
     <Fragment>
-      <h1>Map</h1>
-      <h2>Infrastructure</h2>
+      <h1>Infrastructure</h1>
+      {loading && <p>Loading...</p>}
       <div>
-        {island.tiles.forEach((i) => {
-          <p>{i}</p>;
+        {island.tiles.map((t, i) => {
+          return (
+            <div>
+              <div>
+                <span>{i}</span>
+                <span>{t.infrastructure} on land</span>
+              </div>
+            </div>
+          );
         })}
       </div>
     </Fragment>
