@@ -9,6 +9,8 @@ import Island from '../../models/Island';
 
 import { Error } from '../../ui/dialog/Msg';
 
+import styles from './Infrastructure.scss';
+
 const MapPage = () => {
   const session = useContext(SessionContext);
 
@@ -53,15 +55,41 @@ const MapPage = () => {
     <Fragment>
       <h1>Infrastructure</h1>
       {loading && <p>Loading...</p>}
-      <div>
+      <div className={styles.listTiles}>
         {island.tiles.map((t, i) => {
           return (
-            <div key={i}>
+            <div key={i} className={styles.tileBox}>
               <div>
                 <span>{i}</span>
                 <span>
                   {t.infrastructureName()} on {t.kindName()}
                 </span>
+              </div>
+              <div>
+                <div className={styles.stats}>
+                  <span>Level {t.level}</span>
+                  <div className={styles.iconStat}>
+                    <img
+                      // className={styles.materialIcon}
+                      src="https://icons.arkipel.io/res/population.svg"
+                    />
+                    <span>4</span>
+                  </div>
+                  <div className={styles.iconStat}>
+                    <img
+                      // className={styles.materialIcon}
+                      src="https://icons.arkipel.io/res/energy.svg"
+                    />
+                    <span>5</span>
+                  </div>
+                  <div className={styles.iconStat}>
+                    <img
+                      // className={styles.materialIcon}
+                      src="https://icons.arkipel.io/res/material.svg"
+                    />
+                    <span>20/s</span>
+                  </div>
+                </div>
               </div>
             </div>
           );
