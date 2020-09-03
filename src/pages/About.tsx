@@ -8,14 +8,6 @@ class About extends React.PureComponent {
         <p>
           Arkipel is a game made by <a href="https://mfcl.io">mfcl</a>.
         </p>
-        <h2>Development</h2>
-        <p>
-          You can find more information about new features on{' '}
-          <a href="https://trello.com/b/2ztENEAB/arkipel">
-            Arkipel's Trello board
-          </a>
-          .
-        </p>
         <h2>Source code</h2>
         <p>
           The source code of this app can be found on the{' '}
