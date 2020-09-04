@@ -11,15 +11,19 @@
   grid-auto-flow: column;
   background: blue;
 
-  & > div {
-    display: grid;
-    grid-auto-flow: column;
-    border: 1px solid black;
-  }
+  // & > div {
+  //   display: grid;
+  //   grid-auto-flow: column;
+  //   border: 1px solid black;
+  // }
 
   .tileLogo {
     height: 50px;
     width: 50px;
+  }
+
+  .content {
+    background: red;
   }
 
   img {
