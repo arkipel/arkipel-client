@@ -7,11 +7,13 @@ import { SessionContext } from '../../libs/session/session';
 
 import Island from '../../models/Island';
 
+import MapTile from '../../components/MapTile';
+
 import { Error } from '../../ui/dialog/Msg';
 
 import styles from './Infrastructure.scss';
 
-const MapPage = () => {
+const InfrastructurePage = () => {
   const session = useContext(SessionContext);
 
   let islandId = session.id;
@@ -28,6 +30,11 @@ const MapPage = () => {
               kind
               infrastructure
               level
+              housingCapacity
+              materialProduction
+              energyProduction
+              requiredWorkforce
+              energyConsumption
             }
           }
         }
@@ -49,8 +56,6 @@ const MapPage = () => {
     island = new Island(data.island);
   }
 
-  console.log('island:', island);
-
   return (
     <Fragment>
       <h1>Infrastructure</h1>
@@ -59,11 +64,8 @@ const MapPage = () => {
         {island.tiles.map((t, i) => {
           return (
             <div key={i} className={styles.tileBox}>
-              <div>
-                <span>{i}</span>
-                <span>
-                  {t.infrastructureName()} on {t.kindName()}
-                </span>
+              <div className={styles.tileLogo}>
+                <MapTile tile={t} clickable={false} onClick={() => {}} />
               </div>
               <div>
                 <div className={styles.stats}>
@@ -99,4 +101,4 @@ const MapPage = () => {
   );
 };
 
-export default MapPage;
+export default InfrastructurePage;

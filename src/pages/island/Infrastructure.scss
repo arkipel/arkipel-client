@@ -7,16 +7,25 @@
 }
 
 .tileBox {
-  background: blueviolet;
+  display: grid;
+  grid-auto-flow: column;
+  background: blue;
 
   & > div {
     display: grid;
     grid-auto-flow: column;
+    border: 1px solid black;
+  }
+
+  .tileLogo {
+    height: 50px;
+    width: 50px;
   }
 
   img {
-    width: 16px;
-    height: 16px;
+    margin: 4px;
+    width: 42px;
+    height: 42px;
   }
 }
 
@@ -38,5 +47,10 @@
     grid-auto-flow: column;
     align-items: center;
     background: yellow;
+
+    img {
+      height: 16px;
+      width: 16px;
+    }
   }
 }
