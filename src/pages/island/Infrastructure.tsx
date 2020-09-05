@@ -2,6 +2,7 @@ import React, { Fragment, FunctionComponent, useContext } from 'react';
 
 import { useQuery, gql } from '@apollo/client';
 import { GetIsland, GetIslandVariables } from 'generated/GetIsland';
+import { Infrastructure } from '../../generated/globalTypes';
 
 import { SessionContext } from '../../libs/session/session';
 
@@ -10,7 +11,7 @@ import Island from '../../models/Island';
 
 import MapTile from '../../components/MapTile';
 
-import { Error } from '../../ui/dialog/Msg';
+import { Info, Error } from '../../ui/dialog/Msg';
 
 import styles from './Infrastructure.scss';
 
@@ -57,7 +58,23 @@ const InfrastructurePage = () => {
     island = new Island(data.island);
   }
 
-  // console.log('about to return');
+  // Filter out the tiles that should not be shown.
+  let filteredTiles = new Array<Tile>();
+  island.tiles.forEach((t) => {
+    if (t.level > 0 && t.infrastructure != Infrastructure.EMPTY) {
+      filteredTiles.push(t);
+    }
+  });
+  island.tiles = filteredTiles;
+
+  if (!loading && island.tiles.length === 0) {
+    return (
+      <Fragment>
+        <h2>Infrastructure</h2>
+        <Info>You have no infrastructure.</Info>
+      </Fragment>
+    );
+  }
 
   return (
     <Fragment>
@@ -86,18 +103,18 @@ const InfrastructureItem: FunctionComponent<props> = ({ tile }) => {
       </div>
       <div className={styles.population}>
         <img src="https://icons.arkipel.io/res/population.svg" />
-        <span>4</span>
-      </div>
-      <div className={styles.material}>
-        <img src="https://icons.arkipel.io/res/energy.svg" />
-        <span>5</span>
+        <span>{tile.housingCapacity - tile.requiredWorkforce}</span>
       </div>
       <div className={styles.energy}>
-        <img src="https://icons.arkipel.io/res/material.svg" />
-        <span>20/s</span>
+        <img src="https://icons.arkipel.io/res/energy.svg" />
+        <span>{tile.energyProduction - tile.energyConsumption}</span>
       </div>
-      <button className={styles.more} disabled={true}>
-        More
+      <div className={styles.material}>
+        <img src="https://icons.arkipel.io/res/material.svg" />
+        <span>{tile.materialProduction}/s</span>
+      </div>
+      <button className={styles.manage} disabled={true}>
+        Manage
       </button>
     </div>
   );
