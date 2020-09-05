@@ -1,60 +1,70 @@
 @import '../../styles/config.scss';
 
+@mixin stat {
+  display: grid;
+  grid-auto-flow: column;
+  align-items: center;
+  gap: 4px;
+  padding: 0 4px;
+
+  img {
+    height: 14px;
+    width: 14px;
+  }
+}
+
 .listTiles {
   display: grid;
   gap: 10px;
-  background: blue;
 }
 
-.tileBox {
+.tile {
   display: grid;
-  grid-auto-flow: column;
-  background: blue;
+  grid-template:
+    'logo logo title title      title    title  title  more' 25px
+    'logo logo level population material energy empty more' 25px
+    / 25px 25px auto auto auto auto 1fr auto;
 
-  // & > div {
-  //   display: grid;
-  //   grid-auto-flow: column;
-  //   border: 1px solid black;
-  // }
-
-  .tileLogo {
-    height: 50px;
-    width: 50px;
-  }
-
-  .content {
-    background: red;
-  }
-
-  img {
-    margin: 4px;
-    width: 42px;
-    height: 42px;
-  }
-}
-
-.stats {
-  display: grid;
-  grid-auto-flow: column;
-  justify-content: flex-start;
-  gap: 10px;
-
-  & > div {
-    width: auto;
-    background: green;
-  }
-
-  .iconStat {
-    height: 20px;
-    display: grid;
-    gap: 4px;
-    grid-auto-flow: column;
-    align-items: center;
-    background: yellow;
+  .logo {
+    grid-area: logo;
 
     img {
-      height: 16px;
-      width: 16px;
+      margin: 4px;
     }
+  }
+
+  .title {
+    grid-area: title;
+    padding: 2px 4px;
+    font-weight: bold;
+  }
+
+  .level {
+    @include stat;
+
+    grid-area: level;
+  }
+
+  .population {
+    @include stat;
+
+    grid-area: population;
+  }
+
+  .material {
+    @include stat;
+
+    grid-area: material;
+  }
+
+  .energy {
+    @include stat;
+
+    grid-area: energy;
+  }
+
+  .more {
+    grid-area: more;
+    align-self: center;
   }
 }

@@ -57,6 +57,8 @@ const InfrastructurePage = () => {
     island = new Island(data.island);
   }
 
+  // console.log('about to return');
+
   return (
     <Fragment>
       <h1>Infrastructure</h1>
@@ -72,41 +74,31 @@ const InfrastructurePage = () => {
 
 const InfrastructureItem: FunctionComponent<props> = ({ tile }) => {
   return (
-    <div className={styles.tileBox}>
-      <div className={styles.tileLogo}>
+    <div className={styles.tile}>
+      <div className={styles.logo}>
         <MapTile tile={tile} />
       </div>
-      <div className={styles.content}>
-        <div>
-          <span>
-            {tile.infrastructureName()} on {tile.kindName()}
-          </span>
-        </div>
-        <div className={styles.stats}>
-          <span>Level {tile.level}</span>
-          <div className={styles.iconStat}>
-            <img
-              // className={styles.materialIcon}
-              src="https://icons.arkipel.io/res/population.svg"
-            />
-            <span>4</span>
-          </div>
-          <div className={styles.iconStat}>
-            <img
-              // className={styles.materialIcon}
-              src="https://icons.arkipel.io/res/energy.svg"
-            />
-            <span>5</span>
-          </div>
-          <div className={styles.iconStat}>
-            <img
-              // className={styles.materialIcon}
-              src="https://icons.arkipel.io/res/material.svg"
-            />
-            <span>20/s</span>
-          </div>
-        </div>
+      <span className={styles.title}>
+        {tile.infrastructureName()} on {tile.kindName()}
+      </span>
+      <div className={styles.level}>
+        <span>Level {tile.level}</span>
       </div>
+      <div className={styles.population}>
+        <img src="https://icons.arkipel.io/res/population.svg" />
+        <span>4</span>
+      </div>
+      <div className={styles.material}>
+        <img src="https://icons.arkipel.io/res/energy.svg" />
+        <span>5</span>
+      </div>
+      <div className={styles.energy}>
+        <img src="https://icons.arkipel.io/res/material.svg" />
+        <span>20/s</span>
+      </div>
+      <button className={styles.more} disabled={true}>
+        More
+      </button>
     </div>
   );
 };
