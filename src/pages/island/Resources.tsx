@@ -27,7 +27,9 @@ const ResourcesPage = () => {
             __typename
             ... on Inventory {
               population
+              workforce
               material
+              materialProduction
               energyUsed
               energy
             }
@@ -58,10 +60,16 @@ const ResourcesPage = () => {
       {!loading && (
         <ul className={styles.list}>
           <li>
+            <b>Workers:</b> {inventory.workforce}
+          </li>
+          <li>
             <b>Population:</b> {inventory.population}
           </li>
           <li>
             <b>Material:</b> {inventory.material}
+          </li>
+          <li>
+            <b>Material production:</b> {inventory.materialProduction}/s
           </li>
           <li>
             <b>Energy:</b> {inventory.energyUsed}/{inventory.energy}
