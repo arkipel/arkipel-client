@@ -9,6 +9,7 @@ import About from '../pages/About';
 import Home from '../pages/Home';
 import ArchipelagoOverview from '../pages/archipelago/Overview';
 import MapPage from '../pages/island/Map';
+import InfrastructurePage from '../pages/island/Infrastructure';
 import ResourcesPage from '../pages/island/Resources';
 import TilePage from '../pages/island/Tile';
 import Login from '../pages/Login';
@@ -82,6 +83,11 @@ const MainContent: FunctionComponent<props> = ({
             <Route path="/registration" exact component={Registration} />
             <Route path="/account/settings" exact component={Settings} />
             <Route path="/island/map" exact component={MapPage} />
+            <Route
+              path="/island/infrastructure"
+              exact
+              component={InfrastructurePage}
+            />
             <Route path="/island/resources" exact component={ResourcesPage} />
             <Route path="/island/tiles/:position" exact component={TilePage} />
             <Route
