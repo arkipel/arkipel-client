@@ -80,7 +80,7 @@ const InfrastructurePage = () => {
     <Fragment>
       <h1>Infrastructure</h1>
       {loading && <p>Loading...</p>}
-      <div className={styles.listTiles}>
+      <div className={styles.list}>
         {island.tiles.map((t) => {
           return <InfrastructureItem key={t.position} tile={t} />;
         })}

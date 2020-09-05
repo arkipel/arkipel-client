@@ -13,7 +13,7 @@
   }
 }
 
-.listTiles {
+.list {
   display: grid;
   gap: 10px;
 }
@@ -29,7 +29,7 @@
     grid-area: logo;
 
     img {
-      margin: 4px;
+      margin: 6px;
     }
   }
 
