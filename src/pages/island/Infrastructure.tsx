@@ -113,9 +113,9 @@ const InfrastructureItem: FunctionComponent<props> = ({ tile }) => {
         <img src="https://icons.arkipel.io/res/material.svg" />
         <span>{tile.materialProduction}/s</span>
       </div>
-      <button className={styles.manage} disabled={true}>
+      {/* <button className={styles.manage} disabled={true}>
         Manage
-      </button>
+      </button> */}
     </div>
   );
 };
