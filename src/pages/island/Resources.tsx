@@ -23,16 +23,14 @@ const ResourcesPage = () => {
     gql`
       query GetInventory($userId: String!, $islandId: String!) {
         inventory(userId: $userId, islandId: $islandId) {
+          __typename
           ... on Inventory {
-            __typename
-            ... on Inventory {
-              population
-              workforce
-              material
-              materialProduction
-              energyUsed
-              energy
-            }
+            population
+            workforce
+            material
+            materialProduction
+            energyUsed
+            energy
           }
         }
       }
