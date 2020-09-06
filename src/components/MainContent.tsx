@@ -11,6 +11,7 @@ import ArchipelagoOverview from '../pages/archipelago/Overview';
 import MapPage from '../pages/island/Map';
 import InfrastructurePage from '../pages/island/Infrastructure';
 import ResourcesPage from '../pages/island/Resources';
+import TreasuryPage from '../pages/island/Treasury';
 import TilePage from '../pages/island/Tile';
 import Login from '../pages/Login';
 import Registration from '../pages/Registration';
@@ -89,6 +90,7 @@ const MainContent: FunctionComponent<props> = ({
               component={InfrastructurePage}
             />
             <Route path="/island/resources" exact component={ResourcesPage} />
+            <Route path="/island/treasury" exact component={TreasuryPage} />
             <Route path="/island/tiles/:position" exact component={TilePage} />
             <Route
               path="/archipelago/overview"
