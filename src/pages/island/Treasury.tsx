@@ -61,7 +61,7 @@ const TreasuryPage = () => {
       {!canManageCurrencies && (
         <p>
           All of your banks must have a cummulative number of levels of at least
-          10 to manage currencies.
+          10 to manage currencies. You are currently at {bankLevels}.
         </p>
       )}
     </Fragment>
