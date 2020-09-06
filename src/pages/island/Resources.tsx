@@ -25,6 +25,7 @@ const ResourcesPage = () => {
         inventory(userId: $userId, islandId: $islandId) {
           __typename
           ... on Inventory {
+            id
             population
             workforce
             material

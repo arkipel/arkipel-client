@@ -13,6 +13,7 @@ export interface GetBankLevels_inventory_NotAuthorized {
 
 export interface GetBankLevels_inventory_Inventory {
   readonly __typename: 'Inventory';
+  readonly id: string;
   readonly bankLevels: number;
 }
 

@@ -13,6 +13,7 @@ export interface GetInventory_inventory_NotAuthorized {
 
 export interface GetInventory_inventory_Inventory {
   readonly __typename: 'Inventory';
+  readonly id: string;
   readonly population: number;
   readonly workforce: number;
   readonly material: number;

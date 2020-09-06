@@ -23,6 +23,7 @@ const TreasuryPage = () => {
         inventory(userId: $userId, islandId: $islandId) {
           __typename
           ... on Inventory {
+            id
             bankLevels
           }
         }
