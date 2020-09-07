@@ -96,7 +96,7 @@ const InfrastructureItem: FunctionComponent<props> = ({ tile }) => {
         <MapTile tile={tile} />
       </div>
       <span className={styles.title}>
-        {tile.infrastructureName()} on {tile.kindName()}
+        {tile.position} {tile.infrastructureName()} on {tile.kindName()}
       </span>
       <div className={styles.level}>
         <span>Level {tile.level}</span>
