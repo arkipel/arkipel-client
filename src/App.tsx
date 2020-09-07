@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FunctionComponent, useState } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import Media from 'react-media';
 
@@ -32,88 +32,59 @@ const client = new ApolloClient({
   }),
 });
 
-class App extends React.PureComponent<props, state> {
-  constructor(props: any) {
-    super(props);
+const App: FunctionComponent<props> = () => {
+  const [showMenuPane, setShowMenuPane] = useState(false);
+  const [showNotificationPane, setShowNotificationPane] = useState(false);
 
-    this.state = {
-      showMenuPane: false,
-      showNotificationPane: false,
-    };
+  // let breakpoints = {
+  //   small: '(max-width: 499px)',
+  //   medium: '(min-width: 500px) and (max-width: 699px)',
+  //   large: '(min-width: 700px)',
+  // };
 
-    // let breakpoints = {
-    //   small: '(max-width: 499px)',
-    //   medium: '(min-width: 500px) and (max-width: 699px)',
-    //   large: '(min-width: 700px)',
-    // };
-  }
+  let showShadow = showMenuPane || showNotificationPane;
 
-  render() {
-    let showShadow = this.state.showMenuPane || this.state.showNotificationPane;
-
-    return (
-      <div id="app" className={appStyles.app}>
-        <ApolloProvider client={client}>
-          <SessionProvider>
-            <Router>
-              <MenuPane
-                visible={this.state.showMenuPane}
-                onCloseClick={this.closeMenuPane}
+  return (
+    <div id="app" className={appStyles.app}>
+      <ApolloProvider client={client}>
+        <SessionProvider>
+          <Router>
+            <MenuPane
+              visible={showMenuPane}
+              onCloseClick={() => {
+                setShowMenuPane(false);
+              }}
+            />
+            <Media query="(max-width: 999px)">
+              <Shadow
+                visible={showShadow}
+                onClick={() => {
+                  setShowMenuPane(false);
+                  setShowNotificationPane(false);
+                }}
               />
-              <Media query="(max-width: 999px)">
-                <Shadow
-                  visible={showShadow}
-                  onClick={() => {
-                    this.closeMenuPane();
-                    this.closeNotificationPane();
-                  }}
-                />
-              </Media>
-              <MainContent
-                onMenuOpen={this.openMenuPane}
-                onNotificationOpen={this.openNotificationPane}
-              />
-              <NotificationPane
-                visible={this.state.showNotificationPane}
-                onCloseClick={this.closeNotificationPane}
-              />
-            </Router>
-          </SessionProvider>
-        </ApolloProvider>
-      </div>
-    );
-  }
-
-  openMenuPane = () => {
-    this.setState(() => {
-      return { showMenuPane: true };
-    });
-  };
-
-  closeMenuPane = () => {
-    this.setState(() => {
-      return { showMenuPane: false };
-    });
-  };
-
-  openNotificationPane = () => {
-    this.setState(() => {
-      return { showNotificationPane: true };
-    });
-  };
-
-  closeNotificationPane = () => {
-    this.setState(() => {
-      return { showNotificationPane: false };
-    });
-  };
-}
+            </Media>
+            <MainContent
+              onMenuOpen={() => {
+                setShowMenuPane(true);
+              }}
+              onNotificationOpen={() => {
+                setShowNotificationPane(true);
+              }}
+            />
+            <NotificationPane
+              visible={showNotificationPane}
+              onCloseClick={() => {
+                setShowNotificationPane(false);
+              }}
+            />
+          </Router>
+        </SessionProvider>
+      </ApolloProvider>
+    </div>
+  );
+};
 
 type props = {};
-
-type state = {
-  showMenuPane: boolean;
-  showNotificationPane: boolean;
-};
 
 export default App;
