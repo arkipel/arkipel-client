@@ -161,13 +161,48 @@ const InfrastructureOption: FunctionComponent<{
             infrastructure
             level
             constructionSite {
+              id
               finishedAt
             }
           }
         }
       }
     `,
-    { variables: { islandId, position, infrastructure: infra } },
+    {
+      variables: { islandId, position, infrastructure: infra },
+      update: (cache, data) => {
+        cache.modify({
+          fields: {
+            constructionSites: (currentConstructionSites, { readField }) => {
+              const newSiteRef = cache.writeFragment({
+                data: data.data.build,
+                fragment: gql`
+                  fragment NewConstructionSite on ConstructionSite {
+                    id
+                  }
+                `,
+              });
+              return [...currentConstructionSites, newSiteRef];
+            },
+          },
+        });
+      },
+      // onCompleted: (tile) => {},
+      // refetchQueries: [
+      //   {
+      //     query: gql`
+      //       query TotallyNewQuery {
+      //         archipelago {
+      //           ... on Archipelago {
+      //             id
+      //           }
+      //         }
+      //       }
+      //     `,
+      //     variables: { islandId: islandId },
+      //   },
+      // ],
+    },
   );
 
   return (

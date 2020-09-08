@@ -38,6 +38,7 @@ const NotificationPane: FunctionComponent<props> = ({
         island(islandId: $islandId) {
           ... on Island {
             constructionSites {
+              id
               infrastructure
               workloadLeft
               finishedAt
