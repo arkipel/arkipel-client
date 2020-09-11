@@ -37,6 +37,7 @@ const NotificationPane: FunctionComponent<props> = ({
       query GetAllConstructionSites($islandId: String!) {
         island(islandId: $islandId) {
           ... on Island {
+            id
             constructionSites {
               id
               infrastructure

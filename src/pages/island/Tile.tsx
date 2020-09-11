@@ -162,7 +162,12 @@ const InfrastructureOption: FunctionComponent<{
             level
             constructionSite {
               id
+              infrastructure
+              workloadLeft
               finishedAt
+              tile {
+                position
+              }
             }
           }
         }
@@ -172,13 +177,20 @@ const InfrastructureOption: FunctionComponent<{
       variables: { islandId, position, infrastructure: infra },
       update: (cache, data) => {
         cache.modify({
+          id: 'Island:' + islandId,
           fields: {
-            constructionSites: (currentConstructionSites, { readField }) => {
+            constructionSites: (currentConstructionSites) => {
               const newSiteRef = cache.writeFragment({
-                data: data.data.build,
+                data: data.data.buildInfrastructure,
                 fragment: gql`
                   fragment NewConstructionSite on ConstructionSite {
                     id
+                    infrastructure
+                    workloadLeft
+                    finishedAt
+                    tile {
+                      position
+                    }
                   }
                 `,
               });
@@ -187,21 +199,6 @@ const InfrastructureOption: FunctionComponent<{
           },
         });
       },
-      // onCompleted: (tile) => {},
-      // refetchQueries: [
-      //   {
-      //     query: gql`
-      //       query TotallyNewQuery {
-      //         archipelago {
-      //           ... on Archipelago {
-      //             id
-      //           }
-      //         }
-      //       }
-      //     `,
-      //     variables: { islandId: islandId },
-      //   },
-      // ],
     },
   );
 
@@ -235,14 +232,39 @@ const CancelButton: FunctionComponent<{
             id
             infrastructure
             level
-            constructionSite {
-              finishedAt
-            }
           }
         }
       }
     `,
-    { variables: { islandId, position } },
+    {
+      variables: { islandId, position },
+      update: (cache, data) => {
+        cache.modify({
+          id: 'Island:' + islandId,
+          fields: {
+            constructionSites: (currentConstructionSites) => {
+              console.log(
+                'currentConstructionSites:',
+                currentConstructionSites,
+              );
+              return currentConstructionSites.filter((cs) => {
+                console.log(
+                  'comparing',
+                  cs.__ref,
+                  'and',
+                  data.data.cancelConstruction.id,
+                );
+                return (
+                  cs.id !==
+                  'ConstructionSite:' +
+                    data.data.cancelConstruction.constructionSite.id
+                );
+              });
+            },
+          },
+        });
+      },
+    },
   );
 
   return (
