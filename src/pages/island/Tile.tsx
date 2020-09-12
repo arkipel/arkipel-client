@@ -1,13 +1,7 @@
-import React, {
-  Fragment,
-  FunctionComponent,
-  useContext,
-  useEffect,
-  useState,
-} from 'react';
+import React, { Fragment, FunctionComponent, useContext } from 'react';
 import { useParams } from 'react-router-dom';
 
-import { useQuery, gql, useMutation } from '@apollo/client';
+import { useQuery, gql, useMutation, useApolloClient } from '@apollo/client';
 import { GetTile, GetTileVariables } from '../../generated/GetTile';
 import { NewConstructionSite } from '../../generated/NewConstructionSite';
 import { TileKind } from '../../generated/globalTypes';
@@ -19,11 +13,11 @@ import ConstructionSite from '../../models/ConstructionSite';
 import Blueprint from '../../models/Blueprint';
 
 import { Error } from '../../ui/dialog/Msg';
+import TimeLeft from '../../ui/time/TimeLeft';
 
 import styles from './Tile.scss';
 
 const TilePage: FunctionComponent = () => {
-  const [, forceUpdate] = useState(0);
   const session = useContext(SessionContext);
   const { position: positionParam } = useParams<{ position: string }>();
 
@@ -35,14 +29,7 @@ const TilePage: FunctionComponent = () => {
 
   let islandId = session.id;
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      forceUpdate(Math.random());
-    }, 1000);
-    return () => {
-      clearInterval(interval);
-    };
-  }, []);
+  const client = useApolloClient();
 
   const { data, loading, error } = useQuery<GetTile, GetTileVariables>(
     gql`
@@ -54,6 +41,7 @@ const TilePage: FunctionComponent = () => {
             infrastructure
             level
             constructionSite {
+              id
               infrastructure
               workloadLeft
               finishedAt
@@ -127,7 +115,17 @@ const TilePage: FunctionComponent = () => {
                   There is a construction in progress to upgrade this{' '}
                   <b>{constructionSite.infrastructure.toLowerCase()}</b> to{' '}
                   <b>level {tile.level + 1}</b>. It will be done{' '}
-                  <b>{constructionSite.finishedAt.toRelative()}</b>.
+                  <b>
+                    <TimeLeft
+                      target={constructionSite.finishedAt}
+                      onReach={() => {
+                        client.cache.evict({
+                          id: 'ConstructionSite:' + constructionSite.id,
+                        });
+                      }}
+                    />
+                  </b>
+                  .
                 </p>
                 <CancelButton islandId={islandId} position={position} />
               </Fragment>

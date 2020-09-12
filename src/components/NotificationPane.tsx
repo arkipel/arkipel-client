@@ -1,7 +1,7 @@
 import React, { FunctionComponent, useContext } from 'react';
 import Media from 'react-media';
 
-import { useQuery, gql } from '@apollo/client';
+import { useQuery, gql, useApolloClient } from '@apollo/client';
 import {
   GetAllConstructionSites,
   GetAllConstructionSitesVariables,
@@ -13,6 +13,7 @@ import { SessionContext } from '../libs/session/session';
 
 // Components
 import Scrollable from '../ui/misc/Scrollable';
+import TimeLeft from '../ui/time/TimeLeft';
 
 // Assets
 import styles from './NotificationPane.scss';
@@ -22,6 +23,8 @@ const NotificationPane: FunctionComponent<props> = ({
   onCloseClick,
 }) => {
   const session = useContext(SessionContext);
+
+  const client = useApolloClient();
 
   let notificationPaneClassName = visible ? styles.visible + ' ' : '';
   notificationPaneClassName += styles.notificationPane;
@@ -91,7 +94,17 @@ const NotificationPane: FunctionComponent<props> = ({
                 <p key={Math.random()}>
                   A {site.infrastructure} is being built on tile{' '}
                   {site.tilePosition}. It will be done{' '}
-                  <b>{site.finishedAt.toRelative()}</b>.
+                  <b>
+                    <TimeLeft
+                      target={site.finishedAt}
+                      onReach={() => {
+                        client.cache.evict({
+                          id: 'ConstructionSite:' + site.id,
+                        });
+                      }}
+                    />
+                  </b>
+                  .
                 </p>
               );
             })}
