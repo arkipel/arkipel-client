@@ -130,6 +130,11 @@ const TilePage: FunctionComponent = () => {
                 <CancelButton islandId={islandId} position={position} />
               </Fragment>
             )}
+            {tile.level !== 0 && blueprints.length === 1 && (
+              <Fragment>
+                <UpgradeButton islandId={islandId} position={position} />
+              </Fragment>
+            )}
             {tile.level !== 0 && !constructionSite.exists && (
               <Fragment>
                 <DestroyButton islandId={islandId} position={position} />
@@ -173,6 +178,11 @@ const InfrastructureOption: FunctionComponent<{
               tile {
                 position
               }
+            }
+            blueprints {
+              infrastructure
+              materialCost
+              duration
             }
           }
         }
@@ -278,6 +288,52 @@ const CancelButton: FunctionComponent<{
         Could not cancel. Maybe the construction was already done. If not, try
         again.
       </Error>
+    </Fragment>
+  );
+};
+
+const UpgradeButton: FunctionComponent<{
+  islandId: string;
+  position: number;
+}> = ({ islandId, position }) => {
+  const [upgrade, { loading, error }] = useMutation(
+    gql`
+      mutation UpgradeInfrastructure($islandId: String!, $position: Int!) {
+        buildInfrastructure(islandId: $islandId, position: $position) {
+          ... on Tile {
+            id
+            infrastructure
+            level
+            constructionSite {
+              id
+              infrastructure
+              workloadLeft
+              finishedAt
+            }
+            blueprints {
+              infrastructure
+              materialCost
+              duration
+            }
+          }
+        }
+      }
+    `,
+    { variables: { islandId, position } },
+  );
+
+  return (
+    <Fragment>
+      <button
+        onClick={() => {
+          upgrade();
+        }}
+        disabled={loading}
+      >
+        {loading && 'Upgrading...'}
+        {!loading && 'Upgrade'}
+      </button>
+      <Error visible={error !== undefined}>Could not upgrade, try again.</Error>
     </Fragment>
   );
 };
