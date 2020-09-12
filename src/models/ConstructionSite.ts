@@ -17,7 +17,7 @@ class Construction {
     }
   }
 
-  id: number;
+  id: string;
   tilePosition: number;
   exists: boolean;
   infrastructure: Infrastructure;
