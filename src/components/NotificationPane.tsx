@@ -62,6 +62,10 @@ const NotificationPane: FunctionComponent<props> = ({
     data.island.constructionSites.map((cs) => {
       sites.push(new Construction(cs));
     });
+
+    sites.sort((s1, s2) => {
+      return s1.finishedAt.toMillis() - s2.finishedAt.toMillis();
+    });
   }
   const hasSites = sites.length > 0;
 
