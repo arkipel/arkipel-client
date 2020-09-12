@@ -317,8 +317,8 @@ const DestroyButton: FunctionComponent<{
         {!loading && 'Destroy'}
       </button>
       <Error visible={error !== undefined}>
-        Could not cancel. Maybe the construction was already done. If not, try
-        again.
+        Could not destroy. Maybe the infrastructure was already destroyed. If
+        not, try again.
       </Error>
     </Fragment>
   );
