@@ -9,6 +9,7 @@ import { useParams } from 'react-router-dom';
 
 import { useQuery, gql, useMutation } from '@apollo/client';
 import { GetTile, GetTileVariables } from '../../generated/GetTile';
+import { NewConstructionSite } from '../../generated/NewConstructionSite';
 import { TileKind } from '../../generated/globalTypes';
 
 import { SessionContext } from '../../libs/session/session';
@@ -161,13 +162,45 @@ const InfrastructureOption: FunctionComponent<{
             infrastructure
             level
             constructionSite {
+              id
+              infrastructure
+              workloadLeft
               finishedAt
+              tile {
+                position
+              }
             }
           }
         }
       }
     `,
-    { variables: { islandId, position, infrastructure: infra } },
+    {
+      variables: { islandId, position, infrastructure: infra },
+      update: (cache, data) => {
+        cache.modify({
+          id: 'Island:' + islandId,
+          fields: {
+            constructionSites: (currentConstructionSites) => {
+              const newSiteRef = cache.writeFragment<NewConstructionSite>({
+                data: data.data.buildInfrastructure,
+                fragment: gql`
+                  fragment NewConstructionSite on ConstructionSite {
+                    id
+                    infrastructure
+                    workloadLeft
+                    finishedAt
+                    tile {
+                      position
+                    }
+                  }
+                `,
+              });
+              return [...currentConstructionSites, newSiteRef];
+            },
+          },
+        });
+      },
+    },
   );
 
   return (
@@ -198,16 +231,32 @@ const CancelButton: FunctionComponent<{
         cancelConstruction(islandId: $islandId, position: $position) {
           ... on Tile {
             id
+            position
             infrastructure
             level
             constructionSite {
-              finishedAt
+              id
             }
           }
         }
       }
     `,
-    { variables: { islandId, position } },
+    {
+      variables: { islandId, position },
+      update: (cache) => {
+        cache.modify({
+          id: 'Island:' + islandId,
+          fields: {
+            constructionSites: (currentConstructionSites) => {
+              return currentConstructionSites.filter((cs: any) => {
+                let ref = cs.__ref as string;
+                return !ref.includes('_' + position + '_');
+              });
+            },
+          },
+        });
+      },
+    },
   );
 
   return (
