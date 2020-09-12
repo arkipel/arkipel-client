@@ -188,7 +188,7 @@ const InfrastructureOption: FunctionComponent<{
           fields: {
             constructionSites: (currentConstructionSites) => {
               const newSiteRef = cache.writeFragment<NewConstructionSite>({
-                data: data.data.buildInfrastructure,
+                data: data.data.buildInfrastructure.constructionSite,
                 fragment: gql`
                   fragment NewConstructionSite on ConstructionSite {
                     id
