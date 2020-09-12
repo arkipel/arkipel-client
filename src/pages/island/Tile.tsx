@@ -25,7 +25,13 @@ import styles from './Tile.scss';
 const TilePage: FunctionComponent = () => {
   const [, forceUpdate] = useState(0);
   const session = useContext(SessionContext);
-  const { position } = useParams();
+  const { position: positionParam } = useParams<{ position: string }>();
+
+  // Position as number
+  const position = parseInt(positionParam);
+  if (position < 0 || position > 255) {
+    return <Error>Invalid tile number.</Error>;
+  }
 
   let islandId = session.id;
 
