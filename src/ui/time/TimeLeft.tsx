@@ -12,11 +12,15 @@ const TimeLeft: FunctionComponent<props> = ({ target, onReach }) => {
   if (!reached && now >= target && onReach) {
     setReached(true);
     onReach();
+  } else if (now > target) {
+    target = DateTime.utc();
   }
 
   useEffect(() => {
     const interval = setInterval(() => {
-      forceUpdate(Math.random());
+      if (!reached) {
+        forceUpdate(Math.random());
+      }
     }, 1000);
     return () => {
       clearInterval(interval);

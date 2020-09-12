@@ -1,13 +1,7 @@
-import React, {
-  Fragment,
-  FunctionComponent,
-  useContext,
-  useEffect,
-  useState,
-} from 'react';
+import React, { Fragment, FunctionComponent, useContext } from 'react';
 import { useParams } from 'react-router-dom';
 
-import { useQuery, gql, useMutation } from '@apollo/client';
+import { useQuery, gql, useMutation, useApolloClient } from '@apollo/client';
 import { GetTile, GetTileVariables } from '../../generated/GetTile';
 import { NewConstructionSite } from '../../generated/NewConstructionSite';
 import { TileKind } from '../../generated/globalTypes';
@@ -24,7 +18,6 @@ import TimeLeft from '../../ui/time/TimeLeft';
 import styles from './Tile.scss';
 
 const TilePage: FunctionComponent = () => {
-  const [, forceUpdate] = useState(0);
   const session = useContext(SessionContext);
   const { position: positionParam } = useParams<{ position: string }>();
 
@@ -36,6 +29,8 @@ const TilePage: FunctionComponent = () => {
 
   let islandId = session.id;
 
+  const client = useApolloClient();
+
   const { data, loading, error } = useQuery<GetTile, GetTileVariables>(
     gql`
       query GetTile($islandId: String!, $position: Int!) {
@@ -46,6 +41,7 @@ const TilePage: FunctionComponent = () => {
             infrastructure
             level
             constructionSite {
+              id
               infrastructure
               workloadLeft
               finishedAt
@@ -123,7 +119,9 @@ const TilePage: FunctionComponent = () => {
                     <TimeLeft
                       target={constructionSite.finishedAt}
                       onReach={() => {
-                        console.log('REACHED');
+                        client.cache.evict({
+                          id: 'ConstructionSite:' + constructionSite.id,
+                        });
                       }}
                     />
                   </b>
@@ -188,7 +186,7 @@ const InfrastructureOption: FunctionComponent<{
           fields: {
             constructionSites: (currentConstructionSites) => {
               const newSiteRef = cache.writeFragment<NewConstructionSite>({
-                data: data.data.buildInfrastructure,
+                data: data.data.buildInfrastructure.constructionSite,
                 fragment: gql`
                   fragment NewConstructionSite on ConstructionSite {
                     id

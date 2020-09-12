@@ -4,6 +4,7 @@ import { Infrastructure } from '../generated/globalTypes';
 
 class Construction {
   constructor(obj: any) {
+    this.id = obj?.id || '';
     this.tilePosition = obj?.tile?.position || 0;
     this.exists = false;
     this.infrastructure = Infrastructure.EMPTY;
@@ -16,6 +17,7 @@ class Construction {
     }
   }
 
+  id: number;
   tilePosition: number;
   exists: boolean;
   infrastructure: Infrastructure;
