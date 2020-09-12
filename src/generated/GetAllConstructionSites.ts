@@ -20,6 +20,7 @@ export interface GetAllConstructionSites_island_Island_constructionSites_tile {
 
 export interface GetAllConstructionSites_island_Island_constructionSites {
   readonly __typename: 'ConstructionSite';
+  readonly id: string;
   readonly infrastructure: Infrastructure;
   readonly workloadLeft: number;
   readonly finishedAt: any;
@@ -28,6 +29,7 @@ export interface GetAllConstructionSites_island_Island_constructionSites {
 
 export interface GetAllConstructionSites_island_Island {
   readonly __typename: 'Island';
+  readonly id: string;
   readonly constructionSites: ReadonlyArray<
     GetAllConstructionSites_island_Island_constructionSites
   >;

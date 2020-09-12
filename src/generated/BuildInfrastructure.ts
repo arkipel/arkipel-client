@@ -13,9 +13,18 @@ export interface BuildInfrastructure_buildInfrastructure_NotAuthorized {
   readonly __typename: 'NotAuthorized' | 'NotFound';
 }
 
+export interface BuildInfrastructure_buildInfrastructure_Tile_constructionSite_tile {
+  readonly __typename: 'Tile';
+  readonly position: number;
+}
+
 export interface BuildInfrastructure_buildInfrastructure_Tile_constructionSite {
   readonly __typename: 'ConstructionSite';
+  readonly id: string;
+  readonly infrastructure: Infrastructure;
+  readonly workloadLeft: number;
   readonly finishedAt: any;
+  readonly tile: BuildInfrastructure_buildInfrastructure_Tile_constructionSite_tile;
 }
 
 export interface BuildInfrastructure_buildInfrastructure_Tile {

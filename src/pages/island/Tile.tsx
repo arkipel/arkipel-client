@@ -9,6 +9,7 @@ import { useParams } from 'react-router-dom';
 
 import { useQuery, gql, useMutation } from '@apollo/client';
 import { GetTile, GetTileVariables } from '../../generated/GetTile';
+import { NewConstructionSite } from '../../generated/NewConstructionSite';
 import { TileKind } from '../../generated/globalTypes';
 
 import { SessionContext } from '../../libs/session/session';
@@ -180,7 +181,7 @@ const InfrastructureOption: FunctionComponent<{
           id: 'Island:' + islandId,
           fields: {
             constructionSites: (currentConstructionSites) => {
-              const newSiteRef = cache.writeFragment({
+              const newSiteRef = cache.writeFragment<NewConstructionSite>({
                 data: data.data.buildInfrastructure,
                 fragment: gql`
                   fragment NewConstructionSite on ConstructionSite {
@@ -230,35 +231,26 @@ const CancelButton: FunctionComponent<{
         cancelConstruction(islandId: $islandId, position: $position) {
           ... on Tile {
             id
+            position
             infrastructure
             level
+            constructionSite {
+              id
+            }
           }
         }
       }
     `,
     {
       variables: { islandId, position },
-      update: (cache, data) => {
+      update: (cache) => {
         cache.modify({
           id: 'Island:' + islandId,
           fields: {
             constructionSites: (currentConstructionSites) => {
-              console.log(
-                'currentConstructionSites:',
-                currentConstructionSites,
-              );
-              return currentConstructionSites.filter((cs) => {
-                console.log(
-                  'comparing',
-                  cs.__ref,
-                  'and',
-                  data.data.cancelConstruction.id,
-                );
-                return (
-                  cs.id !==
-                  'ConstructionSite:' +
-                    data.data.cancelConstruction.constructionSite.id
-                );
+              return currentConstructionSites.filter((cs: any) => {
+                let ref = cs.__ref as string;
+                return !ref.includes('_' + position + '_');
               });
             },
           },
