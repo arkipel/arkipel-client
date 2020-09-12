@@ -19,6 +19,7 @@ import ConstructionSite from '../../models/ConstructionSite';
 import Blueprint from '../../models/Blueprint';
 
 import { Error } from '../../ui/dialog/Msg';
+import TimeLeft from '../../ui/time/TimeLeft';
 
 import styles from './Tile.scss';
 
@@ -34,15 +35,6 @@ const TilePage: FunctionComponent = () => {
   }
 
   let islandId = session.id;
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      forceUpdate(Math.random());
-    }, 1000);
-    return () => {
-      clearInterval(interval);
-    };
-  }, []);
 
   const { data, loading, error } = useQuery<GetTile, GetTileVariables>(
     gql`
@@ -127,7 +119,15 @@ const TilePage: FunctionComponent = () => {
                   There is a construction in progress to upgrade this{' '}
                   <b>{constructionSite.infrastructure.toLowerCase()}</b> to{' '}
                   <b>level {tile.level + 1}</b>. It will be done{' '}
-                  <b>{constructionSite.finishedAt.toRelative()}</b>.
+                  <b>
+                    <TimeLeft
+                      target={constructionSite.finishedAt}
+                      onReach={() => {
+                        console.log('REACHED');
+                      }}
+                    />
+                  </b>
+                  .
                 </p>
                 <CancelButton islandId={islandId} position={position} />
               </Fragment>
