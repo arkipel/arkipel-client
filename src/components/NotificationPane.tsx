@@ -96,8 +96,8 @@ const NotificationPane: FunctionComponent<props> = ({
             sites.map((site) => {
               return (
                 <p key={Math.random()}>
-                  A {site.infrastructure} is being built on tile{' '}
-                  {site.tilePosition}. It will be done{' '}
+                  Some infrastructure is being built on tile {site.tilePosition}
+                  . It will be done{' '}
                   <b>
                     <TimeLeft
                       target={site.finishedAt}
