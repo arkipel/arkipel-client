@@ -113,7 +113,7 @@ const TilePage: FunctionComponent = () => {
               <Fragment>
                 <p>
                   There is a construction in progress to upgrade this{' '}
-                  <b>{constructionSite.infrastructure.toLowerCase()}</b> to{' '}
+                  <b>{tile.infrastructure.toLowerCase()}</b> to{' '}
                   <b>level {tile.level + 1}</b>. It will be done{' '}
                   <b>
                     <TimeLeft

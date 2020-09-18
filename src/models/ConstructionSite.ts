@@ -2,7 +2,7 @@ import { DateTime } from 'luxon';
 
 import { Infrastructure } from '../generated/globalTypes';
 
-class Construction {
+class ConstructionSite {
   constructor(obj: any) {
     this.id = obj?.id || '';
     this.tilePosition = obj?.tile?.position || 0;
@@ -24,4 +24,4 @@ class Construction {
   finishedAt: DateTime;
 }
 
-export default Construction;
+export default ConstructionSite;

@@ -7,7 +7,7 @@ import {
   GetAllConstructionSitesVariables,
 } from '../generated/GetAllConstructionSites';
 
-import Construction from '../models/ConstructionSite';
+import ConstructionSite from '../models/ConstructionSite';
 
 import { SessionContext } from '../libs/session/session';
 
@@ -57,10 +57,10 @@ const NotificationPane: FunctionComponent<props> = ({
     { variables: { islandId } },
   );
 
-  let sites = new Array<Construction>();
+  let sites = new Array<ConstructionSite>();
   if (data?.island.__typename === 'Island') {
     data.island.constructionSites.map((cs) => {
-      sites.push(new Construction(cs));
+      sites.push(new ConstructionSite(cs));
     });
 
     sites.sort((s1, s2) => {
@@ -96,8 +96,8 @@ const NotificationPane: FunctionComponent<props> = ({
             sites.map((site) => {
               return (
                 <p key={Math.random()}>
-                  A {site.infrastructure} is being built on tile{' '}
-                  {site.tilePosition}. It will be done{' '}
+                  Some infrastructure is being built on tile {site.tilePosition}
+                  . It will be done{' '}
                   <b>
                     <TimeLeft
                       target={site.finishedAt}
