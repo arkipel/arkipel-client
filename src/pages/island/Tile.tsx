@@ -299,7 +299,7 @@ const UpgradeButton: FunctionComponent<{
   const [upgrade, { loading, error }] = useMutation(
     gql`
       mutation UpgradeInfrastructure($islandId: String!, $position: Int!) {
-        buildInfrastructure(islandId: $islandId, position: $position) {
+        upgradeInfrastructure(islandId: $islandId, position: $position) {
           ... on Tile {
             id
             infrastructure
