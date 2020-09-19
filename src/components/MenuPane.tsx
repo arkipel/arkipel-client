@@ -1,4 +1,4 @@
-import React, { Fragment, FunctionComponent } from 'react';
+import React, { Fragment, FunctionComponent, useContext } from 'react';
 import { NavLink } from 'react-router-dom';
 import Media from 'react-media';
 
@@ -11,6 +11,8 @@ import Scrollable from '../ui/misc/Scrollable';
 import menuPaneStyles from './MenuPane.scss';
 
 const MenuPane: FunctionComponent<props> = ({ visible, onCloseClick }) => {
+  const session = useContext(SessionContext);
+
   let menuPaneClassName = visible ? menuPaneStyles.visible + ' ' : '';
   menuPaneClassName += menuPaneStyles.menuPane;
 
@@ -34,56 +36,41 @@ const MenuPane: FunctionComponent<props> = ({ visible, onCloseClick }) => {
       <Scrollable>
         <div className={menuPaneStyles.menu}>
           <nav>
-            <SessionContext.Consumer>
-              {(session) => {
-                if (session.loggedIn) {
-                  return (
-                    <Fragment>
-                      <h1>Island</h1>
-                      <ul>
-                        <li>
-                          <NavLink
-                            exact
-                            to="/island/map"
-                            onClick={onCloseClick}
-                          >
-                            Map
-                          </NavLink>
-                        </li>
-                        <li>
-                          <NavLink
-                            exact
-                            to="/island/infrastructure"
-                            onClick={onCloseClick}
-                          >
-                            Infrastructure
-                          </NavLink>
-                        </li>
-                        <li>
-                          <NavLink
-                            exact
-                            to="/island/resources"
-                            onClick={onCloseClick}
-                          >
-                            Resources
-                          </NavLink>
-                        </li>
-                        <li>
-                          <NavLink
-                            exact
-                            to="/island/treasury"
-                            onClick={onCloseClick}
-                          >
-                            Treasury
-                          </NavLink>
-                        </li>
-                      </ul>
-                    </Fragment>
-                  );
-                }
-                return <></>;
-              }}
-            </SessionContext.Consumer>
+            {session.loggedIn && (
+              <Fragment>
+                <h1>Island</h1>
+                <ul>
+                  <li>
+                    <NavLink exact to="/island/map" onClick={onCloseClick}>
+                      Map
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink
+                      exact
+                      to="/island/infrastructure"
+                      onClick={onCloseClick}
+                    >
+                      Infrastructure
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink
+                      exact
+                      to="/island/resources"
+                      onClick={onCloseClick}
+                    >
+                      Resources
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink exact to="/island/treasury" onClick={onCloseClick}>
+                      Treasury
+                    </NavLink>
+                  </li>
+                </ul>
+              </Fragment>
+            )}
             <h1>Archipelago</h1>
             <ul>
               <li>
@@ -96,29 +83,22 @@ const MenuPane: FunctionComponent<props> = ({ visible, onCloseClick }) => {
                 </NavLink>
               </li>
             </ul>
-            <SessionContext.Consumer>
-              {(session) => {
-                if (session.loggedIn) {
-                  return (
-                    <Fragment>
-                      <h1>Account</h1>
-                      <ul>
-                        <li>
-                          <NavLink
-                            exact
-                            to="/account/settings"
-                            onClick={onCloseClick}
-                          >
-                            Settings
-                          </NavLink>
-                        </li>
-                      </ul>
-                    </Fragment>
-                  );
-                }
-                return <></>;
-              }}
-            </SessionContext.Consumer>
+            {session.loggedIn && (
+              <Fragment>
+                <h1>Account</h1>
+                <ul>
+                  <li>
+                    <NavLink
+                      exact
+                      to="/account/settings"
+                      onClick={onCloseClick}
+                    >
+                      Settings
+                    </NavLink>
+                  </li>
+                </ul>
+              </Fragment>
+            )}
             <h1>Main</h1>
             <ul>
               <li>
