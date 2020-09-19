@@ -15,6 +15,7 @@ export interface GetTile_tile_NotAuthorized {
 
 export interface GetTile_tile_Tile_constructionSite {
   readonly __typename: 'ConstructionSite';
+  readonly id: string;
   readonly infrastructure: Infrastructure;
   readonly workloadLeft: number;
   readonly finishedAt: any;

@@ -130,11 +130,17 @@ const TilePage: FunctionComponent = () => {
                 <CancelButton islandId={islandId} position={position} />
               </Fragment>
             )}
-            {tile.level !== 0 && blueprints.length === 1 && (
-              <Fragment>
-                <UpgradeButton islandId={islandId} position={position} />
-              </Fragment>
-            )}
+            {tile.level !== 0 &&
+              blueprints.length === 1 &&
+              !constructionSite.exists && (
+                <Fragment>
+                  <UpgradeButton islandId={islandId} position={position} />
+                  <span>
+                    You can upgrade for {blueprints[0].materialCost} material.
+                    It would take {blueprints[0].durationStr()}.
+                  </span>
+                </Fragment>
+              )}
             {tile.level !== 0 && !constructionSite.exists && (
               <Fragment>
                 <DestroyButton islandId={islandId} position={position} />
@@ -319,7 +325,33 @@ const UpgradeButton: FunctionComponent<{
         }
       }
     `,
-    { variables: { islandId, position } },
+    {
+      variables: { islandId, position },
+      update: (cache, data) => {
+        cache.modify({
+          id: 'Island:' + islandId,
+          fields: {
+            constructionSites: (currentConstructionSites) => {
+              const newSiteRef = cache.writeFragment<NewConstructionSite>({
+                data: data.data.upgradeInfrastructure.constructionSite,
+                fragment: gql`
+                  fragment NewConstructionSite on ConstructionSite {
+                    id
+                    infrastructure
+                    workloadLeft
+                    finishedAt
+                    tile {
+                      position
+                    }
+                  }
+                `,
+              });
+              return [...currentConstructionSites, newSiteRef];
+            },
+          },
+        });
+      },
+    },
   );
 
   return (
