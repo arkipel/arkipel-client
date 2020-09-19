@@ -49,15 +49,6 @@ const MainContent: FunctionComponent<props> = ({
                   {session.loggedIn && <span>{session.username}</span>}
                 </div>
                 <div>
-                  {session.loggedIn && (
-                    <button
-                      onClick={() => {
-                        session.logOut();
-                      }}
-                    >
-                      Log out
-                    </button>
-                  )}
                   <Media
                     query="(max-width: 999px)"
                     render={() => (

@@ -124,6 +124,19 @@ const MenuPane: FunctionComponent<props> = ({ visible, onCloseClick }) => {
             </ul>
           </nav>
           <footer>
+            {session.loggedIn && (
+              <p>
+                <a
+                  href="#"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    session.logOut();
+                  }}
+                >
+                  Log out
+                </a>
+              </p>
+            )}
             <p>
               Made by <a href="https://mfcl.io">mfcl</a>.
             </p>

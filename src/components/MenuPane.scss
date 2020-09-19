@@ -15,6 +15,9 @@
   transform: translateX(-$menuPaneWidth);
 
   footer {
+    display: grid;
+    grid-auto-flow: column;
+    align-items: center;
     padding: 10px;
     color: rgba(255, 255, 255, 0.2);
     text-align: center;
@@ -22,6 +25,12 @@
 
     a {
       color: rgba(255, 255, 255, 0.3);
+    }
+
+    button {
+      padding: 0;
+      text-decoration: underline;
+      background: none;
     }
   }
 
