@@ -25,7 +25,19 @@ import './styles/index.scss';
 import appStyles from './App.scss';
 
 const client = new ApolloClient({
-  cache: new InMemoryCache(),
+  cache: new InMemoryCache({
+    typePolicies: {
+      Tile: {
+        fields: {
+          blueprints: {
+            merge: (_, newValue) => {
+              return newValue;
+            },
+          },
+        },
+      },
+    },
+  }),
   link: new HttpLink({
     uri: arkipelEndpoint,
     credentials: 'include',
