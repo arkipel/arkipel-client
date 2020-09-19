@@ -27,6 +27,15 @@ import appStyles from './App.scss';
 const client = new ApolloClient({
   cache: new InMemoryCache({
     typePolicies: {
+      Island: {
+        fields: {
+          constructionSites: {
+            merge: (_, newValue) => {
+              return newValue;
+            },
+          },
+        },
+      },
       Tile: {
         fields: {
           blueprints: {
