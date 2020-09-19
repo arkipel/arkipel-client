@@ -130,6 +130,17 @@ const TilePage: FunctionComponent = () => {
                 <CancelButton islandId={islandId} position={position} />
               </Fragment>
             )}
+            {tile.level !== 0 &&
+              blueprints.length === 1 &&
+              !constructionSite.exists && (
+                <Fragment>
+                  <UpgradeButton islandId={islandId} position={position} />
+                  <span>
+                    You can upgrade for {blueprints[0].materialCost} material.
+                    It would take {blueprints[0].durationStr()}.
+                  </span>
+                </Fragment>
+              )}
             {tile.level !== 0 && !constructionSite.exists && (
               <Fragment>
                 <DestroyButton islandId={islandId} position={position} />
@@ -173,6 +184,11 @@ const InfrastructureOption: FunctionComponent<{
               tile {
                 position
               }
+            }
+            blueprints {
+              infrastructure
+              materialCost
+              duration
             }
           }
         }
@@ -278,6 +294,78 @@ const CancelButton: FunctionComponent<{
         Could not cancel. Maybe the construction was already done. If not, try
         again.
       </Error>
+    </Fragment>
+  );
+};
+
+const UpgradeButton: FunctionComponent<{
+  islandId: string;
+  position: number;
+}> = ({ islandId, position }) => {
+  const [upgrade, { loading, error }] = useMutation(
+    gql`
+      mutation UpgradeInfrastructure($islandId: String!, $position: Int!) {
+        upgradeInfrastructure(islandId: $islandId, position: $position) {
+          ... on Tile {
+            id
+            infrastructure
+            level
+            constructionSite {
+              id
+              infrastructure
+              workloadLeft
+              finishedAt
+            }
+            blueprints {
+              infrastructure
+              materialCost
+              duration
+            }
+          }
+        }
+      }
+    `,
+    {
+      variables: { islandId, position },
+      update: (cache, data) => {
+        cache.modify({
+          id: 'Island:' + islandId,
+          fields: {
+            constructionSites: (currentConstructionSites) => {
+              const newSiteRef = cache.writeFragment<NewConstructionSite>({
+                data: data.data.upgradeInfrastructure.constructionSite,
+                fragment: gql`
+                  fragment NewConstructionSite on ConstructionSite {
+                    id
+                    infrastructure
+                    workloadLeft
+                    finishedAt
+                    tile {
+                      position
+                    }
+                  }
+                `,
+              });
+              return [...currentConstructionSites, newSiteRef];
+            },
+          },
+        });
+      },
+    },
+  );
+
+  return (
+    <Fragment>
+      <button
+        onClick={() => {
+          upgrade();
+        }}
+        disabled={loading}
+      >
+        {loading && 'Upgrading...'}
+        {!loading && 'Upgrade'}
+      </button>
+      <Error visible={error !== undefined}>Could not upgrade, try again.</Error>
     </Fragment>
   );
 };
