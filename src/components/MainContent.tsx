@@ -1,6 +1,12 @@
-import React, { Fragment, FunctionComponent } from 'react';
+import React, { Fragment, FunctionComponent, useContext } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import Media from 'react-media';
+
+import { useQuery, gql } from '@apollo/client';
+import {
+  GetCurrentInventory,
+  GetCurrentInventoryVariables,
+} from '../generated/GetCurrentInventory';
 
 import { SessionContext } from '../libs/session/session';
 
@@ -49,6 +55,13 @@ const MainContent: FunctionComponent<props> = ({
                   {session.loggedIn && <span>{session.username}</span>}
                 </div>
                 <div>
+                  <div>
+                    <img
+                      className={styles.miniIcon}
+                      src="https://icons.arkipel.io/res/material.svg"
+                    />
+                    <CurrentMaterialQuantity />
+                  </div>
                   <Media
                     query="(max-width: 999px)"
                     render={() => (
@@ -98,6 +111,32 @@ const MainContent: FunctionComponent<props> = ({
 type props = {
   onMenuOpen: () => void;
   onNotificationOpen: () => void;
+};
+
+const CurrentMaterialQuantity: FunctionComponent = () => {
+  const session = useContext(SessionContext);
+
+  const { data } = useQuery<GetCurrentInventory, GetCurrentInventoryVariables>(
+    gql`
+      query GetCurrentInventory($islandId: String!, $userId: String!) {
+        inventory(islandId: $islandId, userId: $userId) {
+          ... on Inventory {
+            id
+            material
+          }
+        }
+      }
+    `,
+    { variables: { islandId: session.id, userId: session.id } },
+  );
+
+  let qty = 0;
+
+  if (data?.inventory?.__typename === 'Inventory') {
+    qty = data.inventory.material;
+  }
+
+  return <span>{qty}</span>;
 };
 
 export default MainContent;
