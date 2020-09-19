@@ -257,6 +257,11 @@ const CancelButton: FunctionComponent<{
             constructionSite {
               id
             }
+            blueprints {
+              infrastructure
+              materialCost
+              duration
+            }
           }
         }
       }
