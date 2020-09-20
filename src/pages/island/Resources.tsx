@@ -8,6 +8,7 @@ import { SessionContext } from '../../libs/session/session';
 import Inventory from '../../models/Inventory';
 
 import { Error } from '../../ui/dialog/Msg';
+import { FormatQuantity } from '../../ui/text/format';
 
 import styles from './Resources.scss';
 
@@ -69,7 +70,7 @@ const ResourcesPage = () => {
               <b>Population:</b> {inventory.population}
             </li>
             <li>
-              <b>Material:</b> {inventory.material}
+              <b>Material:</b> {FormatQuantity(inventory.material)}
             </li>
             <li>
               <b>Material production:</b> {inventory.materialProduction}/s
