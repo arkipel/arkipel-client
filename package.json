@@ -10,6 +10,7 @@
     "format": "prettier --write \"**/*.{md,js,jsx,ts,tsx,json,css,scss}\"",
     "format-watch": "onchange \"**/*.{md,js,jsx,ts,tsx,json,css,scss}\" -- prettier --write {{changed}}",
     "start": "concurrently --kill-others \"webpack-dev-server --config webpack.dev.js --allowed-hosts arkipel.local\" \"npm:*-watch\"",
+    "test": "jest",
     "test-onchange": "onchange \"**/*.js\" \"**/*.jsx\" -- npm test"
   },
   "keywords": [
@@ -34,6 +35,7 @@
     "css-loader": "^4.3.0",
     "file-loader": "^6.1.0",
     "html-webpack-plugin": "^4.4.1",
+    "jest": "^24.9.0",
     "onchange": "^7.0.2",
     "prettier": "^2.1.2",
     "sass": "^1.26.11",
