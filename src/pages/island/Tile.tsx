@@ -12,7 +12,7 @@ import ConstructionSite from '../../models/ConstructionSite';
 import Blueprint from '../../models/Blueprint';
 
 import { Error } from '../../ui/dialog/Msg';
-import TimeLeft from '../../ui/time/TimeLeft';
+import TimeLeft from '../../ui/text/TimeLeft';
 
 import styles from './Tile.scss';
 
