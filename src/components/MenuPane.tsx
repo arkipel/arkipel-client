@@ -5,7 +5,7 @@ import Media from 'react-media';
 import { SessionContext } from '../libs/session/session';
 
 // Components
-import Scrollable from '../ui/misc/Scrollable';
+import Scrollable from '../ui/layout/Scrollable';
 
 // Assets
 import menuPaneStyles from './MenuPane.scss';

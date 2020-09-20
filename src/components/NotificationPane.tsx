@@ -12,7 +12,7 @@ import ConstructionSite from '../models/ConstructionSite';
 import { SessionContext } from '../libs/session/session';
 
 // Components
-import Scrollable from '../ui/misc/Scrollable';
+import Scrollable from '../ui/layout/Scrollable';
 import TimeLeft from '../ui/time/TimeLeft';
 
 // Assets

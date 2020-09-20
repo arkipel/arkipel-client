@@ -24,7 +24,7 @@ import Registration from '../pages/Registration';
 import Settings from '../pages/account/Settings';
 
 // Components
-import Scrollable from '../ui/misc/Scrollable';
+import Scrollable from '../ui/layout/Scrollable';
 
 // Assets
 import styles from './MainContent.scss';
