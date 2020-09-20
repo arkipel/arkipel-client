@@ -12,6 +12,7 @@ import ConstructionSite from '../../models/ConstructionSite';
 import Blueprint from '../../models/Blueprint';
 
 import { Error } from '../../ui/dialog/Msg';
+import { FormatQuantity } from '../../ui/text/format';
 import TimeLeft from '../../ui/text/TimeLeft';
 
 import styles from './Tile.scss';
@@ -136,8 +137,9 @@ const TilePage: FunctionComponent = () => {
                 <Fragment>
                   <UpgradeButton islandId={islandId} position={position} />
                   <span>
-                    You can upgrade for {blueprints[0].materialCost} material.
-                    It would take {blueprints[0].durationStr()}.
+                    You can upgrade for{' '}
+                    {FormatQuantity(blueprints[0].materialCost)} material. It
+                    would take {blueprints[0].durationStr()}.
                   </span>
                 </Fragment>
               )}
@@ -234,7 +236,7 @@ const InfrastructureOption: FunctionComponent<{
           className={styles.materialIcon}
           src="https://icons.arkipel.io/res/material.svg"
         />
-        <span>{bp.materialCost}</span>
+        <span>{FormatQuantity(bp.materialCost)}</span>
       </div>
       <div className={styles.duration}>{bp.durationStr()}</div>
     </div>
