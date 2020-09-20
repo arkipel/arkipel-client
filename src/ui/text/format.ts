@@ -1,21 +1,25 @@
 const FormatQuantity = (n: number): string => {
   let a = '';
 
-  if (n > 1_000_000) {
-    n = n / 1_000_000;
-    a = 'M';
-  } else if (n > 1_000_000_000) {
-    n = n / 1_000_000_000;
-    a = 'G';
-  } else if (n > 1_000_000_000_000) {
+  if (n >= 1_000_000_000_000_000_000) {
+    n = n / 1_000_000_000_000_000_000;
+    a = 'E';
+  } else if (n >= 1_000_000_000_000_000) {
+    n = n / 1_000_000_000_000_000;
+    a = 'P';
+  } else if (n >= 1_000_000_000_000) {
     n = n / 1_000_000_000_000;
     a = 'T';
+  } else if (n >= 1_000_000_000) {
+    n = n / 1_000_000_000;
+    a = 'G';
+  } else if (n >= 1_000_000) {
+    n = n / 1_000_000;
+    a = 'M';
   }
 
-  n = Math.floor(n);
-
   let str = n.toLocaleString('en-US', {
-    maximumFractionDigits: 0,
+    maximumFractionDigits: 3,
   });
 
   return str + a;
