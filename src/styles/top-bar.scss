@@ -1,32 +1,13 @@
-#top-bar-left {
-  grid-column: 1;
-  grid-row: 1;
-  width: 100%;
-  z-index: 120;
-
-  @media all and (min-width: 700px) {
-    background: rgba(0, 0, 0, 0.12);
-  }
-
-  img {
-    transition: 0.2s linear;
-  }
-}
-
-#top-bar-right {
-  grid-column: 2;
-  grid-row: 1;
-}
-
-.top-bar {
+@mixin topBar {
+  display: grid;
   height: 50px;
   font-size: 30px;
   background: rgba(0, 0, 0, 0.06);
 
-  nav {
+  div {
     height: 100%;
 
-    .button {
+    :global(.button) {
       display: grid;
       align-items: center;
       justify-content: center;

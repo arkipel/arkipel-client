@@ -25,7 +25,19 @@ module.exports = {
       },
       {
         test: /\.s[ac]ss$/i,
-        use: ['style-loader', 'css-loader', 'sass-loader'],
+        use: [
+          'style-loader',
+          {
+            loader: 'css-loader',
+            options: {
+              modules: {
+                mode: 'local',
+                localIdentName: '[local]--[hash:base64:4]',
+              },
+            },
+          },
+          'sass-loader',
+        ],
       },
       {
         test: /\.css$/,
@@ -48,8 +60,4 @@ module.exports = {
       template: './src/index.html',
     }),
   ],
-
-  devServer: {
-    historyApiFallback: true,
-  },
 };

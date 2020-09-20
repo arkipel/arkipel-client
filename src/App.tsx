@@ -1,134 +1,111 @@
-import React from 'react';
-import { BrowserRouter as Router, Route, NavLink } from 'react-router-dom';
+import React, { FunctionComponent, useState } from 'react';
+import { BrowserRouter as Router } from 'react-router-dom';
 import Media from 'react-media';
 
-// Pages
-import About from './pages/About';
-import Home from './pages/Home';
-import Login from './pages/Login';
-import Registration from './pages/Registration';
+import {
+  ApolloClient,
+  ApolloProvider,
+  HttpLink,
+  InMemoryCache,
+} from '@apollo/client';
+
+import { SessionProvider } from './libs/session/session';
+
+// Config
+import { arkipelEndpoint } from 'Config';
+
+// Components
+import MenuPane from './components/MenuPane';
+import MainContent from './components/MainContent';
+import NotificationPane from './components/NotificationPane';
+import Shadow from './ui/layout/Shadow';
 
 // Assets
 import './styles/index.scss';
-import menu from './assets/icons/menu.png';
+import appStyles from './App.scss';
 
-class App extends React.PureComponent<props, state> {
-  constructor(props: any) {
-    super(props);
+const client = new ApolloClient({
+  cache: new InMemoryCache({
+    typePolicies: {
+      Island: {
+        fields: {
+          constructionSites: {
+            merge: (_, newValue) => {
+              return newValue;
+            },
+          },
+        },
+      },
+      Tile: {
+        fields: {
+          blueprints: {
+            merge: (_, newValue) => {
+              return newValue;
+            },
+          },
+        },
+      },
+    },
+  }),
+  link: new HttpLink({
+    uri: arkipelEndpoint,
+    credentials: 'include',
+  }),
+});
 
-    this.state = {
-      showLeftPane: false,
-    };
+const App: FunctionComponent<props> = () => {
+  const [showMenuPane, setShowMenuPane] = useState(false);
+  const [showNotificationPane, setShowNotificationPane] = useState(false);
 
-    // let breakpoints = {
-    //   small: '(max-width: 499px)',
-    //   medium: '(min-width: 500px) and (max-width: 699px)',
-    //   large: '(min-width: 700px)',
-    // };
+  // let breakpoints = {
+  //   small: '(max-width: 499px)',
+  //   medium: '(min-width: 500px) and (max-width: 699px)',
+  //   large: '(min-width: 700px)',
+  // };
 
-    // Add touche support to left pane
-  }
+  let showShadow = showMenuPane || showNotificationPane;
 
-  render() {
-    let invertColors = '';
-    let underPaneShadow = '';
-    if (this.state.showLeftPane) {
-      invertColors = 'invert-colors';
-      underPaneShadow = 'visible';
-    }
-
-    let menuBtn = (
-      <div onClick={this.toggleLeftPane} className="button">
-        <img src={menu} alt="&#9776;" className={invertColors} />
-      </div>
-    );
-
-    let leftPaneClassName = this.state.showLeftPane ? 'visible' : '';
-
-    return (
-      <Router>
-        <div id="top-bar-left" className="top-bar">
-          <Media
-            query="(max-width: 699px)"
-            render={() => <nav>{menuBtn}</nav>}
-          />
-        </div>
-        <div id="top-bar-right" className="top-bar"></div>
-        <div id="left-pane" className={leftPaneClassName}>
-          <div className="scrollable" style={{ marginTop: '50px' }}>
-            <div id="menu">
-              <nav>
-                <h1>Main</h1>
-                <ul>
-                  <li>
-                    <NavLink exact to="/" onClick={this.hideLeftPane}>
-                      Home
-                    </NavLink>
-                  </li>
-                  <li>
-                    <NavLink exact to="/login" onClick={this.hideLeftPane}>
-                      Login
-                    </NavLink>
-                  </li>
-                  <li>
-                    <NavLink
-                      exact
-                      to="/registration"
-                      onClick={this.hideLeftPane}
-                    >
-                      Register
-                    </NavLink>
-                  </li>
-                  <li>
-                    <NavLink exact to="/about" onClick={this.hideLeftPane}>
-                      About
-                    </NavLink>
-                  </li>
-                </ul>
-              </nav>
-              <footer>
-                <p>
-                  Made by <a href="https://mfcl.io">mfcl</a>.
-                </p>
-              </footer>
-            </div>
-          </div>
-        </div>
-        <div
-          id="under-pane-shadow"
-          className={underPaneShadow}
-          onClick={this.hideLeftPane}
-        ></div>
-        <div id="main">
-          <div className="scrollable">
-            <div id="content">
-              <Route path="/" exact component={Home} />
-              <Route path="/about" exact component={About} />
-              <Route path="/login" exact component={Login} />
-              <Route path="/registration" exact component={Registration} />
-            </div>
-          </div>
-        </div>
-      </Router>
-    );
-  }
-
-  toggleLeftPane = () => {
-    this.setState((state) => {
-      let showLeftPane = !state.showLeftPane;
-      return { showLeftPane };
-    });
-  };
-
-  hideLeftPane = () => {
-    this.setState({ showLeftPane: false });
-  };
-}
+  return (
+    <div id="app" className={appStyles.app}>
+      <ApolloProvider client={client}>
+        <SessionProvider>
+          <Router>
+            <MenuPane
+              visible={showMenuPane}
+              onCloseClick={() => {
+                setShowMenuPane(false);
+              }}
+            />
+            <Media query="(max-width: 999px)">
+              <Shadow
+                visible={showShadow}
+                onClick={() => {
+                  setShowMenuPane(false);
+                  setShowNotificationPane(false);
+                }}
+              />
+            </Media>
+            <MainContent
+              onMenuOpen={() => {
+                setShowMenuPane(true);
+              }}
+              onNotificationOpen={() => {
+                setShowNotificationPane(true);
+              }}
+            />
+            <NotificationPane
+              visible={showNotificationPane}
+              onCloseClick={() => {
+                setShowNotificationPane(false);
+              }}
+            />
+          </Router>
+        </SessionProvider>
+      </ApolloProvider>
+    </div>
+  );
+};
 
 type props = {};
-
-type state = {
-  showLeftPane: boolean;
-};
 
 export default App;

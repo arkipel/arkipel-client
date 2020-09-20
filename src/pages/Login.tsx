@@ -1,65 +1,82 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useState, useContext } from 'react';
+import { useHistory } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
 
-class Login extends React.PureComponent<props, state> {
-  constructor(props: any) {
-    super(props);
+import { SessionContext } from '../libs/session/session';
 
-    this.state = {
-      username: '',
-      password: '',
-    };
-  }
+import { Error } from '../ui/dialog/Msg';
 
-  render() {
-    return (
-      <Fragment>
-        <h1>Login</h1>
-        <form onSubmit={this.submit}>
-          <p>
-            <input
-              type="text"
-              value={this.state.username}
-              placeholder="Username"
-              onChange={(event) => {
-                this.setState({ username: event.target.value });
-              }}
-            />
-          </p>
-          <p>
-            <input
-              type="password"
-              value={this.state.password}
-              placeholder="Password"
-              onChange={(event) => {
-                this.setState({ password: event.target.value });
-              }}
-            />
-          </p>
-          <p>
-            <input
-              type="submit"
-              value="Log in"
-              disabled={
-                this.state.username === '' || this.state.password === ''
-              }
-            />
-          </p>
-        </form>
-      </Fragment>
-    );
-  }
+const Login = () => {
+  const [loginFailed, setLoginFailure] = useState(false);
+  const [networkFailed, setNetworkailure] = useState(false);
 
-  submit = (event: React.FormEvent) => {
-    event.preventDefault();
-    console.log('This has not been implemented yet.');
+  // Router
+  let history = useHistory();
+
+  // Form
+  const { register, handleSubmit, formState } = useForm({
+    mode: 'onChange',
+    criteriaMode: 'all',
+  });
+
+  let allowSubmit = formState.isValid;
+
+  const session = useContext(SessionContext);
+
+  const submit = async (formData: any) => {
+    setLoginFailure(false);
+    setNetworkailure(false);
+
+    let success = false;
+    try {
+      success = await session.logIn(formData.username, formData.password);
+    } catch (err) {
+      setNetworkailure(true);
+      return;
+    }
+
+    if (success) {
+      // Redirect
+      history.push('/');
+    } else {
+      setLoginFailure(true);
+    }
   };
-}
 
-type props = {};
-
-type state = {
-  username: string;
-  password: string;
+  return (
+    <Fragment>
+      <h1>Login</h1>
+      <form onSubmit={handleSubmit(submit)}>
+        <p>
+          <input
+            type="text"
+            placeholder="Username"
+            name="username"
+            ref={register({
+              required: true,
+            })}
+          />
+        </p>
+        <p>
+          <input
+            type="password"
+            placeholder="Password"
+            name="password"
+            ref={register({
+              required: true,
+            })}
+          />
+        </p>
+        <p>
+          <input type="submit" value="Log in" disabled={!allowSubmit} />
+        </p>
+      </form>
+      <Error visible={loginFailed}>Login failed, wrong credentials.</Error>
+      <Error visible={networkFailed}>
+        Request failed, please try again later.
+      </Error>
+    </Fragment>
+  );
 };
 
 export default Login;
