@@ -25,6 +25,7 @@ import Settings from '../pages/account/Settings';
 
 // Components
 import Scrollable from '../ui/layout/Scrollable';
+import { FormatQuantity } from '../ui/text/format';
 
 // Assets
 import styles from './MainContent.scss';
@@ -136,7 +137,7 @@ const CurrentMaterialQuantity: FunctionComponent = () => {
     qty = data.inventory.material;
   }
 
-  return <span>{qty}</span>;
+  return <span>{FormatQuantity(qty)}</span>;
 };
 
 export default MainContent;
