@@ -7,6 +7,7 @@ class Inventory {
     this.materialProduction = obj?.materialProduction || 0;
     this.energyUsed = obj?.energyUsed || 0;
     this.energy = obj?.energy || 0;
+    this.bankLevels = obj?.bankLevels || 0;
   }
 
   id: string;
@@ -16,6 +17,7 @@ class Inventory {
   materialProduction: number;
   energyUsed: number;
   energy: number;
+  bankLevels: number;
 }
 
 export default Inventory;

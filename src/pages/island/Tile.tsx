@@ -1,15 +1,9 @@
-import React, {
-  Fragment,
-  FunctionComponent,
-  useContext,
-  useEffect,
-  useState,
-} from 'react';
+import React, { Fragment, FunctionComponent, useContext } from 'react';
 import { useParams } from 'react-router-dom';
 
-import { useQuery, gql, useMutation } from '@apollo/client';
+import { useQuery, gql, useMutation, useApolloClient } from '@apollo/client';
 import { GetTile, GetTileVariables } from '../../generated/GetTile';
-import { TileKind } from '../../generated/globalTypes';
+import { NewConstructionSite } from '../../generated/NewConstructionSite';
 
 import { SessionContext } from '../../libs/session/session';
 
@@ -18,24 +12,24 @@ import ConstructionSite from '../../models/ConstructionSite';
 import Blueprint from '../../models/Blueprint';
 
 import { Error } from '../../ui/dialog/Msg';
+import { FormatQuantity } from '../../ui/text/format';
+import TimeLeft from '../../ui/text/TimeLeft';
 
 import styles from './Tile.scss';
 
 const TilePage: FunctionComponent = () => {
-  const [, forceUpdate] = useState(0);
   const session = useContext(SessionContext);
-  const { position } = useParams();
+  const { position: positionParam } = useParams<{ position: string }>();
+
+  // Position as number
+  const position = parseInt(positionParam);
+  if (position < 0 || position > 255) {
+    return <Error>Invalid tile number.</Error>;
+  }
 
   let islandId = session.id;
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      forceUpdate(Math.random());
-    }, 1000);
-    return () => {
-      clearInterval(interval);
-    };
-  }, []);
+  const client = useApolloClient();
 
   const { data, loading, error } = useQuery<GetTile, GetTileVariables>(
     gql`
@@ -43,10 +37,12 @@ const TilePage: FunctionComponent = () => {
         tile(islandId: $islandId, position: $position) {
           ... on Tile {
             id
+            position
             kind
             infrastructure
             level
             constructionSite {
+              id
               infrastructure
               workloadLeft
               finishedAt
@@ -92,7 +88,7 @@ const TilePage: FunctionComponent = () => {
         <Fragment>
           <h2>Description</h2>
           <p>
-            <b>Kind:</b> {positionToKind(position).toLowerCase()}
+            <b>Kind:</b> {tile.kindName()}
             <br />
             <b>Infrastructure:</b> {tile.infrastructure.toLowerCase()}
             <br />
@@ -118,13 +114,35 @@ const TilePage: FunctionComponent = () => {
               <Fragment>
                 <p>
                   There is a construction in progress to upgrade this{' '}
-                  <b>{constructionSite.infrastructure.toLowerCase()}</b> to{' '}
+                  <b>{tile.infrastructure.toLowerCase()}</b> to{' '}
                   <b>level {tile.level + 1}</b>. It will be done{' '}
-                  <b>{constructionSite.finishedAt.toRelative()}</b>.
+                  <b>
+                    <TimeLeft
+                      target={constructionSite.finishedAt}
+                      onReach={() => {
+                        client.cache.evict({
+                          id: 'ConstructionSite:' + constructionSite.id,
+                        });
+                      }}
+                    />
+                  </b>
+                  .
                 </p>
                 <CancelButton islandId={islandId} position={position} />
               </Fragment>
             )}
+            {tile.level !== 0 &&
+              blueprints.length === 1 &&
+              !constructionSite.exists && (
+                <Fragment>
+                  <UpgradeButton islandId={islandId} position={position} />
+                  <span>
+                    You can upgrade for{' '}
+                    {FormatQuantity(blueprints[0].materialCost)} material. It
+                    would take {blueprints[0].durationStr()}.
+                  </span>
+                </Fragment>
+              )}
             {tile.level !== 0 && !constructionSite.exists && (
               <Fragment>
                 <DestroyButton islandId={islandId} position={position} />
@@ -161,13 +179,50 @@ const InfrastructureOption: FunctionComponent<{
             infrastructure
             level
             constructionSite {
+              id
+              infrastructure
+              workloadLeft
               finishedAt
+              tile {
+                position
+              }
+            }
+            blueprints {
+              infrastructure
+              materialCost
+              duration
             }
           }
         }
       }
     `,
-    { variables: { islandId, position, infrastructure: infra } },
+    {
+      variables: { islandId, position, infrastructure: infra },
+      update: (cache, data) => {
+        cache.modify({
+          id: 'Island:' + islandId,
+          fields: {
+            constructionSites: (currentConstructionSites) => {
+              const newSiteRef = cache.writeFragment<NewConstructionSite>({
+                data: data.data.buildInfrastructure.constructionSite,
+                fragment: gql`
+                  fragment NewConstructionSite on ConstructionSite {
+                    id
+                    infrastructure
+                    workloadLeft
+                    finishedAt
+                    tile {
+                      position
+                    }
+                  }
+                `,
+              });
+              return [...currentConstructionSites, newSiteRef];
+            },
+          },
+        });
+      },
+    },
   );
 
   return (
@@ -181,7 +236,7 @@ const InfrastructureOption: FunctionComponent<{
           className={styles.materialIcon}
           src="https://icons.arkipel.io/res/material.svg"
         />
-        <span>{bp.materialCost}</span>
+        <span>{FormatQuantity(bp.materialCost)}</span>
       </div>
       <div className={styles.duration}>{bp.durationStr()}</div>
     </div>
@@ -198,16 +253,37 @@ const CancelButton: FunctionComponent<{
         cancelConstruction(islandId: $islandId, position: $position) {
           ... on Tile {
             id
+            position
             infrastructure
             level
             constructionSite {
-              finishedAt
+              id
+            }
+            blueprints {
+              infrastructure
+              materialCost
+              duration
             }
           }
         }
       }
     `,
-    { variables: { islandId, position } },
+    {
+      variables: { islandId, position },
+      update: (cache) => {
+        cache.modify({
+          id: 'Island:' + islandId,
+          fields: {
+            constructionSites: (currentConstructionSites) => {
+              return currentConstructionSites.filter((cs: any) => {
+                let ref = cs.__ref as string;
+                return !ref.includes('_' + position + '_');
+              });
+            },
+          },
+        });
+      },
+    },
   );
 
   return (
@@ -225,6 +301,78 @@ const CancelButton: FunctionComponent<{
         Could not cancel. Maybe the construction was already done. If not, try
         again.
       </Error>
+    </Fragment>
+  );
+};
+
+const UpgradeButton: FunctionComponent<{
+  islandId: string;
+  position: number;
+}> = ({ islandId, position }) => {
+  const [upgrade, { loading, error }] = useMutation(
+    gql`
+      mutation UpgradeInfrastructure($islandId: String!, $position: Int!) {
+        upgradeInfrastructure(islandId: $islandId, position: $position) {
+          ... on Tile {
+            id
+            infrastructure
+            level
+            constructionSite {
+              id
+              infrastructure
+              workloadLeft
+              finishedAt
+            }
+            blueprints {
+              infrastructure
+              materialCost
+              duration
+            }
+          }
+        }
+      }
+    `,
+    {
+      variables: { islandId, position },
+      update: (cache, data) => {
+        cache.modify({
+          id: 'Island:' + islandId,
+          fields: {
+            constructionSites: (currentConstructionSites) => {
+              const newSiteRef = cache.writeFragment<NewConstructionSite>({
+                data: data.data.upgradeInfrastructure.constructionSite,
+                fragment: gql`
+                  fragment NewConstructionSite on ConstructionSite {
+                    id
+                    infrastructure
+                    workloadLeft
+                    finishedAt
+                    tile {
+                      position
+                    }
+                  }
+                `,
+              });
+              return [...currentConstructionSites, newSiteRef];
+            },
+          },
+        });
+      },
+    },
+  );
+
+  return (
+    <Fragment>
+      <button
+        onClick={() => {
+          upgrade();
+        }}
+        disabled={loading}
+      >
+        {loading && 'Upgrading...'}
+        {!loading && 'Upgrade'}
+      </button>
+      <Error visible={error !== undefined}>Could not upgrade, try again.</Error>
     </Fragment>
   );
 };
@@ -268,44 +416,11 @@ const DestroyButton: FunctionComponent<{
         {!loading && 'Destroy'}
       </button>
       <Error visible={error !== undefined}>
-        Could not cancel. Maybe the construction was already done. If not, try
-        again.
+        Could not destroy. Maybe the infrastructure was already destroyed. If
+        not, try again.
       </Error>
     </Fragment>
   );
 };
 
 export default TilePage;
-
-const positionToKind = (pos: number): TileKind => {
-  let k = dna[pos];
-
-  switch (k) {
-    case '1':
-      return TileKind.WATER;
-    case '2':
-      return TileKind.SAND;
-    case '3':
-      return TileKind.LAND;
-    default:
-      return TileKind.DEEP_WATER;
-  }
-};
-
-const dna =
-  '0000000000000000' +
-  '0000011111100000' +
-  '0001112222111000' +
-  '0011222332221100' +
-  '0012233333322100' +
-  '0112333333332110' +
-  '0122333333332210' +
-  '0123333333333210' +
-  '0123333333333210' +
-  '0122333333332210' +
-  '0112333333332110' +
-  '0012233333322100' +
-  '0011222332221100' +
-  '0001112222111000' +
-  '0000011111100000' +
-  '0000000000000000';
