@@ -9,6 +9,7 @@
 
 export interface GetNumberIslands_archipelago {
   readonly __typename: 'Archipelago';
+  readonly id: string;
   readonly numberIslands: number;
 }
 

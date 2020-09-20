@@ -7,6 +7,7 @@ const ArchipelagoOverview = () => {
   let { data, loading, error } = useQuery<GetNumberIslands>(gql`
     query GetNumberIslands {
       archipelago {
+        id
         numberIslands
       }
     }
