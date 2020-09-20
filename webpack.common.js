@@ -25,7 +25,19 @@ module.exports = {
       },
       {
         test: /\.s[ac]ss$/i,
-        use: ['style-loader', 'css-loader', 'sass-loader'],
+        use: [
+          'style-loader',
+          {
+            loader: 'css-loader',
+            options: {
+              modules: {
+                mode: 'local',
+                localIdentName: '[local]--[hash:base64:4]',
+              },
+            },
+          },
+          'sass-loader',
+        ],
       },
       {
         test: /\.css$/,
@@ -35,16 +47,17 @@ module.exports = {
         test: /\.(gif|jpg|png|svg)$/,
         use: ['file-loader'],
       },
+      {
+        test: /\.(woff|woff2|eot|ttf|otf)$/,
+        use: ['file-loader'],
+      },
     ],
   },
 
   plugins: [
     new HTMLWebpackPlugin({
+      favicon: './src/assets/favicon.ico',
       template: './src/index.html',
     }),
   ],
-
-  devServer: {
-    historyApiFallback: true,
-  },
 };

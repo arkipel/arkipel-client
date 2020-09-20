@@ -1,0 +1,62 @@
+@import '../styles/config.scss';
+@import '../styles/top-bar.scss';
+
+.notificationPane {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  grid-row: 1;
+  justify-self: flex-end;
+  min-height: 0;
+  height: 100%;
+  width: $notificationPaneWidth;
+  background: #ffffff;
+  z-index: 120;
+  transform: translateX($notificationPaneWidth);
+  transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+
+  @media all and (max-width: 699px) {
+    grid-column: 1;
+  }
+
+  @media all and (min-width: 700px) and (max-width: 999px) {
+    grid-column: 2;
+  }
+
+  @media all and (min-width: 1000px) {
+    grid-column: 3;
+    transform: translateX(0);
+    transition: none;
+  }
+
+  &.visible {
+    transform: translateX(0);
+
+    @media all and (max-width: 999px) {
+      box-shadow: -1px 0 10px #111;
+    }
+  }
+
+  .content {
+    grid-gap: 10px;
+    padding: 10px;
+  }
+}
+
+.topBar {
+  @include topBar;
+
+  background: lighten($color: #e76f51, $amount: 10);
+  justify-content: flex-end;
+
+  div {
+    :global(.button) {
+      width: 40px;
+    }
+  }
+
+  img {
+    transition: 0.2s linear;
+    rotate: 180deg;
+    opacity: 20%;
+  }
+}

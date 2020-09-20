@@ -1,0 +1,19 @@
+.info {
+  color: #222;
+}
+
+.success {
+  color: #080;
+}
+
+.error {
+  color: #a00;
+}
+
+.info,
+.success,
+.error {
+  a {
+    margin-left: 4px;
+  }
+}

@@ -1,0 +1,71 @@
+@import '../../styles/config.scss';
+
+@mixin stat {
+  display: grid;
+  grid-auto-flow: column;
+  align-items: center;
+  gap: 4px;
+  padding: 0 4px;
+
+  img {
+    height: 14px;
+    width: 14px;
+  }
+}
+
+.list {
+  display: grid;
+  gap: 10px;
+}
+
+.tile {
+  display: grid;
+  grid-template:
+    'logo logo title title      title  title    title  manage' 25px
+    'logo logo level population energy material empty  manage' 25px
+    / 25px 25px auto auto auto auto 1fr auto;
+
+  .logo {
+    grid-area: logo;
+
+    img {
+      margin: 6px;
+    }
+  }
+
+  .title {
+    grid-area: title;
+    padding: 2px 4px;
+    font-weight: bold;
+  }
+
+  .level {
+    @include stat;
+    grid-area: level;
+  }
+
+  .population {
+    @include stat;
+    grid-area: population;
+  }
+
+  .material {
+    @include stat;
+    grid-area: material;
+  }
+
+  .energy {
+    @include stat;
+    grid-area: energy;
+    // The following is an exception
+    // because the energy icon is
+    // currently quite narrow compared
+    // to the other ones.
+    gap: 0;
+  }
+
+  .manage {
+    grid-area: manage;
+    align-self: center;
+  }
+}

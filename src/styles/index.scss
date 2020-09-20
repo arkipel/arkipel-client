@@ -1,143 +1,69 @@
-@import url('https://fonts.googleapis.com/css?family=Livvic');
+// This file is a dump of random stuff for now. A lot of it
+// probably needs to be refactored at some point.
 
-html,
-body {
-  height: 100%;
-  font-family: 'Livvic', sans-serif;
-}
+// Fonts
+@import './fonts.scss';
 
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: 'Livvic', sans-serif;
 }
 
-#app {
-  width: 800px;
-  max-width: 100%;
+:global(#mount) {
   height: 100%;
-  display: grid;
-  grid-template-columns: auto 1fr;
 }
 
-#under-pane-shadow {
-  grid-column: 1;
-  grid-row: 1;
-  min-height: 100%;
-  width: 100%;
-  background: rgba(0, 0, 0, 0.8);
-  z-index: 80;
+html,
+body {
+  height: 100%;
+  overflow-x: hidden;
 }
 
-#left-pane {
-  display: grid;
-  grid-column: 1;
-  grid-row: 1;
-  min-height: 100%;
-  width: 200px;
-  align-content: start;
-  color: white;
-  background: rgb(20, 20, 20);
-  z-index: 100;
-
-  .top-bar {
-    background: rgba(0, 0, 0, 0.2);
-
-    img {
-      filter: invert(100%);
-    }
-  }
-
-  #menu {
-    display: grid;
-    grid-gap: 10px;
-    align-content: start;
-
-    h1 {
-      display: block;
-      padding: 10px;
-    }
-
-    a {
-      display: block;
-      padding: 10px;
-      text-decoration: none;
-
-      &:hover {
-        background: rgba(0, 0, 0, 0.2);
-      }
-
-      &.active {
-        background: rgba(0, 0, 0, 0.2);
-      }
-    }
-  }
-
-  #attributions {
-    padding: 10px;
-    color: #333;
-    font-size: 10px;
-    text-align: center;
-
-    a {
-      color: #444;
-
-      &:hover {
-        color: #666;
-      }
-    }
-  }
-
-  a {
-    color: #fff;
-  }
+body {
+  background: #2a9d8f url('https://icons.arkipel.io/bg/main.svg');
+  background-size: 800px 400px;
 }
 
-.top-bar {
-  height: 40px;
-  font-size: 30px;
-  background: rgba(0, 0, 0, 0.06);
-
-  nav {
-    height: 40px;
-    a {
-      display: grid;
-      align-items: center;
-      justify-content: center;
-      width: 40px;
-      height: 100%;
-      padding: 0 10px;
-      text-decoration: none;
-    }
-  }
-
-  img {
-    height: 20px;
-  }
-}
-
-#main {
-  display: grid;
-  grid-column: 2;
-  grid-row: 1;
-  align-content: start;
-  min-height: 100%;
-  width: 100%;
-}
-
-#content {
-  display: grid;
-  grid-gap: 10px;
-  align-content: start;
-  min-height: 100%;
+button,
+input {
   padding: 10px;
-  background: rgba(255, 255, 255, 0.4);
+  font-size: 18px;
+  border: 1px solid #bbb;
+}
+
+input[type='submit'],
+input[type='button'],
+button {
+  cursor: pointer;
+  color: #fff;
+  border: none;
+  background: rgb(40, 40, 40);
+
+  &:disabled {
+    cursor: default;
+    background: rgb(120, 120, 120);
+  }
 }
 
 nav ul {
   list-style-type: none;
 }
 
-.scrollable {
-  overflow: auto;
+// To be moved once we have the proper
+// UI components for forms.
+:global(.hint) {
+  color: #aaa;
+  font-size: 14px;
+}
+
+:global(.hint-success) {
+  color: #080;
+  font-size: 14px;
+}
+
+:global(.hint-error) {
+  color: #a00;
+  font-size: 14px;
 }
