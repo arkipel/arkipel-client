@@ -16,6 +16,8 @@ const TimeLeft: FunctionComponent<props> = ({ target, onReach }) => {
     target = DateTime.utc();
   }
 
+  target = target.setLocale('en');
+
   useEffect(() => {
     const interval = setInterval(() => {
       if (!reached) {
