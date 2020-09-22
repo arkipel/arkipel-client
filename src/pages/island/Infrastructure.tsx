@@ -80,49 +80,54 @@ const InfrastructurePage = () => {
     <Fragment>
       <h1>Infrastructure</h1>
       {loading && <p>Loading...</p>}
-      <table>
-        <tr>
-          <td>abc</td>
-          <td>123</td>
-        </tr>
-      </table>
-      <div className={styles.list}>
-        {island.tiles.map((t) => {
-          return <InfrastructureItem key={t.position} tile={t} />;
-        })}
-      </div>
+      {!loading && (
+        <table className={styles.table}>
+          <thead>
+            <tr>
+              <th></th>
+              <th></th>
+              <th></th>
+              <th>
+                <img src="https://icons.arkipel.io/res/population.svg" />
+              </th>
+              <th>
+                <img src="https://icons.arkipel.io/res/energy.svg" />
+              </th>
+              <th>
+                <img src="https://icons.arkipel.io/res/material.svg" />
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {island.tiles.map((t) => {
+              return <InfrastructureItem key={t.position} tile={t} />;
+            })}
+          </tbody>
+        </table>
+      )}
     </Fragment>
   );
 };
 
 const InfrastructureItem: FunctionComponent<props> = ({ tile }) => {
   return (
-    <div className={styles.tile}>
-      <div className={styles.logo}>
+    <tr className={styles.row}>
+      <td className={styles.logo}>
         <MapTile tile={tile} />
-      </div>
-      <span className={styles.title}>
-        {tile.position} {tile.infrastructureName()} on {tile.kindName()}
-      </span>
-      <div className={styles.level}>
-        <span>Level {tile.level}</span>
-      </div>
-      <div className={styles.population}>
-        <img src="https://icons.arkipel.io/res/population.svg" />
-        <span>{tile.housingCapacity - tile.requiredWorkforce}</span>
-      </div>
-      <div className={styles.energy}>
-        <img src="https://icons.arkipel.io/res/energy.svg" />
-        <span>{tile.energyProduction - tile.energyConsumption}</span>
-      </div>
-      <div className={styles.material}>
-        <img src="https://icons.arkipel.io/res/material.svg" />
-        <span>{tile.materialProduction}/s</span>
-      </div>
-      {/* <button className={styles.manage} disabled={true}>
-        Manage
-      </button> */}
-    </div>
+      </td>
+      <td>{tile.position}</td>
+      <td>
+        {tile.infrastructureName()} ({tile.level})
+      </td>
+      <td>{tile.housingCapacity - tile.requiredWorkforce}</td>
+      <td>{tile.energyProduction - tile.energyConsumption}</td>
+      <td>{tile.materialProduction}/s</td>
+      {/* <td>
+        <button className={styles.manage} disabled={true}>
+          Manage
+        </button>
+      </td> */}
+    </tr>
   );
 };
 
