@@ -84,9 +84,7 @@ const InfrastructurePage = () => {
         <table className={styles.table}>
           <thead>
             <tr>
-              <th></th>
-              <th></th>
-              <th></th>
+              <th colSpan={3}>Tile</th>
               <th>
                 <img src="https://icons.arkipel.io/res/population.svg" />
               </th>
@@ -111,8 +109,8 @@ const InfrastructurePage = () => {
 
 const InfrastructureItem: FunctionComponent<props> = ({ tile }) => {
   return (
-    <tr className={styles.row}>
-      <td className={styles.logo}>
+    <tr>
+      <td>
         <MapTile tile={tile} />
       </td>
       <td>{tile.position}</td>
@@ -123,7 +121,7 @@ const InfrastructureItem: FunctionComponent<props> = ({ tile }) => {
       <td>{tile.energyProduction - tile.energyConsumption}</td>
       <td>{tile.materialProduction}/s</td>
       {/* <td>
-        <button className={styles.manage} disabled={true}>
+        <button disabled={true}>
           Manage
         </button>
       </td> */}
