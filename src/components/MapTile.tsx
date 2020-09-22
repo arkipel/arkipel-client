@@ -29,79 +29,54 @@ const MapTile: FunctionComponent<props> = ({
     onClick = () => {};
   }
 
-  let infraIcon = <></>;
+  let src: string = '';
+  let alt: string = '';
   if (tile.infrastructure) {
     switch (tile.infrastructure) {
       case Infrastructure.JUNGLE:
-        infraIcon = (
-          <img src="https://icons.arkipel.io/infra/jungle.svg" alt="Jungle" />
-        );
+        src = 'https://icons.arkipel.io/infra/jungle.svg';
+        alt = 'Jungle';
         break;
       case Infrastructure.QUARRY:
-        infraIcon = (
-          <img src="https://icons.arkipel.io/infra/quarry.svg" alt="Quarry" />
-        );
+        src = 'https://icons.arkipel.io/infra/quarry.svg';
+        alt = 'Quarry';
         break;
       case Infrastructure.APARTMENTS:
-        infraIcon = (
-          <img
-            src="https://icons.arkipel.io/infra/apartments.svg"
-            alt="Apartments"
-          />
-        );
+        src = 'https://icons.arkipel.io/infra/apartments.svg';
+        alt = 'Apartments';
         break;
       case Infrastructure.HOUSE:
-        infraIcon = (
-          <img src="https://icons.arkipel.io/infra/house.svg" alt="House" />
-        );
+        src = 'https://icons.arkipel.io/infra/house.svg';
+        alt = 'House';
         break;
       case Infrastructure.WHEAT_FIELD:
-        infraIcon = (
-          <img
-            src="https://icons.arkipel.io/infra/wheat_field.svg"
-            alt="Wheat field"
-          />
-        );
+        src = 'https://icons.arkipel.io/infra/wheat_field.svg';
+        alt = 'Wheat field';
         break;
       case Infrastructure.ANIMAL_FARM:
-        infraIcon = (
-          <img
-            src="https://icons.arkipel.io/infra/animal_farm.svg"
-            alt="Animal farm"
-          />
-        );
+        src = 'https://icons.arkipel.io/infra/animal_farm.svg';
+        alt = 'Animal farm';
         break;
       case Infrastructure.NUCLEAR_PLANT:
-        infraIcon = (
-          <img
-            src="https://icons.arkipel.io/infra/nuclear_plant.svg"
-            alt="Nuclear plant"
-          />
-        );
+        src = 'https://icons.arkipel.io/infra/nuclear_plant.svg';
+        alt = 'Nuclear plant';
         break;
       case Infrastructure.WIND_TURBINE:
-        infraIcon = (
-          <img
-            src="https://icons.arkipel.io/infra/wind_turbine.svg"
-            alt="Wind turbine"
-          />
-        );
+        src = 'https://icons.arkipel.io/infra/wind_turbine.svg';
+        alt = 'Wind turbine';
         break;
       case Infrastructure.PORT:
-        infraIcon = (
-          <img src="https://icons.arkipel.io/infra/port.svg" alt="Port" />
-        );
+        src = 'https://icons.arkipel.io/infra/port.svg';
+        alt = 'Port';
         break;
       case Infrastructure.BANK:
-        infraIcon = (
-          <img src="https://icons.arkipel.io/infra/bank.svg" alt="Bank" />
-        );
-        break;
-
-      default:
+        src = 'https://icons.arkipel.io/infra/bank.svg';
+        alt = 'Bank';
         break;
     }
   }
+
+  let infraIcon = <img src={src} alt={alt} />;
 
   return (
     <div className={className} onClick={onClick}>
