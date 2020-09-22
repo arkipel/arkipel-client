@@ -12,8 +12,8 @@ import ConstructionSite from '../models/ConstructionSite';
 import { SessionContext } from '../libs/session/session';
 
 // Components
-import Scrollable from '../ui/misc/Scrollable';
-import TimeLeft from '../ui/time/TimeLeft';
+import Scrollable from '../ui/layout/Scrollable';
+import TimeLeft from '../ui/text/TimeLeft';
 
 // Assets
 import styles from './NotificationPane.scss';

@@ -15,6 +15,7 @@ export interface GetTile_tile_NotAuthorized {
 
 export interface GetTile_tile_Tile_constructionSite {
   readonly __typename: 'ConstructionSite';
+  readonly id: string;
   readonly infrastructure: Infrastructure;
   readonly workloadLeft: number;
   readonly finishedAt: any;
@@ -30,6 +31,7 @@ export interface GetTile_tile_Tile_blueprints {
 export interface GetTile_tile_Tile {
   readonly __typename: 'Tile';
   readonly id: string;
+  readonly position: number;
   readonly kind: TileKind;
   readonly infrastructure: Infrastructure;
   readonly level: number;

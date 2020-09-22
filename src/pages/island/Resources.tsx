@@ -8,6 +8,7 @@ import { SessionContext } from '../../libs/session/session';
 import Inventory from '../../models/Inventory';
 
 import { Error } from '../../ui/dialog/Msg';
+import { FormatQuantity } from '../../ui/text/format';
 
 import styles from './Resources.scss';
 
@@ -36,7 +37,10 @@ const ResourcesPage = () => {
         }
       }
     `,
-    { variables: { userId: session.id, islandId } },
+    {
+      variables: { userId: session.id, islandId },
+      pollInterval: 10000,
+    },
   );
 
   if (data?.inventory.__typename === 'NotFound') {
@@ -57,23 +61,26 @@ const ResourcesPage = () => {
       <h1>Inventory</h1>
       {loading && <p>Loading...</p>}
       {!loading && (
-        <ul className={styles.list}>
-          <li>
-            <b>Workers:</b> {inventory.workforce}
-          </li>
-          <li>
-            <b>Population:</b> {inventory.population}
-          </li>
-          <li>
-            <b>Material:</b> {inventory.material}
-          </li>
-          <li>
-            <b>Material production:</b> {inventory.materialProduction}/s
-          </li>
-          <li>
-            <b>Energy:</b> {inventory.energyUsed}/{inventory.energy}
-          </li>
-        </ul>
+        <Fragment>
+          <ul className={styles.list}>
+            <li>
+              <b>Workers:</b> {inventory.workforce}
+            </li>
+            <li>
+              <b>Population:</b> {inventory.population}
+            </li>
+            <li>
+              <b>Material:</b> {FormatQuantity(inventory.material)}
+            </li>
+            <li>
+              <b>Material production:</b> {inventory.materialProduction}/s
+            </li>
+            <li>
+              <b>Energy:</b> {inventory.energyUsed}/{inventory.energy}
+            </li>
+          </ul>
+          <p>The data above is refreshed every 10 seconds.</p>
+        </Fragment>
       )}
     </Fragment>
   );

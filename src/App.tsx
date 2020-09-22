@@ -18,14 +18,35 @@ import { arkipelEndpoint } from 'Config';
 import MenuPane from './components/MenuPane';
 import MainContent from './components/MainContent';
 import NotificationPane from './components/NotificationPane';
-import Shadow from './ui/misc/Shadow';
+import Shadow from './ui/layout/Shadow';
 
 // Assets
 import './styles/index.scss';
 import appStyles from './App.scss';
 
 const client = new ApolloClient({
-  cache: new InMemoryCache(),
+  cache: new InMemoryCache({
+    typePolicies: {
+      Island: {
+        fields: {
+          constructionSites: {
+            merge: (_, newValue) => {
+              return newValue;
+            },
+          },
+        },
+      },
+      Tile: {
+        fields: {
+          blueprints: {
+            merge: (_, newValue) => {
+              return newValue;
+            },
+          },
+        },
+      },
+    },
+  }),
   link: new HttpLink({
     uri: arkipelEndpoint,
     credentials: 'include',
