@@ -7,6 +7,7 @@ import { Infrastructure, TileKind } from '../generated/globalTypes';
 
 const MapTile: FunctionComponent<props> = ({
   tile,
+  size,
   clickable = false,
   onClick = () => {},
 }) => {
@@ -22,6 +23,11 @@ const MapTile: FunctionComponent<props> = ({
     case TileKind.LAND:
       className = styles['land'];
       break;
+  }
+
+  // Size must be equal or greater than 1.
+  if (size && size <= 0) {
+    size = 1;
   }
 
   if (!clickable) {
@@ -78,8 +84,18 @@ const MapTile: FunctionComponent<props> = ({
 
   let infraIcon = <img src={src} alt={alt} />;
 
+  let style: any = {};
+  if (size) {
+    style.height = size + 'px';
+    style.width = size + 'px';
+  } else {
+    style.width = '100%';
+    style.height = 0;
+    style.paddingBottom = '100%';
+  }
+
   return (
-    <div className={className} onClick={onClick}>
+    <div className={className} onClick={onClick} style={style}>
       {infraIcon}
     </div>
   );
@@ -87,6 +103,7 @@ const MapTile: FunctionComponent<props> = ({
 
 class props {
   tile: Tile = new Tile({});
+  size?: number = 12;
   clickable?: boolean = false;
   onClick?: () => void = () => {};
 }

@@ -111,7 +111,7 @@ const InfrastructureItem: FunctionComponent<props> = ({ tile }) => {
   return (
     <tr>
       <td>
-        <MapTile tile={tile} />
+        <MapTile tile={tile} size={36} />
       </td>
       <td>{tile.position}</td>
       <td>
