@@ -1,5 +1,31 @@
 @import '../../styles/config.scss';
 
+.upgradeTable {
+  tr {
+    td:first-child {
+      width: 32px;
+    }
+
+    td:nth-child(2) {
+      width: 100%;
+    }
+
+    td:nth-child(3) {
+      // display: grid;
+      // align-items: center;
+      // grid-auto-flow: column;
+      // border: 1px solid black;
+      min-width: 80px;
+
+      img {
+        margin: 2px;
+        width: 16px;
+        height: 16px;
+      }
+    }
+  }
+}
+
 .infraCatalog {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
