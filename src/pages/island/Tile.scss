@@ -11,51 +11,20 @@
     }
 
     td:nth-child(3) {
-      // display: grid;
-      // align-items: center;
-      // grid-auto-flow: column;
-      // border: 1px solid black;
       min-width: 80px;
 
-      img {
-        margin: 2px;
-        width: 16px;
-        height: 16px;
+      div {
+        display: grid;
+        grid-auto-flow: column;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 4px;
+
+        img {
+          width: 16px;
+          height: 16px;
+        }
       }
-    }
-  }
-}
-
-.infraCatalog {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-
-  & > div {
-    text-align: center;
-    padding: 10px;
-
-    .cost {
-      display: grid;
-      gap: 2px;
-      grid-auto-flow: column;
-      justify-content: center;
-      align-items: center;
-      flex-direction: row;
-      font-size: 14px;
-
-      img {
-        width: 12px;
-      }
-    }
-
-    .duration {
-      color: #888;
-      font-size: 14px;
-    }
-
-    &:hover {
-      cursor: pointer;
-      background: rgba(0, 0, 0, 0.04);
     }
   }
 }

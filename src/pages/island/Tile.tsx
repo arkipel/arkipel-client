@@ -226,20 +226,6 @@ const InfrastructureOption: FunctionComponent<{
   );
 
   return (
-    // <div onClick={() => build()}>
-    //   <img src={bp.iconUrl()} alt={bp.name()} />
-    //   <div>
-    //     <b>{bp.name()}</b>
-    //   </div>
-    //   <div className={styles.cost}>
-    //     <img
-    //       className={styles.materialIcon}
-    //       src="https://icons.arkipel.io/res/material.svg"
-    //     />
-    //     <span>{FormatQuantity(bp.materialCost)}</span>
-    //   </div>
-    //   <div className={styles.duration}>{bp.durationStr()}</div>
-    // </div>
     <tr>
       <td>
         <img src={bp.iconUrl()} alt={bp.name()} height={32} width={32} />
@@ -248,8 +234,10 @@ const InfrastructureOption: FunctionComponent<{
         <b>{bp.name()}</b>
       </td>
       <td>
-        <img src="https://icons.arkipel.io/res/material.svg" />
-        {FormatQuantity(bp.materialCost)}
+        <div>
+          <img src="https://icons.arkipel.io/res/material.svg" />
+          <span> {FormatQuantity(bp.materialCost)}</span>
+        </div>
       </td>
       <td>{bp.durationStr()}</td>
       <td>
