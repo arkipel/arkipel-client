@@ -1,6 +1,9 @@
+import { DateTime, Duration } from 'luxon';
+
 class Inventory {
   constructor(obj: any) {
     this.id = obj?.id || '';
+    this.lastUpdate = obj?.island?.lastUpdateAt;
     this.population = obj?.population || 0;
     this.workforce = obj?.workforce || 0;
     this.material = obj?.material || 0;
@@ -11,6 +14,7 @@ class Inventory {
   }
 
   id: string;
+  lastUpdate?: DateTime;
   population: number;
   workforce: number;
   material: number;
@@ -18,6 +22,19 @@ class Inventory {
   energyUsed: number;
   energy: number;
   bankLevels: number;
+
+  sinceLastUpdate = (): Duration => {
+    if (!this.lastUpdate) {
+      return Duration.fromMillis(0);
+    }
+
+    let diff = DateTime.utc().diff(this.lastUpdate);
+    if (diff.milliseconds < 0) {
+      diff = Duration.fromMillis(0);
+    }
+
+    return diff;
+  };
 }
 
 export default Inventory;

@@ -9,6 +9,7 @@ import {
 } from '../generated/GetCurrentInventory';
 
 import { SessionContext } from '../libs/session/session';
+import { InventoryContext } from '../libs/session/inventory';
 
 // Pages
 import About from '../pages/About';
@@ -35,6 +36,7 @@ const MainContent: FunctionComponent<props> = ({
   onNotificationOpen,
 }) => {
   const session = useContext(SessionContext);
+  const inventory = useContext(InventoryContext);
 
   return (
     <div className={styles.main}>
@@ -59,7 +61,8 @@ const MainContent: FunctionComponent<props> = ({
               className={styles.miniIcon}
               src="https://icons.arkipel.io/res/material.svg"
             />
-            <CurrentMaterialQuantity />
+            {/* <CurrentMaterialQuantity /> */}
+            {inventory.material}
           </div>
           <Media
             query="(max-width: 999px)"
