@@ -2,8 +2,14 @@
 
 .upgradeTable {
   tr {
+    height: 50px;
+
     td:first-child {
       width: 32px;
+
+      img {
+        display: block;
+      }
     }
 
     td:nth-child(2) {
@@ -13,7 +19,7 @@
     td:nth-child(3) {
       min-width: 80px;
 
-      div {
+      span {
         display: grid;
         grid-auto-flow: column;
         align-items: center;

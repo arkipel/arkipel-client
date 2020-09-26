@@ -250,10 +250,10 @@ const InfrastructureOption: FunctionComponent<{
         <b>{bp.name()}</b>
       </td>
       <td>
-        <div>
+        <span>
           <img src="https://icons.arkipel.io/res/material.svg" />
           <span> {FormatQuantity(bp.materialCost)}</span>
-        </div>
+        </span>
       </td>
       <td>{bp.durationStr()}</td>
       <td>
