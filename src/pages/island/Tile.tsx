@@ -162,7 +162,7 @@ const InfrastructureOption: FunctionComponent<{
 }> = ({ islandId, position, bp }) => {
   let infra = bp.infrastructure;
 
-  const [build] = useMutation(
+  const [build, { error }] = useMutation(
     gql`
       mutation BuildInfrastructure(
         $islandId: String!
@@ -226,24 +226,31 @@ const InfrastructureOption: FunctionComponent<{
   );
 
   return (
-    <tr>
-      <td>
-        <img src={bp.iconUrl()} alt={bp.name()} height={32} width={32} />
-      </td>
-      <td>
-        <b>{bp.name()}</b>
-      </td>
-      <td>
-        <div>
-          <img src="https://icons.arkipel.io/res/material.svg" />
-          <span> {FormatQuantity(bp.materialCost)}</span>
-        </div>
-      </td>
-      <td>{bp.durationStr()}</td>
-      <td>
-        <button onClick={() => build()}>Build</button>
-      </td>
-    </tr>
+    <Fragment>
+      <tr>
+        <td>
+          <img src={bp.iconUrl()} alt={bp.name()} height={32} width={32} />
+        </td>
+        <td>
+          <b>{bp.name()}</b>
+        </td>
+        <td>
+          <div>
+            <img src="https://icons.arkipel.io/res/material.svg" />
+            <span> {FormatQuantity(bp.materialCost)}</span>
+          </div>
+        </td>
+        <td>{bp.durationStr()}</td>
+        <td>
+          <button onClick={() => build()}>Build</button>
+        </td>
+      </tr>
+      <tr>
+        <td colSpan={5}>
+          <Error onConfirmation={() => {}}>OMG, an error occured. D:</Error>
+        </td>
+      </tr>
+    </Fragment>
   );
 };
 
