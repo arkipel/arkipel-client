@@ -102,16 +102,18 @@ const TilePage: FunctionComponent = () => {
             <h2>Infrastructure</h2>
             {tile.level === 0 && !constructionSite.exists && (
               <table className={styles.upgradeTable}>
-                {blueprints.map((bp) => {
-                  return (
-                    <InfrastructureOption
-                      key={Math.random()}
-                      islandId={islandId}
-                      position={position}
-                      bp={bp}
-                    />
-                  );
-                })}
+                <tbody>
+                  {blueprints.map((bp) => {
+                    return (
+                      <InfrastructureOption
+                        key={Math.random()}
+                        islandId={islandId}
+                        position={position}
+                        bp={bp}
+                      />
+                    );
+                  })}
+                </tbody>
               </table>
             )}
             {constructionSite.exists && (
