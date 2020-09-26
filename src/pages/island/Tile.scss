@@ -6,6 +6,10 @@
 
     td:first-child {
       width: 32px;
+
+      img {
+        display: block;
+      }
     }
 
     td:nth-child(2) {
