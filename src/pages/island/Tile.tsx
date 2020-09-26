@@ -1,4 +1,9 @@
-import React, { Fragment, FunctionComponent, useContext } from 'react';
+import React, {
+  Fragment,
+  FunctionComponent,
+  useContext,
+  useState,
+} from 'react';
 import { useParams } from 'react-router-dom';
 
 import { useQuery, gql, useMutation, useApolloClient } from '@apollo/client';
@@ -166,6 +171,8 @@ const InfrastructureOption: FunctionComponent<{
   position: number;
   bp: Blueprint;
 }> = ({ islandId, position, bp }) => {
+  let [error, setError] = useState<string | undefined>(undefined);
+
   let infra = bp.infrastructure;
 
   const [build] = useMutation<
@@ -242,44 +249,57 @@ const InfrastructureOption: FunctionComponent<{
   );
 
   return (
-    <Fragment>
-      <tr>
-        <td>
-          <img src={bp.iconUrl()} alt={bp.name()} height={32} width={32} />
-        </td>
-        <td>
-          <b>{bp.name()}</b>
-        </td>
-        <td>
-          <div>
-            <img src="https://icons.arkipel.io/res/material.svg" />
-            <span> {FormatQuantity(bp.materialCost)}</span>
-          </div>
-        </td>
-        <td>{bp.durationStr()}</td>
-        <td>
-          <button
-            onClick={() => {
-              let res = build();
-              res
-                .then((r) => {
-                  console.log('r:', r);
-                })
-                .catch((e) => {
-                  console.log('e:', e);
-                });
+    <tr>
+      {error !== undefined && (
+        <td colSpan={5}>
+          <Error
+            onConfirmation={() => {
+              setError(undefined);
             }}
           >
-            Build
-          </button>
+            {error}
+          </Error>
         </td>
-      </tr>
-      <tr>
-        <td colSpan={5}>
-          <Error onConfirmation={() => {}}>OMG, an error occured. D:</Error>
-        </td>
-      </tr>
-    </Fragment>
+      )}
+      {error === undefined && (
+        <Fragment>
+          <td>
+            <img src={bp.iconUrl()} alt={bp.name()} height={30} width={32} />
+          </td>
+          <td>
+            <b>{bp.name()}</b>
+          </td>
+          <td>
+            <span>
+              <img src="https://icons.arkipel.io/res/material.svg" />
+              {FormatQuantity(bp.materialCost)}
+            </span>
+          </td>
+          <td>{bp.durationStr()}</td>
+          <td>
+            <button
+              onClick={() => {
+                let res = build();
+                res
+                  .then((r) => {
+                    if (
+                      r.data?.buildInfrastructure?.__typename ===
+                      'NotEnoughMaterial'
+                    ) {
+                      setError('You do not have enough material.');
+                    }
+                  })
+                  .catch(() => {
+                    setError('An unknown error occured. Please try again.');
+                  });
+              }}
+            >
+              Build
+            </button>
+          </td>
+        </Fragment>
+      )}
+    </tr>
   );
 };
 
