@@ -264,7 +264,7 @@ const InfrastructureOption: FunctionComponent<{
       {error === undefined && (
         <Fragment>
           <td>
-            <img src={bp.iconUrl()} alt={bp.name()} height={30} width={32} />
+            <img src={bp.iconUrl()} alt={bp.name()} height={32} width={32} />
           </td>
           <td>
             <b>{bp.name()}</b>
