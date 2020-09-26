@@ -19,7 +19,6 @@ import styles from './Tile.scss';
 import {
   BuildInfrastructure,
   BuildInfrastructureVariables,
-  BuildInfrastructure_buildInfrastructure_NotAuthorized,
 } from 'generated/BuildInfrastructure';
 
 const TilePage: FunctionComponent = () => {
