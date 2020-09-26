@@ -97,7 +97,7 @@ const TilePage: FunctionComponent = () => {
           <Fragment>
             <h2>Infrastructure</h2>
             {tile.level === 0 && !constructionSite.exists && (
-              <div className={styles.infraCatalog}>
+              <table className={styles.upgradeTable}>
                 {blueprints.map((bp) => {
                   return (
                     <InfrastructureOption
@@ -108,7 +108,7 @@ const TilePage: FunctionComponent = () => {
                     />
                   );
                 })}
-              </div>
+              </table>
             )}
             {constructionSite.exists && (
               <Fragment>
@@ -226,20 +226,24 @@ const InfrastructureOption: FunctionComponent<{
   );
 
   return (
-    <div onClick={() => build()}>
-      <img src={bp.iconUrl()} alt={bp.name()} />
-      <div>
+    <tr>
+      <td>
+        <img src={bp.iconUrl()} alt={bp.name()} height={32} width={32} />
+      </td>
+      <td>
         <b>{bp.name()}</b>
-      </div>
-      <div className={styles.cost}>
-        <img
-          className={styles.materialIcon}
-          src="https://icons.arkipel.io/res/material.svg"
-        />
-        <span>{FormatQuantity(bp.materialCost)}</span>
-      </div>
-      <div className={styles.duration}>{bp.durationStr()}</div>
-    </div>
+      </td>
+      <td>
+        <div>
+          <img src="https://icons.arkipel.io/res/material.svg" />
+          <span> {FormatQuantity(bp.materialCost)}</span>
+        </div>
+      </td>
+      <td>{bp.durationStr()}</td>
+      <td>
+        <button onClick={() => build()}>Build</button>
+      </td>
+    </tr>
   );
 };
 

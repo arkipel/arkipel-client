@@ -1,35 +1,30 @@
 @import '../../styles/config.scss';
 
-.infraCatalog {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+.upgradeTable {
+  tr {
+    td:first-child {
+      width: 32px;
+    }
 
-  & > div {
-    text-align: center;
-    padding: 10px;
+    td:nth-child(2) {
+      width: 100%;
+    }
 
-    .cost {
-      display: grid;
-      gap: 2px;
-      grid-auto-flow: column;
-      justify-content: center;
-      align-items: center;
-      flex-direction: row;
-      font-size: 14px;
+    td:nth-child(3) {
+      min-width: 80px;
 
-      img {
-        width: 12px;
+      div {
+        display: grid;
+        grid-auto-flow: column;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 4px;
+
+        img {
+          width: 16px;
+          height: 16px;
+        }
       }
-    }
-
-    .duration {
-      color: #888;
-      font-size: 14px;
-    }
-
-    &:hover {
-      cursor: pointer;
-      background: rgba(0, 0, 0, 0.04);
     }
   }
 }
