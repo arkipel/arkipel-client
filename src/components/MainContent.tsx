@@ -1,4 +1,4 @@
-import React, { Fragment, FunctionComponent, useContext } from 'react';
+import React, { FunctionComponent, useContext } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import Media from 'react-media';
 
