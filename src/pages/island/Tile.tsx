@@ -242,12 +242,27 @@ const InfrastructureOption: FunctionComponent<{
         </td>
         <td>{bp.durationStr()}</td>
         <td>
-          <button onClick={() => build()}>Build</button>
+          <button
+            onClick={() => {
+              let res = build();
+              res
+                .then((r) => {
+                  console.log('r:', r);
+                })
+                .catch((e) => {
+                  console.log('e:', e);
+                });
+            }}
+          >
+            Build
+          </button>
         </td>
       </tr>
       <tr>
         <td colSpan={5}>
-          <Error onConfirmation={() => {}}>OMG, an error occured. D:</Error>
+          <Error visible={error !== undefined} onConfirmation={() => {}}>
+            OMG, an error occured. D:
+          </Error>
         </td>
       </tr>
     </Fragment>
