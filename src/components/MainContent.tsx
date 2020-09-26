@@ -34,51 +34,45 @@ const MainContent: FunctionComponent<props> = ({
   onMenuOpen,
   onNotificationOpen,
 }) => {
+  const session = useContext(SessionContext);
+
   return (
     <div className={styles.main}>
       <div className={styles.topBar}>
-        <SessionContext.Consumer>
-          {(session) => {
-            return (
-              <Fragment>
-                <div>
-                  <Media
-                    query="(max-width: 699px)"
-                    render={() => (
-                      <div onClick={onMenuOpen} className="button">
-                        <img
-                          src="https://icons.arkipel.io/ui/menu.svg"
-                          alt="&#10092;"
-                        />
-                      </div>
-                    )}
-                  />
-                  {session.loggedIn && <span>{session.username}</span>}
-                </div>
-                <div>
-                  <div>
-                    <img
-                      className={styles.miniIcon}
-                      src="https://icons.arkipel.io/res/material.svg"
-                    />
-                    <CurrentMaterialQuantity />
-                  </div>
-                  <Media
-                    query="(max-width: 999px)"
-                    render={() => (
-                      <div onClick={onNotificationOpen} className="button">
-                        <img
-                          src="https://icons.arkipel.io/ui/notification.svg"
-                          alt="&#128276;"
-                        />
-                      </div>
-                    )}
-                  />
-                </div>
-              </Fragment>
-            );
-          }}
-        </SessionContext.Consumer>
+        <div>
+          <Media
+            query="(max-width: 699px)"
+            render={() => (
+              <div onClick={onMenuOpen} className="button">
+                <img
+                  src="https://icons.arkipel.io/ui/menu.svg"
+                  alt="&#10092;"
+                />
+              </div>
+            )}
+          />
+          {session.loggedIn && <span>{session.username}</span>}
+        </div>
+        <div>
+          <div>
+            <img
+              className={styles.miniIcon}
+              src="https://icons.arkipel.io/res/material.svg"
+            />
+            <CurrentMaterialQuantity />
+          </div>
+          <Media
+            query="(max-width: 999px)"
+            render={() => (
+              <div onClick={onNotificationOpen} className="button">
+                <img
+                  src="https://icons.arkipel.io/ui/notification.svg"
+                  alt="&#128276;"
+                />
+              </div>
+            )}
+          />
+        </div>
       </div>
       <Scrollable>
         <div className={styles.content}>
