@@ -16,6 +16,11 @@ import { FormatQuantity } from '../../ui/text/format';
 import TimeLeft from '../../ui/text/TimeLeft';
 
 import styles from './Tile.scss';
+import {
+  BuildInfrastructure,
+  BuildInfrastructureVariables,
+  BuildInfrastructure_buildInfrastructure_NotAuthorized,
+} from 'generated/BuildInfrastructure';
 
 const TilePage: FunctionComponent = () => {
   const session = useContext(SessionContext);
@@ -162,7 +167,10 @@ const InfrastructureOption: FunctionComponent<{
 }> = ({ islandId, position, bp }) => {
   let infra = bp.infrastructure;
 
-  const [build, { error }] = useMutation(
+  const [build] = useMutation<
+    BuildInfrastructure,
+    BuildInfrastructureVariables
+  >(
     gql`
       mutation BuildInfrastructure(
         $islandId: String!
@@ -203,6 +211,13 @@ const InfrastructureOption: FunctionComponent<{
           id: 'Island:' + islandId,
           fields: {
             constructionSites: (currentConstructionSites) => {
+              if (
+                data.data?.buildInfrastructure?.__typename !== 'Tile' ||
+                !data.data.buildInfrastructure.constructionSite
+              ) {
+                return;
+              }
+
               const newSiteRef = cache.writeFragment<NewConstructionSite>({
                 data: data.data.buildInfrastructure.constructionSite,
                 fragment: gql`
@@ -260,9 +275,7 @@ const InfrastructureOption: FunctionComponent<{
       </tr>
       <tr>
         <td colSpan={5}>
-          <Error visible={error !== undefined} onConfirmation={() => {}}>
-            OMG, an error occured. D:
-          </Error>
+          <Error onConfirmation={() => {}}>OMG, an error occured. D:</Error>
         </td>
       </tr>
     </Fragment>
