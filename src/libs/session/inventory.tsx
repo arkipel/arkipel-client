@@ -5,12 +5,7 @@ import React, {
   useContext,
 } from 'react';
 
-import { useApolloClient, useQuery, gql } from '@apollo/client';
-import { Login, LoginVariables } from '../../generated/Login';
-import {
-  RefreshToken,
-  RefreshTokenVariables,
-} from '../../generated/RefreshToken';
+import { useQuery, gql } from '@apollo/client';
 import {
   GetCurrentInventory,
   GetCurrentInventoryVariables,
@@ -18,18 +13,14 @@ import {
 
 import { SessionContext } from './session';
 
-// Config
-import { domain } from 'Config';
-
 import Inventory from '../../models/Inventory';
+import { FormatQuantity } from '../../ui/text/format';
 
 const InventoryProvider: FunctionComponent = ({ children }) => {
-  // const [updateNumber, forceUpdate] = useState(0);
   const [inventory, setInventory] = useState(new Inventory({}));
+  const [materialFormatted, setMaterialFormatted] = useState('0');
 
   const session = useContext(SessionContext);
-
-  const client = useApolloClient();
 
   const { data } = useQuery<GetCurrentInventory, GetCurrentInventoryVariables>(
     gql`
@@ -45,6 +36,9 @@ const InventoryProvider: FunctionComponent = ({ children }) => {
             energy
             bankLevels
             timestamp
+            island {
+              lastUpdateAt
+            }
           }
         }
       }
@@ -52,25 +46,20 @@ const InventoryProvider: FunctionComponent = ({ children }) => {
     { variables: { islandId: session.id, userId: session.id } },
   );
 
-  // if (updateNumber === 0) {
-  //   forceUpdate(Math.random());
-  // }
-
   useEffect(() => {
     const interval = setInterval(() => {
-      console.log('setInterval');
-      // forceUpdate(Math.random());
-
       if (data?.inventory?.__typename === 'Inventory') {
         let inv = new Inventory(data.inventory);
-        console.log('We have an inventory', inv);
 
-        if (inv.materialProduction > 0) {
-          console.log('There is production', inv);
-          let secs = inv.sinceLastUpdate().seconds;
+        if (inv.materialProduction > 0 && inv.lastUpdate) {
+          let secs = Math.floor(inv.sinceLastUpdate().milliseconds / 1000);
           inv.material += secs * inv.materialProduction;
 
           setInventory(inv);
+          let matFormatted = FormatQuantity(inv.material);
+          if (matFormatted !== materialFormatted) {
+            setMaterialFormatted(matFormatted);
+          }
         }
       }
     }, 1000);
@@ -83,6 +72,7 @@ const InventoryProvider: FunctionComponent = ({ children }) => {
     <InventoryContext.Provider
       value={{
         ...inventory,
+        materialFormatted,
       }}
     >
       {children}
@@ -90,28 +80,11 @@ const InventoryProvider: FunctionComponent = ({ children }) => {
   );
 };
 
-// class Session {
-//   constructor(token: string) {
-//     this.token = token;
-
-//     if (token.length > 0) {
-//       let data = JSON.parse(atob(token.split('.')[1]));
-
-//       this.loggedIn = true;
-//       this.id = data.id;
-//       this.username = data.username;
-//     }
-//   }
-
-//   token = '';
-//   loggedIn = false;
-//   id = '';
-//   username = '';
-//   inventory = new Inventory({});
-// }
-
-const InventoryContext = React.createContext<Inventory>({
+const InventoryContext = React.createContext<
+  Inventory & { materialFormatted: string }
+>({
   ...new Inventory(''),
+  materialFormatted: '0',
 });
 
 export { InventoryContext, InventoryProvider };

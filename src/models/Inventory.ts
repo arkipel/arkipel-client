@@ -3,7 +3,7 @@ import { DateTime, Duration } from 'luxon';
 class Inventory {
   constructor(obj: any) {
     this.id = obj?.id || '';
-    this.lastUpdate = obj?.island?.lastUpdateAt;
+    this.lastUpdate = DateTime.fromISO(obj?.island?.lastUpdateAt);
     this.population = obj?.population || 0;
     this.workforce = obj?.workforce || 0;
     this.material = obj?.material || 0;
