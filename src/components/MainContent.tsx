@@ -2,13 +2,8 @@ import React, { FunctionComponent, useContext } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import Media from 'react-media';
 
-import { useQuery, gql } from '@apollo/client';
-import {
-  GetCurrentInventory,
-  GetCurrentInventoryVariables,
-} from '../generated/GetCurrentInventory';
-
 import { SessionContext } from '../libs/session/session';
+import { InventoryContext } from '../libs/session/inventory';
 
 // Pages
 import About from '../pages/About';
@@ -25,7 +20,6 @@ import Settings from '../pages/account/Settings';
 
 // Components
 import Scrollable from '../ui/layout/Scrollable';
-import { FormatQuantity } from '../ui/text/format';
 
 // Assets
 import styles from './MainContent.scss';
@@ -35,6 +29,7 @@ const MainContent: FunctionComponent<props> = ({
   onNotificationOpen,
 }) => {
   const session = useContext(SessionContext);
+  const inventory = useContext(InventoryContext);
 
   return (
     <div className={styles.main}>
@@ -59,7 +54,7 @@ const MainContent: FunctionComponent<props> = ({
               className={styles.miniIcon}
               src="https://icons.arkipel.io/res/material.svg"
             />
-            <CurrentMaterialQuantity />
+            <span>{inventory.materialFormatted}</span>
           </div>
           <Media
             query="(max-width: 999px)"
@@ -106,32 +101,6 @@ const MainContent: FunctionComponent<props> = ({
 type props = {
   onMenuOpen: () => void;
   onNotificationOpen: () => void;
-};
-
-const CurrentMaterialQuantity: FunctionComponent = () => {
-  const session = useContext(SessionContext);
-
-  const { data } = useQuery<GetCurrentInventory, GetCurrentInventoryVariables>(
-    gql`
-      query GetCurrentInventory($islandId: String!, $userId: String!) {
-        inventory(islandId: $islandId, userId: $userId) {
-          ... on Inventory {
-            id
-            material
-          }
-        }
-      }
-    `,
-    { variables: { islandId: session.id, userId: session.id } },
-  );
-
-  let qty = 0;
-
-  if (data?.inventory?.__typename === 'Inventory') {
-    qty = data.inventory.material;
-  }
-
-  return <span>{FormatQuantity(qty)}</span>;
 };
 
 export default MainContent;
