@@ -1,14 +1,9 @@
-import React, { Fragment, FunctionComponent, useContext } from 'react';
+import React, { FunctionComponent, useContext } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import Media from 'react-media';
 
-import { useQuery, gql } from '@apollo/client';
-import {
-  GetCurrentInventory,
-  GetCurrentInventoryVariables,
-} from '../generated/GetCurrentInventory';
-
 import { SessionContext } from '../libs/session/session';
+import { InventoryContext } from '../libs/session/inventory';
 
 // Pages
 import About from '../pages/About';
@@ -25,7 +20,6 @@ import Settings from '../pages/account/Settings';
 
 // Components
 import Scrollable from '../ui/layout/Scrollable';
-import { FormatQuantity } from '../ui/text/format';
 
 // Assets
 import styles from './MainContent.scss';
@@ -34,51 +28,46 @@ const MainContent: FunctionComponent<props> = ({
   onMenuOpen,
   onNotificationOpen,
 }) => {
+  const session = useContext(SessionContext);
+  const inventory = useContext(InventoryContext);
+
   return (
     <div className={styles.main}>
       <div className={styles.topBar}>
-        <SessionContext.Consumer>
-          {(session) => {
-            return (
-              <Fragment>
-                <div>
-                  <Media
-                    query="(max-width: 699px)"
-                    render={() => (
-                      <div onClick={onMenuOpen} className="button">
-                        <img
-                          src="https://icons.arkipel.io/ui/menu.svg"
-                          alt="&#10092;"
-                        />
-                      </div>
-                    )}
-                  />
-                  {session.loggedIn && <span>{session.username}</span>}
-                </div>
-                <div>
-                  <div>
-                    <img
-                      className={styles.miniIcon}
-                      src="https://icons.arkipel.io/res/material.svg"
-                    />
-                    <CurrentMaterialQuantity />
-                  </div>
-                  <Media
-                    query="(max-width: 999px)"
-                    render={() => (
-                      <div onClick={onNotificationOpen} className="button">
-                        <img
-                          src="https://icons.arkipel.io/ui/notification.svg"
-                          alt="&#128276;"
-                        />
-                      </div>
-                    )}
-                  />
-                </div>
-              </Fragment>
-            );
-          }}
-        </SessionContext.Consumer>
+        <div>
+          <Media
+            query="(max-width: 699px)"
+            render={() => (
+              <div onClick={onMenuOpen} className="button">
+                <img
+                  src="https://icons.arkipel.io/ui/menu.svg"
+                  alt="&#10092;"
+                />
+              </div>
+            )}
+          />
+          {session.loggedIn && <span>{session.username}</span>}
+        </div>
+        <div>
+          <div>
+            <img
+              className={styles.miniIcon}
+              src="https://icons.arkipel.io/res/material.svg"
+            />
+            <span>{inventory.materialFormatted}</span>
+          </div>
+          <Media
+            query="(max-width: 999px)"
+            render={() => (
+              <div onClick={onNotificationOpen} className="button">
+                <img
+                  src="https://icons.arkipel.io/ui/notification.svg"
+                  alt="&#128276;"
+                />
+              </div>
+            )}
+          />
+        </div>
       </div>
       <Scrollable>
         <div className={styles.content}>
@@ -112,32 +101,6 @@ const MainContent: FunctionComponent<props> = ({
 type props = {
   onMenuOpen: () => void;
   onNotificationOpen: () => void;
-};
-
-const CurrentMaterialQuantity: FunctionComponent = () => {
-  const session = useContext(SessionContext);
-
-  const { data } = useQuery<GetCurrentInventory, GetCurrentInventoryVariables>(
-    gql`
-      query GetCurrentInventory($islandId: String!, $userId: String!) {
-        inventory(islandId: $islandId, userId: $userId) {
-          ... on Inventory {
-            id
-            material
-          }
-        }
-      }
-    `,
-    { variables: { islandId: session.id, userId: session.id } },
-  );
-
-  let qty = 0;
-
-  if (data?.inventory?.__typename === 'Inventory') {
-    qty = data.inventory.material;
-  }
-
-  return <span>{FormatQuantity(qty)}</span>;
 };
 
 export default MainContent;

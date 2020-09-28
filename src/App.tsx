@@ -10,6 +10,7 @@ import {
 } from '@apollo/client';
 
 import { SessionProvider } from './libs/session/session';
+import { InventoryProvider } from './libs/session/inventory';
 
 // Config
 import { arkipelEndpoint } from 'Config';
@@ -69,37 +70,39 @@ const App: FunctionComponent<props> = () => {
     <div id="app" className={appStyles.app}>
       <ApolloProvider client={client}>
         <SessionProvider>
-          <Router>
-            <MenuPane
-              visible={showMenuPane}
-              onCloseClick={() => {
-                setShowMenuPane(false);
-              }}
-            />
-            <Media query="(max-width: 999px)">
-              <Shadow
-                visible={showShadow}
-                onClick={() => {
+          <InventoryProvider>
+            <Router>
+              <MenuPane
+                visible={showMenuPane}
+                onCloseClick={() => {
                   setShowMenuPane(false);
+                }}
+              />
+              <Media query="(max-width: 999px)">
+                <Shadow
+                  visible={showShadow}
+                  onClick={() => {
+                    setShowMenuPane(false);
+                    setShowNotificationPane(false);
+                  }}
+                />
+              </Media>
+              <MainContent
+                onMenuOpen={() => {
+                  setShowMenuPane(true);
+                }}
+                onNotificationOpen={() => {
+                  setShowNotificationPane(true);
+                }}
+              />
+              <NotificationPane
+                visible={showNotificationPane}
+                onCloseClick={() => {
                   setShowNotificationPane(false);
                 }}
               />
-            </Media>
-            <MainContent
-              onMenuOpen={() => {
-                setShowMenuPane(true);
-              }}
-              onNotificationOpen={() => {
-                setShowNotificationPane(true);
-              }}
-            />
-            <NotificationPane
-              visible={showNotificationPane}
-              onCloseClick={() => {
-                setShowNotificationPane(false);
-              }}
-            />
-          </Router>
+            </Router>
+          </InventoryProvider>
         </SessionProvider>
       </ApolloProvider>
     </div>
