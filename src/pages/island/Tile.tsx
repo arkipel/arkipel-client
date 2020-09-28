@@ -1,4 +1,9 @@
-import React, { Fragment, FunctionComponent, useContext } from 'react';
+import React, {
+  Fragment,
+  FunctionComponent,
+  useContext,
+  useState,
+} from 'react';
 import { useParams } from 'react-router-dom';
 
 import { useQuery, gql, useMutation, useApolloClient } from '@apollo/client';
@@ -6,6 +11,7 @@ import { GetTile, GetTileVariables } from '../../generated/GetTile';
 import { NewConstructionSite } from '../../generated/NewConstructionSite';
 
 import { SessionContext } from '../../libs/session/session';
+import { InventoryContext } from '../../libs/session/inventory';
 
 import Tile from '../../models/Tile';
 import ConstructionSite from '../../models/ConstructionSite';
@@ -141,7 +147,11 @@ const TilePage: FunctionComponent = () => {
               blueprints.length === 1 &&
               !constructionSite.exists && (
                 <Fragment>
-                  <UpgradeButton islandId={islandId} position={position} />
+                  <UpgradeButton
+                    islandId={islandId}
+                    position={position}
+                    cost={blueprints[0].materialCost}
+                  />
                   <span>
                     You can upgrade for{' '}
                     {FormatQuantity(blueprints[0].materialCost)} material. It
@@ -166,6 +176,10 @@ const InfrastructureOption: FunctionComponent<{
   position: number;
   bp: Blueprint;
 }> = ({ islandId, position, bp }) => {
+  let [error, setError] = useState<string | undefined>(undefined);
+
+  const inventory = useContext(InventoryContext);
+
   let infra = bp.infrastructure;
 
   const [build] = useMutation<
@@ -243,22 +257,56 @@ const InfrastructureOption: FunctionComponent<{
 
   return (
     <tr>
-      <td>
-        <img src={bp.iconUrl()} alt={bp.name()} height={32} width={32} />
-      </td>
-      <td>
-        <b>{bp.name()}</b>
-      </td>
-      <td>
-        <span>
-          <img src="https://icons.arkipel.io/res/material.svg" />
-          <span> {FormatQuantity(bp.materialCost)}</span>
-        </span>
-      </td>
-      <td>{bp.durationStr()}</td>
-      <td>
-        <button onClick={() => build()}>Build</button>
-      </td>
+      {error !== undefined && (
+        <td colSpan={5}>
+          <Error
+            onConfirmation={() => {
+              setError(undefined);
+            }}
+          >
+            {error}
+          </Error>
+        </td>
+      )}
+      {error === undefined && (
+        <Fragment>
+          <td>
+            <img src={bp.iconUrl()} alt={bp.name()} height={32} width={32} />
+          </td>
+          <td>
+            <b>{bp.name()}</b>
+          </td>
+          <td>
+            <span>
+              <img src="https://icons.arkipel.io/res/material.svg" />
+              {FormatQuantity(bp.materialCost)}
+            </span>
+          </td>
+          <td>{bp.durationStr()}</td>
+          <td>
+            <button
+              onClick={() => {
+                let res = build();
+                res
+                  .then((r) => {
+                    if (
+                      r.data?.buildInfrastructure?.__typename ===
+                      'NotEnoughMaterial'
+                    ) {
+                      setError('You do not have enough material.');
+                    }
+                  })
+                  .catch(() => {
+                    setError('An unknown error occured. Please try again.');
+                  });
+              }}
+              disabled={inventory.material < bp.materialCost}
+            >
+              Build
+            </button>
+          </td>
+        </Fragment>
+      )}
     </tr>
   );
 };
@@ -328,7 +376,10 @@ const CancelButton: FunctionComponent<{
 const UpgradeButton: FunctionComponent<{
   islandId: string;
   position: number;
-}> = ({ islandId, position }) => {
+  cost: number;
+}> = ({ islandId, position, cost }) => {
+  const inventory = useContext(InventoryContext);
+
   const [upgrade, { loading, error }] = useMutation(
     gql`
       mutation UpgradeInfrastructure($islandId: String!, $position: Int!) {
@@ -387,7 +438,7 @@ const UpgradeButton: FunctionComponent<{
         onClick={() => {
           upgrade();
         }}
-        disabled={loading}
+        disabled={loading || inventory.material < cost}
       >
         {loading && 'Upgrading...'}
         {!loading && 'Upgrade'}
