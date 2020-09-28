@@ -11,6 +11,7 @@ import { GetTile, GetTileVariables } from '../../generated/GetTile';
 import { NewConstructionSite } from '../../generated/NewConstructionSite';
 
 import { SessionContext } from '../../libs/session/session';
+import { InventoryContext } from '../../libs/session/inventory';
 
 import Tile from '../../models/Tile';
 import ConstructionSite from '../../models/ConstructionSite';
@@ -173,6 +174,8 @@ const InfrastructureOption: FunctionComponent<{
 }> = ({ islandId, position, bp }) => {
   let [error, setError] = useState<string | undefined>(undefined);
 
+  const inventory = useContext(InventoryContext);
+
   let infra = bp.infrastructure;
 
   const [build] = useMutation<
@@ -293,6 +296,7 @@ const InfrastructureOption: FunctionComponent<{
                     setError('An unknown error occured. Please try again.');
                   });
               }}
+              disabled={inventory.material < bp.materialCost}
             >
               Build
             </button>
