@@ -89,7 +89,7 @@ const NotificationPane: FunctionComponent<props> = ({
       <Scrollable>
         <div className={styles.content}>
           {!loggedIn && <p>You are not logged in.</p>}
-          {error && <p>Construction sites could not be loaded.</p>}
+          {loggedIn && error && <p>Construction sites could not be loaded.</p>}
           {loggedIn && !hasSites && <p>Nothing is currently being built.</p>}
           {loggedIn &&
             hasSites &&
