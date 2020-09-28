@@ -147,7 +147,11 @@ const TilePage: FunctionComponent = () => {
               blueprints.length === 1 &&
               !constructionSite.exists && (
                 <Fragment>
-                  <UpgradeButton islandId={islandId} position={position} />
+                  <UpgradeButton
+                    islandId={islandId}
+                    position={position}
+                    cost={blueprints[0].materialCost}
+                  />
                   <span>
                     You can upgrade for{' '}
                     {FormatQuantity(blueprints[0].materialCost)} material. It
@@ -372,7 +376,10 @@ const CancelButton: FunctionComponent<{
 const UpgradeButton: FunctionComponent<{
   islandId: string;
   position: number;
-}> = ({ islandId, position }) => {
+  cost: number;
+}> = ({ islandId, position, cost }) => {
+  const inventory = useContext(InventoryContext);
+
   const [upgrade, { loading, error }] = useMutation(
     gql`
       mutation UpgradeInfrastructure($islandId: String!, $position: Int!) {
@@ -431,7 +438,7 @@ const UpgradeButton: FunctionComponent<{
         onClick={() => {
           upgrade();
         }}
-        disabled={loading}
+        disabled={loading || inventory.material < cost}
       >
         {loading && 'Upgrading...'}
         {!loading && 'Upgrade'}
