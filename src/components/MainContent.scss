@@ -8,6 +8,8 @@
   height: 100%;
   width: 100%;
   background: #fff;
+  scrollbar-width: thin;
+  scrollbar-color: #ccc white;
 
   @media all and (max-width: 699px) {
     grid-row: 1;

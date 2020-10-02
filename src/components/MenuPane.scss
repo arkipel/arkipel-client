@@ -13,6 +13,10 @@
   background: #264653;
   z-index: 100;
   transform: translateX(-$menuPaneWidth);
+  scrollbar-width: thin;
+  // scrollbar-color: #264653 #264653;
+  scrollbar-color: darken($color: #264653, $amount: 5) #264653;
+  // scrollbar-color: lighten($color: #264653, $amount: 20) #264653;
 
   footer {
     display: grid;
