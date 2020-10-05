@@ -338,7 +338,7 @@ const InfrastructureItem: FunctionComponent<props> = ({ tile }) => {
             -1
           </button>
           <span className={styles.assignmentNum}>
-            {tile.assignedWorkers}{' '}
+            {tile.assignedWorkers}/{tile.requiredWorkforce}{' '}
             <img src="https://icons.arkipel.io/res/population.svg" />
           </span>
           <button
@@ -354,7 +354,7 @@ const InfrastructureItem: FunctionComponent<props> = ({ tile }) => {
             -1
           </button>
           <span className={styles.assignmentNum}>
-            {tile.assignedEnergy}{' '}
+            {tile.assignedEnergy}/{tile.energyConsumption}{' '}
             <img src="https://icons.arkipel.io/res/energy.svg" />
           </span>
           <button
