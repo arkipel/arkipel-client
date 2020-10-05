@@ -5,4 +5,14 @@
     height: 16px;
     width: 16px;
   }
+
+  tbody tr {
+    height: 50px;
+
+    .manageBtn {
+      display: block;
+      width: 30px;
+      cursor: pointer;
+    }
+  }
 }

@@ -1,7 +1,20 @@
-import React, { Fragment, FunctionComponent, useContext } from 'react';
+import React, {
+  Fragment,
+  FunctionComponent,
+  useContext,
+  useState,
+} from 'react';
 
-import { useQuery, gql } from '@apollo/client';
+import { useQuery, gql, useMutation } from '@apollo/client';
 import { GetIsland, GetIslandVariables } from 'generated/GetIsland';
+import {
+  ActivateInfrastructure,
+  ActivateInfrastructureVariables,
+} from 'generated/ActivateInfrastructure';
+import {
+  DeactivateInfrastructure,
+  DeactivateInfrastructureVariables,
+} from 'generated/DeactivateInfrastructure';
 import { Infrastructure } from '../../generated/globalTypes';
 
 import { SessionContext } from '../../libs/session/session';
@@ -32,6 +45,7 @@ const InfrastructurePage = () => {
               kind
               infrastructure
               level
+              isActive
               housingCapacity
               materialProduction
               energyProduction
@@ -94,6 +108,7 @@ const InfrastructurePage = () => {
               <th>
                 <img src="https://icons.arkipel.io/res/material.svg" />
               </th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
@@ -108,25 +123,97 @@ const InfrastructurePage = () => {
 };
 
 const InfrastructureItem: FunctionComponent<props> = ({ tile }) => {
-  return (
-    <tr>
-      <td>
-        <MapTile tile={tile} size={36} />
-      </td>
-      <td>{tile.position}</td>
-      <td>
-        {tile.infrastructureName()} ({tile.level})
-      </td>
-      <td>{tile.housingCapacity - tile.requiredWorkforce}</td>
-      <td>{tile.energyProduction - tile.energyConsumption}</td>
-      <td>{tile.materialProduction}/s</td>
-      {/* <td>
-        <button disabled={true}>
-          Manage
-        </button>
-      </td> */}
-    </tr>
+  const [showManage, setShowManage] = useState(false);
+
+  const session = useContext(SessionContext);
+
+  const [activate, { loading: loadingActivate }] = useMutation<
+    ActivateInfrastructure,
+    ActivateInfrastructureVariables
+  >(
+    gql`
+      mutation ActivateInfrastructure($islandId: String!, $position: Int!) {
+        activateInfrastructure(islandId: $islandId, position: $position) {
+          ... on Tile {
+            id
+            isActive
+          }
+        }
+      }
+    `,
+    { variables: { islandId: session.id, position: tile.position } },
   );
+
+  const [deactivate, { loading: loadingDeactivate }] = useMutation<
+    DeactivateInfrastructure,
+    DeactivateInfrastructureVariables
+  >(
+    gql`
+      mutation DeactivateInfrastructure($islandId: String!, $position: Int!) {
+        deactivateInfrastructure(islandId: $islandId, position: $position) {
+          ... on Tile {
+            id
+            isActive
+          }
+        }
+      }
+    `,
+    { variables: { islandId: session.id, position: tile.position } },
+  );
+
+  if (!showManage) {
+    return (
+      <tr>
+        <td>
+          <MapTile tile={tile} size={36} />
+        </td>
+        <td>{tile.position}</td>
+        <td>
+          {tile.infrastructureName()} ({tile.level})
+        </td>
+        <td>{tile.housingCapacity - tile.requiredWorkforce}</td>
+        <td>{tile.energyProduction - tile.energyConsumption}</td>
+        <td>{tile.materialProduction}/s</td>
+        <td>
+          <img
+            className={styles.manageBtn}
+            src="https://icons.arkipel.io/ui/manage.svg"
+            onClick={() => setShowManage(!showManage)}
+          />
+        </td>
+      </tr>
+    );
+  } else {
+    return (
+      <tr>
+        <td>
+          <MapTile tile={tile} size={36} />
+        </td>
+        <td>{tile.position}</td>
+        <td colSpan={4}>
+          {tile.isActive && (
+            <button onClick={() => deactivate()}>
+              {!loadingDeactivate && 'Deactivate'}
+              {loadingDeactivate && 'Deactivating...'}
+            </button>
+          )}
+          {!tile.isActive && (
+            <button onClick={() => activate()}>
+              {!loadingActivate && 'Activate'}
+              {loadingActivate && 'Activating...'}
+            </button>
+          )}
+        </td>
+        <td>
+          <img
+            className={styles.manageBtn}
+            src="https://icons.arkipel.io/ui/manage.svg"
+            onClick={() => setShowManage(!showManage)}
+          />
+        </td>
+      </tr>
+    );
+  }
 };
 
 class props {

@@ -6,6 +6,7 @@ class Tile {
     this.position = obj?.position || 0;
     this.infrastructure = obj?.infrastructure || Infrastructure.EMPTY;
     this.level = obj?.level || 0;
+    this.isActive = obj?.isActive === true ? true : false;
     this.housingCapacity = obj?.housingCapacity || 0;
     this.materialProduction = obj?.materialProduction || 0;
     this.energyProduction = obj?.energyProduction || 0;
@@ -17,6 +18,7 @@ class Tile {
   position: number;
   infrastructure: Infrastructure;
   level: number;
+  isActive: boolean;
   housingCapacity: number;
   materialProduction: number;
   energyProduction: number;
