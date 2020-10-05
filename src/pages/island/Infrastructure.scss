@@ -1,9 +1,57 @@
 @import '../../styles/config.scss';
 
 .table {
-  thead tr th img {
-    height: 16px;
-    width: 16px;
+  thead tr {
+    th:nth-child(4),
+    th:nth-child(5),
+    th:nth-child(6) {
+      text-align: center;
+    }
+
+    th {
+      img {
+        height: 16px;
+        width: 16px;
+      }
+    }
+  }
+
+  thead tr {
+    th:nth-child(1) {
+      width: 45px;
+    }
+
+    th:nth-child(2) {
+      width: 40px;
+    }
+
+    th:nth-child(4) {
+      width: 40px;
+    }
+
+    th:nth-child(5) {
+      width: 40px;
+    }
+
+    th:nth-child(6) {
+      width: 40px;
+    }
+
+    th:nth-child(7) {
+      width: 40px;
+    }
+  }
+
+  tbody tr {
+    td:nth-child(2) {
+      text-align: right;
+    }
+
+    td:nth-child(4),
+    td:nth-child(5),
+    td:nth-child(6) {
+      text-align: center;
+    }
   }
 
   tbody tr {

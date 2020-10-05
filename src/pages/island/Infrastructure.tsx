@@ -98,7 +98,9 @@ const InfrastructurePage = () => {
         <table className={styles.table}>
           <thead>
             <tr>
-              <th colSpan={3}>Tile</th>
+              <th></th>
+              <th></th>
+              <th></th>
               <th>
                 <img src="https://icons.arkipel.io/res/population.svg" />
               </th>
