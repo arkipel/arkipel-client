@@ -21,6 +21,8 @@ export interface GetTiles_island_Island_tiles {
   readonly infrastructure: Infrastructure;
   readonly level: number;
   readonly isActive: boolean;
+  readonly assignedWorkers: number;
+  readonly assignedEnergy: number;
   readonly housingCapacity: number;
   readonly materialProduction: number;
   readonly energyProduction: number;
