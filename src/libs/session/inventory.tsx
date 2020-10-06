@@ -30,10 +30,12 @@ const InventoryProvider: FunctionComponent = ({ children }) => {
             id
             population
             workforce
+            assignedWorkers
             material
             materialProduction
             energyUsed
             energy
+            assignedEnergy
             bankLevels
             timestamp
             island {
