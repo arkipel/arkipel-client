@@ -16,10 +16,12 @@ export interface GetInventory_inventory_Inventory {
   readonly id: string;
   readonly population: number;
   readonly workforce: number;
+  readonly assignedWorkers: number;
   readonly material: number;
   readonly materialProduction: number;
   readonly energyUsed: number;
   readonly energy: number;
+  readonly assignedEnergy: number;
 }
 
 export type GetInventory_inventory =
