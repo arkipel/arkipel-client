@@ -351,7 +351,7 @@ const InfrastructureItem: FunctionComponent<props> = ({ tile }) => {
             onClick={() => assignWorkers()}
             disabled={
               !tile.isActive ||
-              inventory.population - inventory.population <= 0 ||
+              inventory.population - inventory.assignedWorkers <= 0 ||
               tile.housingCapacity > 0
             }
           >
