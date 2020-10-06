@@ -14,10 +14,11 @@ const ResourcesPage = () => {
       <h1>Inventory</h1>
       <ul className={styles.list}>
         <li>
-          <b>Workers:</b> {inventory.workforce}
+          <b>Population:</b> {inventory.population}
         </li>
         <li>
-          <b>Assigned workers:</b> {inventory.assignedWorkers}
+          <b>Assigned workers:</b> {inventory.assignedWorkers}/
+          {inventory.workforce}
         </li>
         <li>
           <b>Free workers:</b>{' '}
