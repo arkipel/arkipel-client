@@ -28,6 +28,7 @@ import {
 import { Infrastructure } from '../../generated/globalTypes';
 
 import { SessionContext } from '../../libs/session/session';
+import { InventoryContext } from '../../libs/session/inventory';
 
 import Tile from '../../models/Tile';
 import Island from '../../models/Island';
@@ -140,6 +141,7 @@ const InfrastructureItem: FunctionComponent<props> = ({ tile }) => {
   const [showManage, setShowManage] = useState(false);
 
   const session = useContext(SessionContext);
+  const inventory = useContext(InventoryContext);
 
   const [activate, { loading: loadingActivate }] = useMutation<
     ActivateInfrastructure,
@@ -333,7 +335,11 @@ const InfrastructureItem: FunctionComponent<props> = ({ tile }) => {
           )}{' '}
           <button
             onClick={() => unassignWorkers()}
-            disabled={!tile.isActive || tile.housingCapacity > 0}
+            disabled={
+              !tile.isActive ||
+              tile.assignedWorkers === 0 ||
+              tile.housingCapacity > 0
+            }
           >
             -1
           </button>
@@ -343,13 +349,21 @@ const InfrastructureItem: FunctionComponent<props> = ({ tile }) => {
           </span>
           <button
             onClick={() => assignWorkers()}
-            disabled={!tile.isActive || tile.housingCapacity > 0}
+            disabled={
+              !tile.isActive ||
+              inventory.population - inventory.population <= 0 ||
+              tile.housingCapacity > 0
+            }
           >
             +1
           </button>{' '}
           <button
             onClick={() => unassignEnergy()}
-            disabled={!tile.isActive || tile.energyProduction > 0}
+            disabled={
+              !tile.isActive ||
+              tile.assignedEnergy === 0 ||
+              tile.energyProduction > 0
+            }
           >
             -1
           </button>
@@ -359,7 +373,11 @@ const InfrastructureItem: FunctionComponent<props> = ({ tile }) => {
           </span>
           <button
             onClick={() => assignEnergy()}
-            disabled={!tile.isActive || tile.energyProduction > 0}
+            disabled={
+              !tile.isActive ||
+              inventory.population - inventory.population <= 0 ||
+              tile.energyProduction > 0
+            }
           >
             +1
           </button>
