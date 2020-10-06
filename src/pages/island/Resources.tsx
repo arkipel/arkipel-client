@@ -17,7 +17,7 @@ const ResourcesPage = () => {
           <b>Workers:</b> {inventory.workforce}
         </li>
         <li>
-          <b>Assigned workers:</b> {inventory.assignedEnergy}
+          <b>Assigned workers:</b> {inventory.assignedWorkers}
         </li>
         <li>
           <b>Free workers:</b>{' '}
