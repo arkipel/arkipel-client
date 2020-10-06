@@ -192,6 +192,13 @@ const InfrastructureItem: FunctionComponent<props> = ({ tile }) => {
           ... on Tile {
             id
             assignedWorkers
+            island {
+              id
+              inventory {
+                id
+                assignedWorkers
+              }
+            }
           }
         }
       }
@@ -223,6 +230,13 @@ const InfrastructureItem: FunctionComponent<props> = ({ tile }) => {
           ... on Tile {
             id
             assignedWorkers
+            island {
+              id
+              inventory {
+                id
+                assignedWorkers
+              }
+            }
           }
         }
       }
@@ -250,6 +264,13 @@ const InfrastructureItem: FunctionComponent<props> = ({ tile }) => {
           ... on Tile {
             id
             assignedEnergy
+            island {
+              id
+              inventory {
+                id
+                assignedEnergy
+              }
+            }
           }
         }
       }
@@ -278,6 +299,13 @@ const InfrastructureItem: FunctionComponent<props> = ({ tile }) => {
           ... on Tile {
             id
             assignedEnergy
+            island {
+              id
+              inventory {
+                id
+                assignedEnergy
+              }
+            }
           }
         }
       }
@@ -352,6 +380,7 @@ const InfrastructureItem: FunctionComponent<props> = ({ tile }) => {
             disabled={
               !tile.isActive ||
               inventory.population - inventory.assignedWorkers <= 0 ||
+              tile.assignedWorkers >= tile.requiredWorkforce ||
               tile.housingCapacity > 0
             }
           >
@@ -375,7 +404,8 @@ const InfrastructureItem: FunctionComponent<props> = ({ tile }) => {
             onClick={() => assignEnergy()}
             disabled={
               !tile.isActive ||
-              inventory.population - inventory.population <= 0 ||
+              inventory.energy - inventory.assignedEnergy <= 0 ||
+              tile.assignedEnergy >= tile.energyConsumption ||
               tile.energyProduction > 0
             }
           >
