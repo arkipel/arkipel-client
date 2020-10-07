@@ -349,68 +349,76 @@ const InfrastructureItem: FunctionComponent<props> = ({ tile }) => {
         </td>
         <td>{tile.position}</td>
         <td colSpan={4}>
-          {tile.isActive && (
-            <button onClick={() => deactivate()}>
-              {!loadingDeactivate && 'Deactivate'}
-              {loadingDeactivate && 'Deactivating...'}
-            </button>
-          )}
-          {!tile.isActive && (
-            <button onClick={() => activate()}>
-              {!loadingActivate && 'Activate'}
-              {loadingActivate && 'Activating...'}
-            </button>
-          )}{' '}
-          <button
-            onClick={() => unassignWorkers()}
-            disabled={
-              !tile.isActive ||
-              tile.assignedWorkers === 0 ||
-              tile.housingCapacity > 0
-            }
-          >
-            -1
-          </button>
-          <span className={styles.assignmentNum}>
-            {tile.assignedWorkers}/{tile.requiredWorkforce}{' '}
-            <img src="https://icons.arkipel.io/res/population.svg" />
-          </span>
-          <button
-            onClick={() => assignWorkers()}
-            disabled={
-              !tile.isActive ||
-              inventory.population - inventory.assignedWorkers <= 0 ||
-              tile.assignedWorkers >= tile.requiredWorkforce ||
-              tile.housingCapacity > 0
-            }
-          >
-            +1
-          </button>{' '}
-          <button
-            onClick={() => unassignEnergy()}
-            disabled={
-              !tile.isActive ||
-              tile.assignedEnergy === 0 ||
-              tile.energyProduction > 0
-            }
-          >
-            -1
-          </button>
-          <span className={styles.assignmentNum}>
-            {tile.assignedEnergy}/{tile.energyConsumption}{' '}
-            <img src="https://icons.arkipel.io/res/energy.svg" />
-          </span>
-          <button
-            onClick={() => assignEnergy()}
-            disabled={
-              !tile.isActive ||
-              inventory.energy - inventory.assignedEnergy <= 0 ||
-              tile.assignedEnergy >= tile.energyConsumption ||
-              tile.energyProduction > 0
-            }
-          >
-            +1
-          </button>
+          <div className={styles.management}>
+            <div>
+              {tile.isActive && (
+                <button onClick={() => deactivate()}>
+                  {!loadingDeactivate && 'Deactivate'}
+                  {loadingDeactivate && 'Deactivating...'}
+                </button>
+              )}
+              {!tile.isActive && (
+                <button onClick={() => activate()}>
+                  {!loadingActivate && 'Activate'}
+                  {loadingActivate && 'Activating...'}
+                </button>
+              )}
+            </div>
+            <div>
+              <button
+                onClick={() => unassignWorkers()}
+                disabled={
+                  !tile.isActive ||
+                  tile.assignedWorkers === 0 ||
+                  tile.housingCapacity > 0
+                }
+              >
+                -1
+              </button>
+              <span className={styles.assignmentNum}>
+                {tile.assignedWorkers}/{tile.requiredWorkforce}{' '}
+                <img src="https://icons.arkipel.io/res/population.svg" />
+              </span>
+              <button
+                onClick={() => assignWorkers()}
+                disabled={
+                  !tile.isActive ||
+                  inventory.population - inventory.assignedWorkers <= 0 ||
+                  tile.assignedWorkers >= tile.requiredWorkforce ||
+                  tile.housingCapacity > 0
+                }
+              >
+                +1
+              </button>
+            </div>
+            <div>
+              <button
+                onClick={() => unassignEnergy()}
+                disabled={
+                  !tile.isActive ||
+                  tile.assignedEnergy === 0 ||
+                  tile.energyProduction > 0
+                }
+              >
+                -1
+              </button>
+              <span className={styles.assignmentNum}>
+                {tile.assignedEnergy}/{tile.energyConsumption}{' '}
+                <img src="https://icons.arkipel.io/res/energy.svg" />
+              </span>
+              <button
+                onClick={() => assignEnergy()}
+                disabled={
+                  !tile.isActive ||
+                  inventory.energy - inventory.assignedEnergy <= 0 ||
+                  tile.assignedEnergy >= tile.energyConsumption ||
+                  tile.energyProduction > 0
+                }
+              >
+                +1
+              </button>
+            </div>
+          </div>
         </td>
         <td>
           <img

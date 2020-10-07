@@ -77,4 +77,12 @@
       width: 16px;
     }
   }
+
+  .management {
+    display: flex;
+    grid-auto-flow: column;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
 }
