@@ -329,8 +329,14 @@ const InfrastructureItem: FunctionComponent<props> = ({ tile }) => {
         <td>
           {tile.infrastructureName()} ({tile.level})
         </td>
-        <td>{tile.housingCapacity - tile.requiredWorkforce}</td>
-        <td>{tile.energyProduction - tile.energyConsumption}</td>
+        <td>
+          {-tile.assignedWorkers}/
+          {tile.housingCapacity - tile.requiredWorkforce}
+        </td>
+        <td>
+          {-tile.assignedEnergy}/
+          {tile.energyProduction - tile.energyConsumption}
+        </td>
         <td>{tile.materialProduction}/s</td>
         <td>
           <img
