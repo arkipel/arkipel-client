@@ -20,14 +20,9 @@ export interface GetTiles_island_Island_tiles {
   readonly kind: TileKind;
   readonly infrastructure: Infrastructure;
   readonly level: number;
-  readonly isActive: boolean;
-  readonly assignedWorkers: number;
-  readonly assignedEnergy: number;
-  readonly housingCapacity: number;
-  readonly materialProduction: number;
-  readonly energyProduction: number;
-  readonly requiredWorkforce: number;
-  readonly energyConsumption: number;
+  readonly population: number;
+  readonly material: number;
+  readonly energy: number;
 }
 
 export interface GetTiles_island_Island {

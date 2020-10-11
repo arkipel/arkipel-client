@@ -1,4 +1,8 @@
-import { TileKind, Infrastructure } from '../generated/globalTypes';
+import {
+  TileKind,
+  Infrastructure,
+  InfrastructureStatus,
+} from '../generated/globalTypes';
 
 class Tile {
   constructor(obj: any) {
@@ -6,6 +10,10 @@ class Tile {
     this.position = obj?.position || 0;
     this.infrastructure = obj?.infrastructure || Infrastructure.EMPTY;
     this.level = obj?.level || 0;
+    this.currentStatus = obj?.level || 0;
+    this.population = obj?.population || 0;
+    this.material = obj?.material || 0;
+    this.energy = obj?.energy || 0;
     this.isActive = obj?.isActive === true ? true : false;
     this.assignedWorkers = obj?.assignedWorkers || 0;
     this.assignedEnergy = obj?.assignedEnergy || 0;
@@ -20,6 +28,10 @@ class Tile {
   position: number;
   infrastructure: Infrastructure;
   level: number;
+  currentStatus: InfrastructureStatus;
+  population: number;
+  material: number;
+  energy: number;
   isActive: boolean;
   assignedWorkers: number;
   assignedEnergy: number;
