@@ -15,20 +15,9 @@ import {
   DeactivateInfrastructure,
   DeactivateInfrastructureVariables,
 } from 'generated/DeactivateInfrastructure';
-import { AssignWorkers, AssignWorkersVariables } from 'generated/AssignWorkers';
-import {
-  UnassignWorkers,
-  UnassignWorkersVariables,
-} from 'generated/UnassignWorkers';
-import { AssignEnergy, AssignEnergyVariables } from 'generated/AssignEnergy';
-import {
-  UnassignEnergy,
-  UnassignEnergyVariables,
-} from 'generated/UnassignEnergy';
 import { Infrastructure } from '../../generated/globalTypes';
 
 import { SessionContext } from '../../libs/session/session';
-import { InventoryContext } from '../../libs/session/inventory';
 
 import Tile from '../../models/Tile';
 import Island from '../../models/Island';
@@ -136,7 +125,6 @@ const InfrastructureItem: FunctionComponent<props> = ({ tile }) => {
   const [showManage, setShowManage] = useState(false);
 
   const session = useContext(SessionContext);
-  const inventory = useContext(InventoryContext);
 
   const [activate, { loading: loadingActivate }] = useMutation<
     ActivateInfrastructure,
@@ -170,148 +158,6 @@ const InfrastructureItem: FunctionComponent<props> = ({ tile }) => {
       }
     `,
     { variables: { islandId: session.id, position: tile.position } },
-  );
-
-  const [assignWorkers] = useMutation<AssignWorkers, AssignWorkersVariables>(
-    gql`
-      mutation AssignWorkers(
-        $islandId: String!
-        $position: Int!
-        $numWorkers: Int!
-      ) {
-        assignWorkers(
-          islandId: $islandId
-          position: $position
-          numWorkers: $numWorkers
-        ) {
-          ... on Tile {
-            id
-            assignedWorkers
-            island {
-              id
-              inventory {
-                id
-                assignedWorkers
-              }
-            }
-          }
-        }
-      }
-    `,
-    {
-      variables: {
-        islandId: session.id,
-        position: tile.position,
-        numWorkers: 1,
-      },
-    },
-  );
-
-  const [unassignWorkers] = useMutation<
-    UnassignWorkers,
-    UnassignWorkersVariables
-  >(
-    gql`
-      mutation UnassignWorkers(
-        $islandId: String!
-        $position: Int!
-        $numWorkers: Int!
-      ) {
-        unassignWorkers(
-          islandId: $islandId
-          position: $position
-          numWorkers: $numWorkers
-        ) {
-          ... on Tile {
-            id
-            assignedWorkers
-            island {
-              id
-              inventory {
-                id
-                assignedWorkers
-              }
-            }
-          }
-        }
-      }
-    `,
-    {
-      variables: {
-        islandId: session.id,
-        position: tile.position,
-        numWorkers: 1,
-      },
-    },
-  );
-  const [assignEnergy] = useMutation<AssignEnergy, AssignEnergyVariables>(
-    gql`
-      mutation AssignEnergy(
-        $islandId: String!
-        $position: Int!
-        $numEnergy: Int!
-      ) {
-        assignEnergy(
-          islandId: $islandId
-          position: $position
-          numEnergy: $numEnergy
-        ) {
-          ... on Tile {
-            id
-            assignedEnergy
-            island {
-              id
-              inventory {
-                id
-                assignedEnergy
-              }
-            }
-          }
-        }
-      }
-    `,
-    {
-      variables: {
-        islandId: session.id,
-        position: tile.position,
-        numEnergy: 1,
-      },
-    },
-  );
-
-  const [unassignEnergy] = useMutation<UnassignEnergy, UnassignEnergyVariables>(
-    gql`
-      mutation UnassignEnergy(
-        $islandId: String!
-        $position: Int!
-        $numEnergy: Int!
-      ) {
-        unassignEnergy(
-          islandId: $islandId
-          position: $position
-          numEnergy: $numEnergy
-        ) {
-          ... on Tile {
-            id
-            assignedEnergy
-            island {
-              id
-              inventory {
-                id
-                assignedEnergy
-              }
-            }
-          }
-        }
-      }
-    `,
-    {
-      variables: {
-        islandId: session.id,
-        position: tile.position,
-        numEnergy: 1,
-      },
-    },
   );
 
   if (!showManage) {
@@ -358,60 +204,6 @@ const InfrastructureItem: FunctionComponent<props> = ({ tile }) => {
                   {loadingActivate && 'Activating...'}
                 </button>
               )}
-            </div>
-            <div>
-              <button
-                onClick={() => unassignWorkers()}
-                disabled={
-                  !tile.isActive ||
-                  tile.assignedWorkers === 0 ||
-                  tile.housingCapacity > 0
-                }
-              >
-                -1
-              </button>
-              <span className={styles.assignmentNum}>
-                {tile.assignedWorkers}/{tile.requiredWorkforce}{' '}
-                <img src="https://icons.arkipel.io/res/population.svg" />
-              </span>
-              <button
-                onClick={() => assignWorkers()}
-                disabled={
-                  !tile.isActive ||
-                  inventory.population - inventory.assignedWorkers <= 0 ||
-                  tile.assignedWorkers >= tile.requiredWorkforce ||
-                  tile.housingCapacity > 0
-                }
-              >
-                +1
-              </button>
-            </div>
-            <div>
-              <button
-                onClick={() => unassignEnergy()}
-                disabled={
-                  !tile.isActive ||
-                  tile.assignedEnergy === 0 ||
-                  tile.energyProduction > 0
-                }
-              >
-                -1
-              </button>
-              <span className={styles.assignmentNum}>
-                {tile.assignedEnergy}/{tile.energyConsumption}{' '}
-                <img src="https://icons.arkipel.io/res/energy.svg" />
-              </span>
-              <button
-                onClick={() => assignEnergy()}
-                disabled={
-                  !tile.isActive ||
-                  inventory.energy - inventory.assignedEnergy <= 0 ||
-                  tile.assignedEnergy >= tile.energyConsumption ||
-                  tile.energyProduction > 0
-                }
-              >
-                +1
-              </button>
             </div>
           </div>
         </td>
