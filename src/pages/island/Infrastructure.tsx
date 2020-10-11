@@ -1,21 +1,15 @@
-import React, {
-  Fragment,
-  FunctionComponent,
-  useContext,
-  useState,
-} from 'react';
+import React, { Fragment, FunctionComponent, useContext } from 'react';
 
 import { useQuery, gql, useMutation } from '@apollo/client';
 import { GetIsland, GetIslandVariables } from 'generated/GetIsland';
 import {
-  ActivateInfrastructure,
-  ActivateInfrastructureVariables,
-} from 'generated/ActivateInfrastructure';
+  SetInfrastructureDesiredStatus,
+  SetInfrastructureDesiredStatusVariables,
+} from 'generated/SetInfrastructureDesiredStatus';
 import {
-  DeactivateInfrastructure,
-  DeactivateInfrastructureVariables,
-} from 'generated/DeactivateInfrastructure';
-import { Infrastructure } from '../../generated/globalTypes';
+  Infrastructure,
+  InfrastructureStatus,
+} from '../../generated/globalTypes';
 
 import { SessionContext } from '../../libs/session/session';
 
@@ -45,6 +39,7 @@ const InfrastructurePage = () => {
               kind
               infrastructure
               level
+              desiredStatus
               population
               material
               energy
@@ -122,101 +117,88 @@ const InfrastructurePage = () => {
 };
 
 const InfrastructureItem: FunctionComponent<props> = ({ tile }) => {
-  const [showManage, setShowManage] = useState(false);
-
   const session = useContext(SessionContext);
 
-  const [activate, { loading: loadingActivate }] = useMutation<
-    ActivateInfrastructure,
-    ActivateInfrastructureVariables
+  const [setDesiredStatus] = useMutation<
+    SetInfrastructureDesiredStatus,
+    SetInfrastructureDesiredStatusVariables
   >(
     gql`
-      mutation ActivateInfrastructure($islandId: String!, $position: Int!) {
-        activateInfrastructure(islandId: $islandId, position: $position) {
+      mutation SetInfrastructureDesiredStatus(
+        $islandId: String!
+        $position: Int!
+        $status: InfrastructureStatus!
+      ) {
+        setInfrastructureDesiredStatus(
+          islandId: $islandId
+          position: $position
+          status: $status
+        ) {
           ... on Tile {
             id
-            isActive
+            desiredStatus
+            population
+            material
+            energy
           }
         }
       }
     `,
-    { variables: { islandId: session.id, position: tile.position } },
+    {
+      variables: {
+        islandId: session.id,
+        position: tile.position,
+        status: InfrastructureStatus.ON,
+      },
+    },
   );
 
-  const [deactivate, { loading: loadingDeactivate }] = useMutation<
-    DeactivateInfrastructure,
-    DeactivateInfrastructureVariables
-  >(
-    gql`
-      mutation DeactivateInfrastructure($islandId: String!, $position: Int!) {
-        deactivateInfrastructure(islandId: $islandId, position: $position) {
-          ... on Tile {
-            id
-            isActive
-          }
-        }
-      }
-    `,
-    { variables: { islandId: session.id, position: tile.position } },
+  return (
+    <tr>
+      <td>
+        <MapTile tile={tile} size={36} />
+      </td>
+      <td>{tile.position}</td>
+      <td>
+        {tile.infrastructureName()} ({tile.level})
+      </td>
+      <td>{tile.population}</td>
+      <td>{tile.energy}</td>
+      <td>{tile.material}/s</td>
+      <td>
+        {tile.desiredStatus === InfrastructureStatus.ON && (
+          <img
+            className={styles.manageBtn}
+            src="https://icons.arkipel.io/ui/pause.svg"
+            onClick={() =>
+              setDesiredStatus({
+                variables: {
+                  islandId: session.id,
+                  position: tile.position,
+                  status: InfrastructureStatus.OFF,
+                },
+              })
+            }
+          />
+        )}
+        {tile.desiredStatus === InfrastructureStatus.OFF && (
+          <img
+            className={styles.manageBtn}
+            src="https://icons.arkipel.io/ui/play.svg"
+            onClick={() =>
+              setDesiredStatus({
+                variables: {
+                  islandId: session.id,
+                  position: tile.position,
+                  status: InfrastructureStatus.ON,
+                },
+              })
+            }
+          />
+        )}
+      </td>
+    </tr>
   );
-
-  if (!showManage) {
-    return (
-      <tr>
-        <td>
-          <MapTile tile={tile} size={36} />
-        </td>
-        <td>{tile.position}</td>
-        <td>
-          {tile.infrastructureName()} ({tile.level})
-        </td>
-        <td>{tile.population}</td>
-        <td>{tile.energy}</td>
-        <td>{tile.material}/s</td>
-        <td>
-          <img
-            className={styles.manageBtn}
-            src="https://icons.arkipel.io/ui/manage.svg"
-            onClick={() => setShowManage(!showManage)}
-          />
-        </td>
-      </tr>
-    );
-  } else {
-    return (
-      <tr>
-        <td>
-          <MapTile tile={tile} size={36} />
-        </td>
-        <td>{tile.position}</td>
-        <td colSpan={4}>
-          <div className={styles.management}>
-            <div>
-              {tile.isActive && (
-                <button onClick={() => deactivate()}>
-                  {!loadingDeactivate && 'Deactivate'}
-                  {loadingDeactivate && 'Deactivating...'}
-                </button>
-              )}
-              {!tile.isActive && (
-                <button onClick={() => activate()}>
-                  {!loadingActivate && 'Activate'}
-                  {loadingActivate && 'Activating...'}
-                </button>
-              )}
-            </div>
-          </div>
-        </td>
-        <td>
-          <img
-            className={styles.manageBtn}
-            src="https://icons.arkipel.io/ui/manage.svg"
-            onClick={() => setShowManage(!showManage)}
-          />
-        </td>
-      </tr>
-    );
-  }
 };
 
 class props {

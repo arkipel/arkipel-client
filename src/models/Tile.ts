@@ -10,6 +10,7 @@ class Tile {
     this.position = obj?.position || 0;
     this.infrastructure = obj?.infrastructure || Infrastructure.EMPTY;
     this.level = obj?.level || 0;
+    this.desiredStatus = obj?.desiredStatus || InfrastructureStatus.ON;
     this.currentStatus = obj?.level || 0;
     this.population = obj?.population || 0;
     this.material = obj?.material || 0;
@@ -28,6 +29,7 @@ class Tile {
   position: number;
   infrastructure: Infrastructure;
   level: number;
+  desiredStatus: InfrastructureStatus;
   currentStatus: InfrastructureStatus;
   population: number;
   material: number;

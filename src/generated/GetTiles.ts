@@ -3,7 +3,7 @@
 // @generated
 // This file was automatically generated and should not be edited.
 
-import { TileKind, Infrastructure } from './globalTypes';
+import { TileKind, Infrastructure, InfrastructureStatus } from './globalTypes';
 
 // ====================================================
 // GraphQL query operation: GetTiles
@@ -20,6 +20,7 @@ export interface GetTiles_island_Island_tiles {
   readonly kind: TileKind;
   readonly infrastructure: Infrastructure;
   readonly level: number;
+  readonly desiredStatus: InfrastructureStatus;
   readonly population: number;
   readonly material: number;
   readonly energy: number;

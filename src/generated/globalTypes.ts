@@ -21,6 +21,11 @@ export enum Infrastructure {
   WIND_TURBINE = 'WIND_TURBINE',
 }
 
+export enum InfrastructureStatus {
+  OFF = 'OFF',
+  ON = 'ON',
+}
+
 export enum TileKind {
   DEEP_WATER = 'DEEP_WATER',
   LAND = 'LAND',
