@@ -11,10 +11,23 @@ export interface UnassignEnergy_unassignEnergy_NotAuthorized {
   readonly __typename: 'NotAuthorized' | 'NotFound';
 }
 
+export interface UnassignEnergy_unassignEnergy_Tile_island_inventory {
+  readonly __typename: 'Inventory';
+  readonly id: string;
+  readonly assignedEnergy: number;
+}
+
+export interface UnassignEnergy_unassignEnergy_Tile_island {
+  readonly __typename: 'Island';
+  readonly id: string;
+  readonly inventory: UnassignEnergy_unassignEnergy_Tile_island_inventory;
+}
+
 export interface UnassignEnergy_unassignEnergy_Tile {
   readonly __typename: 'Tile';
   readonly id: string;
   readonly assignedEnergy: number;
+  readonly island: UnassignEnergy_unassignEnergy_Tile_island;
 }
 
 export type UnassignEnergy_unassignEnergy =
