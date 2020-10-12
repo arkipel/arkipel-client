@@ -73,24 +73,4 @@
       cursor: pointer;
     }
   }
-
-  .assignmentNum {
-    height: 100px;
-    width: 100px;
-    padding: 4px 8px;
-
-    img {
-      margin-bottom: -3px;
-      height: 16px;
-      width: 16px;
-    }
-  }
-
-  .management {
-    display: flex;
-    grid-auto-flow: column;
-    justify-content: flex-start;
-    flex-wrap: wrap;
-    gap: 10px;
-  }
 }
