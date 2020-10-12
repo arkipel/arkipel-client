@@ -71,6 +71,14 @@ const MenuPane: FunctionComponent<props> = ({ visible, onCloseClick }) => {
                 </ul>
               </Fragment>
             )}
+            <h1>Market</h1>
+            <ul>
+              <li>
+                <NavLink exact to="/market/trade" onClick={onCloseClick}>
+                  Trade
+                </NavLink>
+              </li>
+            </ul>
             <h1>Archipelago</h1>
             <ul>
               <li>
@@ -80,14 +88,6 @@ const MenuPane: FunctionComponent<props> = ({ visible, onCloseClick }) => {
                   onClick={onCloseClick}
                 >
                   Overview
-                </NavLink>
-              </li>
-            </ul>
-            <h1>Market</h1>
-            <ul>
-              <li>
-                <NavLink exact to="/market/trade" onClick={onCloseClick}>
-                  Trade
                 </NavLink>
               </li>
             </ul>
