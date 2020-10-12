@@ -10,7 +10,7 @@ import { Infrastructure } from './globalTypes';
 // ====================================================
 
 export interface BuildInfrastructure_buildInfrastructure_NotAuthorized {
-  readonly __typename: 'NotAuthorized' | 'NotFound';
+  readonly __typename: 'NotAuthorized' | 'NotFound' | 'NotEnoughMaterial';
 }
 
 export interface BuildInfrastructure_buildInfrastructure_Tile_constructionSite_tile {

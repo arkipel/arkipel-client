@@ -64,6 +64,7 @@ const TreasuryPage = () => {
           10 to manage currencies. You are currently at {bankLevels}.
         </p>
       )}
+      {canManageCurrencies && <p>You have no currencies.</p>}
     </Fragment>
   );
 };

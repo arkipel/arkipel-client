@@ -1,8 +1,15 @@
 import React, { Fragment, FunctionComponent, useContext } from 'react';
 
-import { useQuery, gql } from '@apollo/client';
+import { useQuery, gql, useMutation } from '@apollo/client';
 import { GetIsland, GetIslandVariables } from 'generated/GetIsland';
-import { Infrastructure } from '../../generated/globalTypes';
+import {
+  SetInfrastructureDesiredStatus,
+  SetInfrastructureDesiredStatusVariables,
+} from 'generated/SetInfrastructureDesiredStatus';
+import {
+  Infrastructure,
+  InfrastructureStatus,
+} from '../../generated/globalTypes';
 
 import { SessionContext } from '../../libs/session/session';
 
@@ -32,11 +39,10 @@ const InfrastructurePage = () => {
               kind
               infrastructure
               level
-              housingCapacity
-              materialProduction
-              energyProduction
-              requiredWorkforce
-              energyConsumption
+              desiredStatus
+              population
+              material
+              energy
             }
           }
         }
@@ -84,7 +90,9 @@ const InfrastructurePage = () => {
         <table className={styles.table}>
           <thead>
             <tr>
-              <th colSpan={3}>Tile</th>
+              <th></th>
+              <th></th>
+              <th></th>
               <th>
                 <img src="https://icons.arkipel.io/res/population.svg" />
               </th>
@@ -94,6 +102,7 @@ const InfrastructurePage = () => {
               <th>
                 <img src="https://icons.arkipel.io/res/material.svg" />
               </th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
@@ -108,23 +117,86 @@ const InfrastructurePage = () => {
 };
 
 const InfrastructureItem: FunctionComponent<props> = ({ tile }) => {
+  const session = useContext(SessionContext);
+
+  const [setDesiredStatus] = useMutation<
+    SetInfrastructureDesiredStatus,
+    SetInfrastructureDesiredStatusVariables
+  >(
+    gql`
+      mutation SetInfrastructureDesiredStatus(
+        $islandId: String!
+        $position: Int!
+        $status: InfrastructureStatus!
+      ) {
+        setInfrastructureDesiredStatus(
+          islandId: $islandId
+          position: $position
+          status: $status
+        ) {
+          ... on Tile {
+            id
+            desiredStatus
+            population
+            material
+            energy
+          }
+        }
+      }
+    `,
+    {
+      variables: {
+        islandId: session.id,
+        position: tile.position,
+        status: InfrastructureStatus.ON,
+      },
+    },
+  );
+
   return (
     <tr>
       <td>
-        <MapTile tile={tile} />
+        <MapTile tile={tile} size={36} />
       </td>
       <td>{tile.position}</td>
       <td>
         {tile.infrastructureName()} ({tile.level})
       </td>
-      <td>{tile.housingCapacity - tile.requiredWorkforce}</td>
-      <td>{tile.energyProduction - tile.energyConsumption}</td>
-      <td>{tile.materialProduction}/s</td>
-      {/* <td>
-        <button disabled={true}>
-          Manage
-        </button>
-      </td> */}
+      <td>{tile.population}</td>
+      <td>{tile.energy}</td>
+      <td>{tile.material}/s</td>
+      <td>
+        {tile.desiredStatus === InfrastructureStatus.ON && (
+          <img
+            className={styles.statusBtn}
+            src="https://icons.arkipel.io/ui/pause.svg"
+            onClick={() =>
+              setDesiredStatus({
+                variables: {
+                  islandId: session.id,
+                  position: tile.position,
+                  status: InfrastructureStatus.OFF,
+                },
+              })
+            }
+          />
+        )}
+        {tile.desiredStatus === InfrastructureStatus.OFF && (
+          <img
+            className={styles.statusBtn}
+            src="https://icons.arkipel.io/ui/play.svg"
+            onClick={() =>
+              setDesiredStatus({
+                variables: {
+                  islandId: session.id,
+                  position: tile.position,
+                  status: InfrastructureStatus.ON,
+                },
+              })
+            }
+          />
+        )}
+      </td>
     </tr>
   );
 };

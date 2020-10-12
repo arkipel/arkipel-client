@@ -13,6 +13,8 @@
   z-index: 120;
   transform: translateX($notificationPaneWidth);
   transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+  scrollbar-width: thin;
+  scrollbar-color: lighten($color: #e76f51, $amount: 20) white;
 
   @media all and (max-width: 699px) {
     grid-column: 1;
