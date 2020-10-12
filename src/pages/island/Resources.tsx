@@ -17,9 +17,6 @@ const ResourcesPage = () => {
           <b>Population:</b> {inventory.population}
         </li>
         <li>
-          <b>Population:</b> {inventory.population}
-        </li>
-        <li>
           <b>Material:</b> {FormatQuantity(inventory.material)}
         </li>
         <li>
