@@ -168,7 +168,7 @@ const InfrastructureItem: FunctionComponent<props> = ({ tile }) => {
       <td>
         {tile.desiredStatus === InfrastructureStatus.ON && (
           <img
-            className={styles.manageBtn}
+            className={styles.statusBtn}
             src="https://icons.arkipel.io/ui/pause.svg"
             onClick={() =>
               setDesiredStatus({
@@ -183,7 +183,7 @@ const InfrastructureItem: FunctionComponent<props> = ({ tile }) => {
         )}
         {tile.desiredStatus === InfrastructureStatus.OFF && (
           <img
-            className={styles.manageBtn}
+            className={styles.statusBtn}
             src="https://icons.arkipel.io/ui/play.svg"
             onClick={() =>
               setDesiredStatus({
