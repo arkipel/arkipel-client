@@ -6,12 +6,10 @@ class Inventory {
     this.lastUpdate = DateTime.fromISO(obj?.island?.lastUpdateAt);
     this.population = obj?.population || 0;
     this.workforce = obj?.workforce || 0;
-    this.assignedWorkers = obj?.assignedWorkers || 0;
     this.material = obj?.material || 0;
     this.materialProduction = obj?.materialProduction || 0;
     this.energyUsed = obj?.energyUsed || 0;
     this.energy = obj?.energy || 0;
-    this.assignedEnergy = obj?.assignedEnergy || 0;
     this.bankLevels = obj?.bankLevels || 0;
   }
 
@@ -19,12 +17,10 @@ class Inventory {
   lastUpdate?: DateTime;
   population: number;
   workforce: number;
-  assignedWorkers: number;
   material: number;
   materialProduction: number;
   energyUsed: number;
   energy: number;
-  assignedEnergy: number;
   bankLevels: number;
 
   sinceLastUpdate = (): Duration => {

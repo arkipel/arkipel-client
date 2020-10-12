@@ -21,12 +21,10 @@ export interface GetCurrentInventory_inventory_Inventory {
   readonly id: string;
   readonly population: number;
   readonly workforce: number;
-  readonly assignedWorkers: number;
   readonly material: number;
   readonly materialProduction: number;
   readonly energyUsed: number;
   readonly energy: number;
-  readonly assignedEnergy: number;
   readonly bankLevels: number;
   readonly timestamp: any;
   readonly island: GetCurrentInventory_inventory_Inventory_island;

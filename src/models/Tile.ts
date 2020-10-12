@@ -16,8 +16,6 @@ class Tile {
     this.material = obj?.material || 0;
     this.energy = obj?.energy || 0;
     this.isActive = obj?.isActive === true ? true : false;
-    this.assignedWorkers = obj?.assignedWorkers || 0;
-    this.assignedEnergy = obj?.assignedEnergy || 0;
     this.housingCapacity = obj?.housingCapacity || 0;
     this.materialProduction = obj?.materialProduction || 0;
     this.energyProduction = obj?.energyProduction || 0;
@@ -35,8 +33,6 @@ class Tile {
   material: number;
   energy: number;
   isActive: boolean;
-  assignedWorkers: number;
-  assignedEnergy: number;
   housingCapacity: number;
   materialProduction: number;
   energyProduction: number;

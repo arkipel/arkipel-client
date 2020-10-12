@@ -17,14 +17,6 @@ const ResourcesPage = () => {
           <b>Population:</b> {inventory.population}
         </li>
         <li>
-          <b>Assigned workers:</b> {inventory.assignedWorkers}/
-          {inventory.workforce}
-        </li>
-        <li>
-          <b>Free workers:</b>{' '}
-          {inventory.population - inventory.assignedWorkers}
-        </li>
-        <li>
           <b>Population:</b> {inventory.population}
         </li>
         <li>
@@ -35,13 +27,6 @@ const ResourcesPage = () => {
         </li>
         <li>
           <b>Energy production:</b> {inventory.energy}
-        </li>
-        <li>
-          <b>Assigned energy:</b> {inventory.assignedEnergy}/
-          {inventory.energyUsed}
-        </li>
-        <li>
-          <b>Free energy:</b> {inventory.energy - inventory.assignedEnergy}
         </li>
       </ul>
       <p>The data above is refreshed every 10 seconds.</p>
