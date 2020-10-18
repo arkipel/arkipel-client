@@ -9,7 +9,7 @@ const Label: FunctionComponent<props> = ({
     padding: '2px 4px',
     color: '',
     background: '',
-    'border-radius': '2px',
+    borderRadius: '2px',
   };
 
   if (textColor) {
