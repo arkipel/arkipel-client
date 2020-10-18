@@ -21,6 +21,7 @@ export interface GetTiles_island_Island_tiles {
   readonly infrastructure: Infrastructure;
   readonly level: number;
   readonly desiredStatus: InfrastructureStatus;
+  readonly currentStatus: InfrastructureStatus;
   readonly population: number;
   readonly material: number;
   readonly energy: number;

@@ -10,8 +10,14 @@ class Tile {
     this.position = obj?.position || 0;
     this.infrastructure = obj?.infrastructure || Infrastructure.EMPTY;
     this.level = obj?.level || 0;
-    this.desiredStatus = obj?.desiredStatus || InfrastructureStatus.ON;
-    this.currentStatus = obj?.level || 0;
+    this.desiredStatus =
+      obj?.desiredStatus === InfrastructureStatus.OFF
+        ? InfrastructureStatus.OFF
+        : InfrastructureStatus.ON;
+    this.currentStatus =
+      obj?.currentStatus === InfrastructureStatus.OFF
+        ? InfrastructureStatus.OFF
+        : InfrastructureStatus.ON;
     this.population = obj?.population || 0;
     this.material = obj?.material || 0;
     this.energy = obj?.energy || 0;
@@ -82,6 +88,13 @@ class Tile {
       case Infrastructure.BANK:
         return 'bank';
     }
+  }
+
+  isStalled(): boolean {
+    return (
+      this.desiredStatus === InfrastructureStatus.ON &&
+      this.currentStatus === InfrastructureStatus.OFF
+    );
   }
 }
 
