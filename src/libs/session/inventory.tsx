@@ -29,11 +29,9 @@ const InventoryProvider: FunctionComponent = ({ children }) => {
           ... on Inventory {
             id
             population
-            workforce
-            material
-            materialProduction
-            energyUsed
             energy
+            materialProduction
+            material
             bankLevels
             timestamp
             island {

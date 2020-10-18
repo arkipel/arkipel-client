@@ -20,11 +20,9 @@ export interface GetCurrentInventory_inventory_Inventory {
   readonly __typename: 'Inventory';
   readonly id: string;
   readonly population: number;
-  readonly workforce: number;
-  readonly material: number;
-  readonly materialProduction: number;
-  readonly energyUsed: number;
   readonly energy: number;
+  readonly materialProduction: number;
+  readonly material: number;
   readonly bankLevels: number;
   readonly timestamp: any;
   readonly island: GetCurrentInventory_inventory_Inventory_island;
