@@ -54,10 +54,11 @@ const InventoryProvider: FunctionComponent = ({ children }) => {
           inv.material += secs * inv.materialProduction;
 
           setInventory(inv);
-          let matFormatted = FormatQuantity(inv.material);
-          if (matFormatted !== materialFormatted) {
-            setMaterialFormatted(matFormatted);
-          }
+        }
+
+        let matFormatted = FormatQuantity(inv.material);
+        if (matFormatted !== materialFormatted) {
+          setMaterialFormatted(matFormatted);
         }
       }
     }, 1000);
