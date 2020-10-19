@@ -52,9 +52,9 @@ const InventoryProvider: FunctionComponent = ({ children }) => {
         if (inv.materialProduction > 0 && inv.lastUpdate) {
           let secs = Math.floor(inv.sinceLastUpdate().milliseconds / 1000);
           inv.material += secs * inv.materialProduction;
-
-          setInventory(inv);
         }
+
+        setInventory(inv);
 
         let matFormatted = FormatQuantity(inv.material);
         if (matFormatted !== materialFormatted) {
