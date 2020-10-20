@@ -12,6 +12,7 @@ const ResourcesPage = () => {
   return (
     <Fragment>
       <h1>Inventory</h1>
+      <h2>Resources</h2>
       <div className={styles.board}>
         <div className={styles.stat}>
           <div>
@@ -60,6 +61,19 @@ const ResourcesPage = () => {
             </p>
           </div>
           <div>{FormatQuantity(inventory.material)}</div>
+        </div>
+      </div>
+      <h2>Infrastructure</h2>
+      <div className={styles.board}>
+        <div className={styles.stat}>
+          <div>
+            <h3>Banking</h3>
+            <p>
+              More banking infrastructure gives the island more powerful tools
+              to trade with the rest of the archipelago.
+            </p>
+          </div>
+          <div>{inventory.bankLevels}</div>
         </div>
       </div>
     </Fragment>
