@@ -29,7 +29,13 @@ const InventoryProvider: FunctionComponent = ({ children }) => {
           ... on Inventory {
             id
             population
+            populationUsed
+            populationFree
+            populationTotal
             energy
+            energyUsed
+            energyFree
+            energyTotal
             materialProduction
             material
             bankLevels

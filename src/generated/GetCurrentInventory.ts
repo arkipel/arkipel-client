@@ -20,7 +20,13 @@ export interface GetCurrentInventory_inventory_Inventory {
   readonly __typename: 'Inventory';
   readonly id: string;
   readonly population: number;
+  readonly populationUsed: number;
+  readonly populationFree: number;
+  readonly populationTotal: number;
   readonly energy: number;
+  readonly energyUsed: number;
+  readonly energyFree: number;
+  readonly energyTotal: number;
   readonly materialProduction: number;
   readonly material: number;
   readonly bankLevels: number;

@@ -12,20 +12,56 @@ const ResourcesPage = () => {
   return (
     <Fragment>
       <h1>Inventory</h1>
-      <ul className={styles.list}>
-        <li>
-          <b>Population:</b> {inventory.population}
-        </li>
-        <li>
-          <b>Material:</b> {FormatQuantity(inventory.material)}
-        </li>
-        <li>
-          <b>Material production:</b> {inventory.materialProduction}/s
-        </li>
-        <li>
-          <b>Energy production:</b> {inventory.energy}
-        </li>
-      </ul>
+      <div className={styles.board}>
+        <div className={styles.stat}>
+          <div>
+            <h3>Population</h3>
+            <p>Citizens live in houses or apartments and work on the island.</p>
+          </div>
+          <div>
+            {inventory.populationUsed}/{inventory.populationTotal}
+          </div>
+        </div>
+        <div className={styles.stat}>
+          <div>
+            <h3>Builders</h3>
+            <p>
+              Builders are citizens without a job and spend their time building
+              new tiles. Having more of them means that new tiles get built more
+              quickly.
+            </p>
+          </div>
+          <div>{inventory.populationFree}</div>
+        </div>
+        <div className={styles.stat}>
+          <div>
+            <h3>Energy</h3>
+            <p>Energy is produced and consumed by tiles on the island.</p>
+          </div>
+          <div>
+            {inventory.energyUsed}/{inventory.energyTotal}
+          </div>
+        </div>
+        <div className={styles.stat}>
+          <div>
+            <h3>Material production</h3>
+            <p>
+              The rate at which the island produces and accumulates resources.
+            </p>
+          </div>
+          <div>{inventory.materialProduction}/s</div>
+        </div>
+        <div className={styles.stat}>
+          <div>
+            <h3>Material</h3>
+            <p>
+              Material is used to build new infrastructure on empty tiles or
+              upgrade current infrastructure.
+            </p>
+          </div>
+          <div>{FormatQuantity(inventory.material)}</div>
+        </div>
+      </div>
       <p>The data above is refreshed every 10 seconds.</p>
     </Fragment>
   );
