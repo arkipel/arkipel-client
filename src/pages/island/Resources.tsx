@@ -62,7 +62,6 @@ const ResourcesPage = () => {
           <div>{FormatQuantity(inventory.material)}</div>
         </div>
       </div>
-      <p>The data above is refreshed every 10 seconds.</p>
     </Fragment>
   );
 };
