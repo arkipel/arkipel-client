@@ -49,7 +49,21 @@ const MainContent: FunctionComponent<props> = ({
           {session.loggedIn && <span>{session.username}</span>}
         </div>
         <div>
-          <div>
+          <div className={styles.resources}>
+            <img
+              className={styles.miniIcon}
+              src="https://icons.arkipel.io/res/population.svg"
+            />
+            <span>
+              {inventory.populationUsed}/{inventory.populationTotal}
+            </span>
+            <img
+              className={styles.miniIcon}
+              src="https://icons.arkipel.io/res/energy.svg"
+            />
+            <span style={{ paddingLeft: 0 }}>
+              {inventory.energyUsed}/{inventory.energyTotal}
+            </span>
             <img
               className={styles.miniIcon}
               src="https://icons.arkipel.io/res/material.svg"
