@@ -139,6 +139,7 @@ const InfrastructureItem: FunctionComponent<props> = ({ tile }) => {
           ... on Tile {
             id
             desiredStatus
+            currentStatus
             population
             material
             energy

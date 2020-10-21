@@ -17,6 +17,7 @@ export interface SetInfrastructureDesiredStatus_setInfrastructureDesiredStatus_T
   readonly __typename: 'Tile';
   readonly id: string;
   readonly desiredStatus: InfrastructureStatus;
+  readonly currentStatus: InfrastructureStatus;
   readonly population: number;
   readonly material: number;
   readonly energy: number;
