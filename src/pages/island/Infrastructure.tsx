@@ -144,6 +144,15 @@ const InfrastructureItem: FunctionComponent<props> = ({ tile }) => {
             material
             energy
             island {
+              inventory {
+                id
+                populationUsed
+                populationTotal
+                energyUsed
+                energyTotal
+                materialProduction
+                timestamp
+              }
               tiles {
                 id
                 currentStatus
