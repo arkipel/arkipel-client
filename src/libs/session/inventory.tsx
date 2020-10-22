@@ -28,11 +28,9 @@ const InventoryProvider: FunctionComponent = ({ children }) => {
         inventory(islandId: $islandId, userId: $userId) {
           ... on Inventory {
             id
-            population
             populationUsed
             populationFree
             populationTotal
-            energy
             energyUsed
             energyFree
             energyTotal
