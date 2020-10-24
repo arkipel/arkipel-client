@@ -4,23 +4,27 @@ class Inventory {
   constructor(obj: any) {
     this.id = obj?.id || '';
     this.lastUpdate = DateTime.fromISO(obj?.island?.lastUpdateAt);
-    this.population = obj?.population || 0;
-    this.workforce = obj?.workforce || 0;
-    this.material = obj?.material || 0;
-    this.materialProduction = obj?.materialProduction || 0;
+    this.populationUsed = obj?.populationUsed || 0;
+    this.populationFree = obj?.populationFree || 0;
+    this.populationTotal = obj?.populationTotal || 0;
     this.energyUsed = obj?.energyUsed || 0;
-    this.energy = obj?.energy || 0;
+    this.energyFree = obj?.energyFree || 0;
+    this.energyTotal = obj?.energyTotal || 0;
+    this.materialProduction = obj?.materialProduction || 0;
+    this.material = obj?.material || 0;
     this.bankLevels = obj?.bankLevels || 0;
   }
 
   id: string;
   lastUpdate?: DateTime;
-  population: number;
-  workforce: number;
-  material: number;
-  materialProduction: number;
+  populationUsed: number;
+  populationFree: number;
+  populationTotal: number;
   energyUsed: number;
-  energy: number;
+  energyFree: number;
+  energyTotal: number;
+  materialProduction: number;
+  material: number;
   bankLevels: number;
 
   sinceLastUpdate = (): Duration => {

@@ -10,17 +10,19 @@ class Tile {
     this.position = obj?.position || 0;
     this.infrastructure = obj?.infrastructure || Infrastructure.EMPTY;
     this.level = obj?.level || 0;
-    this.desiredStatus = obj?.desiredStatus || InfrastructureStatus.ON;
-    this.currentStatus = obj?.level || 0;
+    this.desiredStatus =
+      obj?.desiredStatus === InfrastructureStatus.OFF
+        ? InfrastructureStatus.OFF
+        : InfrastructureStatus.ON;
+    this.currentStatus =
+      obj?.currentStatus === InfrastructureStatus.OFF
+        ? InfrastructureStatus.OFF
+        : InfrastructureStatus.ON;
     this.population = obj?.population || 0;
     this.material = obj?.material || 0;
     this.energy = obj?.energy || 0;
     this.isActive = obj?.isActive === true ? true : false;
-    this.housingCapacity = obj?.housingCapacity || 0;
     this.materialProduction = obj?.materialProduction || 0;
-    this.energyProduction = obj?.energyProduction || 0;
-    this.requiredWorkforce = obj?.requiredWorkforce || 0;
-    this.energyConsumption = obj?.energyConsumption || 0;
   }
 
   id: string;
@@ -33,11 +35,7 @@ class Tile {
   material: number;
   energy: number;
   isActive: boolean;
-  housingCapacity: number;
   materialProduction: number;
-  energyProduction: number;
-  requiredWorkforce: number;
-  energyConsumption: number;
 
   kind(): TileKind {
     switch (dna[this.position]) {
@@ -90,6 +88,13 @@ class Tile {
       case Infrastructure.BANK:
         return 'bank';
     }
+  }
+
+  isStalled(): boolean {
+    return (
+      this.desiredStatus === InfrastructureStatus.ON &&
+      this.currentStatus === InfrastructureStatus.OFF
+    );
   }
 }
 

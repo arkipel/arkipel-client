@@ -28,12 +28,14 @@ const InventoryProvider: FunctionComponent = ({ children }) => {
         inventory(islandId: $islandId, userId: $userId) {
           ... on Inventory {
             id
-            population
-            workforce
-            material
-            materialProduction
+            populationUsed
+            populationFree
+            populationTotal
             energyUsed
-            energy
+            energyFree
+            energyTotal
+            materialProduction
+            material
             bankLevels
             timestamp
             island {
@@ -54,12 +56,13 @@ const InventoryProvider: FunctionComponent = ({ children }) => {
         if (inv.materialProduction > 0 && inv.lastUpdate) {
           let secs = Math.floor(inv.sinceLastUpdate().milliseconds / 1000);
           inv.material += secs * inv.materialProduction;
+        }
 
-          setInventory(inv);
-          let matFormatted = FormatQuantity(inv.material);
-          if (matFormatted !== materialFormatted) {
-            setMaterialFormatted(matFormatted);
-          }
+        setInventory(inv);
+
+        let matFormatted = FormatQuantity(inv.material);
+        if (matFormatted !== materialFormatted) {
+          setMaterialFormatted(matFormatted);
         }
       }
     }, 1000);

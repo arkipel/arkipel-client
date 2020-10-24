@@ -19,6 +19,7 @@ import Island from '../../models/Island';
 import MapTile from '../../components/MapTile';
 
 import { Info, Error } from '../../ui/dialog/Msg';
+import Label from '../../ui/text/Label';
 
 import styles from './Infrastructure.scss';
 
@@ -40,6 +41,7 @@ const InfrastructurePage = () => {
               infrastructure
               level
               desiredStatus
+              currentStatus
               population
               material
               energy
@@ -137,9 +139,25 @@ const InfrastructureItem: FunctionComponent<props> = ({ tile }) => {
           ... on Tile {
             id
             desiredStatus
+            currentStatus
             population
             material
             energy
+            island {
+              inventory {
+                id
+                populationUsed
+                populationTotal
+                energyUsed
+                energyTotal
+                materialProduction
+                timestamp
+              }
+              tiles {
+                id
+                currentStatus
+              }
+            }
           }
         }
       }
@@ -160,7 +178,10 @@ const InfrastructureItem: FunctionComponent<props> = ({ tile }) => {
       </td>
       <td>{tile.position}</td>
       <td>
-        {tile.infrastructureName()} ({tile.level})
+        {tile.infrastructureName()} ({tile.level}){' '}
+        {tile.isStalled() && (
+          <Label text="Stalled" textColor="#fff" backgroundColor="#b66" />
+        )}
       </td>
       <td>{tile.population}</td>
       <td>{tile.energy}</td>

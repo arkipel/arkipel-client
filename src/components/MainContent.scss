@@ -148,11 +148,17 @@
     }
   }
 
-  .miniIcon {
-    height: 16px;
-    width: 16px;
-    margin: 0;
-    padding: 0;
+  .resources {
+    span {
+      padding: 4px 10px 4px 4px;
+    }
+
+    .miniIcon {
+      height: 16px;
+      width: 16px;
+      margin: 0;
+      padding: 0;
+    }
   }
 
   & div:nth-child(2) {
