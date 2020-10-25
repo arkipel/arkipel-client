@@ -147,8 +147,10 @@ const InfrastructureItem: FunctionComponent<props> = ({ tile }) => {
               inventory {
                 id
                 populationUsed
+                populationFree
                 populationTotal
                 energyUsed
+                energyFree
                 energyTotal
                 materialProduction
                 timestamp

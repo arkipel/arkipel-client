@@ -54,16 +54,12 @@ const MainContent: FunctionComponent<props> = ({
               className={styles.miniIcon}
               src="https://icons.arkipel.io/res/population.svg"
             />
-            <span>
-              {inventory.populationUsed}/{inventory.populationTotal}
-            </span>
+            <span>{inventory.populationFree}</span>
             <img
               className={styles.miniIcon}
               src="https://icons.arkipel.io/res/energy.svg"
             />
-            <span style={{ paddingLeft: 0 }}>
-              {inventory.energyUsed}/{inventory.energyTotal}
-            </span>
+            <span style={{ paddingLeft: 0 }}>{inventory.energyFree}</span>
             <img
               className={styles.miniIcon}
               src="https://icons.arkipel.io/res/material.svg"
