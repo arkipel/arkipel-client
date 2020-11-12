@@ -75,6 +75,9 @@ const InfrastructurePage = () => {
   });
   island.tiles = filteredTiles;
 
+  // Sort the tiles
+  // TOOD
+
   if (!loading && island.tiles.length === 0) {
     return (
       <Fragment>
