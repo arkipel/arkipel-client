@@ -69,7 +69,7 @@ const Login = () => {
           />
         </p>
         <p>
-          <Submit enabled={allowSubmit} text="Log in" />
+          <Submit text="Log in" enabled={allowSubmit} />
         </p>
       </form>
       <Error visible={loginFailed}>Login failed, wrong credentials.</Error>
