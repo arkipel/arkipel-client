@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form';
 import { SessionContext } from '../libs/session/session';
 
 import { Error } from '../ui/dialog/Msg';
+import { Submit } from '../ui/form/Button';
 
 const Login = () => {
   const [loginFailed, setLoginFailure] = useState(false);
@@ -68,7 +69,7 @@ const Login = () => {
           />
         </p>
         <p>
-          <input type="submit" value="Log in" disabled={!allowSubmit} />
+          <Submit text="Log in" enabled={allowSubmit} />
         </p>
       </form>
       <Error visible={loginFailed}>Login failed, wrong credentials.</Error>
