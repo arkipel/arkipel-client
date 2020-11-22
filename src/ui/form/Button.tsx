@@ -26,15 +26,4 @@ class props {
   enabled: boolean = true;
 }
 
-// const style = {
-//   padding: '6px',
-//   color: '#ffffff',
-//   fontSize: '18px',
-//   border: 'none',
-//   //   background: 'rgb(40, 40, 40)',
-//   ':disabled': {
-//     background: rgb(120, 120, 120),
-//   },
-// };
-
 export { Button, Submit };
