@@ -20,6 +20,7 @@ import Blueprint from '../../models/Blueprint';
 import { Error } from '../../ui/dialog/Msg';
 import { FormatQuantity } from '../../ui/text/format';
 import TimeLeft from '../../ui/text/TimeLeft';
+import { Button } from '../../ui/form/Button';
 
 import styles from './Tile.scss';
 import {
@@ -284,7 +285,7 @@ const InfrastructureOption: FunctionComponent<{
           </td>
           <td>{bp.durationStr()}</td>
           <td>
-            <button
+            <Button
               onClick={() => {
                 let res = build();
                 res
@@ -300,10 +301,10 @@ const InfrastructureOption: FunctionComponent<{
                     setError('An unknown error occured. Please try again.');
                   });
               }}
-              disabled={inventory.material < bp.materialCost}
+              enabled={inventory.material >= bp.materialCost}
             >
               Build
-            </button>
+            </Button>
           </td>
         </Fragment>
       )}
@@ -356,15 +357,15 @@ const CancelButton: FunctionComponent<{
 
   return (
     <Fragment>
-      <button
+      <Button
         onClick={() => {
           cancel();
         }}
-        disabled={loading}
+        enabled={!loading}
       >
         {loading && 'Cancelling...'}
         {!loading && 'Cancel'}
-      </button>
+      </Button>
       <Error visible={error !== undefined}>
         Could not cancel. Maybe the construction was already done. If not, try
         again.
@@ -434,15 +435,15 @@ const UpgradeButton: FunctionComponent<{
 
   return (
     <Fragment>
-      <button
+      <Button
         onClick={() => {
           upgrade();
         }}
-        disabled={loading || inventory.material < cost}
+        enabled={!loading && inventory.material >= cost}
       >
         {loading && 'Upgrading...'}
         {!loading && 'Upgrade'}
-      </button>
+      </Button>
       <Error visible={error !== undefined}>Could not upgrade, try again.</Error>
     </Fragment>
   );
@@ -477,15 +478,15 @@ const DestroyButton: FunctionComponent<{
 
   return (
     <Fragment>
-      <button
+      <Button
         onClick={() => {
           cancel();
         }}
-        disabled={loading}
+        enabled={!loading}
       >
         {loading && 'Destroying...'}
         {!loading && 'Destroy'}
-      </button>
+      </Button>
       <Error visible={error !== undefined}>
         Could not destroy. Maybe the infrastructure was already destroyed. If
         not, try again.

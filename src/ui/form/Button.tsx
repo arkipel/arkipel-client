@@ -2,15 +2,21 @@ import React, { FunctionComponent } from 'react';
 
 import style from './Button.scss';
 
-const Button: FunctionComponent<props> = ({ children, enabled }) => {
+const Button: FunctionComponent<{
+  enabled: boolean;
+  onClick: () => void;
+}> = ({ children, enabled, onClick }) => {
   return (
-    <button className={style.btn} disabled={!enabled}>
+    <button className={style.btn} disabled={!enabled} onClick={onClick}>
       {children}
     </button>
   );
 };
 
-const Submit: FunctionComponent<props> = ({ text, enabled }) => {
+const Submit: FunctionComponent<{
+  text: string;
+  enabled: boolean;
+}> = ({ text, enabled }) => {
   return (
     <input
       className={style.btn}
@@ -20,10 +26,5 @@ const Submit: FunctionComponent<props> = ({ text, enabled }) => {
     />
   );
 };
-
-class props {
-  text: string = 'Click';
-  enabled: boolean = true;
-}
 
 export { Button, Submit };
