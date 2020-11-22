@@ -25,6 +25,9 @@ import PasswordInput from '../../components/passwordInput';
 
 import { HintError } from '../../ui/dialog/Hint';
 import { Success, Error } from '../../ui/dialog/Msg';
+import { Submit } from '../../ui/form/Button';
+
+import style from './Settings.scss';
 
 const Settings = () => {
   // Router
@@ -125,11 +128,7 @@ const ChangeUsernameForm = () => {
         >
           <UsernameInput current={session.username} />
           <p>
-            <input
-              type="submit"
-              value="Update"
-              disabled={!formState.isValid || !different}
-            />
+            <Submit text="Update" enabled={formState.isValid && different} />
           </p>
         </form>
       </FormProvider>
@@ -253,12 +252,12 @@ const ChangeEmailAddress = () => {
           />
         </p>
         <p>
-          <input
-            type="submit"
-            value="Update"
-            disabled={!formState.isDirty || !formState.isValid}
+          <Submit
+            text="Update"
+            enabled={formState.isDirty && formState.isValid}
           />{' '}
           <input
+            className={style.btn}
             type="button"
             value="Delete"
             disabled={!currentAddress}
@@ -386,10 +385,9 @@ const ChangePassword = () => {
           )}
         </p>
         <p>
-          <input
-            type="submit"
-            value="Update"
-            disabled={!formState.isValid || currentPassword === ''}
+          <Submit
+            text="Update"
+            enabled={formState.isValid && currentPassword !== ''}
           />
         </p>
       </form>

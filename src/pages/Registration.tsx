@@ -10,6 +10,7 @@ import UsernameInput from '../components/usernameInput';
 import PasswordInput from '../components/passwordInput';
 
 import { Info, Success, Error } from '../ui/dialog/Msg';
+import { Submit } from '../ui/form/Button';
 
 const Registration = () => {
   // const [username, setUsername] = useState('');
@@ -93,11 +94,7 @@ const Registration = () => {
             }}
           ></HCaptcha>
           <p>
-            <input
-              type="submit"
-              value="Register"
-              disabled={!allowSubmit || loading}
-            />
+            <Submit text="Register" enabled={allowSubmit && !loading} />
           </p>
         </form>
       </FormProvider>
