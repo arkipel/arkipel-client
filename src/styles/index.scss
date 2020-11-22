@@ -4,10 +4,6 @@
 // Fonts
 @import './fonts.scss';
 
-:global(#mount) {
-  height: 100%;
-}
-
 button,
 input {
   padding: 6px;
