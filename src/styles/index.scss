@@ -4,13 +4,6 @@
 // Fonts
 @import './fonts.scss';
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: 'Livvic', sans-serif;
-}
-
 :global(#mount) {
   height: 100%;
 }
