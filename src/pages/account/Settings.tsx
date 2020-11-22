@@ -23,6 +23,7 @@ import { SessionContext } from '../../libs/session/session';
 import UsernameInput from '../../components/usernameInput';
 import PasswordInput from '../../components/passwordInput';
 
+import { HintError } from '../../ui/dialog/Hint';
 import { Success, Error } from '../../ui/dialog/Msg';
 
 const Settings = () => {
@@ -380,7 +381,7 @@ const ChangePassword = () => {
           {errorMsgs && (
             <Fragment>
               <br />
-              <span className="hint-error">{errorMsgs}</span>
+              <HintError>{errorMsgs}</HintError>
             </Fragment>
           )}
         </p>

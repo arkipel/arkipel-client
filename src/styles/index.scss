@@ -39,20 +39,3 @@ button {
 nav ul {
   list-style-type: none;
 }
-
-// To be moved once we have the proper
-// UI components for forms.
-:global(.hint) {
-  color: #aaa;
-  font-size: 14px;
-}
-
-:global(.hint-success) {
-  color: #080;
-  font-size: 14px;
-}
-
-:global(.hint-error) {
-  color: #a00;
-  font-size: 14px;
-}

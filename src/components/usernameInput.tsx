@@ -7,6 +7,8 @@ import {
   GetUsernameAvailabilityVariables,
 } from '../generated/GetUsernameAvailability';
 
+import { HintInfo, HintError } from '../ui/dialog/Hint';
+
 const UsernameInput: FunctionComponent<Partial<props>> = ({
   current,
   disabled,
@@ -81,11 +83,11 @@ const UsernameInput: FunctionComponent<Partial<props>> = ({
         {errorMsgs && (
           <Fragment>
             <br />
-            <span className="hint-error">{errorMsgs}</span>
+            <HintError>{errorMsgs}</HintError>
           </Fragment>
         )}
         <br />
-        <span className="hint">a-z, A-Z, 0-9, 4-20 characters</span>
+        <HintInfo>a-z, A-Z, 0-9, 4-20 characters</HintInfo>
       </p>
     </Fragment>
   );

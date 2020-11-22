@@ -1,6 +1,8 @@
 import React, { Fragment, FunctionComponent } from 'react';
 import { useFormContext } from 'react-hook-form';
 
+import { HintInfo, HintError } from '../ui/dialog/Hint';
+
 const PasswordInput: FunctionComponent<props> = ({ disabled }) => {
   const { register, errors, watch, trigger } = useFormContext();
 
@@ -30,11 +32,11 @@ const PasswordInput: FunctionComponent<props> = ({ disabled }) => {
         {errorMsgs && (
           <Fragment>
             <br />
-            <span className="hint-error">{errorMsgs}</span>
+            <HintError>{errorMsgs}</HintError>
           </Fragment>
         )}
         <br />
-        <span className="hint">at least 8 characters</span>
+        <HintInfo>at least 8 characters</HintInfo>
       </p>
       <p>
         <input
@@ -59,11 +61,11 @@ const PasswordInput: FunctionComponent<props> = ({ disabled }) => {
         {errorMsgsAg && (
           <Fragment>
             <br />
-            <span className="hint-error">{errorMsgsAg}</span>
+            <HintError>{errorMsgsAg}</HintError>
           </Fragment>
         )}
         <br />
-        <span className="hint">same password</span>
+        <HintInfo>same password</HintInfo>
       </p>
     </Fragment>
   );
