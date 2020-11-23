@@ -1,3 +1,4 @@
+import { hot } from 'react-hot-loader/root';
 import React, { FunctionComponent, useState } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import Media from 'react-media';
@@ -111,4 +112,4 @@ const App: FunctionComponent<props> = () => {
 
 type props = {};
 
-export default App;
+export default hot(App);
