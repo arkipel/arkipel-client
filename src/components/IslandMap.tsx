@@ -12,9 +12,8 @@ const IslandMap: FunctionComponent<props> = ({ island }) => {
   let map = Array<any>(256);
   for (let i = 0; i < 256; i++) {
     map[i] = (
-      <NavLink exact to={'/island/tiles/' + i}>
+      <NavLink key={i} exact to={'/island/tiles/' + i}>
         <MapTile
-          key={i}
           tile={island.tiles[i] || new Tile({ position: i })}
           clickable={island.id !== ''}
         />
