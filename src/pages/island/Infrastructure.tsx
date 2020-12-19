@@ -1,4 +1,5 @@
 import React, { Fragment, FunctionComponent, useContext } from 'react';
+import { NavLink } from 'react-router-dom';
 
 import { useQuery, gql, useMutation, useApolloClient } from '@apollo/client';
 import { GetIsland, GetIslandVariables } from 'generated/GetIsland';
@@ -181,7 +182,9 @@ const InfrastructureItem: FunctionComponent<props> = ({ tile }) => {
       </td>
       <td>{tile.position}</td>
       <td>
-        {tile.infrastructureName()} ({tile.level}){' '}
+        <NavLink exact to={'/island/tiles/' + tile.position}>
+          {tile.infrastructureName()} ({tile.level}){' '}
+        </NavLink>
         {tile.isStalled() && (
           <Label text="Stalled" textColor="#fff" backgroundColor="#b66" />
         )}
