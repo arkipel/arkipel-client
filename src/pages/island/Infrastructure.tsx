@@ -172,6 +172,12 @@ const InfrastructureItem: FunctionComponent<props> = ({ tile }) => {
         position: tile.position,
         status: InfrastructureStatus.ON,
       },
+      onCompleted: () => {
+        client.cache.evict({
+          id: 'Island:' + session.id,
+          fieldName: 'constructionSites',
+        });
+      },
     },
   );
 
@@ -205,10 +211,6 @@ const InfrastructureItem: FunctionComponent<props> = ({ tile }) => {
                   status: InfrastructureStatus.OFF,
                 },
               });
-              client.cache.evict({
-                id: 'Island:' + session.id,
-                fieldName: 'constructionSites',
-              });
             }}
           />
         )}
@@ -223,10 +225,6 @@ const InfrastructureItem: FunctionComponent<props> = ({ tile }) => {
                   position: tile.position,
                   status: InfrastructureStatus.ON,
                 },
-              });
-              client.cache.evict({
-                id: 'Island:' + session.id,
-                fieldName: 'constructionSites',
               });
             }}
           />
