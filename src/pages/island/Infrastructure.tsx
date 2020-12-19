@@ -1,6 +1,6 @@
 import React, { Fragment, FunctionComponent, useContext } from 'react';
 
-import { useQuery, gql, useMutation } from '@apollo/client';
+import { useQuery, gql, useMutation, useApolloClient } from '@apollo/client';
 import { GetIsland, GetIslandVariables } from 'generated/GetIsland';
 import {
   SetInfrastructureDesiredStatus,
@@ -120,6 +120,7 @@ const InfrastructurePage = () => {
 
 const InfrastructureItem: FunctionComponent<props> = ({ tile }) => {
   const session = useContext(SessionContext);
+  const client = useApolloClient();
 
   const [setDesiredStatus] = useMutation<
     SetInfrastructureDesiredStatus,
@@ -193,30 +194,38 @@ const InfrastructureItem: FunctionComponent<props> = ({ tile }) => {
           <img
             className={styles.statusBtn}
             src="https://icons.arkipel.io/ui/pause.svg"
-            onClick={() =>
+            onClick={() => {
               setDesiredStatus({
                 variables: {
                   islandId: session.id,
                   position: tile.position,
                   status: InfrastructureStatus.OFF,
                 },
-              })
-            }
+              });
+              client.cache.evict({
+                id: 'Island:' + session.id,
+                fieldName: 'constructionSites',
+              });
+            }}
           />
         )}
         {tile.desiredStatus === InfrastructureStatus.OFF && (
           <img
             className={styles.statusBtn}
             src="https://icons.arkipel.io/ui/play.svg"
-            onClick={() =>
+            onClick={() => {
               setDesiredStatus({
                 variables: {
                   islandId: session.id,
                   position: tile.position,
                   status: InfrastructureStatus.ON,
                 },
-              })
-            }
+              });
+              client.cache.evict({
+                id: 'Island:' + session.id,
+                fieldName: 'constructionSites',
+              });
+            }}
           />
         )}
       </td>
