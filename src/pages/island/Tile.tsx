@@ -61,7 +61,7 @@ const TilePage: FunctionComponent = () => {
             blueprints {
               infrastructure
               materialCost
-              duration
+              workload
             }
           }
         }
@@ -214,7 +214,7 @@ const InfrastructureOption: FunctionComponent<{
             blueprints {
               infrastructure
               materialCost
-              duration
+              workload
             }
           }
         }
@@ -331,7 +331,7 @@ const CancelButton: FunctionComponent<{
             blueprints {
               infrastructure
               materialCost
-              duration
+              workload
             }
           }
         }
@@ -398,7 +398,7 @@ const UpgradeButton: FunctionComponent<{
             blueprints {
               infrastructure
               materialCost
-              duration
+              workload
             }
           }
         }
@@ -467,7 +467,7 @@ const DestroyButton: FunctionComponent<{
             blueprints {
               infrastructure
               materialCost
-              duration
+              workload
             }
           }
         }
