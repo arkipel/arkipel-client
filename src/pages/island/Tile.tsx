@@ -30,6 +30,8 @@ import {
 
 const TilePage: FunctionComponent = () => {
   const session = useContext(SessionContext);
+  const inventory = useContext(InventoryContext);
+
   const { position: positionParam } = useParams<{ position: string }>();
 
   // Position as number
@@ -156,7 +158,11 @@ const TilePage: FunctionComponent = () => {
                   <span>
                     You can upgrade for{' '}
                     {FormatQuantity(blueprints[0].materialCost)} material. It
-                    would take {blueprints[0].durationStr()}.
+                    would take{' '}
+                    {blueprints[0].durationWithWorkersStr(
+                      inventory.populationFree,
+                    )}
+                    .
                   </span>
                 </Fragment>
               )}
@@ -283,7 +289,7 @@ const InfrastructureOption: FunctionComponent<{
               {FormatQuantity(bp.materialCost)}
             </span>
           </td>
-          <td>{bp.durationStr()}</td>
+          <td>{bp.durationWithWorkersStr(inventory.populationFree)}</td>
           <td>
             <Button
               onClick={() => {
