@@ -9,6 +9,7 @@ import { InventoryContext } from '../libs/session/inventory';
 import About from '../pages/About';
 import Home from '../pages/Home';
 import ArchipelagoOverview from '../pages/archipelago/Overview';
+import SearchIslandsPage from '../pages/archipelago/Search';
 import IslandOverview from '../pages/island/Overview';
 import MapPage from '../pages/island/Map';
 import InfrastructurePage from '../pages/island/Infrastructure';
@@ -102,6 +103,11 @@ const MainContent: FunctionComponent<props> = ({
               path="/archipelago/overview"
               exact
               component={ArchipelagoOverview}
+            />
+            <Route
+              path="/archipelago/search"
+              exact
+              component={SearchIslandsPage}
             />
           </Switch>
         </div>

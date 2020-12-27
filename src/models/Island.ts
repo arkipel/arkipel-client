@@ -4,6 +4,7 @@ import Tile from '../models/Tile';
 class Island {
   constructor(obj: any) {
     this.id = obj?.id || '';
+    this.name = obj?.name || '';
     this.owner = obj?.owner || new User({});
 
     let tiles = obj?.tiles || [];
@@ -14,6 +15,7 @@ class Island {
   }
 
   id: string;
+  name: string;
   owner: User;
   tiles: Array<Tile>;
 }

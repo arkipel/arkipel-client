@@ -87,6 +87,11 @@ const MenuPane: FunctionComponent<props> = ({ visible, onCloseClick }) => {
                   Overview
                 </NavLink>
               </li>
+              <li>
+                <NavLink exact to="/archipelago/search" onClick={onCloseClick}>
+                  Search
+                </NavLink>
+              </li>
             </ul>
             {session.loggedIn && (
               <Fragment>
