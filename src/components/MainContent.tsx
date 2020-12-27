@@ -9,6 +9,7 @@ import { InventoryContext } from '../libs/session/inventory';
 import About from '../pages/About';
 import Home from '../pages/Home';
 import ArchipelagoOverview from '../pages/archipelago/Overview';
+import IslandOverview from '../pages/island/Overview';
 import MapPage from '../pages/island/Map';
 import InfrastructurePage from '../pages/island/Infrastructure';
 import ResourcesPage from '../pages/island/Resources';
@@ -87,6 +88,7 @@ const MainContent: FunctionComponent<props> = ({
             <Route path="/login" exact component={Login} />
             <Route path="/registration" exact component={Registration} />
             <Route path="/account/settings" exact component={Settings} />
+            <Route path="/island/overview" exact component={IslandOverview} />
             <Route path="/island/map" exact component={MapPage} />
             <Route
               path="/island/infrastructure"
