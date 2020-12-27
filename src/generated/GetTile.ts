@@ -25,7 +25,7 @@ export interface GetTile_tile_Tile_blueprints {
   readonly __typename: 'Blueprint';
   readonly infrastructure: Infrastructure;
   readonly materialCost: number;
-  readonly duration: number;
+  readonly workload: number;
 }
 
 export interface GetTile_tile_Tile {
