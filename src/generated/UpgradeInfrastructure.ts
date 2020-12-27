@@ -25,7 +25,7 @@ export interface UpgradeInfrastructure_upgradeInfrastructure_Tile_blueprints {
   readonly __typename: 'Blueprint';
   readonly infrastructure: Infrastructure;
   readonly materialCost: number;
-  readonly duration: number;
+  readonly workload: number;
 }
 
 export interface UpgradeInfrastructure_upgradeInfrastructure_Tile {
@@ -34,9 +34,7 @@ export interface UpgradeInfrastructure_upgradeInfrastructure_Tile {
   readonly infrastructure: Infrastructure;
   readonly level: number;
   readonly constructionSite: UpgradeInfrastructure_upgradeInfrastructure_Tile_constructionSite | null;
-  readonly blueprints: ReadonlyArray<
-    UpgradeInfrastructure_upgradeInfrastructure_Tile_blueprints
-  >;
+  readonly blueprints: ReadonlyArray<UpgradeInfrastructure_upgradeInfrastructure_Tile_blueprints>;
 }
 
 export type UpgradeInfrastructure_upgradeInfrastructure =

@@ -30,9 +30,7 @@ export interface GetAllConstructionSites_island_Island_constructionSites {
 export interface GetAllConstructionSites_island_Island {
   readonly __typename: 'Island';
   readonly id: string;
-  readonly constructionSites: ReadonlyArray<
-    GetAllConstructionSites_island_Island_constructionSites
-  >;
+  readonly constructionSites: ReadonlyArray<GetAllConstructionSites_island_Island_constructionSites>;
 }
 
 export type GetAllConstructionSites_island =
