@@ -5,7 +5,7 @@ import { SessionContext } from '../../libs/session/session';
 import { useQuery, gql } from '@apollo/client';
 import { GetIslandOverview } from 'generated/GetIslandOverview';
 
-const IslandOverview = () => {
+const Profile = () => {
   const session = useContext(SessionContext);
 
   let { data, loading } = useQuery<GetIslandOverview>(
@@ -38,7 +38,7 @@ const IslandOverview = () => {
 
   return (
     <Fragment>
-      <h2>Overview</h2>
+      <h2>Profile</h2>
       <p>
         <b>Owner name:</b> {ownerName}
         <br />
@@ -48,4 +48,4 @@ const IslandOverview = () => {
   );
 };
 
-export default IslandOverview;
+export default Profile;
