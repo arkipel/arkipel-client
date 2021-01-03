@@ -309,7 +309,7 @@ const ChangeEmailAddress = () => {
       </Success>
       <Success
         visible={deleteSucceeded}
-        onConfirmation={() => setUpdateSuccess(false)}
+        onConfirmation={() => setDeleteSuccess(false)}
       >
         The email address has been deleted.
       </Success>
