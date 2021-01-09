@@ -1,7 +1,7 @@
 import React, { Fragment, FunctionComponent, useContext } from 'react';
 import { NavLink } from 'react-router-dom';
 
-import { useQuery, gql, useApolloClient } from '@apollo/client';
+import { useQuery, gql } from '@apollo/client';
 import { GetIsland, GetIslandVariables } from 'generated/GetIsland';
 import { Infrastructure } from '../../generated/globalTypes';
 
@@ -22,8 +22,6 @@ const InfrastructurePage = () => {
   const session = useContext(SessionContext);
 
   let islandId = session.id;
-
-  const client = useApolloClient();
 
   const { data, loading, error } = useQuery<GetIsland, GetIslandVariables>(
     gql`
