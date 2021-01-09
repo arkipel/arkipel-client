@@ -107,71 +107,69 @@ const TilePage: FunctionComponent = () => {
             <br />
             <b>Level:</b> {tile.level}
           </p>
-          <Fragment>
-            <h2>Infrastructure</h2>
-            {tile.level === 0 && !constructionSite.exists && (
-              <table className={styles.upgradeTable}>
-                <tbody>
-                  {blueprints.map((bp) => {
-                    return (
-                      <InfrastructureOption
-                        key={Math.random()}
-                        islandId={islandId}
-                        position={position}
-                        bp={bp}
-                      />
-                    );
-                  })}
-                </tbody>
-              </table>
-            )}
-            {constructionSite.exists && (
-              <Fragment>
-                <p>
-                  There is a construction in progress to upgrade this{' '}
-                  <b>{tile.infrastructure.toLowerCase()}</b> to{' '}
-                  <b>level {tile.level + 1}</b>. It will be done{' '}
-                  <b>
-                    <TimeLeft
-                      target={constructionSite.finishedAt}
-                      onReach={() => {
-                        client.cache.evict({
-                          id: 'ConstructionSite:' + constructionSite.id,
-                        });
-                      }}
+          <h2>Infrastructure</h2>
+          {tile.level === 0 && !constructionSite.exists && (
+            <table className={styles.upgradeTable}>
+              <tbody>
+                {blueprints.map((bp) => {
+                  return (
+                    <InfrastructureOption
+                      key={Math.random()}
+                      islandId={islandId}
+                      position={position}
+                      bp={bp}
                     />
-                  </b>
-                  .
-                </p>
-                <CancelButton islandId={islandId} position={position} />
-              </Fragment>
-            )}
-            {tile.level !== 0 &&
-              blueprints.length === 1 &&
-              !constructionSite.exists && (
-                <Fragment>
-                  <UpgradeButton
-                    islandId={islandId}
-                    position={position}
-                    cost={blueprints[0].materialCost}
+                  );
+                })}
+              </tbody>
+            </table>
+          )}
+          {constructionSite.exists && (
+            <Fragment>
+              <p>
+                There is a construction in progress to upgrade this{' '}
+                <b>{tile.infrastructure.toLowerCase()}</b> to{' '}
+                <b>level {tile.level + 1}</b>. It will be done{' '}
+                <b>
+                  <TimeLeft
+                    target={constructionSite.finishedAt}
+                    onReach={() => {
+                      client.cache.evict({
+                        id: 'ConstructionSite:' + constructionSite.id,
+                      });
+                    }}
                   />
-                  <span>
-                    You can upgrade for{' '}
-                    {FormatQuantity(blueprints[0].materialCost)} material. It
-                    would take{' '}
-                    {blueprints[0].durationWithWorkersStr(
-                      inventory.populationFree,
-                    )}
-                    .
-                  </span>
-                </Fragment>
-              )}
-            {tile.level !== 0 && !constructionSite.exists && (
+                </b>
+                .
+              </p>
+              <CancelButton islandId={islandId} position={position} />
+            </Fragment>
+          )}
+          {tile.level !== 0 &&
+            blueprints.length === 1 &&
+            !constructionSite.exists && (
               <Fragment>
-                <DestroyButton islandId={islandId} position={position} />
+                <UpgradeButton
+                  islandId={islandId}
+                  position={position}
+                  cost={blueprints[0].materialCost}
+                />
+                <span>
+                  You can upgrade for{' '}
+                  {FormatQuantity(blueprints[0].materialCost)} material. It
+                  would take{' '}
+                  {blueprints[0].durationWithWorkersStr(
+                    inventory.populationFree,
+                  )}
+                  .
+                </span>
               </Fragment>
             )}
-          </Fragment>
+          {tile.level !== 0 && !constructionSite.exists && (
+            <Fragment>
+              <DestroyButton islandId={islandId} position={position} />
+            </Fragment>
+          )}
         </Fragment>
       )}
     </Fragment>
