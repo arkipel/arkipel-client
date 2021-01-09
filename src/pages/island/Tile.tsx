@@ -114,9 +114,9 @@ const TilePage: FunctionComponent = () => {
             <br />
             <b>Level:</b> {tile.level}
             <br />
-            <b>Desired tatus:</b> {tile.desiredStatus}
+            <b>Desired status:</b> {tile.desiredStatus}
             <br />
-            <b>Current tatus:</b> {tile.currentStatus}
+            <b>Current status:</b> {tile.currentStatus}
           </p>
           <div
             style={{
