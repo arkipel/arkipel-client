@@ -35,6 +35,9 @@ export interface GetTile_tile_Tile {
   readonly kind: TileKind;
   readonly infrastructure: Infrastructure;
   readonly level: number;
+  readonly population: number;
+  readonly energy: number;
+  readonly material: number;
   readonly constructionSite: GetTile_tile_Tile_constructionSite | null;
   readonly blueprints: ReadonlyArray<GetTile_tile_Tile_blueprints>;
 }

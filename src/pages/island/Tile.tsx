@@ -54,6 +54,9 @@ const TilePage: FunctionComponent = () => {
             kind
             infrastructure
             level
+            population
+            energy
+            material
             constructionSite {
               id
               infrastructure
@@ -106,6 +109,14 @@ const TilePage: FunctionComponent = () => {
             <b>Infrastructure:</b> {tile.infrastructure.toLowerCase()}
             <br />
             <b>Level:</b> {tile.level}
+          </p>
+          <h2>Production</h2>
+          <p>
+            <b>Population:</b> {tile.population}
+            <br />
+            <b>Energy:</b> {tile.energy}
+            <br />
+            <b>Material:</b> {tile.material}/s
           </p>
           <h2>Infrastructure</h2>
           {tile.level === 0 && !constructionSite.exists && (
