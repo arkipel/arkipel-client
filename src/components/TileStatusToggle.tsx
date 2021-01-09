@@ -13,8 +13,6 @@ import { SessionContext } from '../libs/session/session';
 import styles from './TileStatusToggle.scss';
 
 const TileStatusToggle: FunctionComponent<props> = ({ islandId, position }) => {
-  console.log('TileStatusToggle', islandId);
-
   if (islandId === '') {
     return (
       <div className={styles.icon}>
