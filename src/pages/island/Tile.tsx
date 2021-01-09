@@ -17,6 +17,8 @@ import Tile from '../../models/Tile';
 import ConstructionSite from '../../models/ConstructionSite';
 import Blueprint from '../../models/Blueprint';
 
+import TileStatusToggle from '../../components/TileStatusToggle';
+
 import { Error } from '../../ui/dialog/Msg';
 import { FormatQuantity } from '../../ui/text/format';
 import TimeLeft from '../../ui/text/TimeLeft';
@@ -54,6 +56,8 @@ const TilePage: FunctionComponent = () => {
             kind
             infrastructure
             level
+            desiredStatus
+            currentStatus
             population
             energy
             material
@@ -109,7 +113,19 @@ const TilePage: FunctionComponent = () => {
             <b>Infrastructure:</b> {tile.infrastructure.toLowerCase()}
             <br />
             <b>Level:</b> {tile.level}
+            <br />
+            <b>Desired tatus:</b> {tile.desiredStatus}
+            <br />
+            <b>Current tatus:</b> {tile.currentStatus}
           </p>
+          <div
+            style={{
+              height: '50px',
+              width: '50px',
+            }}
+          >
+            <TileStatusToggle islandId={islandId} position={tile.position} />
+          </div>
           <h2>Production</h2>
           <p>
             <b>Population:</b> {tile.population}

@@ -29,6 +29,20 @@ import appStyles from './App.scss';
 const client = new ApolloClient({
   cache: new InMemoryCache({
     typePolicies: {
+      Query: {
+        fields: {
+          tile: (_, { args, toReference }) => {
+            if (!args) {
+              return undefined;
+            }
+
+            return toReference({
+              __typename: 'Tile',
+              id: args.islandId + '_' + args.position,
+            });
+          },
+        },
+      },
       Island: {
         fields: {
           constructionSites: {

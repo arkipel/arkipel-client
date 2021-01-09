@@ -13,6 +13,11 @@ export interface GetTiles_island_NotFound {
   readonly __typename: 'NotFound' | 'NotAuthorized';
 }
 
+export interface GetTiles_island_Island_tiles_island {
+  readonly __typename: 'Island';
+  readonly id: string;
+}
+
 export interface GetTiles_island_Island_tiles {
   readonly __typename: 'Tile';
   readonly id: string;
@@ -25,6 +30,7 @@ export interface GetTiles_island_Island_tiles {
   readonly population: number;
   readonly material: number;
   readonly energy: number;
+  readonly island: GetTiles_island_Island_tiles_island;
 }
 
 export interface GetTiles_island_Island {
