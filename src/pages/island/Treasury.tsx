@@ -65,6 +65,8 @@ const TreasuryPage = () => {
         </p>
       )}
       {canManageCurrencies && <p>You have no currencies.</p>}
+      <h2>Join currency</h2>
+      <p>To do.</p>
     </Fragment>
   );
 };
