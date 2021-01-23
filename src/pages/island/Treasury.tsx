@@ -65,7 +65,7 @@ const TreasuryPage = () => {
         </p>
       )}
       {canManageCurrencies && <p>You have no currencies.</p>}
-      <h2>Demand a loan</h2>
+      <h2>Take a loan</h2>
       <form>
         <p>
           <label htmlFor="currency">Currency:</label>
@@ -76,12 +76,18 @@ const TreasuryPage = () => {
           </select>
         </p>
         <p>
-          <input type="number" min={0} step={0.05} placeholder={'Rate'} />
-          <input type="number" step={1} placeholder={'Amount'} />
+          <input
+            type="number"
+            step={1}
+            min={0}
+            max={10000}
+            placeholder={'Amount'}
+          />
+          @0.95%
         </p>
-        <p></p>
+        <p>Maximum: 10,000$</p>
         <p>
-          <input type="submit" value={'Demand'} />
+          <input type="submit" value={'Take loan'} />
         </p>
       </form>
     </Fragment>
