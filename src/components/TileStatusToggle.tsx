@@ -72,6 +72,7 @@ const TileStatusToggle: FunctionComponent<props> = ({ islandId, position }) => {
             material
             energy
             island {
+              id
               inventory {
                 id
                 populationUsed
