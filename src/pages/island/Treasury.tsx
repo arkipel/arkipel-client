@@ -1,4 +1,5 @@
 import React, { Fragment, useContext } from 'react';
+import { useForm, FormProvider } from 'react-hook-form';
 
 import { useQuery, gql } from '@apollo/client';
 import { GetBankLevels, GetBankLevelsVariables } from 'generated/GetBankLevels';
@@ -65,6 +66,8 @@ const TreasuryPage = () => {
         </p>
       )}
       {canManageCurrencies && <p>You have no currencies.</p>}
+      <h2>Loans</h2>
+      <p>You have no loans.</p>
       <h2>Take a loan</h2>
       <form>
         <p>
@@ -85,12 +88,111 @@ const TreasuryPage = () => {
           />
           @0.95%
         </p>
-        <p>Maximum: 10,000$</p>
+        <p>Maximum: 10,000&curren;</p>
         <p>
           <input type="submit" value={'Take loan'} />
         </p>
       </form>
     </Fragment>
+  );
+};
+
+const BorrowMoney = () => {
+  const [updateSucceeded, setUpdateSuccess] = useState(false);
+  const [updateFailed, setUpdateFailure] = useState(false);
+  const [networkFailed, setNetworkailure] = useState(false);
+
+  const client = useApolloClient();
+  const session = useContext(SessionContext);
+
+  const formFunctions = useForm({
+    mode: 'onChange',
+    criteriaMode: 'all',
+  });
+  const { handleSubmit, register, formState, watch, errors } = formFunctions;
+
+  const currentPassword = watch('current_password');
+
+  let errorMsgs = Object.values(errors.current_password?.types || {}).join(
+    ', ',
+  );
+
+  return (
+    <FormProvider {...formFunctions}>
+      <form onSubmit={() => {}}>
+        <p>
+          <label htmlFor="currency">Currency:</label>
+          <select name="currency" id="currency">
+            <option value="ark">ARK</option>
+            <option value="fdc">FDC</option>
+            <option value="rck">RCK</option>
+          </select>
+        </p>
+        <p>
+          <input
+            type="number"
+            step={1}
+            min={0}
+            max={10000}
+            placeholder={'Amount'}
+            ref={register({
+              required: {
+                value: true,
+                message: 'required',
+              },
+            })}
+          />
+          @0.95%
+        </p>
+        <p>Maximum: 10,000&curren;</p>
+        <p>
+          <input type="submit" value={'Take loan'} />
+        </p>
+        <p>
+          <input
+            type="password"
+            name="current_password"
+            placeholder="Current password"
+            ref={register({
+              required: {
+                value: true,
+                message: 'required',
+              },
+            })}
+          />
+          {errorMsgs && (
+            <Fragment>
+              <br />
+              <HintError>{errorMsgs}</HintError>
+            </Fragment>
+          )}
+        </p>
+        <p>
+          <Submit
+            text="Update"
+            enabled={formState.isValid && currentPassword !== ''}
+          />
+        </p>
+      </form>
+      <Success
+        visible={updateSucceeded}
+        onConfirmation={() => setUpdateSuccess(false)}
+      >
+        Your password has been updated.
+      </Success>
+      <Error
+        visible={updateFailed}
+        onConfirmation={() => setUpdateFailure(false)}
+      >
+        Something went wrong, please try again.
+      </Error>
+      <Error
+        visible={networkFailed}
+        onConfirmation={() => setNetworkailure(false)}
+      >
+        Request could not be sent, please try again later.
+      </Error>
+    </FormProvider>
   );
 };
 
