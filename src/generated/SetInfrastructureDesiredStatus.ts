@@ -34,6 +34,7 @@ export interface SetInfrastructureDesiredStatus_setInfrastructureDesiredStatus_T
 
 export interface SetInfrastructureDesiredStatus_setInfrastructureDesiredStatus_Tile_island {
   readonly __typename: 'Island';
+  readonly id: string;
   readonly inventory: SetInfrastructureDesiredStatus_setInfrastructureDesiredStatus_Tile_island_inventory;
   readonly tiles: ReadonlyArray<SetInfrastructureDesiredStatus_setInfrastructureDesiredStatus_Tile_island_tiles>;
 }
