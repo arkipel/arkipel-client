@@ -105,8 +105,6 @@ const BankAccounts = () => {
     bankAccounts.push(new BankAccount(bankAccount));
   });
 
-  console.log('bank accounts:', bankAccounts);
-
   return (
     <Fragment>
       {bankAccounts.length === 0 && <p>There are no existing bank accounts.</p>}
