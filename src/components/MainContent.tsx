@@ -9,6 +9,8 @@ import { InventoryContext } from '../libs/session/inventory';
 import About from '../pages/About';
 import Home from '../pages/Home';
 import ArchipelagoOverview from '../pages/archipelago/Overview';
+import SearchIslandsPage from '../pages/archipelago/Search';
+import Profile from '../pages/island/Profile';
 import MapPage from '../pages/island/Map';
 import InfrastructurePage from '../pages/island/Infrastructure';
 import ResourcesPage from '../pages/island/Resources';
@@ -55,16 +57,12 @@ const MainContent: FunctionComponent<props> = ({
               className={styles.miniIcon}
               src="https://icons.arkipel.io/res/population.svg"
             />
-            <span>
-              {inventory.populationUsed}/{inventory.populationTotal}
-            </span>
+            <span>{inventory.populationFree}</span>
             <img
               className={styles.miniIcon}
               src="https://icons.arkipel.io/res/energy.svg"
             />
-            <span style={{ paddingLeft: 0 }}>
-              {inventory.energyUsed}/{inventory.energyTotal}
-            </span>
+            <span style={{ paddingLeft: 0 }}>{inventory.energyFree}</span>
             <img
               className={styles.miniIcon}
               src="https://icons.arkipel.io/res/material.svg"
@@ -92,6 +90,7 @@ const MainContent: FunctionComponent<props> = ({
             <Route path="/login" exact component={Login} />
             <Route path="/registration" exact component={Registration} />
             <Route path="/account/settings" exact component={Settings} />
+            <Route path="/island/profile" exact component={Profile} />
             <Route path="/island/map" exact component={MapPage} />
             <Route
               path="/island/infrastructure"
@@ -107,6 +106,11 @@ const MainContent: FunctionComponent<props> = ({
               component={ArchipelagoOverview}
             />
             <Route path="/market/trade" exact component={TradePage} />
+            <Route
+              path="/archipelago/search"
+              exact
+              component={SearchIslandsPage}
+            />
           </Switch>
         </div>
       </Scrollable>

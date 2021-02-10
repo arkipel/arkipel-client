@@ -1,3 +1,4 @@
+import { hot } from 'react-hot-loader/root';
 import React, { FunctionComponent, useState } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import Media from 'react-media';
@@ -28,6 +29,20 @@ import appStyles from './App.scss';
 const client = new ApolloClient({
   cache: new InMemoryCache({
     typePolicies: {
+      Query: {
+        fields: {
+          tile: (_, { args, toReference }) => {
+            if (!args) {
+              return undefined;
+            }
+
+            return toReference({
+              __typename: 'Tile',
+              id: args.islandId + '_' + args.position,
+            });
+          },
+        },
+      },
       Island: {
         fields: {
           constructionSites: {
@@ -111,4 +126,4 @@ const App: FunctionComponent<props> = () => {
 
 type props = {};
 
-export default App;
+export default hot(App);

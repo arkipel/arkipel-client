@@ -1,0 +1,15 @@
+@import '../../styles/config.scss';
+
+.btn {
+  padding: 6px;
+  color: #fff;
+  font-size: 18px;
+  border: none;
+  background: rgb(40, 40, 40);
+  cursor: pointer;
+
+  &:disabled {
+    cursor: default;
+    background: rgb(120, 120, 120);
+  }
+}

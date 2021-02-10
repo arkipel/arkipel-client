@@ -23,6 +23,7 @@ const MapPage = () => {
           ... on Island {
             id
             owner {
+              id
               username
             }
             tiles {

@@ -13,6 +13,19 @@ export interface SetInfrastructureDesiredStatus_setInfrastructureDesiredStatus_N
   readonly __typename: 'NotAuthorized' | 'NotFound';
 }
 
+export interface SetInfrastructureDesiredStatus_setInfrastructureDesiredStatus_Tile_island_inventory {
+  readonly __typename: 'Inventory';
+  readonly id: string;
+  readonly populationUsed: number;
+  readonly populationFree: number;
+  readonly populationTotal: number;
+  readonly energyUsed: number;
+  readonly energyFree: number;
+  readonly energyTotal: number;
+  readonly materialProduction: number;
+  readonly timestamp: any;
+}
+
 export interface SetInfrastructureDesiredStatus_setInfrastructureDesiredStatus_Tile_island_tiles {
   readonly __typename: 'Tile';
   readonly id: string;
@@ -21,9 +34,9 @@ export interface SetInfrastructureDesiredStatus_setInfrastructureDesiredStatus_T
 
 export interface SetInfrastructureDesiredStatus_setInfrastructureDesiredStatus_Tile_island {
   readonly __typename: 'Island';
-  readonly tiles: ReadonlyArray<
-    SetInfrastructureDesiredStatus_setInfrastructureDesiredStatus_Tile_island_tiles
-  >;
+  readonly id: string;
+  readonly inventory: SetInfrastructureDesiredStatus_setInfrastructureDesiredStatus_Tile_island_inventory;
+  readonly tiles: ReadonlyArray<SetInfrastructureDesiredStatus_setInfrastructureDesiredStatus_Tile_island_tiles>;
 }
 
 export interface SetInfrastructureDesiredStatus_setInfrastructureDesiredStatus_Tile {

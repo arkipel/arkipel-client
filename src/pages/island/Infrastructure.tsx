@@ -1,21 +1,16 @@
 import React, { Fragment, FunctionComponent, useContext } from 'react';
+import { NavLink } from 'react-router-dom';
 
-import { useQuery, gql, useMutation } from '@apollo/client';
+import { useQuery, gql } from '@apollo/client';
 import { GetIsland, GetIslandVariables } from 'generated/GetIsland';
-import {
-  SetInfrastructureDesiredStatus,
-  SetInfrastructureDesiredStatusVariables,
-} from 'generated/SetInfrastructureDesiredStatus';
-import {
-  Infrastructure,
-  InfrastructureStatus,
-} from '../../generated/globalTypes';
+import { Infrastructure } from '../../generated/globalTypes';
 
 import { SessionContext } from '../../libs/session/session';
 
 import Tile from '../../models/Tile';
 import Island from '../../models/Island';
 
+import TileStatusToggle from '../../components/TileStatusToggle';
 import MapTile from '../../components/MapTile';
 
 import { Info, Error } from '../../ui/dialog/Msg';
@@ -45,6 +40,9 @@ const InfrastructurePage = () => {
               population
               material
               energy
+              island {
+                id
+              }
             }
           }
         }
@@ -119,58 +117,6 @@ const InfrastructurePage = () => {
 };
 
 const InfrastructureItem: FunctionComponent<props> = ({ tile }) => {
-  const session = useContext(SessionContext);
-
-  const [setDesiredStatus] = useMutation<
-    SetInfrastructureDesiredStatus,
-    SetInfrastructureDesiredStatusVariables
-  >(
-    gql`
-      mutation SetInfrastructureDesiredStatus(
-        $islandId: String!
-        $position: Int!
-        $status: InfrastructureStatus!
-      ) {
-        setInfrastructureDesiredStatus(
-          islandId: $islandId
-          position: $position
-          status: $status
-        ) {
-          ... on Tile {
-            id
-            desiredStatus
-            currentStatus
-            population
-            material
-            energy
-            island {
-              inventory {
-                id
-                populationUsed
-                populationTotal
-                energyUsed
-                energyTotal
-                materialProduction
-                timestamp
-              }
-              tiles {
-                id
-                currentStatus
-              }
-            }
-          }
-        }
-      }
-    `,
-    {
-      variables: {
-        islandId: session.id,
-        position: tile.position,
-        status: InfrastructureStatus.ON,
-      },
-    },
-  );
-
   return (
     <tr>
       <td>
@@ -178,7 +124,9 @@ const InfrastructureItem: FunctionComponent<props> = ({ tile }) => {
       </td>
       <td>{tile.position}</td>
       <td>
-        {tile.infrastructureName()} ({tile.level}){' '}
+        <NavLink exact to={'/island/tiles/' + tile.position}>
+          {tile.infrastructureName()} ({tile.level}){' '}
+        </NavLink>
         {tile.isStalled() && (
           <Label text="Stalled" textColor="#fff" backgroundColor="#b66" />
         )}
@@ -187,36 +135,7 @@ const InfrastructureItem: FunctionComponent<props> = ({ tile }) => {
       <td>{tile.energy}</td>
       <td>{tile.material}/s</td>
       <td>
-        {tile.desiredStatus === InfrastructureStatus.ON && (
-          <img
-            className={styles.statusBtn}
-            src="https://icons.arkipel.io/ui/pause.svg"
-            onClick={() =>
-              setDesiredStatus({
-                variables: {
-                  islandId: session.id,
-                  position: tile.position,
-                  status: InfrastructureStatus.OFF,
-                },
-              })
-            }
-          />
-        )}
-        {tile.desiredStatus === InfrastructureStatus.OFF && (
-          <img
-            className={styles.statusBtn}
-            src="https://icons.arkipel.io/ui/play.svg"
-            onClick={() =>
-              setDesiredStatus({
-                variables: {
-                  islandId: session.id,
-                  position: tile.position,
-                  status: InfrastructureStatus.ON,
-                },
-              })
-            }
-          />
-        )}
+        <TileStatusToggle islandId={tile.islandId} position={tile.position} />
       </td>
     </tr>
   );

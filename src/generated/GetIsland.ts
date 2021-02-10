@@ -15,6 +15,7 @@ export interface GetIsland_island_NotFound {
 
 export interface GetIsland_island_Island_owner {
   readonly __typename: 'User';
+  readonly id: string;
   readonly username: string;
 }
 

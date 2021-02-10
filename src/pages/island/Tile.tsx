@@ -17,9 +17,12 @@ import Tile from '../../models/Tile';
 import ConstructionSite from '../../models/ConstructionSite';
 import Blueprint from '../../models/Blueprint';
 
+import TileStatusToggle from '../../components/TileStatusToggle';
+
 import { Error } from '../../ui/dialog/Msg';
 import { FormatQuantity } from '../../ui/text/format';
 import TimeLeft from '../../ui/text/TimeLeft';
+import { Button } from '../../ui/form/Button';
 
 import styles from './Tile.scss';
 import {
@@ -29,6 +32,8 @@ import {
 
 const TilePage: FunctionComponent = () => {
   const session = useContext(SessionContext);
+  const inventory = useContext(InventoryContext);
+
   const { position: positionParam } = useParams<{ position: string }>();
 
   // Position as number
@@ -51,6 +56,11 @@ const TilePage: FunctionComponent = () => {
             kind
             infrastructure
             level
+            desiredStatus
+            currentStatus
+            population
+            energy
+            material
             constructionSite {
               id
               infrastructure
@@ -60,7 +70,7 @@ const TilePage: FunctionComponent = () => {
             blueprints {
               infrastructure
               materialCost
-              duration
+              workload
             }
           }
         }
@@ -103,68 +113,90 @@ const TilePage: FunctionComponent = () => {
             <b>Infrastructure:</b> {tile.infrastructure.toLowerCase()}
             <br />
             <b>Level:</b> {tile.level}
+            <br />
+            <b>Desired status:</b> {tile.desiredStatus}
+            <br />
+            <b>Current status:</b> {tile.currentStatus}
           </p>
-          <Fragment>
-            <h2>Infrastructure</h2>
-            {tile.level === 0 && !constructionSite.exists && (
-              <table className={styles.upgradeTable}>
-                <tbody>
-                  {blueprints.map((bp) => {
-                    return (
-                      <InfrastructureOption
-                        key={Math.random()}
-                        islandId={islandId}
-                        position={position}
-                        bp={bp}
-                      />
-                    );
-                  })}
-                </tbody>
-              </table>
-            )}
-            {constructionSite.exists && (
-              <Fragment>
-                <p>
-                  There is a construction in progress to upgrade this{' '}
-                  <b>{tile.infrastructure.toLowerCase()}</b> to{' '}
-                  <b>level {tile.level + 1}</b>. It will be done{' '}
-                  <b>
-                    <TimeLeft
-                      target={constructionSite.finishedAt}
-                      onReach={() => {
-                        client.cache.evict({
-                          id: 'ConstructionSite:' + constructionSite.id,
-                        });
-                      }}
+          <div
+            style={{
+              height: '50px',
+              width: '50px',
+            }}
+          >
+            <TileStatusToggle islandId={islandId} position={tile.position} />
+          </div>
+          <h2>Production</h2>
+          <p>
+            <b>Population:</b> {tile.population}
+            <br />
+            <b>Energy:</b> {tile.energy}
+            <br />
+            <b>Material:</b> {tile.material}/s
+          </p>
+          <h2>Infrastructure</h2>
+          {tile.level === 0 && !constructionSite.exists && (
+            <table className={styles.upgradeTable}>
+              <tbody>
+                {blueprints.map((bp) => {
+                  return (
+                    <InfrastructureOption
+                      key={Math.random()}
+                      islandId={islandId}
+                      position={position}
+                      bp={bp}
                     />
-                  </b>
-                  .
-                </p>
-                <CancelButton islandId={islandId} position={position} />
-              </Fragment>
-            )}
-            {tile.level !== 0 &&
-              blueprints.length === 1 &&
-              !constructionSite.exists && (
-                <Fragment>
-                  <UpgradeButton
-                    islandId={islandId}
-                    position={position}
-                    cost={blueprints[0].materialCost}
+                  );
+                })}
+              </tbody>
+            </table>
+          )}
+          {constructionSite.exists && (
+            <Fragment>
+              <p>
+                There is a construction in progress to upgrade this{' '}
+                <b>{tile.infrastructure.toLowerCase()}</b> to{' '}
+                <b>level {tile.level + 1}</b>. It will be done{' '}
+                <b>
+                  <TimeLeft
+                    target={constructionSite.finishedAt}
+                    onReach={() => {
+                      client.cache.evict({
+                        id: 'ConstructionSite:' + constructionSite.id,
+                      });
+                    }}
                   />
-                  <span>
-                    You can upgrade for{' '}
-                    {FormatQuantity(blueprints[0].materialCost)} material. It
-                    would take {blueprints[0].durationStr()}.
-                  </span>
-                </Fragment>
-              )}
-            {tile.level !== 0 && !constructionSite.exists && (
+                </b>
+                .
+              </p>
+              <CancelButton islandId={islandId} position={position} />
+            </Fragment>
+          )}
+          {tile.level !== 0 &&
+            blueprints.length === 1 &&
+            !constructionSite.exists && (
               <Fragment>
-                <DestroyButton islandId={islandId} position={position} />
+                <UpgradeButton
+                  islandId={islandId}
+                  position={position}
+                  cost={blueprints[0].materialCost}
+                />
+                <span>
+                  You can upgrade for{' '}
+                  {FormatQuantity(blueprints[0].materialCost)} material. It
+                  would take{' '}
+                  {blueprints[0].durationWithWorkersStr(
+                    inventory.populationFree,
+                  )}
+                  .
+                </span>
               </Fragment>
             )}
-          </Fragment>
+          {tile.level !== 0 && !constructionSite.exists && (
+            <Fragment>
+              <DestroyButton islandId={islandId} position={position} />
+            </Fragment>
+          )}
         </Fragment>
       )}
     </Fragment>
@@ -213,7 +245,7 @@ const InfrastructureOption: FunctionComponent<{
             blueprints {
               infrastructure
               materialCost
-              duration
+              workload
             }
           }
         }
@@ -282,9 +314,9 @@ const InfrastructureOption: FunctionComponent<{
               {FormatQuantity(bp.materialCost)}
             </span>
           </td>
-          <td>{bp.durationStr()}</td>
+          <td>{bp.durationWithWorkersStr(inventory.populationFree)}</td>
           <td>
-            <button
+            <Button
               onClick={() => {
                 let res = build();
                 res
@@ -300,10 +332,10 @@ const InfrastructureOption: FunctionComponent<{
                     setError('An unknown error occured. Please try again.');
                   });
               }}
-              disabled={inventory.material < bp.materialCost}
+              enabled={inventory.material >= bp.materialCost}
             >
               Build
-            </button>
+            </Button>
           </td>
         </Fragment>
       )}
@@ -330,7 +362,7 @@ const CancelButton: FunctionComponent<{
             blueprints {
               infrastructure
               materialCost
-              duration
+              workload
             }
           }
         }
@@ -356,15 +388,15 @@ const CancelButton: FunctionComponent<{
 
   return (
     <Fragment>
-      <button
+      <Button
         onClick={() => {
           cancel();
         }}
-        disabled={loading}
+        enabled={!loading}
       >
         {loading && 'Cancelling...'}
         {!loading && 'Cancel'}
-      </button>
+      </Button>
       <Error visible={error !== undefined}>
         Could not cancel. Maybe the construction was already done. If not, try
         again.
@@ -397,7 +429,7 @@ const UpgradeButton: FunctionComponent<{
             blueprints {
               infrastructure
               materialCost
-              duration
+              workload
             }
           }
         }
@@ -434,15 +466,15 @@ const UpgradeButton: FunctionComponent<{
 
   return (
     <Fragment>
-      <button
+      <Button
         onClick={() => {
           upgrade();
         }}
-        disabled={loading || inventory.material < cost}
+        enabled={!loading && inventory.material >= cost}
       >
         {loading && 'Upgrading...'}
         {!loading && 'Upgrade'}
-      </button>
+      </Button>
       <Error visible={error !== undefined}>Could not upgrade, try again.</Error>
     </Fragment>
   );
@@ -466,7 +498,7 @@ const DestroyButton: FunctionComponent<{
             blueprints {
               infrastructure
               materialCost
-              duration
+              workload
             }
           }
         }
@@ -477,15 +509,15 @@ const DestroyButton: FunctionComponent<{
 
   return (
     <Fragment>
-      <button
+      <Button
         onClick={() => {
           cancel();
         }}
-        disabled={loading}
+        enabled={!loading}
       >
         {loading && 'Destroying...'}
         {!loading && 'Destroy'}
-      </button>
+      </Button>
       <Error visible={error !== undefined}>
         Could not destroy. Maybe the infrastructure was already destroyed. If
         not, try again.

@@ -7,6 +7,7 @@ import {
 class Tile {
   constructor(obj: any) {
     this.id = obj?.id || '';
+    this.islandId = obj?.island?.id || '';
     this.position = obj?.position || 0;
     this.infrastructure = obj?.infrastructure || Infrastructure.EMPTY;
     this.level = obj?.level || 0;
@@ -26,6 +27,7 @@ class Tile {
   }
 
   id: string;
+  islandId: string;
   position: number;
   infrastructure: Infrastructure;
   level: number;

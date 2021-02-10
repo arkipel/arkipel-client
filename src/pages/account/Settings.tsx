@@ -23,7 +23,11 @@ import { SessionContext } from '../../libs/session/session';
 import UsernameInput from '../../components/usernameInput';
 import PasswordInput from '../../components/passwordInput';
 
+import { HintError } from '../../ui/dialog/Hint';
 import { Success, Error } from '../../ui/dialog/Msg';
+import { Submit } from '../../ui/form/Button';
+
+import style from './Settings.scss';
 
 const Settings = () => {
   // Router
@@ -50,11 +54,8 @@ const Settings = () => {
       </p>
       <ChangeEmailAddress />
       <p>
-        There is currently no verification. Make sure the address is correct.
-        The owner of the address is considered the owner of this account.
-      </p>
-      <p>
-        It is impossible to recover a lost password without an email address.
+        The owner of the address is considered the owner of this account. It is
+        impossible to recover a lost password without an email address.
       </p>
       <h2>Password</h2>
       <ChangePassword />
@@ -124,11 +125,7 @@ const ChangeUsernameForm = () => {
         >
           <UsernameInput current={session.username} />
           <p>
-            <input
-              type="submit"
-              value="Update"
-              disabled={!formState.isValid || !different}
-            />
+            <Submit text="Update" enabled={formState.isValid && different} />
           </p>
         </form>
       </FormProvider>
@@ -154,6 +151,7 @@ const ChangeUsernameForm = () => {
 const ChangeEmailAddress = () => {
   const [currentAddress, setCurrentAddress] = useState('');
   const [updateSucceeded, setUpdateSuccess] = useState(false);
+  const [deleteSucceeded, setDeleteSuccess] = useState(false);
   const [alreadyUsed, setAlreadyUsed] = useState(false);
   const [updateFailed, setUpdateFailure] = useState(false);
   const [networkFailed, setNetworkailure] = useState(false);
@@ -169,6 +167,7 @@ const ChangeEmailAddress = () => {
           ... on User {
             id
             emailAddress
+            emailAddressVerified
           }
         }
       }
@@ -198,12 +197,20 @@ const ChangeEmailAddress = () => {
 
   const { handleSubmit, formState, register } = formFunctions;
 
+  let needsToBeVerified = false;
+  let hasBeenVerified = false;
+  if (data?.me?.__typename === 'User' && data.me.emailAddress) {
+    needsToBeVerified = !data.me.emailAddressVerified;
+    hasBeenVerified = data.me.emailAddressVerified;
+  }
+
   return (
     <Fragment>
       <form
         onSubmit={handleSubmit(async ({ email_address: emailAddress }) => {
           setUpdateSuccess(false);
           setUpdateFailure(false);
+          setDeleteSuccess(false);
           setNetworkailure(false);
 
           try {
@@ -221,6 +228,7 @@ const ChangeEmailAddress = () => {
                     ... on User {
                       id
                       emailAddress
+                      emailAddressVerified
                     }
                   }
                 }
@@ -252,12 +260,12 @@ const ChangeEmailAddress = () => {
           />
         </p>
         <p>
-          <input
-            type="submit"
-            value="Update"
-            disabled={!formState.isDirty || !formState.isValid}
+          <Submit
+            text="Update"
+            enabled={formState.isDirty && formState.isValid}
           />{' '}
           <input
+            className={style.btn}
             type="button"
             value="Delete"
             disabled={!currentAddress}
@@ -282,7 +290,7 @@ const ChangeEmailAddress = () => {
                 });
 
                 if (response?.data?.deleteEmailAddress?.__typename === 'User') {
-                  setUpdateSuccess(true);
+                  setDeleteSuccess(true);
                 }
               } catch (err) {
                 setNetworkailure(true);
@@ -291,11 +299,19 @@ const ChangeEmailAddress = () => {
           />
         </p>
       </form>
+      <Error visible={needsToBeVerified}>Email address not verified.</Error>
+      <Success visible={hasBeenVerified}>Email address verified.</Success>
       <Success
         visible={updateSucceeded}
         onConfirmation={() => setUpdateSuccess(false)}
       >
-        Your email address has been updated.
+        An email has been sent to verify your email address.
+      </Success>
+      <Success
+        visible={deleteSucceeded}
+        onConfirmation={() => setDeleteSuccess(false)}
+      >
+        The email address has been deleted.
       </Success>
       <Error visible={alreadyUsed} onConfirmation={() => setAlreadyUsed(false)}>
         Sorry, that email address is already used.
@@ -380,15 +396,14 @@ const ChangePassword = () => {
           {errorMsgs && (
             <Fragment>
               <br />
-              <span className="hint-error">{errorMsgs}</span>
+              <HintError>{errorMsgs}</HintError>
             </Fragment>
           )}
         </p>
         <p>
-          <input
-            type="submit"
-            value="Update"
-            disabled={!formState.isValid || currentPassword === ''}
+          <Submit
+            text="Update"
+            enabled={formState.isValid && currentPassword !== ''}
           />
         </p>
       </form>
