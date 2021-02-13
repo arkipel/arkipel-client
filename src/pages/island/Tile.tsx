@@ -247,6 +247,13 @@ const InfrastructureOption: FunctionComponent<{
               materialCost
               workload
             }
+            island {
+              id
+              inventory {
+                id
+                material
+              }
+            }
           }
         }
       }
@@ -364,6 +371,13 @@ const CancelButton: FunctionComponent<{
               materialCost
               workload
             }
+            island {
+              id
+              inventory {
+                id
+                material
+              }
+            }
           }
         }
       }
@@ -430,6 +444,13 @@ const UpgradeButton: FunctionComponent<{
               infrastructure
               materialCost
               workload
+            }
+            island {
+              id
+              inventory {
+                id
+                material
+              }
             }
           }
         }
