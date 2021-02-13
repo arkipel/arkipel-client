@@ -28,6 +28,18 @@ export interface UpgradeInfrastructure_upgradeInfrastructure_Tile_blueprints {
   readonly workload: number;
 }
 
+export interface UpgradeInfrastructure_upgradeInfrastructure_Tile_island_inventory {
+  readonly __typename: 'Inventory';
+  readonly id: string;
+  readonly material: number;
+}
+
+export interface UpgradeInfrastructure_upgradeInfrastructure_Tile_island {
+  readonly __typename: 'Island';
+  readonly id: string;
+  readonly inventory: UpgradeInfrastructure_upgradeInfrastructure_Tile_island_inventory;
+}
+
 export interface UpgradeInfrastructure_upgradeInfrastructure_Tile {
   readonly __typename: 'Tile';
   readonly id: string;
@@ -35,6 +47,7 @@ export interface UpgradeInfrastructure_upgradeInfrastructure_Tile {
   readonly level: number;
   readonly constructionSite: UpgradeInfrastructure_upgradeInfrastructure_Tile_constructionSite | null;
   readonly blueprints: ReadonlyArray<UpgradeInfrastructure_upgradeInfrastructure_Tile_blueprints>;
+  readonly island: UpgradeInfrastructure_upgradeInfrastructure_Tile_island;
 }
 
 export type UpgradeInfrastructure_upgradeInfrastructure =

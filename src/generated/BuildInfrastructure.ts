@@ -34,6 +34,18 @@ export interface BuildInfrastructure_buildInfrastructure_Tile_blueprints {
   readonly workload: number;
 }
 
+export interface BuildInfrastructure_buildInfrastructure_Tile_island_inventory {
+  readonly __typename: 'Inventory';
+  readonly id: string;
+  readonly material: number;
+}
+
+export interface BuildInfrastructure_buildInfrastructure_Tile_island {
+  readonly __typename: 'Island';
+  readonly id: string;
+  readonly inventory: BuildInfrastructure_buildInfrastructure_Tile_island_inventory;
+}
+
 export interface BuildInfrastructure_buildInfrastructure_Tile {
   readonly __typename: 'Tile';
   readonly id: string;
@@ -41,6 +53,7 @@ export interface BuildInfrastructure_buildInfrastructure_Tile {
   readonly level: number;
   readonly constructionSite: BuildInfrastructure_buildInfrastructure_Tile_constructionSite | null;
   readonly blueprints: ReadonlyArray<BuildInfrastructure_buildInfrastructure_Tile_blueprints>;
+  readonly island: BuildInfrastructure_buildInfrastructure_Tile_island;
 }
 
 export type BuildInfrastructure_buildInfrastructure =
