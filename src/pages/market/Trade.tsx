@@ -1,4 +1,5 @@
-import React, { Fragment, useContext } from 'react';
+import React, { Fragment, useState } from 'react';
+import { useForm, useWatch } from 'react-hook-form';
 
 import { useQuery, gql } from '@apollo/client';
 import { GetInventory, GetInventoryVariables } from 'generated/GetInventory';
@@ -12,6 +13,8 @@ import { Error, Info } from '../../ui/dialog/Msg';
 import styles from './Trade.scss';
 
 const TradePage = () => {
+  // const [orderType, setOrderType] = useState(true);
+
   // const session = useContext(SessionContext);
 
   // let islandId = session.id;
@@ -53,38 +56,110 @@ const TradePage = () => {
   //   inventory = new Inventory(data.inventory);
   // }
 
+  const { register, handleSubmit, watch, errors } = useForm({
+    defaultValues: { order_type: 'buy' },
+  });
+
+  const orderParams = watch([
+    'order_type',
+    'number_chunks',
+    'chunk_size',
+    'chunk_price',
+    'quantity',
+    'price',
+  ]);
+  console.log('orderParams:', orderParams);
+
   return (
     <Fragment>
       <h1>Trade</h1>
       <h2>Send order</h2>
-      <form className={styles.searchForm}>
+      <form className={styles.searchForm} onSubmit={handleSubmit(() => {})}>
         <div>
-          <input type="radio" name="mode" value="buy" />
-          <label htmlFor="buy">Buy</label>
-          <input type="radio" name="mode" value="sell" />
-          <label htmlFor="sell">Sell</label>
-
           <input
-            type="number"
-            name="quantity"
-            id="quantity"
-            placeholder="Quantity"
+            ref={register}
+            type="radio"
+            name="order_type"
+            value="sell"
+            id="sell"
           />
+          <label htmlFor="sell">Sell</label>
+          <input
+            ref={register}
+            type="radio"
+            name="order_type"
+            value="buy"
+            id="buy"
+          />
+          <label htmlFor="buy">Buy</label>
 
-          <input type="number" name="price" id="price" placeholder="Price" />
+          <br />
 
-          <input type="submit" value="Sell/Buy" />
+          {orderParams.order_type === 'sell' && (
+            <Fragment>
+              <input
+                ref={register}
+                type="number"
+                name="number_chunks"
+                id="number_chunks"
+                placeholder="Number of chunks"
+              />
+
+              <input
+                ref={register}
+                type="number"
+                name="chunk_size"
+                id="chunk_size"
+                placeholder="Chunk size"
+              />
+
+              <input
+                ref={register}
+                type="number"
+                name="chunk_price"
+                id="chunk_price"
+                placeholder="Chunk price"
+              />
+            </Fragment>
+          )}
+
+          {orderParams.order_type === 'buy' && (
+            <Fragment>
+              <input
+                ref={register}
+                type="number"
+                name="quantity"
+                id="quantity"
+                placeholder="Quantity"
+              />
+
+              <input
+                ref={register}
+                type="number"
+                name="price"
+                id="price"
+                placeholder="Price"
+              />
+            </Fragment>
+          )}
+
+          <br />
+
+          {orderParams.order_type === 'sell' && (
+            <input type="submit" value={'Sell'} />
+          )}
+          {orderParams.order_type === 'buy' && (
+            <input type="submit" value={'Buy'} />
+          )}
         </div>
       </form>
-      <h2>Search</h2>
+      {/* <h2>Search</h2>
       <form className={styles.searchForm}>
         <div>
-          {/* <label htmlFor="resource_type">Resource</label> */}
           <select name="resource_type" id="resource_type" value="none">
             <option value="none">Resource</option>
             <option value="material">Material</option>
           </select>
-          {/* <label htmlFor="currency">Currency</label> */}
           <select name="currency" id="currency" value="none">
             <option value="none" disabled={true}>
               Currency
@@ -97,7 +172,7 @@ const TradePage = () => {
             <option value="bmt">Black Market Tip (BMT)</option>
           </select>
         </div>
-      </form>
+      </form> */}
       <h2>List</h2>
       <Info>No offers found.</Info>
     </Fragment>
