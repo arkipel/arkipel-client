@@ -15,7 +15,7 @@ import { Error } from '../../ui/dialog/Msg';
 import Currency from '../../models/Currency';
 import BankAccount from '../../models/BankAccount';
 
-// import styles from './Treasury.scss';
+import styles from './Treasury.scss';
 
 const TreasuryPage = () => {
   const session = useContext(SessionContext);
@@ -109,7 +109,7 @@ const BankAccounts = () => {
     <Fragment>
       {bankAccounts.length === 0 && <p>There are no existing bank accounts.</p>}
       {bankAccounts.length > 0 && (
-        <table>
+        <table className={styles.table}>
           <thead>
             <tr>
               <th>Currency</th>
@@ -169,7 +169,7 @@ const Currencies = () => {
     <Fragment>
       {currencies.length === 0 && <p>There are no existing currencies.</p>}
       {currencies.length > 0 && (
-        <table>
+        <table className={styles.table}>
           <thead>
             <tr>
               <th>Code</th>
