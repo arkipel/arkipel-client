@@ -72,7 +72,7 @@ const Settings = () => {
 const ChangeUsernameForm = () => {
   const [updateSucceeded, setUpdateSuccess] = useState(false);
   const [updateFailed, setUpdateFailure] = useState(false);
-  const [networkFailed, setNetworkailure] = useState(false);
+  const [networkFailed, setNetworkFailure] = useState(false);
 
   const client = useApolloClient();
   const session = useContext(SessionContext);
@@ -97,7 +97,7 @@ const ChangeUsernameForm = () => {
           onSubmit={handleSubmit(async ({ username }) => {
             setUpdateSuccess(false);
             setUpdateFailure(false);
-            setNetworkailure(false);
+            setNetworkFailure(false);
 
             try {
               let response = await client.mutate<
@@ -119,7 +119,7 @@ const ChangeUsernameForm = () => {
                 setUpdateSuccess(true);
               }
             } catch {
-              setNetworkailure(true);
+              setNetworkFailure(true);
             }
           })}
         >
@@ -140,7 +140,7 @@ const ChangeUsernameForm = () => {
       </Error>
       <Error
         visible={networkFailed}
-        onConfirmation={() => setNetworkailure(false)}
+        onConfirmation={() => setNetworkFailure(false)}
       >
         Request could not be sent, Errorlease try again later.{' '}
       </Error>
@@ -154,7 +154,7 @@ const ChangeEmailAddress = () => {
   const [deleteSucceeded, setDeleteSuccess] = useState(false);
   const [alreadyUsed, setAlreadyUsed] = useState(false);
   const [updateFailed, setUpdateFailure] = useState(false);
-  const [networkFailed, setNetworkailure] = useState(false);
+  const [networkFailed, setNetworkFailure] = useState(false);
 
   const client = useApolloClient();
   const session = useContext(SessionContext);
@@ -211,7 +211,7 @@ const ChangeEmailAddress = () => {
           setUpdateSuccess(false);
           setUpdateFailure(false);
           setDeleteSuccess(false);
-          setNetworkailure(false);
+          setNetworkFailure(false);
 
           try {
             let response = await client.mutate<
@@ -244,7 +244,7 @@ const ChangeEmailAddress = () => {
               setAlreadyUsed(true);
             }
           } catch (err) {
-            setNetworkailure(true);
+            setNetworkFailure(true);
           }
         })}
       >
@@ -293,7 +293,7 @@ const ChangeEmailAddress = () => {
                   setDeleteSuccess(true);
                 }
               } catch (err) {
-                setNetworkailure(true);
+                setNetworkFailure(true);
               }
             }}
           />
@@ -324,7 +324,7 @@ const ChangeEmailAddress = () => {
       </Error>
       <Error
         visible={networkFailed}
-        onConfirmation={() => setNetworkailure(false)}
+        onConfirmation={() => setNetworkFailure(false)}
       >
         Request could not be sent, please try again later.
       </Error>
@@ -335,7 +335,7 @@ const ChangeEmailAddress = () => {
 const ChangePassword = () => {
   const [updateSucceeded, setUpdateSuccess] = useState(false);
   const [updateFailed, setUpdateFailure] = useState(false);
-  const [networkFailed, setNetworkailure] = useState(false);
+  const [networkFailed, setNetworkFailure] = useState(false);
 
   const client = useApolloClient();
   const session = useContext(SessionContext);
@@ -369,7 +369,7 @@ const ChangePassword = () => {
         setUpdateSuccess(true);
       }
     } catch (err) {
-      setNetworkailure(true);
+      setNetworkFailure(true);
     }
   };
 
@@ -421,7 +421,7 @@ const ChangePassword = () => {
       </Error>
       <Error
         visible={networkFailed}
-        onConfirmation={() => setNetworkailure(false)}
+        onConfirmation={() => setNetworkFailure(false)}
       >
         Request could not be sent, please try again later.
       </Error>
