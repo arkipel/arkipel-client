@@ -10,10 +10,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
+      - uses: actions/setup-node@v2
         with:
           node-version: '12.x'
       - run: npm ci
       - run: npm run build
-      - run: sudo npm i @cloudflare/wrangler@v1.12.2 -g
+      - run: sudo npm i @cloudflare/wrangler@v1.15.0 -g
       - run: CF_ACCOUNT_ID=${{ secrets.CF_ACCOUNT_ID }} CF_ZONE_ID=${{ secrets.CF_ZONE_ID }} CF_API_TOKEN=${{ secrets.CF_API_TOKEN }} wrangler publish
