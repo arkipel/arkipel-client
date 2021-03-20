@@ -3,17 +3,13 @@ import React, { Fragment, useContext } from 'react';
 import { useQuery, gql } from '@apollo/client';
 import { GetBankLevels, GetBankLevelsVariables } from 'generated/GetBankLevels';
 import { GetCurrencies } from 'generated/GetCurrencies';
-import {
-  GetBankAccounts,
-  GetBankAccountsVariables,
-} from 'generated/GetBankAccounts';
 
 import { SessionContext } from '../../libs/session/session';
+import { BankAccountsContext } from '../../libs/session/bank_accounts';
 
 import { Error } from '../../ui/dialog/Msg';
 
 import Currency from '../../models/Currency';
-import BankAccount from '../../models/BankAccount';
 
 import styles from './Treasury.scss';
 
@@ -66,44 +62,7 @@ const TreasuryPage = () => {
 };
 
 const BankAccounts = () => {
-  const session = useContext(SessionContext);
-
-  const { data, loading, error } = useQuery<
-    GetBankAccounts,
-    GetBankAccountsVariables
-  >(
-    gql`
-      query GetBankAccounts($userId: String!) {
-        bankAccounts(userId: $userId) {
-          __typename
-          ... on BankAccountList {
-            bankAccounts {
-              id
-              amount
-              currency {
-                code
-                name
-              }
-            }
-          }
-        }
-      }
-    `,
-    { variables: { userId: session.id } },
-  );
-
-  if (loading) {
-    return <p>Loading...</p>;
-  }
-
-  if (error || data?.bankAccounts.__typename === 'NotAuthorized') {
-    return <Error>Sorry, bank accounts could not be retrieved.</Error>;
-  }
-
-  let bankAccounts = new Array<BankAccount>();
-  data?.bankAccounts.bankAccounts.forEach((bankAccount) => {
-    bankAccounts.push(new BankAccount(bankAccount));
-  });
+  const bankAccounts = useContext(BankAccountsContext);
 
   return (
     <Fragment>

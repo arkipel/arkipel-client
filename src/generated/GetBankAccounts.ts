@@ -13,6 +13,7 @@ export interface GetBankAccounts_bankAccounts_NotAuthorized {
 
 export interface GetBankAccounts_bankAccounts_BankAccountList_bankAccounts_currency {
   readonly __typename: 'Currency';
+  readonly id: string;
   readonly code: string;
   readonly name: string;
 }
