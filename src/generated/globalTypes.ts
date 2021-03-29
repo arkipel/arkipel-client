@@ -7,6 +7,11 @@
 // START Enums and Input Objects
 //==============================================================
 
+export enum CommodityType {
+  CURRENCY = 'CURRENCY',
+  MATERIAL_1M = 'MATERIAL_1M',
+}
+
 export enum Infrastructure {
   ANIMAL_FARM = 'ANIMAL_FARM',
   APARTMENTS = 'APARTMENTS',
@@ -26,11 +31,34 @@ export enum InfrastructureStatus {
   ON = 'ON',
 }
 
+export enum OrderSide {
+  BUY = 'BUY',
+  SELL = 'SELL',
+}
+
 export enum TileKind {
   DEEP_WATER = 'DEEP_WATER',
   LAND = 'LAND',
   SAND = 'SAND',
   WATER = 'WATER',
+}
+
+export interface OrdersInput {
+  readonly side: OrderSide;
+  readonly currencyId: string;
+  readonly commodity: CommodityType;
+  readonly commodityCurrencyId?: string | null;
+}
+
+export interface SendOrderInput {
+  readonly userId: string;
+  readonly expiresAt: any;
+  readonly side: OrderSide;
+  readonly currencyId: string;
+  readonly commodity: CommodityType;
+  readonly commodityCurrencyId?: string | null;
+  readonly quantity: number;
+  readonly price: number;
 }
 
 //==============================================================
