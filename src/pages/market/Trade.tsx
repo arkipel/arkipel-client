@@ -6,12 +6,16 @@ import React, {
 } from 'react';
 import { useForm } from 'react-hook-form';
 
-import { useQuery, useMutation, gql } from '@apollo/client';
+import { useQuery, useMutation, gql, useApolloClient } from '@apollo/client';
 import { SendOrder, SendOrderVariables } from '../../generated/SendOrder';
 import {
   GetBestOffers,
   GetBestOffersVariables,
 } from '../../generated/GetBestOffers';
+import {
+  GetMyOpenOrders,
+  GetMyOpenOrdersVariables,
+} from '../../generated/GetMyOpenOrders';
 import { CommodityType, OrderSide } from '../../generated/globalTypes';
 
 import { DateTime, Duration } from 'luxon';
@@ -132,7 +136,7 @@ const TradePage = () => {
             input: {
               userId: session.id,
               // 30 minutes
-              expiresAt: DateTime.utc().plus(Duration.fromMillis(1800 * 1000)),
+              expiresAt: DateTime.utc().plus(Duration.fromMillis(10 * 1000)),
               side,
               currencyId: params.currencyId,
               commodity: CommodityType.MATERIAL_1M,
@@ -238,11 +242,14 @@ const TradePage = () => {
           <Success visible={orderSent}>Order successfully sent!</Success>
         </div>
       </form>
+      <h2>Best offers</h2>
       <BestOffers
-        side={OrderSide.SELL}
-        currencyId={'ark'}
+        side={orderParams.orderType === 'sell' ? OrderSide.SELL : OrderSide.BUY}
+        currencyId={orderParams.currencyId}
         commodity={CommodityType.MATERIAL_1M}
       />
+      <h2>Open offers</h2>
+      <OpenOffers />
     </Fragment>
   );
 };
@@ -255,6 +262,8 @@ interface sendOrderParams {
 }
 
 const BestOffers: FunctionComponent<bestOffersProps> = (props) => {
+  const client = useApolloClient();
+
   const input = {
     side: props.side,
     currencyId: props.currencyId,
@@ -286,7 +295,7 @@ const BestOffers: FunctionComponent<bestOffersProps> = (props) => {
         }
       }
     `,
-    { variables: { input } },
+    { variables: { input }, pollInterval: 10000 },
   );
 
   let offers = new Array<offer>();
@@ -305,16 +314,19 @@ const BestOffers: FunctionComponent<bestOffersProps> = (props) => {
     }
   }
 
-  // if (error || data?.inventory.__typename === 'NotAuthorized') {
-  //   return <Error>Sorry, an error occurred.</Error>;
-  // }
+  if (loading) {
+    return <p>Loading...</p>;
+  }
+
+  if (error || data?.orders.__typename !== 'OrderList') {
+    return <Error>Sorry, an error occurred.</Error>;
+  }
 
   return (
     <Fragment>
-      <h2>Best offers</h2>
       <p>
-        The following are the best offers that correspond to the order selected
-        above.
+        The following are the best offers that correspond to the commodity
+        selected above.
       </p>
       {offers.length === 0 && <Info>No offers found.</Info>}
       {offers.length > 0 && (
@@ -337,7 +349,14 @@ const BestOffers: FunctionComponent<bestOffersProps> = (props) => {
                   <td>{commodityToString(offer.commodity)}</td>
                   <td>{offer.price}</td>
                   <td>
-                    <TimeLeft target={offer.expiresAt} />
+                    <TimeLeft
+                      target={offer.expiresAt}
+                      onReach={() => {
+                        client.cache.evict({
+                          id: 'Offer:' + offer.id,
+                        });
+                      }}
+                    />
                   </td>
                 </tr>
               );
@@ -354,6 +373,104 @@ interface bestOffersProps {
   currencyId: string;
   commodity: CommodityType;
 }
+
+const OpenOffers = () => {
+  const session = useContext(SessionContext);
+  const client = useApolloClient();
+
+  const { data, loading, error } = useQuery<
+    GetMyOpenOrders,
+    GetMyOpenOrdersVariables
+  >(
+    gql`
+      query GetMyOpenOrders($userId: String!) {
+        myOpenOrders(userId: $userId) {
+          __typename
+          ... on OrderList {
+            orders {
+              id
+              side
+              expiresAt
+              currency {
+                id
+                code
+              }
+              commodity
+              quantity
+              price
+            }
+          }
+        }
+      }
+    `,
+    { variables: { userId: session.id }, pollInterval: 10000 },
+  );
+
+  let offers = new Array<offer>();
+
+  if (data?.myOpenOrders.__typename === 'OrderList') {
+    for (const o of data.myOpenOrders.orders) {
+      offers.push({
+        id: o.id,
+        side: o.side,
+        expiresAt: DateTime.fromISO(o.expiresAt),
+        currencyCode: o.currency.code,
+        commodity: o.commodity,
+        quantity: o.quantity,
+        price: o.price,
+      });
+    }
+  }
+
+  if (loading) {
+    return <p>Loading...</p>;
+  }
+
+  if (error || data?.myOpenOrders.__typename !== 'OrderList') {
+    return <Error>Sorry, an error occurred.</Error>;
+  }
+
+  return (
+    <Fragment>
+      {offers.length === 0 && <Info>You have currently open offers.</Info>}
+      {offers.length > 0 && (
+        <table>
+          <thead>
+            <tr>
+              <th>Side</th>
+              <th>Qty</th>
+              <th>Commodity</th>
+              <th>Price</th>
+              <th>Time left</th>
+            </tr>
+          </thead>
+          <tbody>
+            {offers.map((offer) => {
+              return (
+                <tr key={offer.id}>
+                  <td>{offer.side}</td>
+                  <td>{offer.quantity}</td>
+                  <td>{commodityToString(offer.commodity)}</td>
+                  <td>{offer.price}</td>
+                  <td>
+                    <TimeLeft
+                      target={offer.expiresAt}
+                      onReach={() => {
+                        client.cache.evict({
+                          id: 'Offer:' + offer.id,
+                        });
+                      }}
+                    />
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      )}
+    </Fragment>
+  );
+};
 
 class offer {
   id: string = '';
