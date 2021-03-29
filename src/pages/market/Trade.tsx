@@ -136,7 +136,7 @@ const TradePage = () => {
             input: {
               userId: session.id,
               // 30 minutes
-              expiresAt: DateTime.utc().plus(Duration.fromMillis(10 * 1000)),
+              expiresAt: DateTime.utc().plus(Duration.fromMillis(1800 * 1000)),
               side,
               currencyId: params.currencyId,
               commodity: CommodityType.MATERIAL_1M,
