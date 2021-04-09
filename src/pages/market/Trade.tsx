@@ -37,7 +37,7 @@ const TradePage = () => {
   const bankAccounts = useContext(BankAccountsContext);
 
   // Send order mutation
-  const [sendOrder, { data }] = useMutation<SendOrder, SendOrderVariables>(
+  const [sendOrder] = useMutation<SendOrder, SendOrderVariables>(
     gql`
       mutation SendOrder($input: SendOrderInput!) {
         sendOrder(input: $input) {
