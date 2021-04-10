@@ -16,6 +16,7 @@ import {
   GetMyOpenOrders,
   GetMyOpenOrdersVariables,
 } from '../../generated/GetMyOpenOrders';
+import { NewOrder } from 'generated/NewOrder';
 import { CommodityType, OrderSide } from '../../generated/globalTypes';
 
 import { DateTime, Duration } from 'luxon';
@@ -64,7 +65,49 @@ const TradePage = () => {
         }
       }
     `,
-    {},
+    {
+      update: (cache, { data }) => {
+        let newOrder: NewOrder;
+        if (data?.sendOrder?.__typename === 'Order') {
+          newOrder = data.sendOrder;
+        } else {
+          return;
+        }
+
+        cache.modify({
+          fields: {
+            myOpenOrders(existingOrders = []) {
+              const newOrderRefs = cache.writeFragment<NewOrder>({
+                data: newOrder,
+                fragment: gql`
+                  fragment NewOrder on Order {
+                    id
+                    createdAt
+                    expiresAt
+                    side
+                    currency {
+                      id
+                      code
+                      name
+                    }
+                    commodity
+                    commodityCurrency {
+                      id
+                      code
+                      name
+                    }
+                    quantity
+                    price
+                  }
+                `,
+              });
+
+              return { orders: [...existingOrders.orders, newOrderRefs] };
+            },
+          },
+        });
+      },
+    },
   );
 
   const { register, handleSubmit, watch, reset } = useForm<sendOrderParams>({
