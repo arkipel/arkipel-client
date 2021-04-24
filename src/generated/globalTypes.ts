@@ -43,6 +43,12 @@ export enum TileKind {
   WATER = 'WATER',
 }
 
+export interface EventsInput {
+  readonly userId: string;
+  readonly limit: number;
+  readonly startAt?: number | null;
+}
+
 export interface OrdersInput {
   readonly side: OrderSide;
   readonly currencyId: string;

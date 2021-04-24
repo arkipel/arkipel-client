@@ -15,6 +15,7 @@ import MapPage from '../pages/island/Map';
 import InfrastructurePage from '../pages/island/Infrastructure';
 import ResourcesPage from '../pages/island/Resources';
 import TreasuryPage from '../pages/island/Treasury';
+import EventsPage from '../pages/island/Events';
 import TilePage from '../pages/island/Tile';
 import TradePage from '../pages/market/Trade';
 import Login from '../pages/Login';
@@ -99,6 +100,7 @@ const MainContent: FunctionComponent<props> = ({
             />
             <Route path="/island/resources" exact component={ResourcesPage} />
             <Route path="/island/treasury" exact component={TreasuryPage} />
+            <Route path="/island/events" exact component={EventsPage} />
             <Route path="/island/tiles/:position" exact component={TilePage} />
             <Route
               path="/archipelago/overview"
