@@ -26,11 +26,10 @@ const UsernameInput: FunctionComponent<Partial<props>> = ({
       <p>
         <input
           type="text"
-          name="username"
           placeholder="Username"
           maxLength={20}
           disabled={disabled || false}
-          ref={register({
+          {...register('username', {
             required: {
               value: true,
               message: 'required',

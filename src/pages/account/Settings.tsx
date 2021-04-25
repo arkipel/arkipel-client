@@ -252,8 +252,7 @@ const ChangeEmailAddress = () => {
           <input
             type="email"
             placeholder={loading ? 'Loading...' : 'Email address'}
-            name="email_address"
-            ref={register({
+            {...register('email_address', {
               required: true,
               minLength: 5,
             })}
@@ -384,9 +383,8 @@ const ChangePassword = () => {
         <p>
           <input
             type="password"
-            name="current_password"
             placeholder="Current password"
-            ref={register({
+            {...register('current_password', {
               required: {
                 value: true,
                 message: 'required',

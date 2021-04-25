@@ -14,11 +14,10 @@ const PasswordInput: FunctionComponent<props> = ({ disabled }) => {
       <p>
         <input
           type="password"
-          name="password"
           placeholder="Password"
           disabled={disabled || false}
           onChange={() => trigger('passwordAgain')}
-          ref={register({
+          {...register('password', {
             required: {
               value: true,
               message: 'required',
@@ -41,10 +40,9 @@ const PasswordInput: FunctionComponent<props> = ({ disabled }) => {
       <p>
         <input
           type="password"
-          name="passwordAgain"
           placeholder="Password again"
           disabled={disabled || false}
-          ref={register({
+          {...register('passwordAgain', {
             validate: {
               same: (passwordAgain: string) => {
                 const password = watch('password');

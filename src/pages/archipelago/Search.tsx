@@ -50,9 +50,8 @@ const SearchIslandsPage = () => {
         <p>
           <input
             type="text"
-            name="term"
             placeholder="Term"
-            ref={register({
+            {...register('term', {
               pattern: {
                 value: /^[a-zA-Z0-9]+$/,
                 message: 'invalid characters',

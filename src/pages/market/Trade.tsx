@@ -194,18 +194,16 @@ const TradePage = () => {
         <div>
           {/* Buy or sell */}
           <input
-            ref={register}
+            {...register('orderType')}
             type="radio"
-            name="orderType"
             value="sell"
             id="sell"
             disabled={orderSent}
           />
           <label htmlFor="sell">Sell</label>
           <input
-            ref={register}
+            {...register('orderType')}
             type="radio"
-            name="orderType"
             value="buy"
             id="buy"
             disabled={orderSent}
@@ -220,8 +218,7 @@ const TradePage = () => {
 
           {/* Currency */}
           <select
-            ref={register}
-            name="currencyId"
+            {...register('currencyId')}
             id="currency"
             disabled={orderSent}
           >
@@ -232,9 +229,8 @@ const TradePage = () => {
 
           <Fragment>
             <input
-              ref={register}
+              {...register('quantity')}
               type="number"
-              name="quantity"
               id="quantity"
               placeholder="Quantity"
               min={0}
@@ -242,9 +238,8 @@ const TradePage = () => {
             />
 
             <input
-              ref={register}
+              {...register('price')}
               type="number"
-              name="price"
               id="price"
               placeholder="Price"
               min={0}
@@ -277,7 +272,7 @@ const TradePage = () => {
               value={'Restart'}
               onClick={() => {
                 setOrderSent(false);
-                reset();
+                reset({}, { keepDefaultValues: true });
               }}
             />
           )}
