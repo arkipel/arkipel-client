@@ -64,7 +64,8 @@ const eventToJSX = (ev: event): ReactElement => {
 
   return (
     <div key={ev.id}>
-      <span style={{ color: '#bbb' }}>{timestamp.toFormat('y-m-d')}</span> {msg}
+      <span style={{ color: '#bbb' }}>{timestamp.toFormat('yy/m/d h:mm')}</span>{' '}
+      {msg}
     </div>
   );
 };
