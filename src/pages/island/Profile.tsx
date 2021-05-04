@@ -38,7 +38,7 @@ const Profile = () => {
 
   return (
     <Fragment>
-      <h2>Profile</h2>
+      <h1>Profile</h1>
       <p>
         <b>Owner name:</b> {ownerName}
         <br />
