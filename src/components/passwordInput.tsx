@@ -14,6 +14,17 @@ const PasswordInput: FunctionComponent<props> = ({ disabled }) => {
   let errorMsgs = Object.values(errors.password?.types || {}).join(', ');
   let errorMsgsAg = Object.values(errors.passwordAgain?.types || {}).join(', ');
 
+  const { name, ref, onChange, onBlur } = register('password', {
+    required: {
+      value: true,
+      message: 'required',
+    },
+    minLength: {
+      value: 8,
+      message: 'too short',
+    },
+  });
+
   return (
     <Fragment>
       <p>
@@ -21,17 +32,15 @@ const PasswordInput: FunctionComponent<props> = ({ disabled }) => {
           type="password"
           placeholder="Password"
           disabled={disabled || false}
-          onChange={() => trigger('passwordAgain')}
-          {...register('password', {
-            required: {
-              value: true,
-              message: 'required',
-            },
-            minLength: {
-              value: 8,
-              message: 'too short',
-            },
-          })}
+          name={name}
+          ref={ref}
+          onChange={(e) => {
+            trigger('passwordAgain');
+            onChange(e);
+          }}
+          onBlur={(e) => {
+            onBlur(e);
+          }}
         />
         {errorMsgs && (
           <Fragment>
