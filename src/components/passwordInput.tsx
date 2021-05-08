@@ -1,3 +1,4 @@
+import { formatError } from 'graphql';
 import React, { Fragment, FunctionComponent } from 'react';
 import { useFormContext } from 'react-hook-form';
 
@@ -14,7 +15,7 @@ const PasswordInput: FunctionComponent<props> = ({ disabled }) => {
   let errorMsgs = Object.values(errors.password?.types || {}).join(', ');
   let errorMsgsAg = Object.values(errors.passwordAgain?.types || {}).join(', ');
 
-  const { name, ref, onChange, onBlur } = register('password', {
+  const passwordParams = register('password', {
     required: {
       value: true,
       message: 'required',
@@ -32,15 +33,13 @@ const PasswordInput: FunctionComponent<props> = ({ disabled }) => {
           type="password"
           placeholder="Password"
           disabled={disabled || false}
-          name={name}
-          ref={ref}
+          name={passwordParams.name}
+          ref={passwordParams.ref}
           onChange={(e) => {
+            passwordParams.onChange(e);
             trigger('passwordAgain');
-            onChange(e);
           }}
-          onBlur={(e) => {
-            onBlur(e);
-          }}
+          onBlur={passwordParams.onBlur}
         />
         {errorMsgs && (
           <Fragment>
