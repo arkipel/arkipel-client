@@ -252,8 +252,7 @@ const ChangeEmailAddress = () => {
           <input
             type="email"
             placeholder={loading ? 'Loading...' : 'Email address'}
-            name="email_address"
-            ref={register({
+            {...register('email_address', {
               required: true,
               minLength: 5,
             })}
@@ -344,7 +343,8 @@ const ChangePassword = () => {
     mode: 'onChange',
     criteriaMode: 'all',
   });
-  const { handleSubmit, register, formState, watch, errors } = formFunctions;
+  const { handleSubmit, register, formState, watch } = formFunctions;
+  const errors = formState.errors;
 
   const currentPassword = watch('current_password');
 
@@ -384,9 +384,8 @@ const ChangePassword = () => {
         <p>
           <input
             type="password"
-            name="current_password"
             placeholder="Current password"
-            ref={register({
+            {...register('current_password', {
               required: {
                 value: true,
                 message: 'required',

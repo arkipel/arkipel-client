@@ -12,7 +12,10 @@ const SearchIslandsPage = () => {
   const [term, setTerm] = useState('');
 
   // Form
-  const { register, errors } = useForm({
+  const {
+    register,
+    formState: { errors },
+  } = useForm({
     mode: 'onChange',
     criteriaMode: 'all',
   });
@@ -50,9 +53,8 @@ const SearchIslandsPage = () => {
         <p>
           <input
             type="text"
-            name="term"
             placeholder="Term"
-            ref={register({
+            {...register('term', {
               pattern: {
                 value: /^[a-zA-Z0-9]+$/,
                 message: 'invalid characters',

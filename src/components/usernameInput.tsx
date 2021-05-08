@@ -13,7 +13,10 @@ const UsernameInput: FunctionComponent<Partial<props>> = ({
   current,
   disabled,
 }) => {
-  const { register, errors } = useFormContext<{
+  const {
+    register,
+    formState: { errors },
+  } = useFormContext<{
     username: string;
   }>();
 
@@ -26,11 +29,10 @@ const UsernameInput: FunctionComponent<Partial<props>> = ({
       <p>
         <input
           type="text"
-          name="username"
           placeholder="Username"
           maxLength={20}
           disabled={disabled || false}
-          ref={register({
+          {...register('username', {
             required: {
               value: true,
               message: 'required',
@@ -48,6 +50,10 @@ const UsernameInput: FunctionComponent<Partial<props>> = ({
               message: 'invalid characters',
             },
             validate: async (username: string): Promise<string | boolean> => {
+              if (!username) {
+                return true;
+              }
+
               if (username.length < 4) {
                 return true;
               }
