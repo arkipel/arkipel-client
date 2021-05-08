@@ -13,7 +13,10 @@ const UsernameInput: FunctionComponent<Partial<props>> = ({
   current,
   disabled,
 }) => {
-  const { register, errors } = useFormContext<{
+  const {
+    register,
+    formState: { errors },
+  } = useFormContext<{
     username: string;
   }>();
 

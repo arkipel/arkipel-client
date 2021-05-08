@@ -343,7 +343,8 @@ const ChangePassword = () => {
     mode: 'onChange',
     criteriaMode: 'all',
   });
-  const { handleSubmit, register, formState, watch, errors } = formFunctions;
+  const { handleSubmit, register, formState, watch } = formFunctions;
+  const errors = formState.errors;
 
   const currentPassword = watch('current_password');
 
