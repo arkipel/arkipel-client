@@ -50,6 +50,10 @@ const UsernameInput: FunctionComponent<Partial<props>> = ({
               message: 'invalid characters',
             },
             validate: async (username: string): Promise<string | boolean> => {
+              if (!username) {
+                return true;
+              }
+
               if (username.length < 4) {
                 return true;
               }

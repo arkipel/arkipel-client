@@ -12,7 +12,10 @@ const SearchIslandsPage = () => {
   const [term, setTerm] = useState('');
 
   // Form
-  const { register, errors } = useForm({
+  const {
+    register,
+    formState: { errors },
+  } = useForm({
     mode: 'onChange',
     criteriaMode: 'all',
   });
