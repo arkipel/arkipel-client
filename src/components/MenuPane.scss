@@ -71,7 +71,9 @@
   }
 
   nav a {
-    display: block;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 6px;
     padding: 10px;
     font-size: 18px;
     text-decoration: none;
@@ -82,6 +84,16 @@
 
     &.active {
       background: rgba(0, 0, 0, 0.2);
+    }
+
+    img {
+      width: 20px;
+      height: 20px;
+      // align-items: center;
+      // background: #fff;
+      // border: 1px solid black;
+      filter: invert(1);
+      // opacity: 0.4;
     }
   }
 }

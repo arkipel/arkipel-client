@@ -25,7 +25,7 @@ const MenuPane: FunctionComponent<props> = ({ visible, onCloseClick }) => {
             render={() => (
               <div onClick={onCloseClick} className="button">
                 <img
-                  src="https://icons.arkipel.io/ui/arrow_left.svg"
+                  src="https://icons.arkipel.io/menu/arrow_left.svg"
                   alt="&#10092;"
                 />
               </div>
@@ -42,12 +42,14 @@ const MenuPane: FunctionComponent<props> = ({ visible, onCloseClick }) => {
                 <ul>
                   <li>
                     <NavLink exact to="/island/profile" onClick={onCloseClick}>
-                      Profile
+                      <img src="https://icons.arkipel.io/menu/profile.svg" />
+                      <span>Profile</span>
                     </NavLink>
                   </li>
                   <li>
                     <NavLink exact to="/island/map" onClick={onCloseClick}>
-                      Map
+                      <img src="https://icons.arkipel.io/menu/map.svg" />
+                      <span>Map</span>
                     </NavLink>
                   </li>
                   <li>
@@ -56,7 +58,8 @@ const MenuPane: FunctionComponent<props> = ({ visible, onCloseClick }) => {
                       to="/island/infrastructure"
                       onClick={onCloseClick}
                     >
-                      Infrastructure
+                      <img src="https://icons.arkipel.io/menu/infrastructure.svg" />
+                      <span>Infrastructure</span>
                     </NavLink>
                   </li>
                   <li>
@@ -65,17 +68,20 @@ const MenuPane: FunctionComponent<props> = ({ visible, onCloseClick }) => {
                       to="/island/resources"
                       onClick={onCloseClick}
                     >
-                      Resources
+                      <img src="https://icons.arkipel.io/menu/resources.svg" />
+                      <span>Resources</span>
                     </NavLink>
                   </li>
                   <li>
                     <NavLink exact to="/island/treasury" onClick={onCloseClick}>
-                      Treasury
+                      <img src="https://icons.arkipel.io/menu/treasury.svg" />
+                      <span>Treasury</span>
                     </NavLink>
                   </li>
                   <li>
                     <NavLink exact to="/island/events" onClick={onCloseClick}>
-                      Events
+                      <img src="https://icons.arkipel.io/menu/events.svg" />
+                      <span>Events</span>
                     </NavLink>
                   </li>
                 </ul>
@@ -85,7 +91,8 @@ const MenuPane: FunctionComponent<props> = ({ visible, onCloseClick }) => {
             <ul>
               <li>
                 <NavLink exact to="/market/trade" onClick={onCloseClick}>
-                  Trade
+                  <img src="https://icons.arkipel.io/menu/trade.svg" />
+                  <span>Trade</span>
                 </NavLink>
               </li>
             </ul>
@@ -97,12 +104,14 @@ const MenuPane: FunctionComponent<props> = ({ visible, onCloseClick }) => {
                   to="/archipelago/overview"
                   onClick={onCloseClick}
                 >
-                  Overview
+                  <img src="https://icons.arkipel.io/menu/overview.svg" />
+                  <span>Overview</span>
                 </NavLink>
               </li>
               <li>
                 <NavLink exact to="/archipelago/search" onClick={onCloseClick}>
-                  Search
+                  <img src="https://icons.arkipel.io/menu/search.svg" />
+                  <span>Search</span>
                 </NavLink>
               </li>
             </ul>
@@ -116,7 +125,8 @@ const MenuPane: FunctionComponent<props> = ({ visible, onCloseClick }) => {
                       to="/account/settings"
                       onClick={onCloseClick}
                     >
-                      Settings
+                      <img src="https://icons.arkipel.io/menu/settings.svg" />
+                      <span>Settings</span>
                     </NavLink>
                   </li>
                 </ul>
@@ -126,22 +136,26 @@ const MenuPane: FunctionComponent<props> = ({ visible, onCloseClick }) => {
             <ul>
               <li>
                 <NavLink exact to="/" onClick={onCloseClick}>
-                  Home
+                  <img src="https://icons.arkipel.io/menu/home.svg" />
+                  <span>Home</span>
                 </NavLink>
               </li>
               <li>
                 <NavLink exact to="/login" onClick={onCloseClick}>
-                  Login
+                  <img src="https://icons.arkipel.io/menu/login.svg" />
+                  <span>Login</span>
                 </NavLink>
               </li>
               <li>
                 <NavLink exact to="/registration" onClick={onCloseClick}>
-                  Register
+                  <img src="https://icons.arkipel.io/menu/register.svg" />
+                  <span>Register</span>
                 </NavLink>
               </li>
               <li>
                 <NavLink exact to="/about" onClick={onCloseClick}>
-                  About
+                  <img src="https://icons.arkipel.io/menu/about.svg" />
+                  <span>About</span>
                 </NavLink>
               </li>
             </ul>
