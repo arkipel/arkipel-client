@@ -25,7 +25,7 @@ const MenuPane: FunctionComponent<props> = ({ visible, onCloseClick }) => {
             render={() => (
               <div onClick={onCloseClick} className="button">
                 <img
-                  src="https://icons.arkipel.io/menu/arrow_left.svg"
+                  src="https://icons.arkipel.io/ui/arrow_left.svg"
                   alt="&#10092;"
                 />
               </div>
