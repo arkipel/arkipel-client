@@ -4,7 +4,12 @@ import { useFormContext } from 'react-hook-form';
 import { HintInfo, HintError } from '../ui/dialog/Hint';
 
 const PasswordInput: FunctionComponent<props> = ({ disabled }) => {
-  const { register, errors, watch, trigger } = useFormContext();
+  const {
+    register,
+    formState: { errors },
+    watch,
+    trigger,
+  } = useFormContext();
 
   let errorMsgs = Object.values(errors.password?.types || {}).join(', ');
   let errorMsgsAg = Object.values(errors.passwordAgain?.types || {}).join(', ');
