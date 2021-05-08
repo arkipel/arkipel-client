@@ -110,16 +110,22 @@ const TradePage = () => {
     },
   );
 
+  const defaultValues = {
+    orderType: 'sell',
+    currencyId: 'ark',
+    quantity: 0,
+    price: 0,
+  };
+
   const { register, handleSubmit, watch, reset } = useForm<sendOrderParams>({
-    defaultValues: {
-      orderType: 'sell',
-      currencyId: 'ark',
-      quantity: 0,
-      price: 0,
-    },
+    defaultValues,
   });
 
-  const orderParams = watch();
+  let orderParams = watch();
+
+  if (!orderParams.orderType) {
+    orderParams = defaultValues;
+  }
 
   let submitText = 'Sell';
   if (orderParams.orderType === 'buy') {
