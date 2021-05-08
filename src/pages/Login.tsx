@@ -52,8 +52,7 @@ const Login = () => {
           <input
             type="text"
             placeholder="Username"
-            name="username"
-            ref={register({
+            {...register('username', {
               required: true,
             })}
           />
@@ -62,8 +61,7 @@ const Login = () => {
           <input
             type="password"
             placeholder="Password"
-            name="password"
-            ref={register({
+            {...register('password', {
               required: true,
             })}
           />
