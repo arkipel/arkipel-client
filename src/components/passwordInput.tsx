@@ -1,4 +1,3 @@
-import { formatError } from 'graphql';
 import React, { Fragment, FunctionComponent } from 'react';
 import { useFormContext } from 'react-hook-form';
 
