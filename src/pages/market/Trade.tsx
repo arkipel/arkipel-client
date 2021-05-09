@@ -476,7 +476,7 @@ const OpenOffers = () => {
 
   return (
     <Fragment>
-      {offers.length === 0 && <Info>You have currently open offers.</Info>}
+      {offers.length === 0 && <Info>You have currently no open offers.</Info>}
       {offers.length > 0 && (
         <table>
           <thead>

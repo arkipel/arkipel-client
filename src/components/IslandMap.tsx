@@ -3,8 +3,6 @@ import { NavLink } from 'react-router-dom';
 
 import MapTile from './MapTile';
 
-import styles from './IslandMap.scss';
-
 import Island from '../models/Island';
 import Tile from '../models/Tile';
 
@@ -23,7 +21,7 @@ const IslandMap: FunctionComponent<props> = ({ island }) => {
 
   return (
     <Fragment>
-      <div className={styles.island}>{map}</div>
+      <div style={style}>{map}</div>
     </Fragment>
   );
 };
@@ -31,5 +29,12 @@ const IslandMap: FunctionComponent<props> = ({ island }) => {
 class props {
   island: Island = new Island({});
 }
+
+const style = {
+  display: 'grid',
+  gridTemplateColumns: 'repeat(10, 0.1fr)',
+  gridTemplateRows: 'repeat(10, 0.1fr)',
+  gap: '1px',
+};
 
 export default IslandMap;
