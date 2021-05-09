@@ -30,84 +30,107 @@ import TimeLeft from '../../ui/text/TimeLeft';
 
 import styles from './Trade.scss';
 
+import { extent, max } from 'd3-array';
+import { withParentSize, ScaleSVG, ParentSize } from '@visx/responsive';
+import { curveLinear } from '@visx/curve';
+import { Group } from '@visx/group';
+import { LinePath } from '@visx/shape';
+import { scaleTime, scaleLinear } from '@visx/scale';
 import {
-  ResponsiveContainer,
-  LineChart,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Line,
-  Brush,
-} from 'recharts';
+  MarkerArrow,
+  MarkerCross,
+  MarkerX,
+  MarkerCircle,
+  MarkerLine,
+} from '@visx/marker';
+import generateDateValue, {
+  DateValue,
+} from '@visx/mock-data/lib/generators/genDateValue';
+
+const lineCount = 5;
+const series = new Array(lineCount).fill(null).map((_, i) =>
+  // vary each series value deterministically
+  generateDateValue(25, /* seed= */ i / 72).sort(
+    (a: DateValue, b: DateValue) => a.date.getTime() - b.date.getTime(),
+  ),
+);
+const allData = series.reduce((rec, d) => rec.concat(d), []);
+
+// data accessors
+const getX = (d: DateValue) => d.date;
+const getY = (d: DateValue) => d.value;
+
+// scales
+const xScale = scaleTime<number>({
+  domain: extent(allData, getX) as [Date, Date],
+});
+const yScale = scaleLinear<number>({
+  domain: [0, max(allData, getY) as number],
+});
+
+// export type CurveProps = {
+//   width: number;
+//   height: number;
+// };
 
 const PricesPage = () => {
-  return (
-    <ResponsiveContainer width={'100%'} height={200}>
-      <LineChart data={data}>
-        {/* <XAxis dataKey="name" /> */}
-        {/* <YAxis /> */}
-        <CartesianGrid stroke="#eee" strokeDasharray="5 5" />
-        <Line
-          type="monotone"
-          dataKey="uv"
-          stroke="#bbb"
-          isAnimationActive={false}
-        />
-        <Line
-          type="monotone"
-          dataKey="pv"
-          stroke="#888"
-          isAnimationActive={false}
-        />
-        <Brush />
-      </LineChart>
-    </ResponsiveContainer>
-  );
-};
+  // width = 500;
+  // height = 300;
 
-const data = [
-  {
-    name: 'Page A',
-    uv: 4000,
-    pv: 2400,
-    amt: 2400,
-  },
-  {
-    name: 'Page B',
-    uv: 3000,
-    pv: 1398,
-    amt: 2210,
-  },
-  {
-    name: 'Page C',
-    uv: 2000,
-    pv: 9800,
-    amt: 2290,
-  },
-  {
-    name: 'Page D',
-    uv: 2780,
-    pv: 3908,
-    amt: 2000,
-  },
-  {
-    name: 'Page E',
-    uv: 1890,
-    pv: 4800,
-    amt: 2181,
-  },
-  {
-    name: 'Page F',
-    uv: 2390,
-    pv: 3800,
-    amt: 2500,
-  },
-  {
-    name: 'Page G',
-    uv: 3490,
-    pv: 4300,
-    amt: 2100,
-  },
-];
+  // const lineHeight = height / lineCount;
+
+  // update scale output ranges
+  // xScale.range([0, width]);
+  // yScale.range([lineHeight, 0]);
+
+  let chart = (
+    <div
+      className="visx-curves-demo"
+      style={{ border: '1px solid green', width: '100%', height: '300px' }}
+    >
+      <ParentSize>
+        {({ width: visWidth, height: visHeight }) => {
+          const lineHeight = visHeight / lineCount;
+
+          console.log('width is', visWidth);
+          console.log('height is', visHeight);
+
+          xScale.range([0, visWidth]);
+          yScale.range([lineHeight, 0]);
+
+          return (
+            <svg width={'100%'} height={'100%'}>
+              <MarkerCircle id="marker-circle" fill="#333" size={2} refX={2} />
+              <rect width={visWidth} height={visHeight} fill="#8ab" />
+              {series.map((lineData, i) => {
+                return (
+                  <Group key={`lines-${i}`} top={i * lineHeight} left={13}>
+                    <LinePath<DateValue>
+                      curve={curveLinear}
+                      data={lineData}
+                      x={(d) => xScale(getX(d)) ?? 0}
+                      y={(d) => yScale(getY(d)) ?? 0}
+                      stroke="#333"
+                      strokeWidth={2}
+                      strokeOpacity={1}
+                      shapeRendering="geometricPrecision"
+                      markerMid="url(#marker-circle)"
+                      markerStart="url(#marker-circle)"
+                      markerEnd="url(#marker-circle)"
+                    />
+                  </Group>
+                );
+              })}
+            </svg>
+          );
+        }}
+      </ParentSize>
+    </div>
+  );
+
+  // chart = withParentSize(chart);
+
+  return chart;
+};
 
 export default PricesPage;
