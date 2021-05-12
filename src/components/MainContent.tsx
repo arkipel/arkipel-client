@@ -23,6 +23,7 @@ import Registration from '../pages/Registration';
 import Settings from '../pages/account/Settings';
 
 // Components
+import APIStatus from '../components/APIStatus';
 import Scrollable from '../ui/layout/Scrollable';
 
 // Assets
@@ -53,6 +54,7 @@ const MainContent: FunctionComponent<props> = ({
           {session.loggedIn && <span>{session.username}</span>}
         </div>
         <div>
+          <APIStatus />
           <Media
             query="(max-width: 999px)"
             render={() => (
