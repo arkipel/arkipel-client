@@ -64,8 +64,6 @@ const Wrapper = styled.div`
     align-items: center;
     gap: 4px;
     width: calc(100% / 3 - (20px / 3));
-    // padding: 4px;
-    // border: 1px solid red;
   }
 
   & > div:last-child {
