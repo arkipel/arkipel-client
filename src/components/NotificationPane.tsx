@@ -12,6 +12,7 @@ import ConstructionSite from '../models/ConstructionSite';
 import { SessionContext } from '../libs/session/session';
 
 // Components
+import ResourcesPane from '../components/ResourcesPane';
 import Scrollable from '../ui/layout/Scrollable';
 import TimeLeft from '../ui/text/TimeLeft';
 
@@ -86,6 +87,7 @@ const NotificationPane: FunctionComponent<props> = ({
           />
         </div>
       </div>
+      <ResourcesPane />
       <Scrollable>
         <div className={styles.content}>
           {!loggedIn && <p>You are not logged in.</p>}
