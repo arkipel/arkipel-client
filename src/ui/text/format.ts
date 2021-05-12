@@ -19,7 +19,7 @@ const FormatQuantity = (n: number): string => {
   }
 
   let str = n.toLocaleString('en-US', {
-    maximumFractionDigits: 3,
+    maximumFractionDigits: 1,
   });
 
   return str + a;
