@@ -53,23 +53,6 @@ const MainContent: FunctionComponent<props> = ({
           {session.loggedIn && <span>{session.username}</span>}
         </div>
         <div>
-          <div className={styles.resources}>
-            <img
-              className={styles.miniIcon}
-              src="https://icons.arkipel.io/res/population.svg"
-            />
-            <span>{inventory.populationFree}</span>
-            <img
-              className={styles.miniIcon}
-              src="https://icons.arkipel.io/res/energy.svg"
-            />
-            <span style={{ paddingLeft: 0 }}>{inventory.energyFree}</span>
-            <img
-              className={styles.miniIcon}
-              src="https://icons.arkipel.io/res/material.svg"
-            />
-            <span>{inventory.materialFormatted}</span>
-          </div>
           <Media
             query="(max-width: 999px)"
             render={() => (
