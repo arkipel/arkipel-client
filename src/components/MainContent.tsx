@@ -3,7 +3,6 @@ import { Route, Switch } from 'react-router-dom';
 import Media from 'react-media';
 
 import { SessionContext } from '../libs/session/session';
-import { InventoryContext } from '../libs/session/inventory';
 
 // Pages
 import About from '../pages/About';
@@ -33,7 +32,6 @@ const MainContent: FunctionComponent<props> = ({
   onNotificationOpen,
 }) => {
   const session = useContext(SessionContext);
-  const inventory = useContext(InventoryContext);
 
   return (
     <div className={styles.main}>
