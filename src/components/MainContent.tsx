@@ -3,7 +3,6 @@ import { Route, Switch } from 'react-router-dom';
 import Media from 'react-media';
 
 import { SessionContext } from '../libs/session/session';
-import { InventoryContext } from '../libs/session/inventory';
 
 // Pages
 import About from '../pages/About';
@@ -23,6 +22,7 @@ import Registration from '../pages/Registration';
 import Settings from '../pages/account/Settings';
 
 // Components
+import APIStatus from '../components/APIStatus';
 import Scrollable from '../ui/layout/Scrollable';
 
 // Assets
@@ -33,7 +33,6 @@ const MainContent: FunctionComponent<props> = ({
   onNotificationOpen,
 }) => {
   const session = useContext(SessionContext);
-  const inventory = useContext(InventoryContext);
 
   return (
     <div className={styles.main}>
@@ -53,23 +52,7 @@ const MainContent: FunctionComponent<props> = ({
           {session.loggedIn && <span>{session.username}</span>}
         </div>
         <div>
-          <div className={styles.resources}>
-            <img
-              className={styles.miniIcon}
-              src="https://icons.arkipel.io/res/population.svg"
-            />
-            <span>{inventory.populationFree}</span>
-            <img
-              className={styles.miniIcon}
-              src="https://icons.arkipel.io/res/energy.svg"
-            />
-            <span style={{ paddingLeft: 0 }}>{inventory.energyFree}</span>
-            <img
-              className={styles.miniIcon}
-              src="https://icons.arkipel.io/res/material.svg"
-            />
-            <span>{inventory.materialFormatted}</span>
-          </div>
+          <APIStatus />
           <Media
             query="(max-width: 999px)"
             render={() => (

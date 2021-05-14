@@ -16,9 +16,10 @@ const UsernameInput: FunctionComponent<Partial<props>> = ({
   const {
     register,
     formState: { errors },
-  } = useFormContext<{
-    username: string;
-  }>();
+  } =
+    useFormContext<{
+      username: string;
+    }>();
 
   const client = useApolloClient();
 
