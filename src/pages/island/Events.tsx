@@ -18,9 +18,33 @@ const EventsPage = () => {
         events(input: $input) {
           ... on EventList {
             events {
-              __typename
-              id
-              happenedAt
+              ... on AccountCreation {
+                __typename
+                id
+                happenedAt
+              }
+              ... on SellOrderExecution {
+                __typename
+                id
+                happenedAt
+                currency {
+                  code
+                }
+                commodity
+                quantity
+                price
+              }
+              ... on BuyOrderExecution {
+                __typename
+                id
+                happenedAt
+                currency {
+                  code
+                }
+                commodity
+                quantity
+                price
+              }
             }
           }
         }
@@ -55,6 +79,22 @@ const eventToJSX = (ev: event): ReactElement => {
   switch (ev.__typename) {
     case 'AccountCreation':
       msg = <span>{'Account created.'}</span>;
+      break;
+    case 'SellOrderExecution':
+      msg = (
+        <span>
+          {`${ev.quantity} ${ev.commodity} sold for ${ev.price} ${ev.currency.code}`}
+          .
+        </span>
+      );
+      break;
+    case 'BuyOrderExecution':
+      msg = (
+        <span>
+          {`${ev.quantity} ${ev.commodity} bought for ${ev.price} ${ev.currency.code}`}
+          .
+        </span>
+      );
       break;
     default:
       msg = <span>Unknown event.</span>;
