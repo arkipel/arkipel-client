@@ -1,7 +1,12 @@
 import React, { Fragment, useContext, ReactElement } from 'react';
 
 import { useQuery, gql } from '@apollo/client';
-import { GetEvents, GetEventsVariables } from 'generated/GetEvents';
+import {
+  GetEvents,
+  GetEventsVariables,
+  GetEvents_events_EventList_events,
+} from '../../generated/GetEvents';
+import { CommodityType } from '../../generated/globalTypes';
 
 import { DateTime } from 'luxon';
 
@@ -83,7 +88,9 @@ const eventToJSX = (ev: event): ReactElement => {
     case 'SellOrderExecution':
       msg = (
         <span>
-          {`${ev.quantity} ${ev.commodity} sold for ${ev.price} ${ev.currency.code}`}
+          {`${formatQtyAndCommodity(ev.quantity, ev.commodity)} sold for ${
+            ev.price
+          } ${ev.currency.code.toUpperCase()}`}
           .
         </span>
       );
@@ -91,7 +98,9 @@ const eventToJSX = (ev: event): ReactElement => {
     case 'BuyOrderExecution':
       msg = (
         <span>
-          {`${ev.quantity} ${ev.commodity} bought for ${ev.price} ${ev.currency.code}`}
+          {`${formatQtyAndCommodity(ev.quantity, ev.commodity)} bought for ${
+            ev.price
+          } ${ev.currency.code.toUpperCase()}`}
           .
         </span>
       );
@@ -112,10 +121,19 @@ const eventToJSX = (ev: event): ReactElement => {
   );
 };
 
-interface event {
-  __typename: string;
-  id: number;
-  happenedAt: any;
-}
+type event = GetEvents_events_EventList_events;
+
+const formatQtyAndCommodity = (
+  qty: number,
+  commodity: CommodityType,
+): string => {
+  switch (commodity) {
+    case CommodityType.MATERIAL_1M:
+      return `${qty}M material`;
+
+    default:
+      return `Something unknown`;
+  }
+};
 
 export default EventsPage;

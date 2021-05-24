@@ -19,19 +19,31 @@ export interface GetEvents_events_EventList_events_AccountCreation {
   readonly happenedAt: any;
 }
 
+export interface GetEvents_events_EventList_events_SellOrderExecution_currency {
+  readonly __typename: 'Currency';
+  readonly code: string;
+}
+
 export interface GetEvents_events_EventList_events_SellOrderExecution {
   readonly __typename: 'SellOrderExecution';
   readonly id: number;
   readonly happenedAt: any;
+  readonly currency: GetEvents_events_EventList_events_SellOrderExecution_currency;
   readonly commodity: CommodityType;
   readonly quantity: number;
   readonly price: number;
+}
+
+export interface GetEvents_events_EventList_events_BuyOrderExecution_currency {
+  readonly __typename: 'Currency';
+  readonly code: string;
 }
 
 export interface GetEvents_events_EventList_events_BuyOrderExecution {
   readonly __typename: 'BuyOrderExecution';
   readonly id: number;
   readonly happenedAt: any;
+  readonly currency: GetEvents_events_EventList_events_BuyOrderExecution_currency;
   readonly commodity: CommodityType;
   readonly quantity: number;
   readonly price: number;
