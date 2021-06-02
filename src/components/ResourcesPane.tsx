@@ -10,7 +10,6 @@ const ResourcesPane: FunctionComponent = () => {
   const inventory = useContext(InventoryContext);
   const bankAccounts = useContext(BankAccountsContext);
 
-  console.log('bankaccounts', bankAccounts);
   bankAccounts.sort((a, b) => {
     return b.amount - a.amount;
   });
