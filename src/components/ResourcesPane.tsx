@@ -31,7 +31,7 @@ const ResourcesPane: FunctionComponent = () => {
       <div>
         {bankAccounts.map((ba) => {
           return (
-            <span>
+            <span key={ba.id}>
               {ba.amountStr()} {ba.currencyCodeStr()}
             </span>
           );
