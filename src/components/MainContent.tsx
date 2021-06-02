@@ -1,6 +1,7 @@
 import React, { FunctionComponent, useContext } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import Media from 'react-media';
+import styled from 'styled-components';
 
 import { SessionContext } from '../libs/session/session';
 
@@ -23,10 +24,8 @@ import Settings from '../pages/account/Settings';
 
 // Components
 import APIStatus from '../components/APIStatus';
+import { TopBar, Box } from '../ui/layout/TopBar';
 import Scrollable from '../ui/layout/Scrollable';
-
-// Assets
-import styles from './MainContent.scss';
 
 const MainContent: FunctionComponent<props> = ({
   onMenuOpen,
@@ -35,39 +34,41 @@ const MainContent: FunctionComponent<props> = ({
   const session = useContext(SessionContext);
 
   return (
-    <div className={styles.main}>
-      <div className={styles.topBar}>
+    <Style>
+      <TopBar>
         <div>
           <Media
             query="(max-width: 699px)"
             render={() => (
-              <div onClick={onMenuOpen} className="button">
+              <Box onClick={onMenuOpen}>
                 <img
                   src="https://icons.arkipel.io/ui/menu.svg"
                   alt="&#10092;"
                 />
-              </div>
+              </Box>
             )}
           />
-          {session.loggedIn && <span>{session.username}</span>}
+          <Box>{session.loggedIn && <span>{session.username}</span>}</Box>
         </div>
         <div>
-          <APIStatus />
+          <Box>
+            <APIStatus />
+          </Box>
           <Media
             query="(max-width: 999px)"
             render={() => (
-              <div onClick={onNotificationOpen} className="button">
+              <Box onClick={onNotificationOpen}>
                 <img
                   src="https://icons.arkipel.io/ui/notification.svg"
                   alt="&#128276;"
                 />
-              </div>
+              </Box>
             )}
           />
         </div>
-      </div>
+      </TopBar>
       <Scrollable>
-        <div className={styles.content}>
+        <ContentStyle>
           <Switch>
             <Route path="/" exact component={Home} />
             <Route path="/about" exact component={About} />
@@ -97,9 +98,9 @@ const MainContent: FunctionComponent<props> = ({
               component={SearchIslandsPage}
             />
           </Switch>
-        </div>
+        </ContentStyle>
       </Scrollable>
-    </div>
+    </Style>
   );
 };
 
@@ -107,5 +108,120 @@ type props = {
   onMenuOpen: () => void;
   onNotificationOpen: () => void;
 };
+
+const Style = styled.div`
+  display: grid;
+  grid-template-rows: auto 1fr;
+  align-content: start;
+  min-height: 0;
+  height: 100%;
+  width: 100%;
+  background: #fff;
+  scrollbar-width: thin;
+  scrollbar-color: #ccc white;
+
+  @media all and (max-width: 699px) {
+    grid-row: 1;
+    grid-column: 1;
+  }
+
+  @media all and (min-width: 700px) and (max-width: 999px) {
+    grid-row: 1;
+    grid-column: 2;
+  }
+
+  @media all and (min-width: 1000px) {
+    grid-row: 1;
+    grid-column: 2;
+  }
+`;
+
+const ContentStyle = styled.div`
+  display: grid;
+  grid-gap: 10px;
+  align-content: start;
+  min-height: 100%;
+  padding: 10px;
+
+  p {
+    font-size: 18px;
+  }
+
+  a {
+    color: #666;
+
+    &:hover {
+      color: #444;
+    }
+  }
+
+  nav {
+    ul {
+      display: grid;
+      gap: 4px;
+      grid-auto-columns: min-content;
+      grid-auto-flow: column;
+
+      li {
+        width: auto;
+
+        a {
+          display: block;
+          width: auto;
+          padding: 8px 10px;
+          color: #444;
+          text-decoration: none;
+          background: #eee;
+
+          &.active {
+            background: #ccc;
+          }
+
+          &:hover {
+            background: #ccc;
+          }
+        }
+      }
+    }
+  }
+
+  form {
+    display: grid;
+    gap: 10px;
+
+    @media all and (max-width: 499px) {
+      button,
+      input {
+        width: 100%;
+      }
+    }
+  }
+
+  table {
+    text-align: left;
+    border-collapse: collapse;
+
+    thead {
+      th {
+        border-bottom: 1px solid black;
+      }
+    }
+
+    tbody {
+      tr {
+        border-bottom: 1px solid #eee;
+
+        &:first-child {
+          border-top: 1px solid #eee;
+        }
+      }
+    }
+
+    th,
+    td {
+      padding: 4px;
+    }
+  }
+`;
 
 export default MainContent;

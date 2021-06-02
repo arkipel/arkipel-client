@@ -36,13 +36,13 @@ const APIStatus: FunctionComponent = () => {
   }
 
   return (
-    <Wrapper>
+    <Style>
       <div style={{ background: color }}></div>
-    </Wrapper>
+    </Style>
   );
 };
 
-const Wrapper = styled.div`
+const Style = styled.div`
   display: flex;
   justify-content: center;
   height: 50px;

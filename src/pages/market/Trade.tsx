@@ -28,8 +28,6 @@ import { BankAccountsContext } from '../../libs/session/bank_accounts';
 import { Error, Info, Success } from '../../ui/dialog/Msg';
 import TimeLeft from '../../ui/text/TimeLeft';
 
-import styles from './Trade.scss';
-
 const TradePage = () => {
   const [orderSent, setOrderSent] = useState(false);
 
@@ -172,7 +170,6 @@ const TradePage = () => {
       <h1>Trade</h1>
       <h2>Send order</h2>
       <form
-        className={styles.searchForm}
         onSubmit={handleSubmit((params) => {
           setOrderSent(true);
 

@@ -1,8 +1,0 @@
-@import '../styles/config.scss';
-
-.island {
-  display: grid;
-  grid-template-columns: repeat(10, 0.1fr);
-  grid-template-rows: repeat(10, 0.1fr);
-  gap: 1px;
-}

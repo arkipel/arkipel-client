@@ -1,4 +1,5 @@
 import React, { FunctionComponent, useContext } from 'react';
+import styled from 'styled-components';
 import Media from 'react-media';
 
 import { useQuery, gql, useApolloClient } from '@apollo/client';
@@ -13,11 +14,9 @@ import { SessionContext } from '../libs/session/session';
 
 // Components
 import ResourcesPane from '../components/ResourcesPane';
+import { TopBar, Box } from '../ui/layout/TopBar';
 import Scrollable from '../ui/layout/Scrollable';
 import TimeLeft from '../ui/text/TimeLeft';
-
-// Assets
-import styles from './NotificationPane.scss';
 
 const NotificationPane: FunctionComponent<props> = ({
   visible,
@@ -27,8 +26,20 @@ const NotificationPane: FunctionComponent<props> = ({
 
   const client = useApolloClient();
 
-  let notificationPaneClassName = visible ? styles.visible + ' ' : '';
-  notificationPaneClassName += styles.notificationPane;
+  // To hide the pane, move
+  // it to the right.
+  let translateX = '0';
+  let visibleBoxShadow = '0';
+  if (!visible) {
+    translateX = '300px';
+  } else {
+    visibleBoxShadow = '-1px 0 10px #111';
+  }
+
+  let styleVars = {
+    '--translateX': translateX,
+    '--visibleBoxShadow': visibleBoxShadow,
+  } as React.CSSProperties;
 
   let islandId = session.id;
   const loggedIn = session.id !== '';
@@ -71,25 +82,35 @@ const NotificationPane: FunctionComponent<props> = ({
   const hasSites = sites.length > 0;
 
   return (
-    <div className={notificationPaneClassName}>
-      <div className={styles.topBar}>
+    <Style style={styleVars}>
+      <TopBar background="#ed947e">
+        <div>
+          {/* This empty div makes the other one
+              the second div, which has its content
+              displayed to the right. */}
+        </div>
         <div>
           <Media
             query="(max-width: 999px)"
             render={() => (
-              <div onClick={onCloseClick} className="button">
+              <Box onClick={onCloseClick}>
                 <img
+                  style={{
+                    // transition: '0.2s linear',
+                    rotate: '180deg',
+                    opacity: '20%',
+                  }}
                   src="https://icons.arkipel.io/ui/arrow_left.svg"
                   alt="&#10092;"
                 />
-              </div>
+              </Box>
             )}
           />
         </div>
-      </div>
+      </TopBar>
       <ResourcesPane />
       <Scrollable>
-        <div className={styles.content}>
+        <StyleContent>
           {!loggedIn && <p>You are not logged in.</p>}
           {loggedIn && error && <p>Construction sites could not be loaded.</p>}
           {loggedIn && !hasSites && <p>Nothing is currently being built.</p>}
@@ -114,9 +135,9 @@ const NotificationPane: FunctionComponent<props> = ({
                 </p>
               );
             })}
-        </div>
+        </StyleContent>
       </Scrollable>
-    </div>
+    </Style>
   );
 };
 
@@ -124,5 +145,43 @@ type props = {
   visible: boolean;
   onCloseClick: () => void;
 };
+
+const Style = styled.div`
+  display: grid;
+  grid-template-rows: auto auto 1fr;
+  grid-row: 1;
+  justify-self: flex-end;
+  height: 100%;
+  width: 300px;
+  background: #ffffff;
+  z-index: 120;
+  transform: translateX(var(--translateX));
+  transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+  scrollbar-width: thin;
+  scrollbar-color: #e76f51 white;
+
+  @media all and (max-width: 699px) {
+    grid-column: 1;
+  }
+
+  @media all and (min-width: 700px) and (max-width: 999px) {
+    grid-column: 2;
+  }
+
+  @media all and (min-width: 1000px) {
+    grid-column: 3;
+    transform: translateX(calc(0 - var(--translateX)));
+    transition: none;
+  }
+
+  @media all and (max-width: 999px) {
+    box-shadow: var(--visibleBoxShadow);
+  }
+`;
+
+const StyleContent = styled.div`
+  grid-gap: 10px;
+  padding: 10px;
+`;
 
 export default NotificationPane;

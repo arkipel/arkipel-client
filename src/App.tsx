@@ -2,6 +2,7 @@ import { hot } from 'react-hot-loader/root';
 import React, { FunctionComponent, useState } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import Media from 'react-media';
+import styled from 'styled-components';
 
 import {
   ApolloClient,
@@ -22,10 +23,6 @@ import MenuPane from './components/MenuPane';
 import MainContent from './components/MainContent';
 import NotificationPane from './components/NotificationPane';
 import Shadow from './ui/layout/Shadow';
-
-// Assets
-import './styles/index.scss';
-import appStyles from './App.scss';
 
 const client = new ApolloClient({
   cache: new InMemoryCache({
@@ -83,7 +80,7 @@ const App: FunctionComponent<props> = () => {
   let showShadow = showMenuPane || showNotificationPane;
 
   return (
-    <div id="app" className={appStyles.app}>
+    <Style>
       <ApolloProvider client={client}>
         <SessionProvider>
           <InventoryProvider>
@@ -123,10 +120,60 @@ const App: FunctionComponent<props> = () => {
           </InventoryProvider>
         </SessionProvider>
       </ApolloProvider>
-    </div>
+    </Style>
   );
 };
 
 type props = {};
+
+const Style = styled.div`
+  display: grid;
+  grid-template-rows: 1fr;
+  grid-auto-flow: column;
+  height: 100%;
+  max-width: 1200px;
+  margin: auto;
+
+  @media all and (max-width: 699px) {
+    grid-template-columns: 1fr;
+  }
+
+  @media all and (min-width: 700px) and (max-width: 999px) {
+    grid-template-columns: 200px 1fr;
+  }
+
+  @media all and (min-width: 1000px) {
+    grid-template-columns: 200px 1fr 300px;
+  }
+
+  /* Fonts */
+  @font-face {
+    font-family: 'Rubik';
+    font-weight: normal;
+    font-style: normal;
+    src: url('../src/assets/fonts/rubik/rubik-regular.ttf');
+  }
+
+  @font-face {
+    font-family: 'Rubik';
+    font-weight: bold;
+    font-style: normal;
+    src: url('../src/assets/fonts/rubik/rubik-bold.ttf');
+  }
+
+  @font-face {
+    font-family: 'Rubik';
+    font-weight: normal;
+    font-style: italic;
+    src: url('../src/assets/fonts/rubik/rubik-italic.ttf');
+  }
+
+  @font-face {
+    font-family: 'Rubik';
+    font-weight: bold;
+    font-style: italic;
+    src: url('../src/assets/fonts/rubik/rubik-bold-italic.ttf');
+  }
+`;
 
 export default hot(App);
