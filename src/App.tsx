@@ -151,28 +151,28 @@ const Style = styled.div`
     font-family: 'Rubik';
     font-weight: normal;
     font-style: normal;
-    src: url('../src/assets/fonts/rubik/rubik-regular.ttf');
+    src: url('../../src/assets/fonts/rubik/rubik-regular.ttf');
   }
 
   @font-face {
     font-family: 'Rubik';
     font-weight: bold;
     font-style: normal;
-    src: url('../src/assets/fonts/rubik/rubik-bold.ttf');
+    src: url('../../src/assets/fonts/rubik/rubik-bold.ttf');
   }
 
   @font-face {
     font-family: 'Rubik';
     font-weight: normal;
     font-style: italic;
-    src: url('../src/assets/fonts/rubik/rubik-italic.ttf');
+    src: url('../../src/assets/fonts/rubik/rubik-italic.ttf');
   }
 
   @font-face {
     font-family: 'Rubik';
     font-weight: bold;
     font-style: italic;
-    src: url('../src/assets/fonts/rubik/rubik-bold-italic.ttf');
+    src: url('../../src/assets/fonts/rubik/rubik-bold-italic.ttf');
   }
 `;
 
