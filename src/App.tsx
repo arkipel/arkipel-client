@@ -24,6 +24,11 @@ import MainContent from './components/MainContent';
 import NotificationPane from './components/NotificationPane';
 import Shadow from './ui/layout/Shadow';
 
+import fontRegular from '../src/assets/fonts/rubik/rubik-regular.ttf';
+import fontBold from '../src/assets/fonts/rubik/rubik-bold.ttf';
+import fontItalic from '../src/assets/fonts/rubik/rubik-italic.ttf';
+import fontBoldItalic from '../src/assets/fonts/rubik/rubik-bold-italic.ttf';
+
 const client = new ApolloClient({
   cache: new InMemoryCache({
     typePolicies: {
@@ -151,28 +156,28 @@ const Style = styled.div`
     font-family: 'Rubik';
     font-weight: normal;
     font-style: normal;
-    src: url('../../src/assets/fonts/rubik/rubik-regular.ttf');
+    src: url(${fontRegular});
   }
 
   @font-face {
     font-family: 'Rubik';
     font-weight: bold;
     font-style: normal;
-    src: url('../../src/assets/fonts/rubik/rubik-bold.ttf');
+    src: url(${fontBold});
   }
 
   @font-face {
     font-family: 'Rubik';
     font-weight: normal;
     font-style: italic;
-    src: url('../../src/assets/fonts/rubik/rubik-italic.ttf');
+    src: url(${fontItalic});
   }
 
   @font-face {
     font-family: 'Rubik';
     font-weight: bold;
     font-style: italic;
-    src: url('../../src/assets/fonts/rubik/rubik-bold-italic.ttf');
+    src: url(${fontBoldItalic});
   }
 `;
 
