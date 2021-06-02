@@ -5,7 +5,7 @@ import { InventoryContext } from '../libs/session/inventory';
 import { BankAccountsContext } from '../libs/session/bank_accounts';
 
 // Assets
-import styles from './NotificationPane.scss';
+// import styles from './NotificationPane.scss';
 
 const ResourcesPane: FunctionComponent = () => {
   const inventory = useContext(InventoryContext);
@@ -17,26 +17,17 @@ const ResourcesPane: FunctionComponent = () => {
   });
 
   return (
-    <Wrapper>
+    <Style>
       <div>
-        <img
-          className={styles.miniIcon}
-          src="https://icons.arkipel.io/res/population.svg"
-        />
+        <img src="https://icons.arkipel.io/res/population.svg" />
         <span>{inventory.populationFree}</span>
       </div>
       <div>
-        <img
-          className={styles.miniIcon}
-          src="https://icons.arkipel.io/res/energy.svg"
-        />
+        <img src="https://icons.arkipel.io/res/energy.svg" />
         <span style={{ paddingLeft: 0 }}>{inventory.energyFree}</span>
       </div>
       <div>
-        <img
-          className={styles.miniIcon}
-          src="https://icons.arkipel.io/res/material.svg"
-        />
+        <img src="https://icons.arkipel.io/res/material.svg" />
         <span>{inventory.materialFormatted}</span>
       </div>
       <div>
@@ -48,11 +39,11 @@ const ResourcesPane: FunctionComponent = () => {
           );
         })}
       </div>
-    </Wrapper>
+    </Style>
   );
 };
 
-const Wrapper = styled.div`
+const Style = styled.div`
   display: flex;
   flex-wrap: wrap;
   gap: 10px;

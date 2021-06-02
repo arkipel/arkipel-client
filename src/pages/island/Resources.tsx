@@ -1,10 +1,9 @@
 import React, { Fragment, useContext } from 'react';
+import styled from 'styled-components';
 
 import { InventoryContext } from '../../libs/session/inventory';
 
 import { FormatQuantity } from '../../ui/text/format';
-
-import styles from './Resources.scss';
 
 const ResourcesPage = () => {
   const inventory = useContext(InventoryContext);
@@ -13,8 +12,8 @@ const ResourcesPage = () => {
     <Fragment>
       <h1>Inventory</h1>
       <h2>Resources</h2>
-      <div className={styles.board}>
-        <div className={styles.stat}>
+      <Style>
+        <StatStyle>
           <div>
             <h3>Population</h3>
             <p>Citizens live in houses or apartments and work on the island.</p>
@@ -22,8 +21,8 @@ const ResourcesPage = () => {
           <div>
             {inventory.populationUsed}/{inventory.populationTotal}
           </div>
-        </div>
-        <div className={styles.stat}>
+        </StatStyle>
+        <StatStyle>
           <div>
             <h3>Builders</h3>
             <p>
@@ -33,8 +32,8 @@ const ResourcesPage = () => {
             </p>
           </div>
           <div>{inventory.populationFree}</div>
-        </div>
-        <div className={styles.stat}>
+        </StatStyle>
+        <StatStyle>
           <div>
             <h3>Energy</h3>
             <p>Energy is produced and consumed by tiles on the island.</p>
@@ -42,8 +41,8 @@ const ResourcesPage = () => {
           <div>
             {inventory.energyUsed}/{inventory.energyTotal}
           </div>
-        </div>
-        <div className={styles.stat}>
+        </StatStyle>
+        <StatStyle>
           <div>
             <h3>Material production</h3>
             <p>
@@ -51,8 +50,8 @@ const ResourcesPage = () => {
             </p>
           </div>
           <div>{inventory.materialProduction}/s</div>
-        </div>
-        <div className={styles.stat}>
+        </StatStyle>
+        <StatStyle>
           <div>
             <h3>Material</h3>
             <p>
@@ -61,11 +60,11 @@ const ResourcesPage = () => {
             </p>
           </div>
           <div>{FormatQuantity(inventory.material)}</div>
-        </div>
-      </div>
+        </StatStyle>
+      </Style>
       <h2>Infrastructure</h2>
-      <div className={styles.board}>
-        <div className={styles.stat}>
+      <Style>
+        <StatStyle>
           <div>
             <h3>Banking</h3>
             <p>
@@ -74,10 +73,34 @@ const ResourcesPage = () => {
             </p>
           </div>
           <div>{inventory.bankLevels}</div>
-        </div>
-      </div>
+        </StatStyle>
+      </Style>
     </Fragment>
   );
 };
+
+const Style = styled.div`
+  display: grid;
+  gap: 10px;
+`;
+
+const StatStyle = styled.div`
+  display: grid;
+  grid-auto-flow: column;
+  grid-template-columns: 1fr 120px;
+  gap: 10px;
+
+  div:nth-child(1) {
+    p {
+      font-size: 16px;
+      font-style: italic;
+    }
+  }
+
+  div:nth-child(2) {
+    font-size: 20px;
+    text-align: right;
+  }
+`;
 
 export default ResourcesPage;
