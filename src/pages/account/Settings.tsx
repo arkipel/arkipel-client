@@ -1,6 +1,7 @@
 import React, { Fragment, useContext, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useForm, FormProvider } from 'react-hook-form';
+import styled from 'styled-components';
 
 import { gql, useApolloClient, useQuery } from '@apollo/client';
 import { SetUsername, SetUsernameVariables } from 'generated/SetUsername';
@@ -26,8 +27,6 @@ import PasswordInput from '../../components/passwordInput';
 import { HintError } from '../../ui/dialog/Hint';
 import { Success, Error } from '../../ui/dialog/Msg';
 import { Submit } from '../../ui/form/Button';
-
-import style from './Settings.scss';
 
 const Settings = () => {
   // Router
@@ -263,8 +262,7 @@ const ChangeEmailAddress = () => {
             text="Update"
             enabled={formState.isDirty && formState.isValid}
           />{' '}
-          <input
-            className={style.btn}
+          <ButtonStyle
             type="button"
             value="Delete"
             disabled={!currentAddress}
@@ -330,6 +328,18 @@ const ChangeEmailAddress = () => {
     </Fragment>
   );
 };
+
+const ButtonStyle = styled.input`
+  cursor: pointer;
+  color: #fff;
+  border: none;
+  background: rgb(40, 40, 40);
+
+  &:disabled {
+    cursor: default;
+    background: rgb(120, 120, 120);
+  }
+`;
 
 const ChangePassword = () => {
   const [updateSucceeded, setUpdateSuccess] = useState(false);
