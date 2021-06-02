@@ -5,7 +5,6 @@ import { InventoryContext } from '../libs/session/inventory';
 import { BankAccountsContext } from '../libs/session/bank_accounts';
 
 // Assets
-// import styles from './NotificationPane.scss';
 
 const ResourcesPane: FunctionComponent = () => {
   const inventory = useContext(InventoryContext);
