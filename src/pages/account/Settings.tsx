@@ -1,7 +1,6 @@
 import React, { Fragment, useContext, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useForm, FormProvider } from 'react-hook-form';
-import styled from 'styled-components';
 
 import { gql, useApolloClient, useQuery } from '@apollo/client';
 import { SetUsername, SetUsernameVariables } from 'generated/SetUsername';
@@ -26,7 +25,9 @@ import PasswordInput from '../../components/passwordInput';
 
 import { HintError } from '../../ui/dialog/Hint';
 import { Success, Error } from '../../ui/dialog/Msg';
-import { Submit } from '../../ui/form/Button';
+import { Button } from '../../ui/form/Button';
+import { Form } from '../../ui/form/Form';
+import { Input, Submit } from '../../ui/form/Input';
 
 const Settings = () => {
   // Router
@@ -92,7 +93,7 @@ const ChangeUsernameForm = () => {
   return (
     <Fragment>
       <FormProvider {...formFunctions}>
-        <form
+        <Form
           onSubmit={handleSubmit(async ({ username }) => {
             setUpdateSuccess(false);
             setUpdateFailure(false);
@@ -124,9 +125,12 @@ const ChangeUsernameForm = () => {
         >
           <UsernameInput current={session.username} />
           <p>
-            <Submit text="Update" enabled={formState.isValid && different} />
+            <Submit
+              value="Update"
+              disabled={!formState.isValid || !different}
+            />
           </p>
-        </form>
+        </Form>
       </FormProvider>
       <Success
         visible={updateSucceeded}
@@ -205,7 +209,7 @@ const ChangeEmailAddress = () => {
 
   return (
     <Fragment>
-      <form
+      <Form
         onSubmit={handleSubmit(async ({ email_address: emailAddress }) => {
           setUpdateSuccess(false);
           setUpdateFailure(false);
@@ -248,7 +252,7 @@ const ChangeEmailAddress = () => {
         })}
       >
         <p>
-          <input
+          <Input
             type="email"
             placeholder={loading ? 'Loading...' : 'Email address'}
             {...register('email_address', {
@@ -259,12 +263,11 @@ const ChangeEmailAddress = () => {
         </p>
         <p>
           <Submit
-            text="Update"
-            enabled={formState.isDirty && formState.isValid}
+            value="Update"
+            disabled={!formState.isDirty || !formState.isValid}
           />{' '}
-          <ButtonStyle
+          <Button
             type="button"
-            value="Delete"
             disabled={!currentAddress}
             onClick={async () => {
               try {
@@ -293,9 +296,11 @@ const ChangeEmailAddress = () => {
                 setNetworkFailure(true);
               }
             }}
-          />
+          >
+            Delete
+          </Button>
         </p>
-      </form>
+      </Form>
       <Error visible={needsToBeVerified}>Email address not verified.</Error>
       <Success visible={hasBeenVerified}>Email address verified.</Success>
       <Success
@@ -328,18 +333,6 @@ const ChangeEmailAddress = () => {
     </Fragment>
   );
 };
-
-const ButtonStyle = styled.input`
-  cursor: pointer;
-  color: #fff;
-  border: none;
-  background: rgb(40, 40, 40);
-
-  &:disabled {
-    cursor: default;
-    background: rgb(120, 120, 120);
-  }
-`;
 
 const ChangePassword = () => {
   const [updateSucceeded, setUpdateSuccess] = useState(false);
@@ -389,10 +382,10 @@ const ChangePassword = () => {
 
   return (
     <FormProvider {...formFunctions}>
-      <form onSubmit={handleSubmit(setPassword)}>
+      <Form onSubmit={handleSubmit(setPassword)}>
         <PasswordInput disabled={false} />
         <p>
-          <input
+          <Input
             type="password"
             placeholder="Current password"
             {...register('current_password', {
@@ -411,11 +404,11 @@ const ChangePassword = () => {
         </p>
         <p>
           <Submit
-            text="Update"
-            enabled={formState.isValid && currentPassword !== ''}
+            value="Update"
+            disabled={!formState.isValid || currentPassword === ''}
           />
         </p>
-      </form>
+      </Form>
       <Success
         visible={updateSucceeded}
         onConfirmation={() => setUpdateSuccess(false)}

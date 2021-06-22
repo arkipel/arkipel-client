@@ -185,18 +185,6 @@ const ContentStyle = styled.div`
     }
   }
 
-  form {
-    display: grid;
-    gap: 10px;
-
-    @media all and (max-width: 499px) {
-      button,
-      input {
-        width: 100%;
-      }
-    }
-  }
-
   table {
     text-align: left;
     border-collapse: collapse;

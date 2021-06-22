@@ -27,6 +27,8 @@ import { BankAccountsContext } from '../../libs/session/bank_accounts';
 
 import { Error, Info, Success } from '../../ui/dialog/Msg';
 import TimeLeft from '../../ui/text/TimeLeft';
+import { Form } from '../../ui/form/Form';
+import { Input, Submit } from '../../ui/form/Input';
 
 const TradePage = () => {
   const [orderSent, setOrderSent] = useState(false);
@@ -169,7 +171,7 @@ const TradePage = () => {
     <Fragment>
       <h1>Trade</h1>
       <h2>Send order</h2>
-      <form
+      <Form
         onSubmit={handleSubmit((params) => {
           setOrderSent(true);
 
@@ -196,7 +198,7 @@ const TradePage = () => {
       >
         <div>
           {/* Buy or sell */}
-          <input
+          <Input
             {...register('orderType')}
             type="radio"
             value="sell"
@@ -204,7 +206,7 @@ const TradePage = () => {
             disabled={orderSent}
           />
           <label htmlFor="sell">Sell</label>
-          <input
+          <Input
             {...register('orderType')}
             type="radio"
             value="buy"
@@ -231,7 +233,7 @@ const TradePage = () => {
           <br />
 
           <Fragment>
-            <input
+            <Input
               {...register('quantity')}
               type="number"
               id="quantity"
@@ -240,7 +242,7 @@ const TradePage = () => {
               disabled={orderSent}
             />
 
-            <input
+            <Input
               {...register('price')}
               type="number"
               id="price"
@@ -266,11 +268,10 @@ const TradePage = () => {
             You don't have enough material to sell.
           </Error>
 
-          <br />
+          <Submit value={submitText} disabled={!canSend} />
 
-          <input type="submit" value={submitText} disabled={!canSend} />
           {orderSent && (
-            <input
+            <Input
               type="button"
               value={'Restart'}
               onClick={() => {
@@ -282,7 +283,7 @@ const TradePage = () => {
 
           <Success visible={orderSent}>Order successfully sent!</Success>
         </div>
-      </form>
+      </Form>
       <h2>Best offers</h2>
       <BestOffers
         side={orderParams.orderType === 'sell' ? OrderSide.SELL : OrderSide.BUY}

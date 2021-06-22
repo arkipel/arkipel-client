@@ -5,7 +5,8 @@ import { useForm } from 'react-hook-form';
 import { SessionContext } from '../libs/session/session';
 
 import { Error } from '../ui/dialog/Msg';
-import { Submit } from '../ui/form/Button';
+import { Form } from '../ui/form/Form';
+import { Input, Submit } from '../ui/form/Input';
 
 const Login = () => {
   const [loginFailed, setLoginFailure] = useState(false);
@@ -47,9 +48,9 @@ const Login = () => {
   return (
     <Fragment>
       <h1>Login</h1>
-      <form onSubmit={handleSubmit(submit)}>
+      <Form onSubmit={handleSubmit(submit)}>
         <p>
-          <input
+          <Input
             type="text"
             placeholder="Username"
             {...register('username', {
@@ -58,7 +59,7 @@ const Login = () => {
           />
         </p>
         <p>
-          <input
+          <Input
             type="password"
             placeholder="Password"
             {...register('password', {
@@ -67,9 +68,9 @@ const Login = () => {
           />
         </p>
         <p>
-          <Submit text="Log in" enabled={allowSubmit} />
+          <Submit value="Log in" disabled={!allowSubmit} />
         </p>
-      </form>
+      </Form>
       <Error visible={loginFailed}>Login failed, wrong credentials.</Error>
       <Error visible={networkFailed}>
         Request failed, please try again later.

@@ -7,6 +7,8 @@ import { SearchIslands as SearchIslands } from 'generated/SearchIslands';
 import Island from '../../models/Island';
 
 import { HintError } from '../../ui/dialog/Hint';
+import { Form } from '../../ui/form/Form';
+import { Input } from '../../ui/form/Input';
 
 const SearchIslandsPage = () => {
   const [term, setTerm] = useState('');
@@ -49,9 +51,9 @@ const SearchIslandsPage = () => {
   return (
     <Fragment>
       <h2>Search islands</h2>
-      <form>
+      <Form>
         <p>
-          <input
+          <Input
             type="text"
             placeholder="Term"
             {...register('term', {
@@ -73,7 +75,7 @@ const SearchIslandsPage = () => {
             </Fragment>
           )}
         </p>
-      </form>
+      </Form>
       <div>
         {loading && <p>Loading...</p>}
         {!loading && list.length === 0 && <p>No results</p>}

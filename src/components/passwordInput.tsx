@@ -2,6 +2,7 @@ import React, { Fragment, FunctionComponent } from 'react';
 import { useFormContext } from 'react-hook-form';
 
 import { HintInfo, HintError } from '../ui/dialog/Hint';
+import { Input } from '../ui/form/Input';
 
 const PasswordInput: FunctionComponent<props> = ({ disabled }) => {
   const {
@@ -28,7 +29,7 @@ const PasswordInput: FunctionComponent<props> = ({ disabled }) => {
   return (
     <Fragment>
       <p>
-        <input
+        <Input
           type="password"
           placeholder="Password"
           disabled={disabled || false}
@@ -50,7 +51,7 @@ const PasswordInput: FunctionComponent<props> = ({ disabled }) => {
         <HintInfo>at least 8 characters</HintInfo>
       </p>
       <p>
-        <input
+        <Input
           type="password"
           placeholder="Password again"
           disabled={disabled || false}
