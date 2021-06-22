@@ -1,40 +1,30 @@
-import React, { FunctionComponent } from 'react';
+import React, { forwardRef, ButtonHTMLAttributes } from 'react';
 import styled from 'styled-components';
 
-const Button: FunctionComponent<{
-  enabled: boolean;
-  onClick: () => void;
-}> = ({ children, enabled, onClick }) => {
-  return (
-    <ButtonStyle disabled={!enabled} onClick={onClick}>
-      {children}
-    </ButtonStyle>
-  );
-};
+// Button
+const Button = forwardRef<HTMLButtonElement, btnProps>(
+  ({ children, ...props }, ref) => {
+    return (
+      <StyledButton ref={ref} {...props}>
+        {children}
+      </StyledButton>
+    );
+  },
+);
 
-const ButtonStyle = styled.button`
+type btnProps = ButtonHTMLAttributes<HTMLButtonElement>;
+
+const StyledButton = styled.button`
   padding: 6px;
   color: #fff;
   font-size: 18px;
   border: none;
   background: rgb(40, 40, 40);
   cursor: pointer;
+
+  &:disabled {
+    background: rgba(80, 80, 80);
+  }
 `;
 
-const Submit: FunctionComponent<{
-  text: string;
-  enabled: boolean;
-}> = ({ text, enabled }) => {
-  return <InputStyle type="submit" value={text} disabled={!enabled} />;
-};
-
-const InputStyle = styled.input`
-  padding: 6px;
-  color: #fff;
-  font-size: 18px;
-  border: none;
-  background: rgb(40, 40, 40);
-  cursor: pointer;
-`;
-
-export { Button, Submit };
+export { Button };

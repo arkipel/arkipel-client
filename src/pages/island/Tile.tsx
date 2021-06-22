@@ -374,7 +374,7 @@ const InfrastructureOption: FunctionComponent<{
                     setError('An unknown error occured. Please try again.');
                   });
               }}
-              enabled={inventory.material >= bp.materialCost}
+              disabled={inventory.material < bp.materialCost}
             >
               Build
             </Button>
@@ -441,7 +441,7 @@ const CancelButton: FunctionComponent<{
         onClick={() => {
           cancel();
         }}
-        enabled={!loading}
+        disabled={loading}
       >
         {loading && 'Cancelling...'}
         {!loading && 'Cancel'}
@@ -526,7 +526,7 @@ const UpgradeButton: FunctionComponent<{
         onClick={() => {
           upgrade();
         }}
-        enabled={!loading && inventory.material >= cost}
+        disabled={loading || inventory.material < cost}
       >
         {loading && 'Upgrading...'}
         {!loading && 'Upgrade'}
@@ -569,7 +569,7 @@ const DestroyButton: FunctionComponent<{
         onClick={() => {
           cancel();
         }}
-        enabled={!loading}
+        disabled={loading}
       >
         {loading && 'Destroying...'}
         {!loading && 'Destroy'}

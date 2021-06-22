@@ -8,6 +8,7 @@ import {
 } from '../generated/GetUsernameAvailability';
 
 import { HintInfo, HintError } from '../ui/dialog/Hint';
+import { Input } from '../ui/form/Input';
 
 const UsernameInput: FunctionComponent<Partial<props>> = ({
   current,
@@ -16,10 +17,9 @@ const UsernameInput: FunctionComponent<Partial<props>> = ({
   const {
     register,
     formState: { errors },
-  } =
-    useFormContext<{
-      username: string;
-    }>();
+  } = useFormContext<{
+    username: string;
+  }>();
 
   const client = useApolloClient();
 
@@ -28,7 +28,7 @@ const UsernameInput: FunctionComponent<Partial<props>> = ({
   return (
     <Fragment>
       <p>
-        <input
+        <Input
           type="text"
           placeholder="Username"
           maxLength={20}

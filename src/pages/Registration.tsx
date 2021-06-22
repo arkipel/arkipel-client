@@ -10,7 +10,8 @@ import UsernameInput from '../components/usernameInput';
 import PasswordInput from '../components/passwordInput';
 
 import { Info, Success, Error } from '../ui/dialog/Msg';
-import { Submit } from '../ui/form/Button';
+import { Form } from '../ui/form/Form';
+import { Submit } from '../ui/form/Input';
 
 const Registration = () => {
   // const [username, setUsername] = useState('');
@@ -70,7 +71,7 @@ const Registration = () => {
         incomplete gameplay.
       </Error>
       <FormProvider {...formFunctions}>
-        <form
+        <Form
           onSubmit={formFunctions.handleSubmit((formData) => {
             submit({
               variables: {
@@ -94,9 +95,9 @@ const Registration = () => {
             }}
           ></HCaptcha>
           <p>
-            <Submit text="Register" enabled={allowSubmit && !loading} />
+            <Submit value="Register" disabled={!allowSubmit || loading} />
           </p>
-        </form>
+        </Form>
       </FormProvider>
       <Info visible={loading}>Please wait...</Info>
       <Success visible={data !== null && data?.register?.__typename === 'User'}>

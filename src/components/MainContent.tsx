@@ -185,7 +185,7 @@ const ContentStyle = styled.div`
     }
   }
 
-  form {
+  /* form {
     display: grid;
     gap: 10px;
 
@@ -195,7 +195,7 @@ const ContentStyle = styled.div`
         width: 100%;
       }
     }
-  }
+  } */
 
   table {
     text-align: left;
