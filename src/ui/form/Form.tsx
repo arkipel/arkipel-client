@@ -10,6 +10,13 @@ const Form: FunctionComponent<{
 const StyledForm = styled.form`
   display: grid;
   gap: 10px;
+
+  @media all and (max-width: 499px) {
+    button,
+    input {
+      width: 100%;
+    }
+  }
 `;
 
 export { Form };
