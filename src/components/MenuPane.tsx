@@ -268,6 +268,10 @@ const MenuStyle = styled.div`
     font-size: 28px;
   }
 
+  ul li {
+    display: block;
+  }
+
   nav a {
     display: grid;
     grid-template-columns: auto 1fr;
