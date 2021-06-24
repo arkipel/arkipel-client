@@ -1,6 +1,5 @@
 import React, { FunctionComponent } from 'react';
-
-import styles from './MapTile.scss';
+import styled from 'styled-components';
 
 import Tile from '../models/Tile';
 import { Infrastructure, TileKind } from '../generated/globalTypes';
@@ -12,16 +11,16 @@ const MapTile: FunctionComponent<props> = ({
   onClick = () => {},
 }) => {
   // Tile kind
-  let className = styles['deepWater'];
+  let tileColor = '#3a7ead';
   switch (tile.kind()) {
     case TileKind.WATER:
-      className = styles['water'];
+      tileColor = '#669abd';
       break;
     case TileKind.SAND:
-      className = styles['sand'];
+      tileColor = '#e8e0c9';
       break;
     case TileKind.LAND:
-      className = styles['land'];
+      tileColor = '#accfa0';
       break;
   }
 
@@ -30,10 +29,30 @@ const MapTile: FunctionComponent<props> = ({
     size = 1;
   }
 
+  let cursor = 'default';
   if (!clickable) {
-    className += ' ' + styles.inactive;
+    cursor = 'pointer';
     onClick = () => {};
   }
+
+  let tileHeight = '';
+  let tileWidth = '';
+  let tilePaddingBottom = '';
+  if (size) {
+    tileHeight = size + 'px';
+    tileWidth = size + 'px';
+  } else {
+    tileWidth = '100%';
+    tileHeight = '0';
+    tilePaddingBottom = '100%';
+  }
+
+  let styleVars = {
+    '--tileColor': tileColor,
+    '--tileWidth': tileWidth,
+    '--tileHeight': tileHeight,
+    '--tilePaddingBottom': tilePaddingBottom,
+  } as React.CSSProperties;
 
   let src: string = '';
   let alt: string = '';
@@ -84,23 +103,24 @@ const MapTile: FunctionComponent<props> = ({
 
   let infraIcon = <img src={src} alt={alt} />;
 
-  let style: any = {};
-  if (size) {
-    style.height = size + 'px';
-    style.width = size + 'px';
-  } else {
-    style.width = '100%';
-    style.height = 0;
-    style.paddingBottom = '100%';
-  }
-
   return (
-    <div className={className} onClick={onClick} style={style}>
+    <Style onClick={onClick} style={styleVars}>
       {infraIcon}
-    </div>
+    </Style>
   );
 };
 
+const Style = styled.div`
+  width: var(--tileWidth);
+  height: var(--tileHeight);
+  padding-bottom: var(--tilePaddingBottom);
+  background: var(--tileColor);
+  cursor: var(--cursor);
+
+  img {
+    margin: 6px;
+  }
+`;
 class props {
   tile: Tile = new Tile({});
   size?: number = 12;

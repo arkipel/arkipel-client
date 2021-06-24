@@ -1,4 +1,5 @@
 import React, { FunctionComponent, useContext } from 'react';
+import styled from 'styled-components';
 
 import { gql, useMutation, useApolloClient, useQuery } from '@apollo/client';
 import { GetTileStatus, GetTileStatusVariables } from 'generated/GetTileStatus';
@@ -10,12 +11,10 @@ import { InfrastructureStatus } from '../generated/globalTypes';
 
 import { SessionContext } from '../libs/session/session';
 
-import styles from './TileStatusToggle.scss';
-
 const TileStatusToggle: FunctionComponent<props> = ({ islandId, position }) => {
   if (islandId === '') {
     return (
-      <div className={styles.icon}>
+      <div>
         <img
           src="https://icons.arkipel.io/ui/question.svg"
           height={'100%'}
@@ -109,7 +108,7 @@ const TileStatusToggle: FunctionComponent<props> = ({ islandId, position }) => {
   );
 
   return (
-    <div className={styles.icon + ' ' + styles.cursor}>
+    <Style>
       {desiredStatus === InfrastructureStatus.ON && (
         <img
           src="https://icons.arkipel.io/ui/pause.svg"
@@ -140,9 +139,19 @@ const TileStatusToggle: FunctionComponent<props> = ({ islandId, position }) => {
           }}
         />
       )}
-    </div>
+    </Style>
   );
 };
+
+const Style = styled.div`
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+
+  img {
+    display: block;
+  }
+`;
 
 class props {
   islandId: string = '';

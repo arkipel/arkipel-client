@@ -5,6 +5,7 @@ import React, {
   useState,
 } from 'react';
 import { useParams } from 'react-router-dom';
+import styled from 'styled-components';
 
 import { useQuery, gql, useMutation, useApolloClient } from '@apollo/client';
 import { GetTile, GetTileVariables } from '../../generated/GetTile';
@@ -24,7 +25,6 @@ import { FormatQuantity } from '../../ui/text/format';
 import TimeLeft from '../../ui/text/TimeLeft';
 import { Button } from '../../ui/form/Button';
 
-import styles from './Tile.scss';
 import {
   BuildInfrastructure,
   BuildInfrastructureVariables,
@@ -136,7 +136,7 @@ const TilePage: FunctionComponent = () => {
           </p>
           <h2>Infrastructure</h2>
           {tile.level === 0 && !constructionSite.exists && (
-            <table className={styles.upgradeTable}>
+            <UpgradeTableStyle>
               <tbody>
                 {blueprints.map((bp) => {
                   return (
@@ -149,7 +149,7 @@ const TilePage: FunctionComponent = () => {
                   );
                 })}
               </tbody>
-            </table>
+            </UpgradeTableStyle>
           )}
           {constructionSite.exists && (
             <Fragment>
@@ -202,6 +202,41 @@ const TilePage: FunctionComponent = () => {
     </Fragment>
   );
 };
+
+const UpgradeTableStyle = styled.table`
+  tr {
+    height: 50px;
+
+    td:first-child {
+      width: 32px;
+
+      img {
+        display: block;
+      }
+    }
+
+    td:nth-child(2) {
+      width: 100%;
+    }
+
+    td:nth-child(3) {
+      min-width: 80px;
+
+      span {
+        display: grid;
+        grid-auto-flow: column;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 4px;
+
+        img {
+          width: 16px;
+          height: 16px;
+        }
+      }
+    }
+  }
+`;
 
 const InfrastructureOption: FunctionComponent<{
   islandId: string;
@@ -339,7 +374,7 @@ const InfrastructureOption: FunctionComponent<{
                     setError('An unknown error occured. Please try again.');
                   });
               }}
-              enabled={inventory.material >= bp.materialCost}
+              disabled={inventory.material < bp.materialCost}
             >
               Build
             </Button>
@@ -406,7 +441,7 @@ const CancelButton: FunctionComponent<{
         onClick={() => {
           cancel();
         }}
-        enabled={!loading}
+        disabled={loading}
       >
         {loading && 'Cancelling...'}
         {!loading && 'Cancel'}
@@ -491,7 +526,7 @@ const UpgradeButton: FunctionComponent<{
         onClick={() => {
           upgrade();
         }}
-        enabled={!loading && inventory.material >= cost}
+        disabled={loading || inventory.material < cost}
       >
         {loading && 'Upgrading...'}
         {!loading && 'Upgrade'}
@@ -534,7 +569,7 @@ const DestroyButton: FunctionComponent<{
         onClick={() => {
           cancel();
         }}
-        enabled={!loading}
+        disabled={loading}
       >
         {loading && 'Destroying...'}
         {!loading && 'Destroy'}

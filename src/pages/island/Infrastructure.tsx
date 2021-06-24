@@ -1,5 +1,6 @@
 import React, { Fragment, FunctionComponent, useContext } from 'react';
 import { NavLink } from 'react-router-dom';
+import styled from 'styled-components';
 
 import { useQuery, gql } from '@apollo/client';
 import { GetIsland, GetIslandVariables } from 'generated/GetIsland';
@@ -15,8 +16,6 @@ import MapTile from '../../components/MapTile';
 
 import { Info, Error } from '../../ui/dialog/Msg';
 import Label from '../../ui/text/Label';
-
-import styles from './Infrastructure.scss';
 
 const InfrastructurePage = () => {
   const session = useContext(SessionContext);
@@ -87,7 +86,7 @@ const InfrastructurePage = () => {
       <h1>Infrastructure</h1>
       {loading && <p>Loading...</p>}
       {!loading && (
-        <table className={styles.table}>
+        <TableStyle>
           <thead>
             <tr>
               <th></th>
@@ -110,11 +109,74 @@ const InfrastructurePage = () => {
               return <InfrastructureItem key={t.position} tile={t} />;
             })}
           </tbody>
-        </table>
+        </TableStyle>
       )}
     </Fragment>
   );
 };
+
+const TableStyle = styled.table`
+  width: 100%;
+
+  thead tr {
+    height: 30px;
+
+    th:nth-child(4),
+    th:nth-child(5),
+    th:nth-child(6) {
+      text-align: center;
+    }
+
+    th {
+      img {
+        height: 16px;
+        width: 16px;
+      }
+    }
+  }
+
+  thead tr {
+    th:nth-child(1) {
+      width: 45px;
+    }
+
+    th:nth-child(2) {
+      width: 40px;
+    }
+
+    th:nth-child(4) {
+      width: 50px;
+    }
+
+    th:nth-child(5) {
+      width: 50px;
+    }
+
+    th:nth-child(6) {
+      width: 50px;
+    }
+
+    th:nth-child(7) {
+      width: 40px;
+    }
+  }
+
+  tbody tr {
+    td:nth-child(2) {
+      text-align: right;
+    }
+
+    td:nth-child(4),
+    td:nth-child(5),
+    td:nth-child(6) {
+      text-align: center;
+    }
+  }
+
+  tbody tr {
+    height: 60px;
+  }
+`;
 
 const InfrastructureItem: FunctionComponent<props> = ({ tile }) => {
   return (

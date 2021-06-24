@@ -1,7 +1,12 @@
 import React, { Fragment, useContext, ReactElement } from 'react';
 
 import { useQuery, gql } from '@apollo/client';
-import { GetEvents, GetEventsVariables } from 'generated/GetEvents';
+import {
+  GetEvents,
+  GetEventsVariables,
+  GetEvents_events_EventList_events,
+} from '../../generated/GetEvents';
+import { CommodityType } from '../../generated/globalTypes';
 
 import { DateTime } from 'luxon';
 
@@ -18,9 +23,33 @@ const EventsPage = () => {
         events(input: $input) {
           ... on EventList {
             events {
-              __typename
-              id
-              happenedAt
+              ... on AccountCreation {
+                __typename
+                id
+                happenedAt
+              }
+              ... on SellOrderExecution {
+                __typename
+                id
+                happenedAt
+                currency {
+                  code
+                }
+                commodity
+                quantity
+                price
+              }
+              ... on BuyOrderExecution {
+                __typename
+                id
+                happenedAt
+                currency {
+                  code
+                }
+                commodity
+                quantity
+                price
+              }
             }
           }
         }
@@ -56,6 +85,26 @@ const eventToJSX = (ev: event): ReactElement => {
     case 'AccountCreation':
       msg = <span>{'Account created.'}</span>;
       break;
+    case 'SellOrderExecution':
+      msg = (
+        <span>
+          {`${formatQtyAndCommodity(ev.quantity, ev.commodity)} sold for ${
+            ev.price
+          } ${ev.currency.code.toUpperCase()}`}
+          .
+        </span>
+      );
+      break;
+    case 'BuyOrderExecution':
+      msg = (
+        <span>
+          {`${formatQtyAndCommodity(ev.quantity, ev.commodity)} bought for ${
+            ev.price
+          } ${ev.currency.code.toUpperCase()}`}
+          .
+        </span>
+      );
+      break;
     default:
       msg = <span>Unknown event.</span>;
   }
@@ -72,10 +121,19 @@ const eventToJSX = (ev: event): ReactElement => {
   );
 };
 
-interface event {
-  __typename: string;
-  id: number;
-  happenedAt: any;
-}
+type event = GetEvents_events_EventList_events;
+
+const formatQtyAndCommodity = (
+  qty: number,
+  commodity: CommodityType,
+): string => {
+  switch (commodity) {
+    case CommodityType.MATERIAL_1M:
+      return `${qty}M material`;
+
+    default:
+      return `Something unknown`;
+  }
+};
 
 export default EventsPage;

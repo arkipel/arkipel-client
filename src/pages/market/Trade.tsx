@@ -4,6 +4,7 @@ import React, {
   useState,
   FunctionComponent,
 } from 'react';
+import styled from 'styled-components';
 import { useForm } from 'react-hook-form';
 
 import { useQuery, useMutation, gql, useApolloClient } from '@apollo/client';
@@ -27,8 +28,9 @@ import { BankAccountsContext } from '../../libs/session/bank_accounts';
 
 import { Error, Info, Success } from '../../ui/dialog/Msg';
 import TimeLeft from '../../ui/text/TimeLeft';
-
-import styles from './Trade.scss';
+import { Form } from '../../ui/form/Form';
+import { Input, Submit, Select, Radio } from '../../ui/form/Input';
+import { Button } from '../../ui/form/Button';
 
 const TradePage = () => {
   const [orderSent, setOrderSent] = useState(false);
@@ -171,8 +173,7 @@ const TradePage = () => {
     <Fragment>
       <h1>Trade</h1>
       <h2>Send order</h2>
-      <form
-        className={styles.searchForm}
+      <StyledForm
         onSubmit={handleSubmit((params) => {
           setOrderSent(true);
 
@@ -197,95 +198,124 @@ const TradePage = () => {
           sendOrder({ variables });
         })}
       >
-        <div>
+        <div
+          style={{
+            gridArea: 'sell-buy',
+            display: 'grid',
+            gridAutoFlow: 'column',
+          }}
+        >
           {/* Buy or sell */}
-          <input
-            {...register('orderType')}
-            type="radio"
-            value="sell"
-            id="sell"
-            disabled={orderSent}
-          />
-          <label htmlFor="sell">Sell</label>
-          <input
-            {...register('orderType')}
-            type="radio"
-            value="buy"
-            id="buy"
-            disabled={orderSent}
-          />
-          <label htmlFor="buy">Buy</label>
-          <br />
+          <div>
+            <Radio
+              label="Sell"
+              {...register('orderType')}
+              value="sell"
+              disabled={orderSent}
+            />
+          </div>
 
+          <div>
+            <Radio
+              label="Buy"
+              {...register('orderType')}
+              value="buy"
+              disabled={orderSent}
+            />
+          </div>
+        </div>
+
+        <div style={{ gridArea: 'commodity-amount' }}>
           {/* Commodity */}
-          <select name="commodity" id="commodity" disabled={orderSent}>
-            <option value="material_1m">Material (1M)</option>
-          </select>
+          <Input
+            {...register('quantity')}
+            type="number"
+            id="quantity"
+            placeholder="Quantity"
+            min={1}
+            disabled={orderSent}
+          />
+        </div>
 
+        <div style={{ gridArea: 'commodity-type' }}>
+          <Select name="commodity" id="commodity" disabled={orderSent}>
+            <option value="material_1m">Material (1M)</option>
+          </Select>
+        </div>
+
+        <div style={{ gridArea: 'price-amount' }}>
           {/* Currency */}
-          <select
+          <Input
+            {...register('price')}
+            type="number"
+            id="price"
+            placeholder="Price"
+            min={1}
+            disabled={orderSent}
+          />
+        </div>
+
+        <div style={{ gridArea: 'price-currency' }}>
+          <Select
             {...register('currencyId')}
             id="currency"
             disabled={orderSent}
           >
             <option value="ark">Arki Dollar (ARK)</option>
             <option value="rck">Rock (RCK)</option>
-          </select>
-          <br />
+          </Select>
+        </div>
 
-          <Fragment>
-            <input
-              {...register('quantity')}
-              type="number"
-              id="quantity"
-              placeholder="Quantity"
-              min={0}
-              disabled={orderSent}
-            />
-
-            <input
-              {...register('price')}
-              type="number"
-              id="price"
-              placeholder="Price"
-              min={0}
-              disabled={orderSent}
-            />
-          </Fragment>
-
-          <p>
-            {submitText} {orderParams.quantity}M of material for{' '}
-            {orderParams.quantity * orderParams.price} {currencyCode} (
-            {liquidity} {currencyCode} available).
+        <div
+          style={{
+            gridArea: 'summary',
+            display: 'grid',
+            alignItems: 'center',
+            justifyItems: 'flex-end',
+          }}
+        >
+          <p style={{ fontSize: '24px' }}>
+            {orderParams.quantity * orderParams.price} {currencyCode}
           </p>
+        </div>
 
-          <Error visible={!quantityAboveZero}>Quantity must be above 0.</Error>
+        <div style={{ gridArea: 'submit' }}>
+          {!orderSent && <Submit value={submitText} disabled={!canSend} />}
 
-          <Error visible={notEnoughMoney}>
-            You don't have enough money to buy.
-          </Error>
-
-          <Error visible={notEnoughCommodity}>
-            You don't have enough material to sell.
-          </Error>
-
-          <br />
-
-          <input type="submit" value={submitText} disabled={!canSend} />
           {orderSent && (
-            <input
-              type="button"
-              value={'Restart'}
+            <Button
               onClick={() => {
                 setOrderSent(false);
                 reset({}, { keepDefaultValues: true });
               }}
-            />
+            >
+              Restart
+            </Button>
           )}
-
-          <Success visible={orderSent}>Order successfully sent!</Success>
         </div>
-      </form>
+
+        <div
+          style={{
+            gridArea: 'errors',
+            display: 'grid',
+            alignItems: 'center',
+          }}
+        >
+          <Success visible={orderSent}>Order successfully sent!</Success>
+
+          <Error visible={!quantityAboveZero && !orderSent}>
+            Quantity must be above 0.
+          </Error>
+
+          <Error visible={notEnoughMoney && !orderSent}>
+            You don't have enough money to buy.
+          </Error>
+
+          <Error visible={notEnoughCommodity && !orderSent}>
+            You don't have enough material to sell.
+          </Error>
+        </div>
+      </StyledForm>
       <h2>Best offers</h2>
       <BestOffers
         side={orderParams.orderType === 'sell' ? OrderSide.SELL : OrderSide.BUY}
@@ -304,6 +334,28 @@ interface sendOrderParams {
   quantity: number;
   price: number;
 }
+
+const StyledForm = styled(Form)`
+  grid-template-areas:
+    'sell-buy         summary'
+    'commodity-amount commodity-type'
+    'price-amount     price-currency'
+    'submit           errors';
+  grid-template-columns: 200px 1fr;
+
+  @media all and (max-width: 499px) {
+    grid-template-areas:
+      'sell-buy'
+      'summary'
+      'commodity-amount'
+      'commodity-type'
+      'price-amount'
+      'price-currency'
+      'submit'
+      'errors';
+    grid-template-columns: 1fr;
+  }
+`;
 
 const BestOffers: FunctionComponent<bestOffersProps> = (props) => {
   const client = useApolloClient();
@@ -476,7 +528,7 @@ const OpenOffers = () => {
 
   return (
     <Fragment>
-      {offers.length === 0 && <Info>You have currently open offers.</Info>}
+      {offers.length === 0 && <Info>You have currently no open offers.</Info>}
       {offers.length > 0 && (
         <table>
           <thead>
