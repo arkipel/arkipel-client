@@ -15,6 +15,7 @@ const Button = forwardRef<HTMLButtonElement, btnProps>(
 type btnProps = ButtonHTMLAttributes<HTMLButtonElement>;
 
 const StyledButton = styled.button`
+  width: 200px;
   padding: 6px;
   color: #fff;
   font-size: 18px;
@@ -24,6 +25,11 @@ const StyledButton = styled.button`
 
   &:disabled {
     background: rgba(80, 80, 80);
+    cursor: default;
+  }
+
+  @media all and (max-width: 499px) {
+    width: 100%;
   }
 `;
 
