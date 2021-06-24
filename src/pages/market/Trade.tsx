@@ -138,7 +138,6 @@ const TradePage = () => {
   const isSell = orderParams.orderType === 'sell';
 
   let currencyCode = orderParams.currencyId.toUpperCase();
-  // let currencyCode = 'ark';
 
   const totalAmount = orderParams.quantity * orderParams.price;
   const totalQuantity = orderParams.quantity * 1_000_000;
@@ -277,9 +276,6 @@ const TradePage = () => {
         >
           <p style={{ fontSize: '24px' }}>
             {orderParams.quantity * orderParams.price} {currencyCode}
-            {/* {submitText} {orderParams.quantity}M of material for{' '}
-            {orderParams.quantity * orderParams.price} {currencyCode} (
-            {liquidity} {currencyCode} available). */}
           </p>
         </div>
 
