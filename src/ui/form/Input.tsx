@@ -13,13 +13,16 @@ const Input = React.forwardRef<HTMLInputElement, props>((props, ref) => {
 type props = InputHTMLAttributes<HTMLInputElement>;
 
 const StyledInput = styled.input`
-  width: 100%;
   padding: 6px;
   font-size: 18px;
   border: 1px solid black;
 
   &:disabled {
     background: #eee;
+  }
+
+  @media all and (max-width: 499px) {
+    width: 100%;
   }
 `;
 
@@ -65,7 +68,6 @@ const Select = forwardRef<HTMLSelectElement, selectProps>(
 type selectProps = SelectHTMLAttributes<HTMLSelectElement>;
 
 const StyledSelect = styled.select`
-  width: 100%;
   padding: 6px;
   color: #000;
   font-size: 18px;
@@ -75,6 +77,10 @@ const StyledSelect = styled.select`
 
   &:disabled {
     background: #eee;
+  }
+
+  @media all and (max-width: 499px) {
+    width: 100%;
   }
 `;
 

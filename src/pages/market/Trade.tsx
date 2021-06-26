@@ -234,11 +234,17 @@ const TradePage = () => {
             placeholder="Quantity"
             min={1}
             disabled={orderSent}
+            style={{ width: '100%' }}
           />
         </div>
 
         <div style={{ gridArea: 'commodity-type' }}>
-          <Select name="commodity" id="commodity" disabled={orderSent}>
+          <Select
+            name="commodity"
+            id="commodity"
+            disabled={orderSent}
+            style={{ width: '100%' }}
+          >
             <option value="material_1m">Material (1M)</option>
           </Select>
         </div>
@@ -252,6 +258,7 @@ const TradePage = () => {
             placeholder="Price"
             min={1}
             disabled={orderSent}
+            style={{ width: '100%' }}
           />
         </div>
 
@@ -260,6 +267,7 @@ const TradePage = () => {
             {...register('currencyId')}
             id="currency"
             disabled={orderSent}
+            style={{ width: '100%' }}
           >
             <option value="ark">Arki Dollar (ARK)</option>
             <option value="rck">Rock (RCK)</option>
