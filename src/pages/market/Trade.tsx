@@ -256,7 +256,7 @@ const TradePage = () => {
             type="number"
             id="price"
             placeholder="Price"
-            min={1}
+            min={0}
             disabled={orderSent}
             style={{ width: '100%' }}
           />
