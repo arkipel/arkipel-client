@@ -115,6 +115,8 @@ const TradePage = () => {
   const defaultValues = {
     orderType: 'sell',
     currencyId: 'ark',
+    commodityType: CommodityType.MATERIAL_1M,
+    commodityCurrencyId: null,
     quantity: 0,
     price: 0,
   };
@@ -141,6 +143,17 @@ const TradePage = () => {
 
   const totalAmount = orderParams.quantity * orderParams.price;
   const totalQuantity = orderParams.quantity * 1_000_000;
+
+  // Commodity currency
+  let commodityIsCurrency = orderParams.commodityType == CommodityType.CURRENCY;
+
+  console.log('orderParams.commodityType', orderParams.commodityType);
+  console.log('commodityIsCurrency', commodityIsCurrency);
+
+  let missingCommodityCurrency =
+    commodityIsCurrency && !orderParams.commodityCurrencyId;
+
+  console.log('missingCommodityCurrency', missingCommodityCurrency);
 
   // Check quantity
   let quantityAboveZero = orderParams.quantity > 0;
@@ -240,12 +253,23 @@ const TradePage = () => {
 
         <div style={{ gridArea: 'commodity-type' }}>
           <Select
-            name="commodity"
-            id="commodity"
+            {...register('commodityType')}
             disabled={orderSent}
             style={{ width: '100%' }}
           >
-            <option value="material_1m">Material (1M)</option>
+            <option value={CommodityType.MATERIAL_1M}>Material (1M)</option>
+            <option value={CommodityType.CURRENCY}>Currency</option>
+          </Select>
+        </div>
+
+        <div style={{ gridArea: 'commodity-currency' }}>
+          <Select
+            {...register('commodityCurrencyId')}
+            disabled={orderSent || !commodityIsCurrency}
+            style={{ width: '100%' }}
+          >
+            <option value="ark">Arki Dollar (ARK)</option>
+            <option value="rck">Rock (RCK)</option>
           </Select>
         </div>
 
@@ -322,6 +346,10 @@ const TradePage = () => {
           <Error visible={notEnoughCommodity && !orderSent}>
             You don't have enough material to sell.
           </Error>
+
+          <Error visible={missingCommodityCurrency && !orderSent}>
+            A currency to trade must be selected.
+          </Error>
         </div>
       </StyledForm>
       <h2>Best offers</h2>
@@ -339,6 +367,8 @@ const TradePage = () => {
 interface sendOrderParams {
   orderType: string;
   currencyId: string;
+  commodityType: CommodityType;
+  commodityCurrencyId: string | null;
   quantity: number;
   price: number;
 }
@@ -347,6 +377,7 @@ const StyledForm = styled(Form)`
   grid-template-areas:
     'sell-buy         summary'
     'commodity-amount commodity-type'
+    'empty            commodity-currency'
     'price-amount     price-currency'
     'submit           errors';
   grid-template-columns: 200px 1fr;
