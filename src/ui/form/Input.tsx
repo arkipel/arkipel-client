@@ -76,6 +76,7 @@ const StyledSelect = styled.select`
   cursor: pointer;
 
   &:disabled {
+    color: #666;
     background: #eee;
   }
 
