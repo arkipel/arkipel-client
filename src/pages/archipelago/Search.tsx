@@ -50,7 +50,7 @@ const SearchIslandsPage = () => {
 
   return (
     <Fragment>
-      <h2>Search islands</h2>
+      <h1>Search islands</h1>
       <Form>
         <p>
           <Input
