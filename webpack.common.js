@@ -30,12 +30,16 @@ module.exports = {
         },
       },
       {
+        test: /\.(css)$/,
+        use: ['style-loader', 'css-loader'],
+      },
+      {
         test: /\.(gif|jpg|png|svg)$/,
-        use: ['file-loader'],
+        type: 'asset/resource',
       },
       {
         test: /\.(woff|woff2|eot|ttf|otf)$/,
-        use: ['file-loader'],
+        type: 'asset/resource',
       },
     ],
   },

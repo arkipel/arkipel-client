@@ -1,18 +1,9 @@
-import React, {
-  Fragment,
-  useContext,
-  useState,
-  FunctionComponent,
-} from 'react';
+import React, { Fragment, useContext, useState } from 'react';
 import styled from 'styled-components';
 import { useForm } from 'react-hook-form';
 
 import { useQuery, useMutation, gql, useApolloClient } from '@apollo/client';
 import { SendOrder, SendOrderVariables } from '../../generated/SendOrder';
-import {
-  GetBestOffers,
-  GetBestOffersVariables,
-} from '../../generated/GetBestOffers';
 import {
   GetMyOpenOrders,
   GetMyOpenOrdersVariables,
@@ -115,6 +106,8 @@ const TradePage = () => {
   const defaultValues = {
     orderType: 'sell',
     currencyId: 'ark',
+    commodityType: CommodityType.MATERIAL_1M,
+    commodityCurrencyId: null,
     quantity: 0,
     price: 0,
   };
@@ -140,7 +133,13 @@ const TradePage = () => {
   let currencyCode = orderParams.currencyId.toUpperCase();
 
   const totalAmount = orderParams.quantity * orderParams.price;
-  const totalQuantity = orderParams.quantity * 1_000_000;
+  let totalQuantity = orderParams.quantity;
+
+  // Commodity currency
+  let commodityIsCurrency = orderParams.commodityType == CommodityType.CURRENCY;
+
+  let missingCommodityCurrency =
+    commodityIsCurrency && !orderParams.commodityCurrencyId;
 
   // Check quantity
   let quantityAboveZero = orderParams.quantity > 0;
@@ -160,14 +159,48 @@ const TradePage = () => {
   }
 
   // Check commodity stock
-  let commodityAvailable = inventory.material;
+  let commodityAvailable = 0;
+  let notEnoughErrorMsg = '';
+  switch (orderParams.commodityType) {
+    case CommodityType.MATERIAL_1M:
+      commodityAvailable = inventory.material;
+      notEnoughErrorMsg = "You don't have enough material to sell.";
+      totalQuantity = orderParams.quantity * 1_000_000;
+      break;
+
+    case CommodityType.CURRENCY:
+      bankAccounts.forEach((ba) => {
+        if (ba.currencyId === orderParams.commodityCurrencyId) {
+          console.log(`found ${ba.amount} ${ba.currencyCodeStr()}`);
+          commodityAvailable = ba.amount;
+          notEnoughErrorMsg = `You don't have enough money (${ba.currencyCodeStr()}) to sell.`;
+        }
+      });
+      break;
+
+    default:
+      break;
+  }
+
   let notEnoughCommodity = false;
   if (isSell && commodityAvailable < totalQuantity) {
     notEnoughCommodity = true;
   }
 
+  let commodityCurrencySameAsCurrency = false;
+  if (
+    orderParams.commodityType === CommodityType.CURRENCY &&
+    orderParams.commodityCurrencyId === orderParams.currencyId
+  ) {
+    commodityCurrencySameAsCurrency = true;
+  }
+
   let canSend =
-    !orderSent && quantityAboveZero && !notEnoughMoney && !notEnoughCommodity;
+    !orderSent &&
+    quantityAboveZero &&
+    !notEnoughMoney &&
+    !notEnoughCommodity &&
+    !commodityCurrencySameAsCurrency;
 
   return (
     <Fragment>
@@ -189,7 +222,8 @@ const TradePage = () => {
               expiresAt: DateTime.utc().plus(Duration.fromMillis(1800 * 1000)),
               side,
               currencyId: params.currencyId,
-              commodity: CommodityType.MATERIAL_1M,
+              commodity: params.commodityType,
+              commodityCurrencyId: params.commodityCurrencyId,
               quantity: params.quantity,
               price: params.price,
             },
@@ -240,12 +274,28 @@ const TradePage = () => {
 
         <div style={{ gridArea: 'commodity-type' }}>
           <Select
-            name="commodity"
-            id="commodity"
+            {...register('commodityType')}
             disabled={orderSent}
             style={{ width: '100%' }}
           >
-            <option value="material_1m">Material (1M)</option>
+            <option value={CommodityType.MATERIAL_1M}>Material (1M)</option>
+            <option value={CommodityType.CURRENCY}>Currency</option>
+          </Select>
+        </div>
+
+        <div style={{ gridArea: 'commodity-currency' }}>
+          <Select
+            {...register('commodityCurrencyId')}
+            disabled={orderSent || !commodityIsCurrency}
+            style={{ width: '100%' }}
+            placeholder={'commodity crrency'}
+            defaultValue=""
+          >
+            <option value="" disabled>
+              Select currency
+            </option>
+            <option value="ark">Arki Dollar (ARK)</option>
+            <option value="rck">Rock (RCK)</option>
           </Select>
         </div>
 
@@ -256,7 +306,7 @@ const TradePage = () => {
             type="number"
             id="price"
             placeholder="Price"
-            min={1}
+            min={0}
             disabled={orderSent}
             style={{ width: '100%' }}
           />
@@ -320,16 +370,18 @@ const TradePage = () => {
           </Error>
 
           <Error visible={notEnoughCommodity && !orderSent}>
-            You don't have enough material to sell.
+            {notEnoughErrorMsg}
+          </Error>
+
+          <Error visible={missingCommodityCurrency && !orderSent}>
+            A currency to trade must be selected.
+          </Error>
+
+          <Error visible={commodityCurrencySameAsCurrency && !orderSent}>
+            Cannot trade a currency using the same currency.
           </Error>
         </div>
       </StyledForm>
-      <h2>Best offers</h2>
-      <BestOffers
-        side={orderParams.orderType === 'sell' ? OrderSide.SELL : OrderSide.BUY}
-        currencyId={orderParams.currencyId}
-        commodity={CommodityType.MATERIAL_1M}
-      />
       <h2>Open offers</h2>
       <OpenOffers />
     </Fragment>
@@ -339,6 +391,8 @@ const TradePage = () => {
 interface sendOrderParams {
   orderType: string;
   currencyId: string;
+  commodityType: CommodityType;
+  commodityCurrencyId: string | null;
   quantity: number;
   price: number;
 }
@@ -347,6 +401,7 @@ const StyledForm = styled(Form)`
   grid-template-areas:
     'sell-buy         summary'
     'commodity-amount commodity-type'
+    'empty            commodity-currency'
     'price-amount     price-currency'
     'submit           errors';
   grid-template-columns: 200px 1fr;
@@ -364,119 +419,6 @@ const StyledForm = styled(Form)`
     grid-template-columns: 1fr;
   }
 `;
-
-const BestOffers: FunctionComponent<bestOffersProps> = (props) => {
-  const client = useApolloClient();
-
-  const input = {
-    side: props.side,
-    currencyId: props.currencyId,
-    commodity: props.commodity,
-  };
-
-  const { data, loading, error } = useQuery<
-    GetBestOffers,
-    GetBestOffersVariables
-  >(
-    gql`
-      query GetBestOffers($input: OrdersInput!) {
-        orders(input: $input) {
-          __typename
-          ... on OrderList {
-            orders {
-              id
-              side
-              expiresAt
-              currency {
-                id
-                code
-              }
-              commodity
-              quantity
-              price
-            }
-          }
-        }
-      }
-    `,
-    { variables: { input }, pollInterval: 10000 },
-  );
-
-  let offers = new Array<offer>();
-
-  if (data?.orders.__typename === 'OrderList') {
-    for (const o of data.orders.orders) {
-      offers.push({
-        id: o.id,
-        side: o.side,
-        expiresAt: DateTime.fromISO(o.expiresAt),
-        currencyCode: o.currency.code,
-        commodity: o.commodity,
-        quantity: o.quantity,
-        price: o.price,
-      });
-    }
-  }
-
-  if (loading) {
-    return <p>Loading...</p>;
-  }
-
-  if (error || data?.orders.__typename !== 'OrderList') {
-    return <Error>Sorry, an error occurred.</Error>;
-  }
-
-  return (
-    <Fragment>
-      <p>
-        The following are the best offers that correspond to the commodity
-        selected above.
-      </p>
-      {offers.length === 0 && <Info>No offers found.</Info>}
-      {offers.length > 0 && (
-        <table>
-          <thead>
-            <tr>
-              <th>Side</th>
-              <th>Qty</th>
-              <th>Commodity</th>
-              <th>Price</th>
-              <th>Time left</th>
-            </tr>
-          </thead>
-          <tbody>
-            {offers.map((offer) => {
-              return (
-                <tr key={offer.id}>
-                  <td>{offer.side}</td>
-                  <td>{offer.quantity}</td>
-                  <td>{commodityToString(offer.commodity)}</td>
-                  <td>{offer.price}</td>
-                  <td>
-                    <TimeLeft
-                      target={offer.expiresAt}
-                      onReach={() => {
-                        client.cache.evict({
-                          id: 'Offer:' + offer.id,
-                        });
-                      }}
-                    />
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-      )}
-    </Fragment>
-  );
-};
-
-interface bestOffersProps {
-  side: OrderSide;
-  currencyId: string;
-  commodity: CommodityType;
-}
 
 const OpenOffers = () => {
   const session = useContext(SessionContext);
