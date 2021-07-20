@@ -17,6 +17,8 @@ import ResourcesPane from '../components/ResourcesPane';
 import { TopBar, Box } from '../ui/layout/TopBar';
 import Scrollable from '../ui/layout/Scrollable';
 import TimeLeft from '../ui/text/TimeLeft';
+import Tile from '../models/Tile';
+import MapTile from '../components/MapTile';
 
 const NotificationPane: FunctionComponent<props> = ({
   visible,
@@ -118,21 +120,36 @@ const NotificationPane: FunctionComponent<props> = ({
             hasSites &&
             sites.map((site) => {
               return (
-                <p key={Math.random()}>
-                  Some infrastructure is being built on tile {site.tilePosition}
-                  . It will be done{' '}
-                  <b>
-                    <TimeLeft
-                      target={site.finishedAt}
-                      onReach={() => {
-                        client.cache.evict({
-                          id: 'ConstructionSite:' + site.id,
-                        });
-                      }}
+                <StyledNotification key={site.id}>
+                  <div>
+                    <MapTile
+                      tile={
+                        new Tile({
+                          position: site.tilePosition,
+                          infrastructure: site.infrastructure,
+                        })
+                      }
+                      size={50}
                     />
-                  </b>
-                  .
-                </p>
+                  </div>
+                  <div>
+                    <p key={Math.random()}>
+                      A {site.infrastructure.toLocaleLowerCase()} is being built
+                      on tile {site.tilePosition}. It will be done{' '}
+                      <b>
+                        <TimeLeft
+                          target={site.finishedAt}
+                          onReach={() => {
+                            client.cache.evict({
+                              id: 'ConstructionSite:' + site.id,
+                            });
+                          }}
+                        />
+                      </b>
+                      .
+                    </p>
+                  </div>
+                </StyledNotification>
               );
             })}
         </StyleContent>
@@ -177,6 +194,21 @@ const Style = styled.div`
 
   @media all and (max-width: 999px) {
     box-shadow: var(--visibleBoxShadow);
+  }
+`;
+
+const StyledNotification = styled.div`
+  display: grid;
+
+  grid-template-columns: 50px 1fr;
+  /* border: 2px solid black; */
+
+  /* div:first-child {
+    border: 1px solid red;
+  } */
+
+  div:nth-child(2) {
+    padding: 4px;
   }
 `;
 
