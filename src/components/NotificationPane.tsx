@@ -151,6 +151,7 @@ const Style = styled.div`
   grid-template-rows: auto auto 1fr;
   grid-row: 1;
   justify-self: flex-end;
+  min-height: 0;
   height: 100%;
   width: 300px;
   background: #ffffff;
