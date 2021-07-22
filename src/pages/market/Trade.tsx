@@ -412,6 +412,7 @@ const StyledForm = styled(Form)`
       'summary'
       'commodity-amount'
       'commodity-type'
+      'commodity-currency'
       'price-amount'
       'price-currency'
       'submit'
