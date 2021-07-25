@@ -1,4 +1,5 @@
 import React, { FunctionComponent, useContext } from 'react';
+import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 import Media from 'react-media';
 
@@ -134,23 +135,34 @@ const NotificationPane: FunctionComponent<props> = ({
                     />
                   </div>
                   <div>
-                    <p>Construction</p>
-                    <p>
-                      {site.infrastructure.toLocaleLowerCase()} (
-                      {site.tilePosition}) level {site.tile.level} →{' '}
-                      {site.tile.level + 1}
-                    </p>
                     <p>
                       <b>
-                        <TimeLeft
-                          target={site.finishedAt}
-                          onReach={() => {
-                            client.cache.evict({
-                              id: 'ConstructionSite:' + site.id,
-                            });
-                          }}
-                        />
+                        Construction on{' '}
+                        <NavLink
+                          exact
+                          to="/island/treasury"
+                          onClick={onCloseClick}
+                        >
+                          {site.infrastructure.toLocaleLowerCase()} (
+                          {site.tilePosition})
+                        </NavLink>{' '}
                       </b>
+                    </p>
+                    <p>
+                      Level {site.tile.level} → {site.tile.level + 1}
+                    </p>
+                  </div>
+                  <div>
+                    <p>
+                      Done{' '}
+                      <TimeLeft
+                        target={site.finishedAt}
+                        onReach={() => {
+                          client.cache.evict({
+                            id: 'ConstructionSite:' + site.id,
+                          });
+                        }}
+                      />
                     </p>
                   </div>
                 </StyledNotification>
@@ -203,17 +215,38 @@ const Style = styled.div`
 
 const StyledNotification = styled.div`
   display: grid;
-  font-size: 12px;
-  /* border: 1px solid black; */
-
+  font-size: 14px;
+  height: 50px;
   grid-template-columns: 50px 1fr;
 
+  a {
+    color: #666;
+  }
+
+  div:nth-child(1) {
+    grid-row: 1;
+    grid-column: 1;
+  }
+
   div:nth-child(2) {
+    grid-row: 1;
+    grid-column: 2;
     padding: 4px;
+  }
+
+  div:nth-child(3) {
+    grid-row: 1;
+    grid-column: 1 / 3;
+    place-self: end end;
+    padding: 2px 4px;
+    background: rgba(0, 0, 0, 0.2);
+    color: #eee;
+    font-size: 12px;
   }
 `;
 
 const StyleContent = styled.div`
+  display: grid;
   grid-gap: 10px;
   padding: 10px;
 `;
