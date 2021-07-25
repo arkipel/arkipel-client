@@ -137,8 +137,8 @@ const NotificationPane: FunctionComponent<props> = ({
                     <p>Construction</p>
                     <p>
                       {site.infrastructure.toLocaleLowerCase()} (
-                      {site.tilePosition}) level {site.tile.level - 1} →{' '}
-                      {site.tile.level}
+                      {site.tilePosition}) level {site.tile.level} →{' '}
+                      {site.tile.level + 1}
                     </p>
                     <p>
                       <b>
