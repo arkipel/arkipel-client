@@ -140,7 +140,7 @@ const NotificationPane: FunctionComponent<props> = ({
                         Construction on{' '}
                         <NavLink
                           exact
-                          to="/island/treasury"
+                          to={'/island/tiles/' + site.tilePosition}
                           onClick={onCloseClick}
                         >
                           {site.infrastructure.toLocaleLowerCase()} (
