@@ -171,7 +171,6 @@ const TradePage = () => {
     case CommodityType.CURRENCY:
       bankAccounts.forEach((ba) => {
         if (ba.currencyId === orderParams.commodityCurrencyId) {
-          console.log(`found ${ba.amount} ${ba.currencyCodeStr()}`);
           commodityAvailable = ba.amount;
           notEnoughErrorMsg = `You don't have enough money (${ba.currencyCodeStr()}) to sell.`;
         }
