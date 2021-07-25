@@ -62,6 +62,7 @@ const NotificationPane: FunctionComponent<props> = ({
               finishedAt
               tile {
                 position
+                level
               }
             }
           }
@@ -133,9 +134,13 @@ const NotificationPane: FunctionComponent<props> = ({
                     />
                   </div>
                   <div>
-                    <p key={Math.random()}>
-                      A {site.infrastructure.toLocaleLowerCase()} is being built
-                      on tile {site.tilePosition}. It will be done{' '}
+                    <p>Construction</p>
+                    <p>
+                      {site.infrastructure.toLocaleLowerCase()} (
+                      {site.tilePosition}) level {site.tile.level - 1} →{' '}
+                      {site.tile.level}
+                    </p>
+                    <p>
                       <b>
                         <TimeLeft
                           target={site.finishedAt}
@@ -146,7 +151,6 @@ const NotificationPane: FunctionComponent<props> = ({
                           }}
                         />
                       </b>
-                      .
                     </p>
                   </div>
                 </StyledNotification>
@@ -199,13 +203,10 @@ const Style = styled.div`
 
 const StyledNotification = styled.div`
   display: grid;
+  font-size: 12px;
+  /* border: 1px solid black; */
 
   grid-template-columns: 50px 1fr;
-  /* border: 2px solid black; */
-
-  /* div:first-child {
-    border: 1px solid red;
-  } */
 
   div:nth-child(2) {
     padding: 4px;

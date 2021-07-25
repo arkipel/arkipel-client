@@ -1,10 +1,12 @@
 import { DateTime } from 'luxon';
 
 import { Infrastructure } from '../generated/globalTypes';
+import Tile from './Tile';
 
 class ConstructionSite {
   constructor(obj: any) {
     this.id = obj?.id || '';
+    this.tile = new Tile(obj?.tile || {});
     this.tilePosition = obj?.tile?.position || 0;
     this.exists = false;
     this.infrastructure = Infrastructure.EMPTY;
@@ -18,6 +20,7 @@ class ConstructionSite {
   }
 
   id: string;
+  tile: Tile;
   tilePosition: number;
   exists: boolean;
   infrastructure: Infrastructure;
