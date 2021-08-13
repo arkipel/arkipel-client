@@ -1,4 +1,5 @@
 import React, { FunctionComponent, useContext } from 'react';
+import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 import Media from 'react-media';
 
@@ -17,6 +18,8 @@ import ResourcesPane from '../components/ResourcesPane';
 import { TopBar, Box } from '../ui/layout/TopBar';
 import Scrollable from '../ui/layout/Scrollable';
 import TimeLeft from '../ui/text/TimeLeft';
+import Tile from '../models/Tile';
+import MapTile from '../components/MapTile';
 
 const NotificationPane: FunctionComponent<props> = ({
   visible,
@@ -60,6 +63,7 @@ const NotificationPane: FunctionComponent<props> = ({
               finishedAt
               tile {
                 position
+                level
               }
             }
           }
@@ -118,21 +122,50 @@ const NotificationPane: FunctionComponent<props> = ({
             hasSites &&
             sites.map((site) => {
               return (
-                <p key={Math.random()}>
-                  Some infrastructure is being built on tile {site.tilePosition}
-                  . It will be done{' '}
-                  <b>
-                    <TimeLeft
-                      target={site.finishedAt}
-                      onReach={() => {
-                        client.cache.evict({
-                          id: 'ConstructionSite:' + site.id,
-                        });
-                      }}
+                <StyledNotification key={site.id}>
+                  <div>
+                    <MapTile
+                      tile={
+                        new Tile({
+                          position: site.tilePosition,
+                          infrastructure: site.infrastructure,
+                        })
+                      }
+                      size={50}
                     />
-                  </b>
-                  .
-                </p>
+                  </div>
+                  <div>
+                    <p>
+                      <b>
+                        Construction on{' '}
+                        <NavLink
+                          exact
+                          to={'/island/tiles/' + site.tilePosition}
+                          onClick={onCloseClick}
+                        >
+                          {site.infrastructure.toLocaleLowerCase()} (
+                          {site.tilePosition})
+                        </NavLink>{' '}
+                      </b>
+                    </p>
+                    <p>
+                      Level {site.tile.level} → {site.tile.level + 1}
+                    </p>
+                  </div>
+                  <div>
+                    <p>
+                      Done{' '}
+                      <TimeLeft
+                        target={site.finishedAt}
+                        onReach={() => {
+                          client.cache.evict({
+                            id: 'ConstructionSite:' + site.id,
+                          });
+                        }}
+                      />
+                    </p>
+                  </div>
+                </StyledNotification>
               );
             })}
         </StyleContent>
@@ -151,6 +184,7 @@ const Style = styled.div`
   grid-template-rows: auto auto 1fr;
   grid-row: 1;
   justify-self: flex-end;
+  min-height: 0;
   height: 100%;
   width: 300px;
   background: #ffffff;
@@ -179,7 +213,40 @@ const Style = styled.div`
   }
 `;
 
+const StyledNotification = styled.div`
+  display: grid;
+  font-size: 14px;
+  height: 50px;
+  grid-template-columns: 50px 1fr;
+
+  a {
+    color: #666;
+  }
+
+  div:nth-child(1) {
+    grid-row: 1;
+    grid-column: 1;
+  }
+
+  div:nth-child(2) {
+    grid-row: 1;
+    grid-column: 2;
+    padding: 4px;
+  }
+
+  div:nth-child(3) {
+    grid-row: 1;
+    grid-column: 1 / 3;
+    place-self: end end;
+    padding: 2px 4px;
+    background: rgba(0, 0, 0, 0.2);
+    color: #eee;
+    font-size: 12px;
+  }
+`;
+
 const StyleContent = styled.div`
+  display: grid;
   grid-gap: 10px;
   padding: 10px;
 `;

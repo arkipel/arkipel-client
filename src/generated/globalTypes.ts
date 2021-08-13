@@ -49,13 +49,6 @@ export interface EventsInput {
   readonly startAt?: number | null;
 }
 
-export interface OrdersInput {
-  readonly side: OrderSide;
-  readonly currencyId: string;
-  readonly commodity: CommodityType;
-  readonly commodityCurrencyId?: string | null;
-}
-
 export interface SendOrderInput {
   readonly userId: string;
   readonly expiresAt: any;
