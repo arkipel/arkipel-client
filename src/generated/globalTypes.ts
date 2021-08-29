@@ -36,6 +36,15 @@ export enum OrderSide {
   SELL = 'SELL',
 }
 
+export enum Precision {
+  DAY = 'DAY',
+  HOUR = 'HOUR',
+  MINUTE = 'MINUTE',
+  MONTH = 'MONTH',
+  SECOND = 'SECOND',
+  YEAR = 'YEAR',
+}
+
 export enum TileKind {
   DEEP_WATER = 'DEEP_WATER',
   LAND = 'LAND',
@@ -47,6 +56,15 @@ export interface EventsInput {
   readonly userId: string;
   readonly limit: number;
   readonly startAt?: number | null;
+}
+
+export interface MarketPricesInput {
+  readonly precision: Precision;
+  readonly from: any;
+  readonly to: any;
+  readonly currencyId: string;
+  readonly commodity: CommodityType;
+  readonly commodityCurrencyId?: string | null;
 }
 
 export interface SendOrderInput {
