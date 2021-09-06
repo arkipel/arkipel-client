@@ -25,6 +25,7 @@ import { Button } from '../../ui/form/Button';
 
 const TradePage = () => {
   const [orderSent, setOrderSent] = useState(false);
+  const [sendingError, setSendingError] = useState(false);
 
   const session = useContext(SessionContext);
   const inventory = useContext(InventoryContext);
@@ -202,14 +203,14 @@ const TradePage = () => {
     !notEnoughCommodity &&
     !commodityCurrencySameAsCurrency;
 
+  let formDisabled = orderSent || sendingError;
+
   return (
     <Fragment>
       <h1>Trade</h1>
       <h2>Send order</h2>
       <StyledForm
         onSubmit={handleSubmit((params) => {
-          setOrderSent(true);
-
           let side = OrderSide.SELL;
           if (params.orderType === 'buy') {
             side = OrderSide.BUY;
@@ -228,7 +229,15 @@ const TradePage = () => {
             },
           };
 
-          sendOrder({ variables });
+          sendOrder({ variables })
+            .then(() => {
+              setSendingError(false);
+              setOrderSent(true);
+            })
+            .catch(() => {
+              setSendingError(true);
+              setOrderSent(false);
+            });
         })}
       >
         <div
@@ -244,7 +253,7 @@ const TradePage = () => {
               label="Sell"
               {...register('orderType')}
               value="sell"
-              disabled={orderSent}
+              disabled={formDisabled}
             />
           </div>
 
@@ -253,7 +262,7 @@ const TradePage = () => {
               label="Buy"
               {...register('orderType')}
               value="buy"
-              disabled={orderSent}
+              disabled={formDisabled}
             />
           </div>
         </div>
@@ -266,7 +275,7 @@ const TradePage = () => {
             id="quantity"
             placeholder="Quantity"
             min={1}
-            disabled={orderSent}
+            disabled={formDisabled}
             style={{ width: '100%' }}
           />
         </div>
@@ -274,7 +283,7 @@ const TradePage = () => {
         <div style={{ gridArea: 'commodity-type' }}>
           <Select
             {...register('commodityType')}
-            disabled={orderSent}
+            disabled={formDisabled}
             style={{ width: '100%' }}
           >
             <option value={CommodityType.MATERIAL_1M}>Material (1M)</option>
@@ -285,7 +294,7 @@ const TradePage = () => {
         <div style={{ gridArea: 'commodity-currency' }}>
           <Select
             {...register('commodityCurrencyId')}
-            disabled={orderSent || !commodityIsCurrency}
+            disabled={formDisabled || !commodityIsCurrency}
             style={{ width: '100%' }}
             placeholder={'commodity crrency'}
             defaultValue=""
@@ -306,7 +315,7 @@ const TradePage = () => {
             id="price"
             placeholder="Price"
             min={0}
-            disabled={orderSent}
+            disabled={formDisabled}
             style={{ width: '100%' }}
           />
         </div>
@@ -315,7 +324,7 @@ const TradePage = () => {
           <Select
             {...register('currencyId')}
             id="currency"
-            disabled={orderSent}
+            disabled={formDisabled}
             style={{ width: '100%' }}
           >
             <option value="ark">Arki Dollar (ARK)</option>
@@ -338,7 +347,7 @@ const TradePage = () => {
           <Select
             {...register('duration')}
             id="duration"
-            disabled={orderSent}
+            disabled={formDisabled}
             style={{ width: '100%' }}
           >
             <option value="PT1M">1 minute</option>
@@ -365,12 +374,13 @@ const TradePage = () => {
         </div>
 
         <div style={{ gridArea: 'submit' }}>
-          {!orderSent && <Submit value={submitText} disabled={!canSend} />}
+          {!formDisabled && <Submit value={submitText} disabled={!canSend} />}
 
-          {orderSent && (
+          {formDisabled && (
             <Button
               onClick={() => {
                 setOrderSent(false);
+                setSendingError(false);
                 reset({}, { keepDefaultValues: true });
               }}
             >
@@ -387,6 +397,10 @@ const TradePage = () => {
           }}
         >
           <Success visible={orderSent}>Order successfully sent!</Success>
+
+          <Error visible={sendingError}>
+            Sorry, an unexpected error occurred.
+          </Error>
 
           <Error visible={!quantityAboveZero && !orderSent}>
             Quantity must be above 0.
