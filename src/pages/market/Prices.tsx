@@ -9,6 +9,8 @@ import { Precision, CommodityType } from '../../generated/globalTypes';
 
 import { Error } from '../../ui/dialog/Msg';
 import LineChart from '../../ui/chart/LineChart';
+import { Point } from '../../ui/chart/draw';
+import { DateTime } from 'luxon';
 
 const PricesPage = () => {
   const { data, loading, error } = useQuery<
@@ -42,7 +44,7 @@ const PricesPage = () => {
       variables: {
         input: {
           from: '2021-08-14T14:24:00Z',
-          to: '2021-08-14T14:25:00Z',
+          to: '2021-08-14T14:24:59Z',
           precision: Precision.SECOND,
           currencyId: 'ark',
           commodity: CommodityType.MATERIAL_1M,
@@ -59,10 +61,18 @@ const PricesPage = () => {
     return <Error>Sorry, an error occurred.</Error>;
   }
 
+  // Crunch the data points
+  let points = new Array<Point>();
+  data.marketPrices.prices.forEach((pp) => {
+    let x = DateTime.fromISO(pp.timestamp).toMillis();
+    let y = pp.price;
+    points.push({ x, y });
+  });
+
   return (
     <Fragment>
       <h1>Prices</h1>
-      <LineChart width={'100%'} height={300} />
+      <LineChart width={400} height={300} points={points} />
       <h2>Prices</h2>
       {data.marketPrices.prices.map((mp) => {
         return <p key={Math.random()}>{mp.price}</p>;

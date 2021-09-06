@@ -6,10 +6,11 @@ import styled from 'styled-components';
 import { debounce } from 'lodash';
 
 import draw from './draw';
+import { Point } from '../../ui/chart/draw';
 
 let calls = 0;
 
-const LineChart: FunctionComponent<props> = ({ height, width }) => {
+const LineChart: FunctionComponent<props> = ({ height, width, points }) => {
   let [canvasWidth, setCanvasWidth] = useState(width);
   let [canvasHeight, setCanvasHeight] = useState(height);
   const [scale, setScale] = React.useState({ x: 1, y: 1 });
@@ -39,20 +40,33 @@ const LineChart: FunctionComponent<props> = ({ height, width }) => {
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
-  const calculateScaleX = () =>
-    !canvasRef.current ? 0 : canvasRef.current.clientWidth / 100;
-  const calculateScaleY = () =>
-    !canvasRef.current ? 0 : canvasRef.current.clientHeight / 300;
+  // const calculateScaleX = () =>
+  //   !canvasRef.current ? 0 : canvasRef.current.clientWidth / 100;
+  // const calculateScaleY = () =>
+  //   !canvasRef.current ? 0 : canvasRef.current.clientHeight / 300;
 
-  let redraw = () => {
-    if (!canvasRef || !canvasRef.current) {
+  let redraw = debounce(() => {
+    let canvas = canvasRef.current;
+
+    if (!canvas) {
       return;
     }
 
-    canvasRef.current.width = canvasRef.current.clientWidth;
-    canvasRef.current.height = canvasRef.current.clientHeight;
-    setScale({ x: calculateScaleX(), y: calculateScaleY() });
-  };
+    canvas.width = canvas.width = canvas.clientWidth;
+    canvas.height = canvas.height = canvas.clientHeight;
+
+    console.log('redraw!');
+
+    draw(canvas, points);
+
+    calls++;
+
+    console.log(`the function was called ${calls} times`);
+
+    // canvas.width = canvas.clientWidth;
+    // canvas.height = canvas.clientHeight;
+    // setScale({ x: calculateScaleX(), y: calculateScaleY() });
+  }, 600);
 
   useEffect(() => {
     const currentCanvas = canvasRef.current;
@@ -61,19 +75,22 @@ const LineChart: FunctionComponent<props> = ({ height, width }) => {
       return;
     }
 
-    currentCanvas.addEventListener('resize', redraw);
+    draw(currentCanvas, points);
+
+    window.addEventListener('resize', redraw);
+
     return () => currentCanvas.removeEventListener('resize', redraw);
   });
 
-  useEffect(() => {
-    const currentCanvas = canvasRef.current;
+  // useEffect(() => {
+  //   const currentCanvas = canvasRef.current;
 
-    if (!currentCanvas) {
-      return;
-    }
+  //   if (!currentCanvas) {
+  //     return;
+  //   }
 
-    draw(currentCanvas);
-  }, [scale]);
+  //   draw(currentCanvas);
+  // }, [scale]);
 
   // let canvasResizeObsvr: ResizeObserver;
 
@@ -139,18 +156,19 @@ const LineChart: FunctionComponent<props> = ({ height, width }) => {
 interface props {
   height?: string | number;
   width?: string | number;
+  points: Point[];
 }
 
 const StyledLineChart = styled.div`
   width: var(--chartWidth);
   height: var(--chartHeight);
-  border: 2px solid black;
+  border: 1px solid #ddd;
 
   & > canvas {
     display: block;
     width: 100%;
     height: 300px;
-    border: 2px solid red;
+    /* border: 2px solid red; */
   }
 `;
 
