@@ -431,7 +431,7 @@ const StyledForm = styled(Form)`
     'commodity-amount commodity-type'
     'empty            commodity-currency'
     'price-amount     price-currency'
-    'expires-in        order-duration'
+    'expires-in       order-duration'
     'submit           errors';
   grid-template-columns: 200px 1fr;
 
