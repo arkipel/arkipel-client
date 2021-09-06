@@ -126,6 +126,16 @@ const MenuPane: FunctionComponent<props> = ({ visible, onCloseClick }) => {
                   <span>Search</span>
                 </NavLink>
               </li>
+              <li>
+                <NavLink
+                  exact
+                  to="/archipelago/community"
+                  onClick={onCloseClick}
+                >
+                  <img src="https://icons.arkipel.io/menu/community.svg" />
+                  <span>Community</span>
+                </NavLink>
+              </li>
             </ul>
             {session.loggedIn && (
               <Fragment>
