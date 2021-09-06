@@ -108,6 +108,7 @@ const TradePage = () => {
     currencyId: 'ark',
     commodityType: CommodityType.MATERIAL_1M,
     commodityCurrencyId: null,
+    duration: 'PT1H',
     quantity: 0,
     price: 0,
   };
@@ -217,8 +218,7 @@ const TradePage = () => {
           const variables: SendOrderVariables = {
             input: {
               userId: session.id,
-              // 30 minutes
-              expiresAt: DateTime.utc().plus(Duration.fromMillis(1800 * 1000)),
+              expiresAt: DateTime.utc().plus(Duration.fromISO(params.duration)),
               side,
               currencyId: params.currencyId,
               commodity: params.commodityType,
@@ -325,6 +325,34 @@ const TradePage = () => {
 
         <div
           style={{
+            gridArea: 'expires-in',
+            display: 'grid',
+            alignItems: 'center',
+            justifyContent: 'flex-end',
+          }}
+        >
+          <p>Expires in</p>
+        </div>
+
+        <div style={{ gridArea: 'order-duration' }}>
+          <Select
+            {...register('duration')}
+            id="duration"
+            disabled={orderSent}
+            style={{ width: '100%' }}
+          >
+            <option value="PT1M">1 minute</option>
+            <option value="PT5M">5 minutes</option>
+            <option value="PT30M">30 minutes</option>
+            <option value="PT1H">1 hour</option>
+            <option value="PT12H">12 hours</option>
+            <option value="PT24H">24 hours</option>
+            <option value="PT48H">48 hours</option>
+          </Select>
+        </div>
+
+        <div
+          style={{
             gridArea: 'summary',
             display: 'grid',
             alignItems: 'center',
@@ -392,6 +420,7 @@ interface sendOrderParams {
   currencyId: string;
   commodityType: CommodityType;
   commodityCurrencyId: string | null;
+  duration: string;
   quantity: number;
   price: number;
 }
@@ -402,6 +431,7 @@ const StyledForm = styled(Form)`
     'commodity-amount commodity-type'
     'empty            commodity-currency'
     'price-amount     price-currency'
+    'expires-in       order-duration'
     'submit           errors';
   grid-template-columns: 200px 1fr;
 
@@ -414,6 +444,8 @@ const StyledForm = styled(Form)`
       'commodity-currency'
       'price-amount'
       'price-currency'
+      'expires-in'
+      'order-duration'
       'submit'
       'errors';
     grid-template-columns: 1fr;
