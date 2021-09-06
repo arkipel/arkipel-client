@@ -21,6 +21,7 @@ const Community = () => {
             <img src="https://icons.arkipel.io/logos/youtube.svg" />
             <a href="https://youtube.com/user/SuperM92">YouTube</a>
           </dt>
+          <dd>Devlog on the development of the game.</dd>
         </StyledList>
       </p>
     </Fragment>
@@ -46,10 +47,6 @@ const StyledList = styled.dl`
       height: 30px;
       width: 30px;
     }
-  }
-
-  dd {
-    color: #666;
   }
 `;
 
