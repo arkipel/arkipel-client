@@ -444,6 +444,7 @@ const StyledForm = styled(Form)`
       'commodity-currency'
       'price-amount'
       'price-currency'
+      'expires-in'
       'order-duration'
       'submit'
       'errors';
