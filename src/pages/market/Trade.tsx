@@ -101,6 +101,7 @@ const TradePage = () => {
           },
         });
       },
+      refetchQueries: ['GetBankAccounts', 'GetCurrentInventory'],
     },
   );
 
