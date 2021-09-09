@@ -65,12 +65,14 @@ const draw = (canvas: HTMLCanvasElement, points: Point[]) => {
   }
 
   // Draw grid
-  ctx.strokeStyle = '#ddd';
+  ctx.beginPath();
+  ctx.strokeStyle = '#eee';
+  ctx.lineWidth = 1;
 
   let numRows = 4;
   //let numRows = Math.floor((ceil - floor) / 10);
 
-  for (let i = 0; i < numRows; i++) {
+  for (let i = 1; i < numRows; i++) {
     ctx.moveTo(0, (height / numRows) * (numRows - i));
 
     if (i > 0) {

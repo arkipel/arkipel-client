@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { useEffect } from 'react';
 import styled from 'styled-components';
 
-import { debounce } from 'lodash';
+import { debounce, flatMapDepth } from 'lodash';
 
 import draw from './draw';
 import { Point } from '../../ui/chart/draw';
@@ -55,8 +55,6 @@ const LineChart: FunctionComponent<props> = ({ height, width, points }) => {
     canvas.width = canvas.width = canvas.clientWidth;
     canvas.height = canvas.height = canvas.clientHeight;
 
-    console.log('redraw!');
-
     draw(canvas, points);
 
     calls++;
@@ -66,20 +64,20 @@ const LineChart: FunctionComponent<props> = ({ height, width, points }) => {
     // canvas.width = canvas.clientWidth;
     // canvas.height = canvas.clientHeight;
     // setScale({ x: calculateScaleX(), y: calculateScaleY() });
-  }, 600);
+  }, 200);
 
   useEffect(() => {
-    const currentCanvas = canvasRef.current;
+    const canvas = canvasRef.current;
 
-    if (!currentCanvas) {
+    if (!canvas) {
       return;
     }
 
-    draw(currentCanvas, points);
+    redraw();
 
     window.addEventListener('resize', redraw);
 
-    return () => currentCanvas.removeEventListener('resize', redraw);
+    return () => canvas.removeEventListener('resize', redraw);
   });
 
   // useEffect(() => {
@@ -168,7 +166,6 @@ const StyledLineChart = styled.div`
     display: block;
     width: 100%;
     height: 300px;
-    /* border: 2px solid red; */
   }
 `;
 
