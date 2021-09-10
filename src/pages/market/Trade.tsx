@@ -25,6 +25,7 @@ import { Button } from '../../ui/form/Button';
 
 const TradePage = () => {
   const [orderSent, setOrderSent] = useState(false);
+  const [sendingError, setSendingError] = useState(false);
 
   const session = useContext(SessionContext);
   const inventory = useContext(InventoryContext);
@@ -100,6 +101,7 @@ const TradePage = () => {
           },
         });
       },
+      refetchQueries: ['GetBankAccounts', 'GetCurrentInventory'],
     },
   );
 
@@ -108,6 +110,7 @@ const TradePage = () => {
     currencyId: 'ark',
     commodityType: CommodityType.MATERIAL_1M,
     commodityCurrencyId: null,
+    duration: 'PT1H',
     quantity: 0,
     price: 0,
   };
@@ -201,14 +204,14 @@ const TradePage = () => {
     !notEnoughCommodity &&
     !commodityCurrencySameAsCurrency;
 
+  let formDisabled = orderSent || sendingError;
+
   return (
     <Fragment>
       <h1>Trade</h1>
       <h2>Send order</h2>
       <StyledForm
         onSubmit={handleSubmit((params) => {
-          setOrderSent(true);
-
           let side = OrderSide.SELL;
           if (params.orderType === 'buy') {
             side = OrderSide.BUY;
@@ -217,8 +220,7 @@ const TradePage = () => {
           const variables: SendOrderVariables = {
             input: {
               userId: session.id,
-              // 30 minutes
-              expiresAt: DateTime.utc().plus(Duration.fromMillis(1800 * 1000)),
+              expiresAt: DateTime.utc().plus(Duration.fromISO(params.duration)),
               side,
               currencyId: params.currencyId,
               commodity: params.commodityType,
@@ -228,7 +230,15 @@ const TradePage = () => {
             },
           };
 
-          sendOrder({ variables });
+          sendOrder({ variables })
+            .then(() => {
+              setSendingError(false);
+              setOrderSent(true);
+            })
+            .catch(() => {
+              setSendingError(true);
+              setOrderSent(false);
+            });
         })}
       >
         <div
@@ -244,7 +254,7 @@ const TradePage = () => {
               label="Sell"
               {...register('orderType')}
               value="sell"
-              disabled={orderSent}
+              disabled={formDisabled}
             />
           </div>
 
@@ -253,7 +263,7 @@ const TradePage = () => {
               label="Buy"
               {...register('orderType')}
               value="buy"
-              disabled={orderSent}
+              disabled={formDisabled}
             />
           </div>
         </div>
@@ -266,7 +276,7 @@ const TradePage = () => {
             id="quantity"
             placeholder="Quantity"
             min={1}
-            disabled={orderSent}
+            disabled={formDisabled}
             style={{ width: '100%' }}
           />
         </div>
@@ -274,7 +284,7 @@ const TradePage = () => {
         <div style={{ gridArea: 'commodity-type' }}>
           <Select
             {...register('commodityType')}
-            disabled={orderSent}
+            disabled={formDisabled}
             style={{ width: '100%' }}
           >
             <option value={CommodityType.MATERIAL_1M}>Material (1M)</option>
@@ -285,7 +295,7 @@ const TradePage = () => {
         <div style={{ gridArea: 'commodity-currency' }}>
           <Select
             {...register('commodityCurrencyId')}
-            disabled={orderSent || !commodityIsCurrency}
+            disabled={formDisabled || !commodityIsCurrency}
             style={{ width: '100%' }}
             placeholder={'commodity crrency'}
             defaultValue=""
@@ -306,7 +316,7 @@ const TradePage = () => {
             id="price"
             placeholder="Price"
             min={0}
-            disabled={orderSent}
+            disabled={formDisabled}
             style={{ width: '100%' }}
           />
         </div>
@@ -315,11 +325,39 @@ const TradePage = () => {
           <Select
             {...register('currencyId')}
             id="currency"
-            disabled={orderSent}
+            disabled={formDisabled}
             style={{ width: '100%' }}
           >
             <option value="ark">Arki Dollar (ARK)</option>
             <option value="rck">Rock (RCK)</option>
+          </Select>
+        </div>
+
+        <div
+          style={{
+            gridArea: 'expires-in',
+            display: 'grid',
+            alignItems: 'center',
+            justifyContent: 'flex-end',
+          }}
+        >
+          <p>Expires in</p>
+        </div>
+
+        <div style={{ gridArea: 'order-duration' }}>
+          <Select
+            {...register('duration')}
+            id="duration"
+            disabled={formDisabled}
+            style={{ width: '100%' }}
+          >
+            <option value="PT1M">1 minute</option>
+            <option value="PT5M">5 minutes</option>
+            <option value="PT30M">30 minutes</option>
+            <option value="PT1H">1 hour</option>
+            <option value="PT12H">12 hours</option>
+            <option value="PT24H">24 hours</option>
+            <option value="PT48H">48 hours</option>
           </Select>
         </div>
 
@@ -337,12 +375,13 @@ const TradePage = () => {
         </div>
 
         <div style={{ gridArea: 'submit' }}>
-          {!orderSent && <Submit value={submitText} disabled={!canSend} />}
+          {!formDisabled && <Submit value={submitText} disabled={!canSend} />}
 
-          {orderSent && (
+          {formDisabled && (
             <Button
               onClick={() => {
                 setOrderSent(false);
+                setSendingError(false);
                 reset({}, { keepDefaultValues: true });
               }}
             >
@@ -359,6 +398,10 @@ const TradePage = () => {
           }}
         >
           <Success visible={orderSent}>Order successfully sent!</Success>
+
+          <Error visible={sendingError}>
+            Sorry, an unexpected error occurred.
+          </Error>
 
           <Error visible={!quantityAboveZero && !orderSent}>
             Quantity must be above 0.
@@ -392,6 +435,7 @@ interface sendOrderParams {
   currencyId: string;
   commodityType: CommodityType;
   commodityCurrencyId: string | null;
+  duration: string;
   quantity: number;
   price: number;
 }
@@ -402,6 +446,7 @@ const StyledForm = styled(Form)`
     'commodity-amount commodity-type'
     'empty            commodity-currency'
     'price-amount     price-currency'
+    'expires-in       order-duration'
     'submit           errors';
   grid-template-columns: 200px 1fr;
 
@@ -414,6 +459,8 @@ const StyledForm = styled(Form)`
       'commodity-currency'
       'price-amount'
       'price-currency'
+      'expires-in'
+      'order-duration'
       'submit'
       'errors';
     grid-template-columns: 1fr;

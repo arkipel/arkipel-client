@@ -10,6 +10,7 @@ import About from '../pages/About';
 import Home from '../pages/Home';
 import ArchipelagoOverview from '../pages/archipelago/Overview';
 import SearchIslandsPage from '../pages/archipelago/Search';
+import CommunityPage from '../pages/archipelago/Community';
 import Profile from '../pages/island/Profile';
 import MapPage from '../pages/island/Map';
 import InfrastructurePage from '../pages/island/Infrastructure';
@@ -98,6 +99,11 @@ const MainContent: FunctionComponent<props> = ({
               path="/archipelago/search"
               exact
               component={SearchIslandsPage}
+            />
+            <Route
+              path="/archipelago/community"
+              exact
+              component={CommunityPage}
             />
           </Switch>
         </ContentStyle>

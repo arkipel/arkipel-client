@@ -474,6 +474,9 @@ const UpgradeButton: FunctionComponent<{
               infrastructure
               workloadLeft
               finishedAt
+              tile {
+                position
+              }
             }
             blueprints {
               infrastructure
