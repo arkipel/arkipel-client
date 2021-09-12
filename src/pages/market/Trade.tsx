@@ -385,7 +385,10 @@ const TradePage = () => {
               onClick={() => {
                 setOrderSent(false);
                 setSendingError(false);
-                reset({}, { keepDefaultValues: true });
+                reset(
+                  { orderType: orderParams.orderType },
+                  { keepDefaultValues: true },
+                );
               }}
             >
               Restart
