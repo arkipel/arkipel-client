@@ -28,7 +28,7 @@
     "@babel/runtime": "^7.13.17",
     "@types/hcaptcha__react-hcaptcha": "^0.1.4",
     "@types/lodash": "^4.14.172",
-    "@types/luxon": "^1.26.4",
+    "@types/luxon": "^2.0.3",
     "@types/styled-components": "^5.1.9",
     "apollo": "^2.33.2",
     "babel-loader": "^8.2.2",

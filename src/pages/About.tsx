@@ -7,6 +7,14 @@ const About = () => {
       <p>
         Arkipel is a game made by <a href="https://mfcl.io">mfcl</a>.
       </p>
+      <h2>Development</h2>
+      <p>
+        The planning view the{' '}
+        <a href="https://trello.com/b/2ztENEAB/arkipel">
+          project's Trello board
+        </a>
+        .
+      </p>
       <h2>Source code</h2>
       <p>
         The source code of this app can be found on the{' '}
