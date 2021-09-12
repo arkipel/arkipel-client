@@ -386,7 +386,7 @@ const TradePage = () => {
                 setOrderSent(false);
                 setSendingError(false);
                 reset(
-                  { orderType: orderParams.orderType },
+                  { currencyId: 'ark', orderType: orderParams.orderType },
                   { keepDefaultValues: true },
                 );
               }}
