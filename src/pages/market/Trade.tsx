@@ -111,8 +111,8 @@ const TradePage = () => {
     commodityType: CommodityType.MATERIAL_1M,
     commodityCurrencyId: null,
     duration: 'PT1H',
-    quantity: 0,
-    price: 0,
+    quantity: undefined,
+    price: undefined,
   };
 
   const { register, handleSubmit, watch, reset } = useForm<sendOrderParams>({
@@ -129,6 +129,9 @@ const TradePage = () => {
   if (orderParams.orderType === 'buy') {
     submitText = 'Buy';
   }
+
+  orderParams.quantity = orderParams.quantity || 0;
+  orderParams.price = orderParams.price || 0;
 
   const isBuy = orderParams.orderType === 'buy';
   const isSell = orderParams.orderType === 'sell';
@@ -225,8 +228,8 @@ const TradePage = () => {
               currencyId: params.currencyId,
               commodity: params.commodityType,
               commodityCurrencyId: params.commodityCurrencyId,
-              quantity: params.quantity,
-              price: params.price,
+              quantity: params.quantity || 0,
+              price: params.price || 0,
             },
           };
 
@@ -436,8 +439,8 @@ interface sendOrderParams {
   commodityType: CommodityType;
   commodityCurrencyId: string | null;
   duration: string;
-  quantity: number;
-  price: number;
+  quantity?: number;
+  price?: number;
 }
 
 const StyledForm = styled(Form)`
