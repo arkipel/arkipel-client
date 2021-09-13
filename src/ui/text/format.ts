@@ -18,7 +18,11 @@ const FormatQuantity = (n: number): string => {
     a = 'M';
   }
 
-  let str = (Math.floor(n * 10) / 10).toString();
+  n = Math.floor(n * 10) / 10;
+
+  let str = n.toLocaleString('en-US', {
+    maximumFractionDigits: 1,
+  });
 
   return str + a;
 };
