@@ -12,9 +12,9 @@ const draw = (canvas: HTMLCanvasElement, points: Point[]) => {
   let width = canvas.width;
   let height = canvas.height;
 
-  console.log('width:', width, 'height', height);
-  console.log(`there are ${points.length} points`);
-  console.log('points', points);
+  // console.log('width:', width, 'height', height);
+  // console.log(`there are ${points.length} points`);
+  // console.log('points', points);
 
   // ctx.moveTo(0, 0);
   // ctx.lineTo(width, height);
@@ -44,17 +44,17 @@ const draw = (canvas: HTMLCanvasElement, points: Point[]) => {
     yMax = !yMax || p.y > yMax ? p.y : yMax;
   });
 
-  console.log('xMin =', xMin);
-  console.log('xMax =', xMax);
-  console.log('yMin =', yMin);
-  console.log('yMax =', yMax);
+  // console.log('xMin =', xMin);
+  // console.log('xMax =', xMax);
+  // console.log('yMin =', yMin);
+  // console.log('yMax =', yMax);
 
   // Round yMin and yMax
   let floor = Math.floor(yMin / 10) * 10;
   let ceil = Math.ceil(yMax / 10) * 10;
 
-  console.log('floor =', floor);
-  console.log('ceil =', ceil);
+  // console.log('floor =', floor);
+  // console.log('ceil =', ceil);
 
   if (floor === yMin) {
     floor -= 10;
@@ -111,7 +111,7 @@ const draw = (canvas: HTMLCanvasElement, points: Point[]) => {
   ctx.stroke();
 
   let end = DateTime.now();
-  console.log(`draw took ${end.toMillis() - start.toMillis()}ms`);
+  // console.log(`draw took ${end.toMillis() - start.toMillis()}ms`);
 };
 
 class Graph {
