@@ -211,7 +211,7 @@ const ControlledLineChart: FunctionComponent<controlledLineChartProps> = ({
               price
               prevNumTrades
               prevQuantity
-              prevNumTrades
+              prevPrice
             }
           }
         }
@@ -273,7 +273,7 @@ const ControlledLineChart: FunctionComponent<controlledLineChartProps> = ({
   if (data?.marketPrices.__typename === 'MarketPrices') {
     data.marketPrices.prices.forEach((mp) => {
       let x = DateTime.fromISO(mp.timestamp).toMillis();
-      let y = mp;
+      let y = mp.prevPrice;
       points.push({ x, y });
     });
   }

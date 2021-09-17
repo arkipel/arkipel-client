@@ -29,6 +29,7 @@ export interface GetMarketPrices_marketPrices_MarketPrices_prices {
   readonly price: number;
   readonly prevNumTrades: number;
   readonly prevQuantity: number;
+  readonly prevPrice: number;
 }
 
 export interface GetMarketPrices_marketPrices_MarketPrices {
