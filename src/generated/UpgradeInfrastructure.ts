@@ -13,12 +13,18 @@ export interface UpgradeInfrastructure_upgradeInfrastructure_NotAuthorized {
   readonly __typename: 'NotAuthorized' | 'NotFound' | 'NotEnoughMaterial';
 }
 
+export interface UpgradeInfrastructure_upgradeInfrastructure_Tile_constructionSite_tile {
+  readonly __typename: 'Tile';
+  readonly position: number;
+}
+
 export interface UpgradeInfrastructure_upgradeInfrastructure_Tile_constructionSite {
   readonly __typename: 'ConstructionSite';
   readonly id: string;
   readonly infrastructure: Infrastructure;
   readonly workloadLeft: number;
   readonly finishedAt: any;
+  readonly tile: UpgradeInfrastructure_upgradeInfrastructure_Tile_constructionSite_tile;
 }
 
 export interface UpgradeInfrastructure_upgradeInfrastructure_Tile_blueprints {
