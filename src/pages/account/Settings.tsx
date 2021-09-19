@@ -61,9 +61,15 @@ const Settings = () => {
       <ChangePassword />
       <h2>Delete account</h2>
       <p>
-        To delete your account, simply stop logging in. Accounts hold no
-        personal information except for the email address (which is never public
-        and can be deleted) and are deleted after 30 days of inactivity.
+        There is currently no way to automatically delete your account, but that
+        feature is definitely planned. To delete your account, send a request to{' '}
+        <a href="mailto:support@arkipel.io">support@arkipel.io</a>. Your account
+        must have a verified email address and you must use that address to make
+        the request.
+      </p>
+      <p>
+        There will be a way to automatically delete accounts in the future, but
+        development time is spent on other features for now.
       </p>
     </Fragment>
   );
