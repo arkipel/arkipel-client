@@ -36,13 +36,15 @@ export enum OrderSide {
   SELL = 'SELL',
 }
 
-export enum Precision {
-  DAY = 'DAY',
-  HOUR = 'HOUR',
-  MINUTE = 'MINUTE',
-  MONTH = 'MONTH',
-  SECOND = 'SECOND',
-  YEAR = 'YEAR',
+export enum Range {
+  DAY_180 = 'DAY_180',
+  DAY_30 = 'DAY_30',
+  DAY_365 = 'DAY_365',
+  HOUR_168 = 'HOUR_168',
+  HOUR_24 = 'HOUR_24',
+  MIN_60 = 'MIN_60',
+  SEC_300 = 'SEC_300',
+  SEC_60 = 'SEC_60',
 }
 
 export enum TileKind {
@@ -59,9 +61,7 @@ export interface EventsInput {
 }
 
 export interface MarketPricesInput {
-  readonly precision: Precision;
-  readonly from: any;
-  readonly to: any;
+  readonly range: Range;
   readonly currencyId: string;
   readonly commodity: CommodityType;
   readonly commodityCurrencyId?: string | null;

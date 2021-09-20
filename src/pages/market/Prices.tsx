@@ -6,7 +6,7 @@ import {
   GetMarketPrices,
   GetMarketPricesVariables,
 } from '../../generated/GetMarketPrices';
-import { Precision, CommodityType } from '../../generated/globalTypes';
+import { CommodityType, Range } from '../../generated/globalTypes';
 
 import { Duration } from 'luxon';
 
@@ -38,7 +38,7 @@ const PricesPage = () => {
 
   // Form (2nd part)
   const defaultValues2: priceHistoryParams2 = {
-    range: 'PT1M',
+    range: 'PT60S',
   };
 
   const { register: register2, control: control2 } =
@@ -131,28 +131,28 @@ const PricesPage = () => {
         }}
       >
         <div>
-          <Radio {...register2('range')} label="1Y" value="P1Y" />
+          <Radio {...register2('range')} label="1Y" value="P365D" />
         </div>
         <div>
-          <Radio {...register2('range')} label="6M" value="P6M" />
+          <Radio {...register2('range')} label="6M" value="P180D" />
         </div>
         <div>
-          <Radio {...register2('range')} label="1M" value="P1M" />
+          <Radio {...register2('range')} label="1M" value="P30D" />
         </div>
         <div>
-          <Radio {...register2('range')} label="7D" value="P7D" />
+          <Radio {...register2('range')} label="7D" value="PT168H" />
         </div>
         <div>
-          <Radio {...register2('range')} label="1D" value="P1D" />
+          <Radio {...register2('range')} label="1D" value="PT24H" />
         </div>
         <div>
-          <Radio {...register2('range')} label="1H" value="PT1H" />
+          <Radio {...register2('range')} label="1H" value="PT60M" />
         </div>
         <div>
-          <Radio {...register2('range')} label="5M" value="PT5M" />
+          <Radio {...register2('range')} label="5M" value="PT300S" />
         </div>
         <div>
-          <Radio {...register2('range')} label="1M" value="PT1M" />
+          <Radio {...register2('range')} label="1M" value="PT60S" />
         </div>
       </div>
     </Fragment>
@@ -221,9 +221,7 @@ const ControlledLineChart: FunctionComponent<controlledLineChartProps> = ({
       fetchPolicy: 'network-only',
       variables: {
         input: {
-          from: getStartingDateFromRange(now, range),
-          to: now,
-          precision: getPrecisionFromRange(range),
+          range: convertRange(range),
           currencyId: currencyId,
           commodity: commodityType,
           commodityCurrencyId: commodityCurrencyId,
@@ -289,26 +287,26 @@ interface controlledLineChartProps {
   now: DateTime;
 }
 
-const getPrecisionFromRange = (range: string): Precision => {
+const convertRange = (range: string): Range => {
   switch (range) {
-    case 'PT1M':
-      return Precision.SECOND;
-    case 'PT5M':
-      return Precision.SECOND;
-    case 'PT1H':
-      return Precision.MINUTE;
-    case 'P1D':
-      return Precision.HOUR;
-    case 'P7D':
-      return Precision.HOUR;
-    case 'P1M':
-      return Precision.DAY;
-    case 'P6M':
-      return Precision.DAY;
-    case 'P1Y':
-      return Precision.DAY;
+    case 'PT60S':
+      return Range.SEC_60;
+    case 'PT300S':
+      return Range.SEC_300;
+    case 'PT60M':
+      return Range.MIN_60;
+    case 'PT24H':
+      return Range.HOUR_24;
+    case 'PT168H':
+      return Range.HOUR_168;
+    case 'P30D':
+      return Range.DAY_30;
+    case 'P180D':
+      return Range.DAY_180;
+    case 'P365D':
+      return Range.DAY_365;
     default:
-      return Precision.HOUR;
+      return Range.SEC_60;
   }
 };
 
