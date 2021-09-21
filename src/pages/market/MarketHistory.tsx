@@ -46,7 +46,7 @@ const MarketHistory = () => {
 
   return (
     <Fragment>
-      <h1>Prices</h1>
+      <h1>History</h1>
       <form style={{ display: 'grid', gap: '10px' }}>
         <div
           style={{

@@ -93,7 +93,7 @@ const MainContent: FunctionComponent<props> = ({
               exact
               component={ArchipelagoOverview}
             />
-            <Route path="/market/prices" exact component={MarketHistory} />
+            <Route path="/market/history" exact component={MarketHistory} />
             <Route path="/market/trade" exact component={TradePage} />
             <Route
               path="/archipelago/search"
