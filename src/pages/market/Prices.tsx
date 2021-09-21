@@ -1,19 +1,17 @@
-import React, { Fragment, FunctionComponent, useState, useEffect } from 'react';
+import React, { Fragment, FunctionComponent, useState } from 'react';
 import { useForm, useWatch, Control } from 'react-hook-form';
 
-import { useQuery, useLazyQuery, gql } from '@apollo/client';
+import { useQuery, gql } from '@apollo/client';
 import {
   GetMarketPrices,
   GetMarketPricesVariables,
 } from '../../generated/GetMarketPrices';
 import { CommodityType, Range } from '../../generated/globalTypes';
 
-import { Duration } from 'luxon';
-
 import LineChart from '../../ui/chart/LineChart';
 import { Point } from '../../ui/chart/draw';
 import { DateTime } from 'luxon';
-import { Input, Submit, Select, Radio } from '../../ui/form/Input';
+import { Select, Radio } from '../../ui/form/Input';
 
 const PricesPage = () => {
   let [now, setNow] = useState(DateTime.now().toUTC());
@@ -174,7 +172,6 @@ const ControlledLineChart: FunctionComponent<controlledLineChartProps> = ({
   height,
   control1,
   control2,
-  now,
 }) => {
   let currencyId = useWatch({ name: 'currencyId', control: control1 });
   let commodityType = useWatch({ name: 'commodityType', control: control1 });
@@ -183,12 +180,6 @@ const ControlledLineChart: FunctionComponent<controlledLineChartProps> = ({
     control: control1,
   });
   let range = useWatch({ name: 'range', control: control2 });
-
-  console.log('currencyId:', currencyId);
-  console.log('commodityType:', commodityType);
-  console.log('commodityCurrencyId:', commodityCurrencyId);
-  console.log('range:', range);
-  console.log('now:', now);
 
   const { data, loading, error } = useQuery<
     GetMarketPrices,
@@ -271,7 +262,10 @@ const ControlledLineChart: FunctionComponent<controlledLineChartProps> = ({
   if (data?.marketPrices.__typename === 'MarketPrices') {
     data.marketPrices.prices.forEach((mp) => {
       let x = DateTime.fromISO(mp.timestamp).toMillis();
-      let y = mp.prevPrice;
+      let y =
+        mp.numTrades !== 0
+          ? mp.price / mp.numTrades
+          : mp.prevPrice / mp.prevNumTrades;
       points.push({ x, y });
     });
   }
@@ -308,11 +302,6 @@ const convertRange = (range: string): Range => {
     default:
       return Range.SEC_60;
   }
-};
-
-const getStartingDateFromRange = (now: DateTime, range: string): DateTime => {
-  let dur = Duration.fromISO(range);
-  return now.minus(dur);
 };
 
 export default PricesPage;

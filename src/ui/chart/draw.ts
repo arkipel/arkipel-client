@@ -1,8 +1,4 @@
-import { DateTime } from 'luxon';
-
 const draw = (canvas: HTMLCanvasElement, points: Point[]) => {
-  let start = DateTime.now();
-
   const ctx = canvas.getContext('2d');
 
   if (!ctx) {
@@ -11,20 +7,6 @@ const draw = (canvas: HTMLCanvasElement, points: Point[]) => {
 
   let width = canvas.width;
   let height = canvas.height;
-
-  // console.log('width:', width, 'height', height);
-  // console.log(`there are ${points.length} points`);
-  // console.log('points', points);
-
-  // ctx.moveTo(0, 0);
-  // ctx.lineTo(width, height);
-  // ctx.moveTo(width, 0);
-  // ctx.lineTo(0, height);
-  // ctx.stroke();
-
-  // ctx.font = '48px serif';
-  // ctx.fillText('Hello world!', 10, 50);
-  // ctx.stroke();
 
   // Sort points
   points.sort((a, b) => {
@@ -44,17 +26,9 @@ const draw = (canvas: HTMLCanvasElement, points: Point[]) => {
     yMax = !yMax || p.y > yMax ? p.y : yMax;
   });
 
-  // console.log('xMin =', xMin);
-  // console.log('xMax =', xMax);
-  // console.log('yMin =', yMin);
-  // console.log('yMax =', yMax);
-
   // Round yMin and yMax
   let floor = Math.floor(yMin / 10) * 10;
   let ceil = Math.ceil(yMax / 10) * 10;
-
-  // console.log('floor =', floor);
-  // console.log('ceil =', ceil);
 
   if (floor === yMin) {
     floor -= 10;
@@ -70,7 +44,6 @@ const draw = (canvas: HTMLCanvasElement, points: Point[]) => {
   ctx.lineWidth = 1;
 
   let numRows = 4;
-  //let numRows = Math.floor((ceil - floor) / 10);
 
   for (let i = 1; i < numRows; i++) {
     ctx.moveTo(0, (height / numRows) * (numRows - i));
@@ -98,9 +71,6 @@ const draw = (canvas: HTMLCanvasElement, points: Point[]) => {
     let x = ((p.x - xMin) / (xMax - xMin)) * width;
     let y = height - ((p.y - floor) / (ceil - floor)) * height;
 
-    // console.log('point:', p.x, p.y);
-    // console.log('lineTo:', x, y);
-
     if (i === 0) {
       ctx.moveTo(x, y);
     }
@@ -109,9 +79,6 @@ const draw = (canvas: HTMLCanvasElement, points: Point[]) => {
   });
 
   ctx.stroke();
-
-  let end = DateTime.now();
-  // console.log(`draw took ${end.toMillis() - start.toMillis()}ms`);
 };
 
 class Graph {

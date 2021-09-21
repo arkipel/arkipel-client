@@ -7,8 +7,6 @@ import { debounce } from 'lodash';
 import draw from './draw';
 import { Point } from '../../ui/chart/draw';
 
-let calls = 0;
-
 const LineChart: FunctionComponent<props> = ({ width, height, points }) => {
   if (!width) {
     width = '100%';
@@ -36,10 +34,6 @@ const LineChart: FunctionComponent<props> = ({ width, height, points }) => {
     canvas.height = canvas.height = canvas.clientHeight;
 
     draw(canvas, points);
-
-    calls++;
-
-    console.log(`the function was called ${calls} times`);
   }, 200);
 
   useEffect(() => {
