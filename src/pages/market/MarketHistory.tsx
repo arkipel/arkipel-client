@@ -13,7 +13,7 @@ import { Point } from '../../ui/chart/draw';
 import { DateTime } from 'luxon';
 import { Select, Radio } from '../../ui/form/Input';
 
-const PricesPage = () => {
+const MarketHistory = () => {
   let [now, setNow] = useState(DateTime.now().toUTC());
 
   // Form (1st part)
@@ -304,4 +304,4 @@ const convertRange = (range: string): Range => {
   }
 };
 
-export default PricesPage;
+export default MarketHistory;
