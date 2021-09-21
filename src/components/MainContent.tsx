@@ -18,6 +18,7 @@ import ResourcesPage from '../pages/island/Resources';
 import TreasuryPage from '../pages/island/Treasury';
 import EventsPage from '../pages/island/Events';
 import TilePage from '../pages/island/Tile';
+import MarketHistory from '../pages/market/MarketHistory';
 import TradePage from '../pages/market/Trade';
 import Login from '../pages/Login';
 import Registration from '../pages/Registration';
@@ -92,6 +93,7 @@ const MainContent: FunctionComponent<props> = ({
               exact
               component={ArchipelagoOverview}
             />
+            <Route path="/market/history" exact component={MarketHistory} />
             <Route path="/market/trade" exact component={TradePage} />
             <Route
               path="/archipelago/search"
