@@ -1,4 +1,4 @@
-import React, { Fragment, FunctionComponent, useState } from 'react';
+import React, { Fragment, FunctionComponent } from 'react';
 import { useForm, useWatch, Control } from 'react-hook-form';
 
 import { useQuery, gql } from '@apollo/client';
@@ -14,8 +14,6 @@ import { DateTime } from 'luxon';
 import { Select, Radio } from '../../ui/form/Input';
 
 const MarketHistory = () => {
-  let [now, setNow] = useState(DateTime.now().toUTC());
-
   // Form (1st part)
   const defaultValues1: priceHistoryParams1 = {
     currencyId: 'ark',
@@ -77,7 +75,6 @@ const MarketHistory = () => {
             }}
             onClick={(e) => {
               e.preventDefault();
-              setNow(DateTime.now().toUTC());
             }}
           >
             <img
@@ -120,7 +117,6 @@ const MarketHistory = () => {
         height={300}
         control1={control1}
         control2={control2}
-        now={now}
       />
       <div
         style={{
@@ -278,7 +274,6 @@ interface controlledLineChartProps {
   height: number;
   control1: Control<priceHistoryParams1, object>;
   control2: Control<priceHistoryParams2, object>;
-  now: DateTime;
 }
 
 const convertRange = (range: string): Range => {
