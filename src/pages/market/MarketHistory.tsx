@@ -1,7 +1,7 @@
 import React, { Fragment, FunctionComponent } from 'react';
 import { useForm, useWatch, Control } from 'react-hook-form';
 
-import { useQuery, gql } from '@apollo/client';
+import { useQuery, gql, useApolloClient } from '@apollo/client';
 import {
   GetMarketPrices,
   GetMarketPricesVariables,
@@ -14,6 +14,8 @@ import { DateTime } from 'luxon';
 import { Select, Radio } from '../../ui/form/Input';
 
 const MarketHistory = () => {
+  let client = useApolloClient();
+
   // Form (1st part)
   const defaultValues1: priceHistoryParams1 = {
     currencyId: 'ark',
@@ -75,6 +77,7 @@ const MarketHistory = () => {
             }}
             onClick={(e) => {
               e.preventDefault();
+              client.refetchQueries({ include: ['GetMarketPrices'] });
             }}
           >
             <img
