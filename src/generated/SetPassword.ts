@@ -8,7 +8,7 @@
 // ====================================================
 
 export interface SetPassword_setPassword {
-  readonly __typename: 'User' | 'NotAuthorized';
+  readonly __typename: "User" | "NotAuthorized";
 }
 
 export interface SetPassword {

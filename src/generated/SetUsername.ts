@@ -8,7 +8,7 @@
 // ====================================================
 
 export interface SetUsername_setUsername {
-  readonly __typename: 'User' | 'AlreadyExists' | 'NotAuthorized';
+  readonly __typename: "User" | "AlreadyExists" | "NotAuthorized";
 }
 
 export interface SetUsername {

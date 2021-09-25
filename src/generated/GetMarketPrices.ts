@@ -3,24 +3,24 @@
 // @generated
 // This file was automatically generated and should not be edited.
 
-import { MarketPricesInput, CommodityType } from './globalTypes';
+import { MarketPricesInput, CommodityType } from "./globalTypes";
 
 // ====================================================
 // GraphQL query operation: GetMarketPrices
 // ====================================================
 
 export interface GetMarketPrices_marketPrices_NotAuthorized {
-  readonly __typename: 'NotAuthorized';
+  readonly __typename: "NotAuthorized";
 }
 
 export interface GetMarketPrices_marketPrices_MarketPrices_prices_currency {
-  readonly __typename: 'Currency';
+  readonly __typename: "Currency";
   readonly id: string;
   readonly code: string;
 }
 
 export interface GetMarketPrices_marketPrices_MarketPrices_prices {
-  readonly __typename: 'MarketPrice';
+  readonly __typename: "MarketPrice";
   readonly timestamp: any;
   readonly currency: GetMarketPrices_marketPrices_MarketPrices_prices_currency;
   readonly commodity: CommodityType;
@@ -33,13 +33,11 @@ export interface GetMarketPrices_marketPrices_MarketPrices_prices {
 }
 
 export interface GetMarketPrices_marketPrices_MarketPrices {
-  readonly __typename: 'MarketPrices';
+  readonly __typename: "MarketPrices";
   readonly prices: ReadonlyArray<GetMarketPrices_marketPrices_MarketPrices_prices>;
 }
 
-export type GetMarketPrices_marketPrices =
-  | GetMarketPrices_marketPrices_NotAuthorized
-  | GetMarketPrices_marketPrices_MarketPrices;
+export type GetMarketPrices_marketPrices = GetMarketPrices_marketPrices_NotAuthorized | GetMarketPrices_marketPrices_MarketPrices;
 
 export interface GetMarketPrices {
   readonly marketPrices: GetMarketPrices_marketPrices;

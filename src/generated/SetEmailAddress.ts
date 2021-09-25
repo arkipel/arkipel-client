@@ -8,19 +8,17 @@
 // ====================================================
 
 export interface SetEmailAddress_setEmailAddress_AlreadyExists {
-  readonly __typename: 'AlreadyExists' | 'NotAuthorized';
+  readonly __typename: "AlreadyExists" | "NotAuthorized";
 }
 
 export interface SetEmailAddress_setEmailAddress_User {
-  readonly __typename: 'User';
+  readonly __typename: "User";
   readonly id: string;
   readonly emailAddress: string | null;
   readonly emailAddressVerified: boolean;
 }
 
-export type SetEmailAddress_setEmailAddress =
-  | SetEmailAddress_setEmailAddress_AlreadyExists
-  | SetEmailAddress_setEmailAddress_User;
+export type SetEmailAddress_setEmailAddress = SetEmailAddress_setEmailAddress_AlreadyExists | SetEmailAddress_setEmailAddress_User;
 
 export interface SetEmailAddress {
   readonly setEmailAddress: SetEmailAddress_setEmailAddress;

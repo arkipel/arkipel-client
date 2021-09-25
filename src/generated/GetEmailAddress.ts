@@ -8,19 +8,17 @@
 // ====================================================
 
 export interface GetEmailAddress_me_NotFound {
-  readonly __typename: 'NotFound' | 'NotAuthorized';
+  readonly __typename: "NotFound" | "NotAuthorized";
 }
 
 export interface GetEmailAddress_me_User {
-  readonly __typename: 'User';
+  readonly __typename: "User";
   readonly id: string;
   readonly emailAddress: string | null;
   readonly emailAddressVerified: boolean;
 }
 
-export type GetEmailAddress_me =
-  | GetEmailAddress_me_NotFound
-  | GetEmailAddress_me_User;
+export type GetEmailAddress_me = GetEmailAddress_me_NotFound | GetEmailAddress_me_User;
 
 export interface GetEmailAddress {
   readonly me: GetEmailAddress_me;

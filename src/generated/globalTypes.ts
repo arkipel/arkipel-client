@@ -82,6 +82,10 @@ export interface SendOrderInput {
   readonly price: number;
 }
 
+export interface TopPlayersInput {
+  readonly limit: number;
+}
+
 //==============================================================
 // END Enums and Input Objects
 //==============================================================
