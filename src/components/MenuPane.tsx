@@ -103,7 +103,7 @@ const MenuPane: FunctionComponent<props> = ({ visible, onCloseClick }) => {
             <ul>
               <li>
                 <NavLink exact to="/market/history" onClick={onCloseClick}>
-                  <img src="https://icons.arkipel.io/menu/prices.svg" />
+                  <img src="https://icons.arkipel.io/menu/market_history.svg" />
                   <span>History</span>
                 </NavLink>
               </li>
