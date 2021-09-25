@@ -8,14 +8,14 @@
 // ====================================================
 
 export interface GetCurrencies_currencies_currencies {
-  readonly __typename: "Currency";
+  readonly __typename: 'Currency';
   readonly id: string;
   readonly code: string;
   readonly name: string;
 }
 
 export interface GetCurrencies_currencies {
-  readonly __typename: "CurrencyList";
+  readonly __typename: 'CurrencyList';
   readonly currencies: ReadonlyArray<GetCurrencies_currencies_currencies>;
 }
 

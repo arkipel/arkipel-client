@@ -3,28 +3,28 @@
 // @generated
 // This file was automatically generated and should not be edited.
 
-import { OrderSide, CommodityType } from "./globalTypes";
+import { OrderSide, CommodityType } from './globalTypes';
 
 // ====================================================
 // GraphQL fragment: NewOrder
 // ====================================================
 
 export interface NewOrder_currency {
-  readonly __typename: "Currency";
+  readonly __typename: 'Currency';
   readonly id: string;
   readonly code: string;
   readonly name: string;
 }
 
 export interface NewOrder_commodityCurrency {
-  readonly __typename: "Currency";
+  readonly __typename: 'Currency';
   readonly id: string;
   readonly code: string;
   readonly name: string;
 }
 
 export interface NewOrder {
-  readonly __typename: "Order";
+  readonly __typename: 'Order';
   readonly id: string;
   readonly createdAt: any;
   readonly expiresAt: any;

@@ -3,18 +3,18 @@
 // @generated
 // This file was automatically generated and should not be edited.
 
-import { TileKind, Infrastructure, InfrastructureStatus } from "./globalTypes";
+import { TileKind, Infrastructure, InfrastructureStatus } from './globalTypes';
 
 // ====================================================
 // GraphQL query operation: GetTile
 // ====================================================
 
 export interface GetTile_tile_NotAuthorized {
-  readonly __typename: "NotAuthorized" | "NotFound";
+  readonly __typename: 'NotAuthorized' | 'NotFound';
 }
 
 export interface GetTile_tile_Tile_constructionSite {
-  readonly __typename: "ConstructionSite";
+  readonly __typename: 'ConstructionSite';
   readonly id: string;
   readonly infrastructure: Infrastructure;
   readonly workloadLeft: number;
@@ -22,14 +22,14 @@ export interface GetTile_tile_Tile_constructionSite {
 }
 
 export interface GetTile_tile_Tile_blueprints {
-  readonly __typename: "Blueprint";
+  readonly __typename: 'Blueprint';
   readonly infrastructure: Infrastructure;
   readonly materialCost: number;
   readonly workload: number;
 }
 
 export interface GetTile_tile_Tile {
-  readonly __typename: "Tile";
+  readonly __typename: 'Tile';
   readonly id: string;
   readonly position: number;
   readonly kind: TileKind;

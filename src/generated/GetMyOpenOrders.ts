@@ -3,24 +3,24 @@
 // @generated
 // This file was automatically generated and should not be edited.
 
-import { OrderSide, CommodityType } from "./globalTypes";
+import { OrderSide, CommodityType } from './globalTypes';
 
 // ====================================================
 // GraphQL query operation: GetMyOpenOrders
 // ====================================================
 
 export interface GetMyOpenOrders_myOpenOrders_NotAuthorized {
-  readonly __typename: "NotAuthorized";
+  readonly __typename: 'NotAuthorized';
 }
 
 export interface GetMyOpenOrders_myOpenOrders_OrderList_orders_currency {
-  readonly __typename: "Currency";
+  readonly __typename: 'Currency';
   readonly id: string;
   readonly code: string;
 }
 
 export interface GetMyOpenOrders_myOpenOrders_OrderList_orders {
-  readonly __typename: "Order";
+  readonly __typename: 'Order';
   readonly id: string;
   readonly side: OrderSide;
   readonly expiresAt: any;
@@ -31,11 +31,13 @@ export interface GetMyOpenOrders_myOpenOrders_OrderList_orders {
 }
 
 export interface GetMyOpenOrders_myOpenOrders_OrderList {
-  readonly __typename: "OrderList";
+  readonly __typename: 'OrderList';
   readonly orders: ReadonlyArray<GetMyOpenOrders_myOpenOrders_OrderList_orders>;
 }
 
-export type GetMyOpenOrders_myOpenOrders = GetMyOpenOrders_myOpenOrders_NotAuthorized | GetMyOpenOrders_myOpenOrders_OrderList;
+export type GetMyOpenOrders_myOpenOrders =
+  | GetMyOpenOrders_myOpenOrders_NotAuthorized
+  | GetMyOpenOrders_myOpenOrders_OrderList;
 
 export interface GetMyOpenOrders {
   readonly myOpenOrders: GetMyOpenOrders_myOpenOrders;

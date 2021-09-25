@@ -8,16 +8,18 @@
 // ====================================================
 
 export interface DeleteEmailAddress_deleteEmailAddress_NotAuthorized {
-  readonly __typename: "NotAuthorized";
+  readonly __typename: 'NotAuthorized';
 }
 
 export interface DeleteEmailAddress_deleteEmailAddress_User {
-  readonly __typename: "User";
+  readonly __typename: 'User';
   readonly id: string;
   readonly emailAddress: string | null;
 }
 
-export type DeleteEmailAddress_deleteEmailAddress = DeleteEmailAddress_deleteEmailAddress_NotAuthorized | DeleteEmailAddress_deleteEmailAddress_User;
+export type DeleteEmailAddress_deleteEmailAddress =
+  | DeleteEmailAddress_deleteEmailAddress_NotAuthorized
+  | DeleteEmailAddress_deleteEmailAddress_User;
 
 export interface DeleteEmailAddress {
   readonly deleteEmailAddress: DeleteEmailAddress_deleteEmailAddress;

@@ -8,16 +8,18 @@
 // ====================================================
 
 export interface GetBankLevels_inventory_NotAuthorized {
-  readonly __typename: "NotAuthorized" | "NotFound";
+  readonly __typename: 'NotAuthorized' | 'NotFound';
 }
 
 export interface GetBankLevels_inventory_Inventory {
-  readonly __typename: "Inventory";
+  readonly __typename: 'Inventory';
   readonly id: string;
   readonly bankLevels: number;
 }
 
-export type GetBankLevels_inventory = GetBankLevels_inventory_NotAuthorized | GetBankLevels_inventory_Inventory;
+export type GetBankLevels_inventory =
+  | GetBankLevels_inventory_NotAuthorized
+  | GetBankLevels_inventory_Inventory;
 
 export interface GetBankLevels {
   readonly inventory: GetBankLevels_inventory;

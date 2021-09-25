@@ -3,23 +3,23 @@
 // @generated
 // This file was automatically generated and should not be edited.
 
-import { Infrastructure } from "./globalTypes";
+import { Infrastructure } from './globalTypes';
 
 // ====================================================
 // GraphQL mutation operation: BuildInfrastructure
 // ====================================================
 
 export interface BuildInfrastructure_buildInfrastructure_NotAuthorized {
-  readonly __typename: "NotAuthorized" | "NotFound" | "NotEnoughMaterial";
+  readonly __typename: 'NotAuthorized' | 'NotFound' | 'NotEnoughMaterial';
 }
 
 export interface BuildInfrastructure_buildInfrastructure_Tile_constructionSite_tile {
-  readonly __typename: "Tile";
+  readonly __typename: 'Tile';
   readonly position: number;
 }
 
 export interface BuildInfrastructure_buildInfrastructure_Tile_constructionSite {
-  readonly __typename: "ConstructionSite";
+  readonly __typename: 'ConstructionSite';
   readonly id: string;
   readonly infrastructure: Infrastructure;
   readonly workloadLeft: number;
@@ -28,26 +28,26 @@ export interface BuildInfrastructure_buildInfrastructure_Tile_constructionSite {
 }
 
 export interface BuildInfrastructure_buildInfrastructure_Tile_blueprints {
-  readonly __typename: "Blueprint";
+  readonly __typename: 'Blueprint';
   readonly infrastructure: Infrastructure;
   readonly materialCost: number;
   readonly workload: number;
 }
 
 export interface BuildInfrastructure_buildInfrastructure_Tile_island_inventory {
-  readonly __typename: "Inventory";
+  readonly __typename: 'Inventory';
   readonly id: string;
   readonly material: number;
 }
 
 export interface BuildInfrastructure_buildInfrastructure_Tile_island {
-  readonly __typename: "Island";
+  readonly __typename: 'Island';
   readonly id: string;
   readonly inventory: BuildInfrastructure_buildInfrastructure_Tile_island_inventory;
 }
 
 export interface BuildInfrastructure_buildInfrastructure_Tile {
-  readonly __typename: "Tile";
+  readonly __typename: 'Tile';
   readonly id: string;
   readonly infrastructure: Infrastructure;
   readonly level: number;
@@ -56,7 +56,9 @@ export interface BuildInfrastructure_buildInfrastructure_Tile {
   readonly island: BuildInfrastructure_buildInfrastructure_Tile_island;
 }
 
-export type BuildInfrastructure_buildInfrastructure = BuildInfrastructure_buildInfrastructure_NotAuthorized | BuildInfrastructure_buildInfrastructure_Tile;
+export type BuildInfrastructure_buildInfrastructure =
+  | BuildInfrastructure_buildInfrastructure_NotAuthorized
+  | BuildInfrastructure_buildInfrastructure_Tile;
 
 export interface BuildInfrastructure {
   readonly buildInfrastructure: BuildInfrastructure_buildInfrastructure | null;

@@ -3,21 +3,21 @@
 // @generated
 // This file was automatically generated and should not be edited.
 
-import { TopPlayersInput } from "./globalTypes";
+import { TopPlayersInput } from './globalTypes';
 
 // ====================================================
 // GraphQL query operation: GetTopPlayers
 // ====================================================
 
 export interface GetTopPlayers_topPlayers_players {
-  readonly __typename: "Player";
+  readonly __typename: 'Player';
   readonly id: string;
   readonly name: string;
   readonly score: number;
 }
 
 export interface GetTopPlayers_topPlayers {
-  readonly __typename: "TopPlayers";
+  readonly __typename: 'TopPlayers';
   readonly players: ReadonlyArray<GetTopPlayers_topPlayers_players> | null;
 }
 
