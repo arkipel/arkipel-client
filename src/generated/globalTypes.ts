@@ -54,6 +54,10 @@ export enum TileKind {
   WATER = 'WATER',
 }
 
+export interface CurrentMarketPricesInput {
+  readonly currencyId: string;
+}
+
 export interface EventsInput {
   readonly userId: string;
   readonly limit: number;
