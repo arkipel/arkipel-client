@@ -9,6 +9,7 @@ import { SessionContext } from '../libs/session/session';
 import About from '../pages/About';
 import Home from '../pages/Home';
 import ArchipelagoOverview from '../pages/archipelago/Overview';
+import Ranking from '../pages/archipelago/Ranking';
 import SearchIslandsPage from '../pages/archipelago/Search';
 import CommunityPage from '../pages/archipelago/Community';
 import Profile from '../pages/island/Profile';
@@ -94,6 +95,7 @@ const MainContent: FunctionComponent<props> = ({
               exact
               component={ArchipelagoOverview}
             />
+            <Route path="/archipelago/ranking" exact component={Ranking} />
             <Route path="/market/prices" exact component={MarketPrices} />
             <Route path="/market/history" exact component={MarketHistory} />
             <Route path="/market/trade" exact component={TradePage} />

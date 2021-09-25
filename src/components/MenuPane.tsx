@@ -133,6 +133,12 @@ const MenuPane: FunctionComponent<props> = ({ visible, onCloseClick }) => {
                 </NavLink>
               </li>
               <li>
+                <NavLink exact to="/archipelago/ranking" onClick={onCloseClick}>
+                  <img src="https://icons.arkipel.io/menu/ranking.svg" />
+                  <span>Ranking</span>
+                </NavLink>
+              </li>
+              <li>
                 <NavLink exact to="/archipelago/search" onClick={onCloseClick}>
                   <img src="https://icons.arkipel.io/menu/search.svg" />
                   <span>Search</span>
