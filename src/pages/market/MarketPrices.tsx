@@ -64,7 +64,7 @@ const MarketPrices = () => {
             data.currentMarketPrices.commodityPrices.map((cp) => {
               return (
                 <li key={cp.commodity}>
-                  <b>{cp.commodity}:</b> {cp.price} ARK
+                  <b>{cp.commodity}:</b> {cp.price} {currencyId.toUpperCase()}
                 </li>
               );
             })}
@@ -81,7 +81,7 @@ const MarketPrices = () => {
                   <b>
                     {cp.currency.name} ({cp.currency.code.toUpperCase()}):
                   </b>{' '}
-                  {cp.price} ARK
+                  {cp.price} {currencyId.toUpperCase()}
                 </li>
               );
             })}
