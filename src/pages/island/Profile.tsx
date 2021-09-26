@@ -53,6 +53,9 @@ const Profile = () => {
                 commodity
                 score
               }
+              buildings {
+                score
+              }
               currencies {
                 currency {
                   id
@@ -74,6 +77,7 @@ const Profile = () => {
 
   let scoresheet = {
     material: 0,
+    buildings: 0,
     currencies: 0,
     total: 0,
   };
@@ -90,6 +94,10 @@ const Profile = () => {
         default:
           break;
       }
+    }
+
+    for (const bs of dataPlayer?.player.scoresheet.buildings) {
+      scoresheet.buildings += bs.score;
     }
 
     for (const cs of dataPlayer?.player.scoresheet.currencies) {
@@ -116,7 +124,7 @@ const Profile = () => {
           </tr>
           <tr>
             <td>Buildings</td>
-            <td>0</td>
+            <td>{FormatQuantity(scoresheet.buildings)}</td>
           </tr>
           <tr>
             <td>Currencies</td>
