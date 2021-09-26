@@ -15,7 +15,10 @@ const Ranking = () => {
             players {
               id
               name
-              score
+              scoresheet {
+                id
+                score
+              }
             }
           }
         }
@@ -40,7 +43,7 @@ const Ranking = () => {
     player1 = {
       id: data?.topPlayers.players[0].id,
       name: data?.topPlayers.players[0].name,
-      score: data?.topPlayers.players[0].score,
+      score: data?.topPlayers.players[0].scoresheet.score,
     };
   }
 
@@ -54,7 +57,7 @@ const Ranking = () => {
     player2 = {
       id: data?.topPlayers.players[1].id,
       name: data?.topPlayers.players[1].name,
-      score: data?.topPlayers.players[1].score,
+      score: data?.topPlayers.players[1].scoresheet.score,
     };
   }
 
@@ -68,7 +71,7 @@ const Ranking = () => {
     player3 = {
       id: data?.topPlayers.players[2].id,
       name: data?.topPlayers.players[2].name,
-      score: data?.topPlayers.players[2].score,
+      score: data?.topPlayers.players[2].scoresheet.score,
     };
   }
 
@@ -81,7 +84,7 @@ const Ranking = () => {
       remainingPlayers.push({
         id: p.id,
         name: p.name,
-        score: p.score,
+        score: p.scoresheet.score,
       });
     }
   }
