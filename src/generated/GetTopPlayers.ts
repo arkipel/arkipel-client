@@ -9,11 +9,17 @@ import { TopPlayersInput } from './globalTypes';
 // GraphQL query operation: GetTopPlayers
 // ====================================================
 
+export interface GetTopPlayers_topPlayers_players_scoresheet {
+  readonly __typename: 'Scoresheet';
+  readonly id: string;
+  readonly score: number;
+}
+
 export interface GetTopPlayers_topPlayers_players {
   readonly __typename: 'Player';
   readonly id: string;
   readonly name: string;
-  readonly score: number;
+  readonly scoresheet: GetTopPlayers_topPlayers_players_scoresheet;
 }
 
 export interface GetTopPlayers_topPlayers {
