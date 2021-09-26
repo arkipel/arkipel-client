@@ -19,6 +19,11 @@ export interface GetPlayerProfile_player_Player_scoresheet_commodities {
   readonly score: number;
 }
 
+export interface GetPlayerProfile_player_Player_scoresheet_buildings {
+  readonly __typename: 'BuildingScore';
+  readonly score: number;
+}
+
 export interface GetPlayerProfile_player_Player_scoresheet_currencies_currency {
   readonly __typename: 'Currency';
   readonly id: string;
@@ -36,6 +41,7 @@ export interface GetPlayerProfile_player_Player_scoresheet {
   readonly id: string;
   readonly score: number;
   readonly commodities: ReadonlyArray<GetPlayerProfile_player_Player_scoresheet_commodities>;
+  readonly buildings: ReadonlyArray<GetPlayerProfile_player_Player_scoresheet_buildings>;
   readonly currencies: ReadonlyArray<GetPlayerProfile_player_Player_scoresheet_currencies>;
 }
 
