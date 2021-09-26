@@ -71,6 +71,10 @@ export interface MarketPricesInput {
   readonly commodityCurrencyId?: string | null;
 }
 
+export interface PlayerInput {
+  readonly playerId: string;
+}
+
 export interface SendOrderInput {
   readonly userId: string;
   readonly expiresAt: any;
