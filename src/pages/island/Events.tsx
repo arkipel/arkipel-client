@@ -36,6 +36,9 @@ const EventsPage = () => {
                   code
                 }
                 commodity
+                commodityCurrency {
+                  code
+                }
                 quantity
                 price
               }
@@ -47,6 +50,9 @@ const EventsPage = () => {
                   code
                 }
                 commodity
+                commodityCurrency {
+                  code
+                }
                 quantity
                 price
               }
@@ -88,9 +94,11 @@ const eventToJSX = (ev: event): ReactElement => {
     case 'SellOrderExecution':
       msg = (
         <span>
-          {`${formatQtyAndCommodity(ev.quantity, ev.commodity)} sold for ${
-            ev.price
-          } ${ev.currency.code.toUpperCase()}`}
+          {`${formatQtyAndCommodity(
+            ev.quantity,
+            ev.commodity,
+            ev.commodityCurrency?.code,
+          )} sold for ${ev.price} ${ev.currency.code.toUpperCase()}`}
           .
         </span>
       );
@@ -98,9 +106,11 @@ const eventToJSX = (ev: event): ReactElement => {
     case 'BuyOrderExecution':
       msg = (
         <span>
-          {`${formatQtyAndCommodity(ev.quantity, ev.commodity)} bought for ${
-            ev.price
-          } ${ev.currency.code.toUpperCase()}`}
+          {`${formatQtyAndCommodity(
+            ev.quantity,
+            ev.commodity,
+            ev.commodityCurrency?.code,
+          )} bought for ${ev.price} ${ev.currency.code.toUpperCase()}`}
           .
         </span>
       );
@@ -126,10 +136,14 @@ type event = GetEvents_events_EventList_events;
 const formatQtyAndCommodity = (
   qty: number,
   commodity: CommodityType,
+  cur: String | undefined,
 ): string => {
   switch (commodity) {
     case CommodityType.MATERIAL_1M:
       return `${qty}M material`;
+
+    case CommodityType.CURRENCY:
+      return `${qty} ${cur?.toUpperCase()}`;
 
     default:
       return `Something unknown`;

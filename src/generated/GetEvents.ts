@@ -24,17 +24,28 @@ export interface GetEvents_events_EventList_events_SellOrderExecution_currency {
   readonly code: string;
 }
 
+export interface GetEvents_events_EventList_events_SellOrderExecution_commodityCurrency {
+  readonly __typename: 'Currency';
+  readonly code: string;
+}
+
 export interface GetEvents_events_EventList_events_SellOrderExecution {
   readonly __typename: 'SellOrderExecution';
   readonly id: number;
   readonly happenedAt: any;
   readonly currency: GetEvents_events_EventList_events_SellOrderExecution_currency;
   readonly commodity: CommodityType;
+  readonly commodityCurrency: GetEvents_events_EventList_events_SellOrderExecution_commodityCurrency | null;
   readonly quantity: number;
   readonly price: number;
 }
 
 export interface GetEvents_events_EventList_events_BuyOrderExecution_currency {
+  readonly __typename: 'Currency';
+  readonly code: string;
+}
+
+export interface GetEvents_events_EventList_events_BuyOrderExecution_commodityCurrency {
   readonly __typename: 'Currency';
   readonly code: string;
 }
@@ -45,6 +56,7 @@ export interface GetEvents_events_EventList_events_BuyOrderExecution {
   readonly happenedAt: any;
   readonly currency: GetEvents_events_EventList_events_BuyOrderExecution_currency;
   readonly commodity: CommodityType;
+  readonly commodityCurrency: GetEvents_events_EventList_events_BuyOrderExecution_commodityCurrency | null;
   readonly quantity: number;
   readonly price: number;
 }
