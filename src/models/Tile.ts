@@ -89,6 +89,8 @@ class Tile {
         return 'port';
       case Infrastructure.BANK:
         return 'bank';
+      case Infrastructure.HUT:
+        return 'hut';
     }
   }
 

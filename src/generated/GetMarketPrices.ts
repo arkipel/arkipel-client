@@ -16,7 +16,6 @@ export interface GetMarketPrices_marketPrices_NotAuthorized {
 export interface GetMarketPrices_marketPrices_MarketPrices_prices_currency {
   readonly __typename: 'Currency';
   readonly id: string;
-  readonly code: string;
 }
 
 export interface GetMarketPrices_marketPrices_MarketPrices_prices {
