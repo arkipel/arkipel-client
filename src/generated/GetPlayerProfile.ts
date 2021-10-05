@@ -27,7 +27,6 @@ export interface GetPlayerProfile_player_Player_scoresheet_buildings {
 export interface GetPlayerProfile_player_Player_scoresheet_currencies_currency {
   readonly __typename: 'Currency';
   readonly id: string;
-  readonly code: string;
 }
 
 export interface GetPlayerProfile_player_Player_scoresheet_currencies {

@@ -18,6 +18,7 @@ export enum Infrastructure {
   BANK = 'BANK',
   EMPTY = 'EMPTY',
   HOUSE = 'HOUSE',
+  HUT = 'HUT',
   JUNGLE = 'JUNGLE',
   NUCLEAR_PLANT = 'NUCLEAR_PLANT',
   PORT = 'PORT',
