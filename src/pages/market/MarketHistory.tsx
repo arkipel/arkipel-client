@@ -193,7 +193,6 @@ const ControlledLineChart: FunctionComponent<controlledLineChartProps> = ({
               timestamp
               currency {
                 id
-                code
               }
               commodity
               numTrades

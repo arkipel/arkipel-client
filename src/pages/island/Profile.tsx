@@ -59,7 +59,6 @@ const Profile = () => {
               currencies {
                 currency {
                   id
-                  code
                 }
                 score
               }
