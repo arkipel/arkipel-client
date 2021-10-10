@@ -6,17 +6,23 @@ import MapTile from './MapTile';
 import Island from '../models/Island';
 import Tile from '../models/Tile';
 
-const IslandMap: FunctionComponent<props> = ({ island }) => {
+const IslandMap: FunctionComponent<props> = ({ island, clickable = false }) => {
   let map = Array<any>(100);
   for (let i = 0; i < 100; i++) {
     map[i] = (
-      <NavLink key={i} exact to={'/island/tiles/' + i}>
-        <MapTile
-          tile={island.tiles[i] || new Tile({ position: i })}
-          clickable={island.id !== ''}
-        />
-      </NavLink>
+      <MapTile
+        tile={island.tiles[i] || new Tile({ position: i })}
+        clickable={island.id !== '' && clickable}
+      />
     );
+
+    if (clickable) {
+      map[i] = (
+        <NavLink key={i} exact to={'/island/tiles/' + i}>
+          {map[i]}
+        </NavLink>
+      );
+    }
   }
 
   return (
@@ -28,6 +34,7 @@ const IslandMap: FunctionComponent<props> = ({ island }) => {
 
 class props {
   island: Island = new Island({});
+  clickable: boolean = false;
 }
 
 const style = {

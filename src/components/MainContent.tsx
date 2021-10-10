@@ -12,6 +12,7 @@ import ArchipelagoOverview from '../pages/archipelago/Overview';
 import Ranking from '../pages/archipelago/Ranking';
 import SearchIslandsPage from '../pages/archipelago/Search';
 import CommunityPage from '../pages/archipelago/Community';
+import PlayerProfile from '../pages/profile/PlayerProfile';
 import Profile from '../pages/island/Profile';
 import MapPage from '../pages/island/Map';
 import InfrastructurePage from '../pages/island/Infrastructure';
@@ -79,6 +80,7 @@ const MainContent: FunctionComponent<props> = ({
             <Route path="/login" exact component={Login} />
             <Route path="/registration" exact component={Registration} />
             <Route path="/account/settings" exact component={Settings} />
+            <Route path="/profile/:profileId" exact component={PlayerProfile} />
             <Route path="/island/profile" exact component={Profile} />
             <Route path="/island/map" exact component={MapPage} />
             <Route

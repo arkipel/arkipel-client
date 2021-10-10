@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react';
+import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { useQuery, gql } from '@apollo/client';
@@ -102,7 +103,9 @@ const Ranking = () => {
               />
             </td>
             <td>
-              <span>{player1.name}</span>
+              <span>
+                <NavLink to={'/profile/' + player1.id}>{player1.name}</NavLink>
+              </span>
             </td>
             <td>
               <span>{FormatQuantity(player1.score)}</span>
@@ -116,7 +119,9 @@ const Ranking = () => {
               />
             </td>
             <td>
-              <span>{player2.name}</span>
+              <span>
+                <NavLink to={'/profile/' + player2.id}>{player2.name}</NavLink>
+              </span>
             </td>
             <td>
               <span>{FormatQuantity(player2.score)}</span>
@@ -130,7 +135,9 @@ const Ranking = () => {
               />
             </td>
             <td>
-              <span>{player3.name}</span>
+              <span>
+                <NavLink to={'/profile/' + player3.id}>{player3.name}</NavLink>
+              </span>
             </td>
             <td>
               <span>{FormatQuantity(player3.score)}</span>
@@ -148,7 +155,9 @@ const Ranking = () => {
                     <span>{pos}</span>
                   </td>
                   <td>
-                    <span>{p.name}</span>
+                    <span>
+                      <NavLink to={'/profile/' + p.id}>{p.name}</NavLink>
+                    </span>
                   </td>
                   <td>
                     <span>{FormatQuantity(p.score)}</span>
