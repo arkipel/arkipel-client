@@ -1,4 +1,5 @@
 import React, { Fragment, useState } from 'react';
+import { NavLink } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 
 import { gql, useLazyQuery } from '@apollo/client';
@@ -82,7 +83,12 @@ const SearchIslandsPage = () => {
         {!loading &&
           list.length > 0 &&
           list.map((island) => {
-            return <p key={island.id}>Island {island.name}</p>;
+            return (
+              <p key={island.id}>
+                Island{' '}
+                <NavLink to={'/profile/' + island.id}>{island.name}</NavLink>
+              </p>
+            );
           })}
       </div>
     </Fragment>
