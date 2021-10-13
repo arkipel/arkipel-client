@@ -3,7 +3,7 @@
 // @generated
 // This file was automatically generated and should not be edited.
 
-import { PlayerInput, CommodityType } from './globalTypes';
+import { PlayerInput, CommodityType, BadgeType } from './globalTypes';
 
 // ====================================================
 // GraphQL query operation: GetPlayerProfile
@@ -44,9 +44,17 @@ export interface GetPlayerProfile_player_Player_scoresheet {
   readonly currencies: ReadonlyArray<GetPlayerProfile_player_Player_scoresheet_currencies>;
 }
 
+export interface GetPlayerProfile_player_Player_badges {
+  readonly __typename: 'Badge';
+  readonly id: string;
+  readonly createdAt: any;
+  readonly type: BadgeType;
+}
+
 export interface GetPlayerProfile_player_Player {
   readonly __typename: 'Player';
   readonly scoresheet: GetPlayerProfile_player_Player_scoresheet;
+  readonly badges: ReadonlyArray<GetPlayerProfile_player_Player_badges>;
 }
 
 export type GetPlayerProfile_player =

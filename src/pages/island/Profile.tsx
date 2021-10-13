@@ -6,9 +6,10 @@ import { SessionContext } from '../../libs/session/session';
 import { useQuery, gql } from '@apollo/client';
 import { GetIslandOverview } from '../../generated/GetIslandOverview';
 import { GetPlayerProfile } from '../../generated/GetPlayerProfile';
-import { CommodityType } from '../../generated/globalTypes';
+import { BadgeType, CommodityType } from '../../generated/globalTypes';
 
 import { FormatQuantity } from '../../ui/text/format';
+import { DateTime } from 'luxon';
 
 const Profile = () => {
   const session = useContext(SessionContext);
@@ -63,6 +64,11 @@ const Profile = () => {
                 score
               }
             }
+            badges {
+              id
+              createdAt
+              type
+            }
           }
         }
       }
@@ -81,7 +87,14 @@ const Profile = () => {
     total: 0,
   };
 
+  let badges = new Array<{
+    id: string;
+    createdAt: DateTime;
+    type: BadgeType;
+  }>();
+
   if (dataPlayer?.player.__typename === 'Player') {
+    // Scoresheet
     const sheet = dataPlayer.player.scoresheet;
 
     for (const cs of dataPlayer?.player.scoresheet.commodities) {
@@ -104,6 +117,15 @@ const Profile = () => {
     }
 
     scoresheet.total = sheet.score;
+
+    // Badges
+    for (const b of dataPlayer.player.badges) {
+      badges.push({
+        id: b.id,
+        createdAt: DateTime.fromISO(b.createdAt + ''),
+        type: b.type,
+      });
+    }
   }
 
   return (
@@ -137,6 +159,23 @@ const Profile = () => {
           </tr>
         </tfoot>
       </StyledTable>
+      <h2>Badges</h2>
+      <StyledBadgeShowcase>
+        {badges.map((b) => {
+          return (
+            <div key={Math.random()}>
+              <img
+                src="https://icons.arkipel.io/badges/generic.svg"
+                alt="Badge icon"
+                height={50}
+                width={50}
+              />
+              <span>{BadgeTypeToName(b.type)}</span>
+              <span>({b.createdAt.toRelative()})</span>
+            </div>
+          );
+        })}
+      </StyledBadgeShowcase>
     </Fragment>
   );
 };
@@ -156,5 +195,36 @@ const StyledTable = styled.table`
     font-weight: bold;
   }
 `;
+
+const StyledBadgeShowcase = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  grid-gap: 10px;
+
+  div {
+    display: grid;
+    grid-template-rows: 50px auto auto;
+    justify-items: center;
+
+    img {
+      height: '50px';
+      width: '50px';
+    }
+
+    span:nth-child(3) {
+      font-size: small;
+      color: #888;
+    }
+  }
+`;
+
+const BadgeTypeToName = (badgeType: BadgeType): string => {
+  switch (badgeType) {
+    case BadgeType.EARLY_PLAYER:
+      return 'Early player';
+    default:
+      return 'Unknown';
+  }
+};
 
 export default Profile;
