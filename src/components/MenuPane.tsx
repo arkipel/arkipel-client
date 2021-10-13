@@ -65,6 +65,12 @@ const MenuPane: FunctionComponent<props> = ({ visible, onCloseClick }) => {
                     </NavLink>
                   </li>
                   <li>
+                    <NavLink exact to="/island/citizens" onClick={onCloseClick}>
+                      <img src="https://icons.arkipel.io/menu/citizens.svg" />
+                      <span>Citizens</span>
+                    </NavLink>
+                  </li>
+                  <li>
                     <NavLink
                       exact
                       to="/island/infrastructure"
