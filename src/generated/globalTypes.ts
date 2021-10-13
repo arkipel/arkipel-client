@@ -7,6 +7,10 @@
 // START Enums and Input Objects
 //==============================================================
 
+export enum BadgeType {
+  EARLY_PLAYER = 'EARLY_PLAYER',
+}
+
 export enum CommodityType {
   CURRENCY = 'CURRENCY',
   MATERIAL_1M = 'MATERIAL_1M',
