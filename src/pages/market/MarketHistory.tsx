@@ -262,8 +262,8 @@ const ControlledLineChart: FunctionComponent<controlledLineChartProps> = ({
       let x = DateTime.fromISO(mp.timestamp).toMillis();
       let y =
         mp.numTrades !== 0
-          ? mp.price / mp.numTrades
-          : mp.prevPrice / mp.prevNumTrades;
+          ? mp.price / mp.quantity
+          : mp.prevPrice / mp.prevQuantity;
       points.push({ x, y });
     });
   }
