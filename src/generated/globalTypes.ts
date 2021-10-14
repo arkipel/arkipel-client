@@ -59,6 +59,10 @@ export enum TileKind {
   WATER = 'WATER',
 }
 
+export interface CitizensFromIslandInput {
+  readonly islandId: string;
+}
+
 export interface CurrentMarketPricesInput {
   readonly currencyId: string;
 }
