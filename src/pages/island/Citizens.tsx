@@ -6,7 +6,7 @@ import { GetCitizens, GetCitizensVariables } from 'generated/GetCitizens';
 
 import { SessionContext } from '../../libs/session/session';
 
-import { DateTime, Duration } from 'luxon';
+import { DateTime } from 'luxon';
 
 const CitizensPage = () => {
   const session = useContext(SessionContext);
