@@ -15,6 +15,7 @@ import CommunityPage from '../pages/archipelago/Community';
 import PlayerProfile from '../pages/profile/PlayerProfile';
 import Profile from '../pages/island/Profile';
 import MapPage from '../pages/island/Map';
+import CitizensPage from '../pages/island/Citizens';
 import InfrastructurePage from '../pages/island/Infrastructure';
 import ResourcesPage from '../pages/island/Resources';
 import TreasuryPage from '../pages/island/Treasury';
@@ -83,6 +84,7 @@ const MainContent: FunctionComponent<props> = ({
             <Route path="/profile/:profileId" exact component={PlayerProfile} />
             <Route path="/island/profile" exact component={Profile} />
             <Route path="/island/map" exact component={MapPage} />
+            <Route path="/island/citizens" exact component={CitizensPage} />
             <Route
               path="/island/infrastructure"
               exact

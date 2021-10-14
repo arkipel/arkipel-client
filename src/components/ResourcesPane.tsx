@@ -17,6 +17,10 @@ const ResourcesPane: FunctionComponent = () => {
   return (
     <Style>
       <div>
+        <img src="https://icons.arkipel.io/res/housing.svg" />
+        <span>{inventory.populationTotal}</span>
+      </div>
+      <div>
         <img src="https://icons.arkipel.io/res/population.svg" />
         <span>{inventory.populationFree}</span>
       </div>
