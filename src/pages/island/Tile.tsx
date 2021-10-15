@@ -61,6 +61,9 @@ const TilePage: FunctionComponent = () => {
             population
             energy
             material
+            food
+            frozenFood
+            frozenFoodStorage
             constructionSite {
               id
               infrastructure
@@ -133,6 +136,12 @@ const TilePage: FunctionComponent = () => {
             <b>Energy:</b> {tile.energy}
             <br />
             <b>Material:</b> {tile.material}/s
+            <br />
+            <b>Food:</b> {tile.food}/s
+            <br />
+            <b>Frozen food:</b> {tile.frozenFood}/s
+            <br />
+            <b>Frozen food storage:</b> {tile.frozenFoodStorage}/s
           </p>
           <h2>Infrastructure</h2>
           {tile.level === 0 && !constructionSite.exists && (

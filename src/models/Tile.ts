@@ -22,6 +22,9 @@ class Tile {
     this.population = obj?.population || 0;
     this.material = obj?.material || 0;
     this.energy = obj?.energy || 0;
+    this.food = obj?.food || 0;
+    this.frozenFood = obj?.frozenFood || 0;
+    this.frozenFoodStorage = obj?.frozenFoodStorage || 0;
     this.isActive = obj?.isActive === true ? true : false;
     this.materialProduction = obj?.materialProduction || 0;
   }
@@ -35,6 +38,9 @@ class Tile {
   currentStatus: InfrastructureStatus;
   population: number;
   material: number;
+  food: number;
+  frozenFood: number;
+  frozenFoodStorage: number;
   energy: number;
   isActive: boolean;
   materialProduction: number;
@@ -91,6 +97,10 @@ class Tile {
         return 'bank';
       case Infrastructure.HUT:
         return 'hut';
+      case Infrastructure.WAREHOUSE:
+        return 'warehouse';
+      case Infrastructure.GARDEN:
+        return 'garden';
     }
   }
 

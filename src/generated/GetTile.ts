@@ -40,6 +40,9 @@ export interface GetTile_tile_Tile {
   readonly population: number;
   readonly energy: number;
   readonly material: number;
+  readonly food: number;
+  readonly frozenFood: number;
+  readonly frozenFoodStorage: number;
   readonly constructionSite: GetTile_tile_Tile_constructionSite | null;
   readonly blueprints: ReadonlyArray<GetTile_tile_Tile_blueprints>;
 }

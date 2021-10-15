@@ -27,6 +27,11 @@ export interface GetCurrentInventory_inventory_Inventory {
   readonly energyTotal: number;
   readonly materialProduction: number;
   readonly material: number;
+  readonly foodProduction: number;
+  readonly food: number;
+  readonly frozenFoodProduction: number;
+  readonly frozenFood: number;
+  readonly frozenFoodStorage: number;
   readonly bankLevels: number;
   readonly timestamp: any;
   readonly island: GetCurrentInventory_inventory_Inventory_island;

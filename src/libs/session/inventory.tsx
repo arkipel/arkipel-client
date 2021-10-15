@@ -19,6 +19,8 @@ import { FormatQuantity } from '../../ui/text/format';
 const InventoryProvider: FunctionComponent = ({ children }) => {
   const [inventory, setInventory] = useState(new Inventory({}));
   const [materialFormatted, setMaterialFormatted] = useState('0');
+  const [foodFormatted, setFoodFormatted] = useState('0');
+  const [frozenFoodFormatted, setFrozenFoodFormatted] = useState('0');
 
   const session = useContext(SessionContext);
 
@@ -36,6 +38,11 @@ const InventoryProvider: FunctionComponent = ({ children }) => {
             energyTotal
             materialProduction
             material
+            foodProduction
+            food
+            frozenFoodProduction
+            frozenFood
+            frozenFoodStorage
             bankLevels
             timestamp
             island {
@@ -58,11 +65,50 @@ const InventoryProvider: FunctionComponent = ({ children }) => {
           inv.material += secs * inv.materialProduction;
         }
 
+        if (inv.foodProduction > 0 && inv.lastUpdate) {
+          let secs = Math.floor(inv.sinceLastUpdate().milliseconds / 1000);
+          inv.food += secs * inv.foodProduction;
+        }
+
+        if (inv.frozenFoodProduction > 0 && inv.lastUpdate) {
+          let secs = Math.floor(inv.sinceLastUpdate().milliseconds / 1000);
+          let newFrozen = secs * inv.frozenFoodProduction;
+
+          if (newFrozen > inv.food) {
+            newFrozen = inv.food;
+          }
+
+          inv.frozenFood += newFrozen;
+          inv.food -= newFrozen;
+        }
+
+        if (inv.food < 0) {
+          inv.food = 0;
+        }
+
+        if (inv.frozenFood > inv.frozenFoodStorage) {
+          inv.frozenFood = inv.frozenFoodStorage;
+        }
+
+        if (inv.frozenFood < 0) {
+          inv.frozenFood = 0;
+        }
+
         setInventory(inv);
 
         let matFormatted = FormatQuantity(inv.material);
         if (matFormatted !== materialFormatted) {
           setMaterialFormatted(matFormatted);
+        }
+
+        let foodFormatted = FormatQuantity(inv.food);
+        if (foodFormatted !== foodFormatted) {
+          setFoodFormatted(foodFormatted);
+        }
+
+        let frozenFoodFormatted = FormatQuantity(inv.frozenFood);
+        if (frozenFoodFormatted !== frozenFoodFormatted) {
+          setFrozenFoodFormatted(frozenFoodFormatted);
         }
       }
     }, 1000);
@@ -76,6 +122,8 @@ const InventoryProvider: FunctionComponent = ({ children }) => {
       value={{
         ...inventory,
         materialFormatted,
+        foodFormatted,
+        frozenFoodFormatted,
       }}
     >
       {children}
@@ -84,10 +132,16 @@ const InventoryProvider: FunctionComponent = ({ children }) => {
 };
 
 const InventoryContext = React.createContext<
-  Inventory & { materialFormatted: string }
+  Inventory & {
+    materialFormatted: string;
+    foodFormatted: string;
+    frozenFoodFormatted: string;
+  }
 >({
   ...new Inventory(''),
   materialFormatted: '0',
+  foodFormatted: '0',
+  frozenFoodFormatted: '0',
 });
 
 export { InventoryContext, InventoryProvider };
