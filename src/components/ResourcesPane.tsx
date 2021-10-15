@@ -29,6 +29,14 @@ const ResourcesPane: FunctionComponent = () => {
         <span style={{ paddingLeft: 0 }}>{inventory.energyFree}</span>
       </div>
       <div>
+        <img src="https://icons.arkipel.io/res/food.svg" />
+        <span>{inventory.food}</span>
+      </div>
+      <div>
+        <img src="https://icons.arkipel.io/res/frozen_food.svg" />
+        <span>{inventory.frozenFood}</span>
+      </div>
+      <div>
         <img src="https://icons.arkipel.io/res/material.svg" />
         <span>{inventory.materialFormatted}</span>
       </div>

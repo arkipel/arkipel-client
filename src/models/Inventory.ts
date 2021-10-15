@@ -12,6 +12,11 @@ class Inventory {
     this.energyTotal = obj?.energyTotal || 0;
     this.materialProduction = obj?.materialProduction || 0;
     this.material = obj?.material || 0;
+    this.foodProduction = obj?.foodProduction || 0;
+    this.food = obj?.food || 0;
+    this.frozenFoodProduction = obj?.frozenFoodProduction || 0;
+    this.frozenFood = obj?.frozenFood || 0;
+    this.frozenFoodStorage = obj?.frozenFoodStorage || 0;
     this.bankLevels = obj?.bankLevels || 0;
   }
 
@@ -25,6 +30,11 @@ class Inventory {
   energyTotal: number;
   materialProduction: number;
   material: number;
+  foodProduction: number;
+  food: number;
+  frozenFoodProduction: number;
+  frozenFood: number;
+  frozenFoodStorage: number;
   bankLevels: number;
 
   sinceLastUpdate = (): Duration => {

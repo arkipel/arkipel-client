@@ -61,6 +61,52 @@ const ResourcesPage = () => {
           </div>
           <div>{FormatQuantity(inventory.material)}</div>
         </StatStyle>
+        <StatStyle>
+          <div>
+            <h3>Food production</h3>
+            <p>The rate at which the island produces food.</p>
+          </div>
+          <div>{inventory.foodProduction}/s</div>
+        </StatStyle>
+        <StatStyle>
+          <div>
+            <h3>Food</h3>
+            <p>
+              Food is used to feed citizens. Every hour, 10% of the food stock
+              goes abd and is thrown away. It currently has no impact in the
+              game.
+            </p>
+          </div>
+          <div>{FormatQuantity(inventory.food)}</div>
+        </StatStyle>
+        <StatStyle>
+          <div>
+            <h3>Frozen food production</h3>
+            <p>The rate at which the island freezes food.</p>
+          </div>
+          <div>{inventory.frozenFoodProduction}/s</div>
+        </StatStyle>
+        <StatStyle>
+          <div>
+            <h3>Food</h3>
+            <p>
+              Frozen food is food that does not rot, but requires a warehouse
+              and energy to remain frozen. It currently has no impact in the
+              game.
+            </p>
+          </div>
+          <div>{FormatQuantity(inventory.frozenFood)}</div>
+        </StatStyle>
+        <StatStyle>
+          <div>
+            <h3>Frozen food storage</h3>
+            <p>
+              The maximum amount of frozen food that can be stored in the
+              warehouses.
+            </p>
+          </div>
+          <div>{FormatQuantity(inventory.frozenFoodStorage)}</div>
+        </StatStyle>
       </Style>
       <h2>Infrastructure</h2>
       <Style>
