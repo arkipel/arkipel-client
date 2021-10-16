@@ -134,14 +134,30 @@ const TilePage: FunctionComponent = () => {
             <b>Population:</b> {tile.population}
             <br />
             <b>Energy:</b> {tile.energy}
-            <br />
-            <b>Material:</b> {tile.material}/s
-            <br />
-            <b>Food:</b> {tile.food}/s
-            <br />
-            <b>Frozen food:</b> {tile.frozenFood}/s
-            <br />
-            <b>Frozen food storage:</b> {tile.frozenFoodStorage}/s
+            {tile.material !== 0 && (
+              <>
+                <br />
+                <b>Material:</b> {tile.material}/s
+              </>
+            )}
+            {tile.food !== 0 && (
+              <>
+                <br />
+                <b>Food:</b> {tile.food}/s
+              </>
+            )}
+            {tile.frozenFood !== 0 && (
+              <>
+                <br />
+                <b>Frozen food:</b> {tile.frozenFood}/s
+              </>
+            )}
+            {tile.frozenFoodStorage !== 0 && (
+              <>
+                <br />
+                <b>Frozen food storage:</b> {tile.frozenFoodStorage}/s
+              </>
+            )}
           </p>
           <h2>Infrastructure</h2>
           {tile.level === 0 && !constructionSite.exists && (
