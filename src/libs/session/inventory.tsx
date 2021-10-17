@@ -74,6 +74,10 @@ const InventoryProvider: FunctionComponent = ({ children }) => {
           let secs = Math.floor(inv.sinceLastUpdate().milliseconds / 1000);
           let newFrozen = secs * inv.frozenFoodProduction;
 
+          if (inv.frozenFood + newFrozen > inv.frozenFoodStorage) {
+            newFrozen = 0;
+          }
+
           if (newFrozen > inv.food) {
             newFrozen = inv.food;
           }
