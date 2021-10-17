@@ -29,6 +29,8 @@ export interface GetTiles_island_Island_tiles {
   readonly currentStatus: InfrastructureStatus;
   readonly population: number;
   readonly material: number;
+  readonly food: number;
+  readonly frozenFood: number;
   readonly energy: number;
   readonly island: GetTiles_island_Island_tiles_island;
 }

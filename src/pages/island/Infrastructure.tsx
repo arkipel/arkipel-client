@@ -38,6 +38,8 @@ const InfrastructurePage = () => {
               currentStatus
               population
               material
+              food
+              frozenFood
               energy
               island {
                 id
@@ -98,9 +100,7 @@ const InfrastructurePage = () => {
               <th>
                 <img src="https://icons.arkipel.io/res/energy.svg" />
               </th>
-              <th>
-                <img src="https://icons.arkipel.io/res/material.svg" />
-              </th>
+              <th></th>
               <th></th>
             </tr>
           </thead>
@@ -179,6 +179,16 @@ const TableStyle = styled.table`
 `;
 
 const InfrastructureItem: FunctionComponent<props> = ({ tile }) => {
+  let mainProd = <td></td>;
+
+  if (tile.material !== 0) {
+    mainProd = <td>{tile.material}/s</td>;
+  } else if (tile.food !== 0) {
+    mainProd = <td>{tile.food}/s</td>;
+  } else if (tile.frozenFood !== 0) {
+    mainProd = <td>{tile.frozenFood}/s</td>;
+  }
+
   return (
     <tr>
       <td>
@@ -195,7 +205,7 @@ const InfrastructureItem: FunctionComponent<props> = ({ tile }) => {
       </td>
       <td>{tile.population}</td>
       <td>{tile.energy}</td>
-      <td>{tile.material}/s</td>
+      {mainProd}
       <td>
         <TileStatusToggle islandId={tile.islandId} position={tile.position} />
       </td>
