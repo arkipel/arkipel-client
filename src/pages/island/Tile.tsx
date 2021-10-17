@@ -155,7 +155,7 @@ const TilePage: FunctionComponent = () => {
             {tile.frozenFoodStorage !== 0 && (
               <>
                 <br />
-                <b>Frozen food storage:</b> {tile.frozenFoodStorage}/s
+                <b>Frozen food storage:</b> {tile.frozenFoodStorage}
               </>
             )}
           </p>
