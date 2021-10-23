@@ -23,6 +23,23 @@ const Home = () => {
           by players.
         </i>
       </p>
+      <small>
+        This is not an idle game. Production won't grow exponentially and you
+        don't need to leave your browser open to produce resources.
+      </small>
+      <h2>Work in progress</h2>
+      <p>This is a work in progress. Important points:</p>
+      <ul style={{ marginLeft: '20px' }}>
+        <li>
+          Food can be produced, but it is not consumed yet, so you don't need to
+          have any.
+        </li>
+        <li>
+          New players get the Early Player badge. This is a limited badge that
+          won't be distributed in the future.
+        </li>
+        <li>Trading is buggy and a new version is coming out soon.</li>
+      </ul>
     </Fragment>
   );
 };
