@@ -377,6 +377,69 @@ const TradePage = () => {
           </p>
         </div>
 
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(5, 1fr)',
+            gap: '4px',
+            gridArea: 'price',
+          }}
+        >
+          <Button
+            style={{ width: 'auto' }}
+            onClick={(e) => {
+              e.preventDefault();
+            }}
+          >
+            -5%
+          </Button>
+          <Button
+            style={{ width: 'auto' }}
+            onClick={(e) => {
+              e.preventDefault();
+            }}
+          >
+            -1%
+          </Button>
+          {/* <Button
+            style={{ width: 'auto' }}
+            onClick={(e) => {
+              e.preventDefault();
+            }}
+          >
+            0%
+          </Button> */}
+          <Button
+            style={{ width: 'auto' }}
+            onClick={(e) => {
+              e.preventDefault();
+            }}
+          >
+            +1%
+          </Button>
+          <Button
+            style={{ width: 'auto' }}
+            onClick={(e) => {
+              e.preventDefault();
+            }}
+          >
+            +5%
+          </Button>
+          <Button
+            style={{ width: 'auto' }}
+            onClick={(e) => {
+              e.preventDefault();
+            }}
+          >
+            #
+          </Button>
+        </div>
+
+        <div style={{ gridArea: 'price-summary' }}>
+          <p>1,234,567 material @ 0.0012/unit</p>
+          <p>1481.48</p>
+        </div>
+
         <div style={{ gridArea: 'submit' }}>
           {!formDisabled && <Submit value={submitText} disabled={!canSend} />}
 
@@ -453,6 +516,8 @@ const StyledForm = styled(Form)`
     'empty            commodity-currency'
     'price-amount     price-currency'
     'expires-in       order-duration'
+    'price            price'
+    'price-summary    price-summary'
     'submit           errors';
   grid-template-columns: 200px 1fr;
 
