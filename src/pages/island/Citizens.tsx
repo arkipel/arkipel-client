@@ -1,4 +1,5 @@
 import React, { Fragment, FunctionComponent, useContext } from 'react';
+import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { useQuery, gql } from '@apollo/client';
@@ -86,7 +87,9 @@ const TableStyle = styled.table`
 const CitizenItem: FunctionComponent<{ citizen: citizen }> = ({ citizen }) => {
   return (
     <tr>
-      <td>{citizen.name}</td>
+      <td>
+        <NavLink to={'/citizen/' + citizen.id}>{citizen.name}</NavLink>
+      </td>
       <td>{citizen.createdAt.toRelative()}</td>
     </tr>
   );
