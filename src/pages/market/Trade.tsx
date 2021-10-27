@@ -22,6 +22,7 @@ import TimeLeft from '../../ui/text/TimeLeft';
 import { Form } from '../../ui/form/Form';
 import { Input, Submit, Select, Radio } from '../../ui/form/Input';
 import { Button } from '../../ui/form/Button';
+import { FormatQuantity } from '../../ui/text/format';
 
 const TradePage = () => {
   const [orderSent, setOrderSent] = useState(false);
@@ -138,7 +139,8 @@ const TradePage = () => {
 
   let currencyCode = orderParams.currencyId.toUpperCase();
 
-  const totalAmount = orderParams.quantity * orderParams.price;
+  const price = orderParams.price;
+  const totalAmount = orderParams.quantity * price;
   let totalQuantity = orderParams.quantity;
 
   // Commodity currency
@@ -364,7 +366,7 @@ const TradePage = () => {
           </Select>
         </div>
 
-        <div
+        {/* <div
           style={{
             gridArea: 'summary',
             display: 'grid',
@@ -375,70 +377,38 @@ const TradePage = () => {
           <p style={{ fontSize: '24px' }}>
             {orderParams.quantity * orderParams.price} {currencyCode}
           </p>
-        </div>
+        </div> */}
 
-        <div
-          style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(5, 1fr)',
-            gap: '4px',
-            gridArea: 'price',
-          }}
-        >
-          <Button
-            style={{ width: 'auto' }}
-            onClick={(e) => {
-              e.preventDefault();
-            }}
-          >
-            -5%
-          </Button>
-          <Button
-            style={{ width: 'auto' }}
-            onClick={(e) => {
-              e.preventDefault();
-            }}
-          >
-            -1%
-          </Button>
-          {/* <Button
-            style={{ width: 'auto' }}
-            onClick={(e) => {
-              e.preventDefault();
-            }}
-          >
-            0%
-          </Button> */}
-          <Button
-            style={{ width: 'auto' }}
-            onClick={(e) => {
-              e.preventDefault();
-            }}
-          >
-            +1%
-          </Button>
-          <Button
-            style={{ width: 'auto' }}
-            onClick={(e) => {
-              e.preventDefault();
-            }}
-          >
-            +5%
-          </Button>
-          <Button
-            style={{ width: 'auto' }}
-            onClick={(e) => {
-              e.preventDefault();
-            }}
-          >
-            #
-          </Button>
-        </div>
-
-        <div style={{ gridArea: 'price-summary' }}>
-          <p>1,234,567 material @ 0.0012/unit</p>
-          <p>1481.48</p>
-        </div>
+        <StyledPriceSummary style={{ gridArea: 'price-summary' }}>
+          <div>
+            <span>{FormatQuantity(totalQuantity)}</span>
+          </div>
+          <div>
+            <span>@</span>
+          </div>
+          <div>
+            <span>{price}</span>
+          </div>
+          <div>
+            <span>=</span>
+          </div>
+          <div>
+            <span>{totalAmount * 1000000}</span>
+          </div>
+          <div>
+            <span>material</span>
+          </div>
+          <div></div>
+          <div>
+            <span>/ 1 unit</span>
+          </div>
+          <div></div>
+          <div>
+            <span>{currencyCode}</span>
+          </div>
+          {/* <p>1,234,567 material @ 0.0012/unit</p>
+          <p>1481.48</p> */}
+        </StyledPriceSummary>
 
         <div style={{ gridArea: 'submit' }}>
           {!formDisabled && <Submit value={submitText} disabled={!canSend} />}
@@ -511,7 +481,7 @@ interface sendOrderParams {
 
 const StyledForm = styled(Form)`
   grid-template-areas:
-    'sell-buy         summary'
+    'sell-buy         _'
     'commodity-amount commodity-type'
     'empty            commodity-currency'
     'price-amount     price-currency'
@@ -519,22 +489,59 @@ const StyledForm = styled(Form)`
     'price            price'
     'price-summary    price-summary'
     'submit           errors';
-  grid-template-columns: 200px 1fr;
+  grid-template-columns: 1fr 1fr;
 
   @media all and (max-width: 499px) {
     grid-template-areas:
-      'sell-buy'
-      'summary'
-      'commodity-amount'
-      'commodity-type'
-      'commodity-currency'
-      'price-amount'
-      'price-currency'
-      'expires-in'
-      'order-duration'
-      'submit'
-      'errors';
-    grid-template-columns: 1fr;
+      'sell-buy         sell-buy'
+      'commodity-amount commodity-type'
+      '_                commodity-currency'
+      'price-amount     price-currency'
+      'expires-in       order-duration'
+      'price-summary    price-summary'
+      'submit           submit'
+      'errors           errors';
+    grid-template-columns: 1fr 1fr;
+  }
+`;
+
+const StyledPriceSummary = styled.div`
+  display: grid;
+  grid-template-columns: 1fr auto 1fr auto 1fr;
+  grid-template-rows: auto auto;
+  gap: 4px 10px;
+  font-size: 18px;
+
+  div {
+    text-align: center;
+    /* border: 1px solid black; */
+  }
+
+  div:nth-child(1) {
+    /* font-size: 18px; */
+    /* text-align: center; */
+    /* border: 1px solid red; */
+  }
+
+  div:nth-child(6) {
+    font-size: 16px;
+    color: #666;
+    /* text-align: center; */
+    /* border: 1px solid red; */
+  }
+
+  div:nth-child(8) {
+    font-size: 16px;
+    color: #666;
+    /* text-align: center; */
+    /* border: 1px solid red; */
+  }
+
+  div:nth-child(10) {
+    font-size: 16px;
+    color: #666;
+    /* text-align: center; */
+    /* border: 1px solid red; */
   }
 `;
 
