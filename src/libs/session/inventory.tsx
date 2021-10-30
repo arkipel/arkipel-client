@@ -105,14 +105,14 @@ const InventoryProvider: FunctionComponent = ({ children }) => {
           setMaterialFormatted(matFormatted);
         }
 
-        let foodFormatted = FormatQuantity(inv.food);
-        if (foodFormatted !== foodFormatted) {
-          setFoodFormatted(foodFormatted);
+        let newFoodFormatted = FormatQuantity(inv.food);
+        if (newFoodFormatted !== foodFormatted) {
+          setFoodFormatted(newFoodFormatted);
         }
 
-        let frozenFoodFormatted = FormatQuantity(inv.frozenFood);
-        if (frozenFoodFormatted !== frozenFoodFormatted) {
-          setFrozenFoodFormatted(frozenFoodFormatted);
+        let newFrozenFoodFormatted = FormatQuantity(inv.frozenFood);
+        if (newFrozenFoodFormatted !== frozenFoodFormatted) {
+          setFrozenFoodFormatted(newFrozenFoodFormatted);
         }
       }
     }, 1000);
