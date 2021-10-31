@@ -30,11 +30,11 @@ const ResourcesPane: FunctionComponent = () => {
       </div>
       <div>
         <img src="https://icons.arkipel.io/res/food.svg" />
-        <span>{inventory.food}</span>
+        <span>{inventory.foodFormatted}</span>
       </div>
       <div>
         <img src="https://icons.arkipel.io/res/frozen_food.svg" />
-        <span>{inventory.frozenFood}</span>
+        <span>{inventory.frozenFoodFormatted}</span>
       </div>
       <div>
         <img src="https://icons.arkipel.io/res/material.svg" />

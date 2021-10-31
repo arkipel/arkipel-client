@@ -27,6 +27,7 @@ import TradePage from '../pages/market/Trade';
 import Login from '../pages/Login';
 import Registration from '../pages/Registration';
 import Settings from '../pages/account/Settings';
+import CitizenPage from '../pages/citizen/Citizen';
 
 // Components
 import APIStatus from '../components/APIStatus';
@@ -113,6 +114,7 @@ const MainContent: FunctionComponent<props> = ({
               exact
               component={CommunityPage}
             />
+            <Route path="/citizen/:citizenId" exact component={CitizenPage} />
           </Switch>
         </ContentStyle>
       </Scrollable>

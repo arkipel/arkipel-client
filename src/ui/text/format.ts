@@ -1,4 +1,12 @@
-const FormatQuantity = (n: number): string => {
+const FormatNumber = (n: number): string => {
+  let str = n.toLocaleString('en-US', {
+    maximumFractionDigits: 2,
+  });
+
+  return str;
+};
+
+const ShortenNumber = (n: number): string => {
   let a = '';
 
   if (n >= 1_000_000_000_000_000_000) {
@@ -27,4 +35,4 @@ const FormatQuantity = (n: number): string => {
   return str + a;
 };
 
-export { FormatQuantity };
+export { FormatNumber, ShortenNumber };

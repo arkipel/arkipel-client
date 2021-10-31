@@ -8,7 +8,7 @@ import { GetIslandOverview } from '../../generated/GetIslandOverview';
 import { GetPlayerProfile } from '../../generated/GetPlayerProfile';
 import { BadgeType, CommodityType } from '../../generated/globalTypes';
 
-import { FormatQuantity } from '../../ui/text/format';
+import { ShortenNumber } from '../../ui/text/format';
 import { DateTime } from 'luxon';
 
 const Profile = () => {
@@ -141,21 +141,21 @@ const Profile = () => {
         <tbody>
           <tr>
             <td>Material</td>
-            <td>{FormatQuantity(scoresheet.material)}</td>
+            <td>{ShortenNumber(scoresheet.material)}</td>
           </tr>
           <tr>
             <td>Buildings</td>
-            <td>{FormatQuantity(scoresheet.buildings)}</td>
+            <td>{ShortenNumber(scoresheet.buildings)}</td>
           </tr>
           <tr>
             <td>Currencies</td>
-            <td>{FormatQuantity(scoresheet.currencies)}</td>
+            <td>{ShortenNumber(scoresheet.currencies)}</td>
           </tr>
         </tbody>
         <tfoot>
           <tr>
             <td>Total</td>
-            <td>{FormatQuantity(scoresheet.total)}</td>
+            <td>{ShortenNumber(scoresheet.total)}</td>
           </tr>
         </tfoot>
       </StyledTable>

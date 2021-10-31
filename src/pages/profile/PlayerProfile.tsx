@@ -10,7 +10,7 @@ import { DateTime } from 'luxon';
 
 import IslandMap from '../../components/IslandMap';
 import Island from '../../models/Island';
-import { FormatQuantity } from '../../ui/text/format';
+import { ShortenNumber } from '../../ui/text/format';
 
 const Profile = () => {
   const { profileId } = useParams<{ profileId: string }>();
@@ -135,21 +135,21 @@ const Profile = () => {
         <tbody>
           <tr>
             <td>Material</td>
-            <td>{FormatQuantity(scoresheet.material)}</td>
+            <td>{ShortenNumber(scoresheet.material)}</td>
           </tr>
           <tr>
             <td>Buildings</td>
-            <td>{FormatQuantity(scoresheet.buildings)}</td>
+            <td>{ShortenNumber(scoresheet.buildings)}</td>
           </tr>
           <tr>
             <td>Currencies</td>
-            <td>{FormatQuantity(scoresheet.currencies)}</td>
+            <td>{ShortenNumber(scoresheet.currencies)}</td>
           </tr>
         </tbody>
         <tfoot>
           <tr>
             <td>Total</td>
-            <td>{FormatQuantity(scoresheet.total)}</td>
+            <td>{ShortenNumber(scoresheet.total)}</td>
           </tr>
         </tfoot>
       </StyledTable>
