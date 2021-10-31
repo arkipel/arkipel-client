@@ -1,3 +1,11 @@
+const FormatNumber = (n: number): string => {
+  let str = n.toLocaleString('en-US', {
+    maximumFractionDigits: 2,
+  });
+
+  return str;
+};
+
 const ShortenNumber = (n: number): string => {
   let a = '';
 
@@ -27,4 +35,4 @@ const ShortenNumber = (n: number): string => {
   return str + a;
 };
 
-export { ShortenNumber };
+export { FormatNumber, ShortenNumber };

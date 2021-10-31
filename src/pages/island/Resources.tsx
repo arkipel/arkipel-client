@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 import { InventoryContext } from '../../libs/session/inventory';
 
-import { ShortenNumber } from '../../ui/text/format';
+import { FormatNumber } from '../../ui/text/format';
 
 const ResourcesPage = () => {
   const inventory = useContext(InventoryContext);
@@ -59,7 +59,7 @@ const ResourcesPage = () => {
               upgrade current infrastructure.
             </p>
           </div>
-          <div>{ShortenNumber(inventory.material)}</div>
+          <div>{FormatNumber(inventory.material)}</div>
         </StatStyle>
         <StatStyle>
           <div>
@@ -77,7 +77,7 @@ const ResourcesPage = () => {
               game.
             </p>
           </div>
-          <div>{ShortenNumber(inventory.food)}</div>
+          <div>{FormatNumber(inventory.food)}</div>
         </StatStyle>
         <StatStyle>
           <div>
@@ -95,7 +95,7 @@ const ResourcesPage = () => {
               game.
             </p>
           </div>
-          <div>{ShortenNumber(inventory.frozenFood)}</div>
+          <div>{FormatNumber(inventory.frozenFood)}</div>
         </StatStyle>
         <StatStyle>
           <div>
@@ -105,7 +105,7 @@ const ResourcesPage = () => {
               warehouses.
             </p>
           </div>
-          <div>{ShortenNumber(inventory.frozenFoodStorage)}</div>
+          <div>{FormatNumber(inventory.frozenFoodStorage)}</div>
         </StatStyle>
       </Style>
       <h2>Infrastructure</h2>
