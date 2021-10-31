@@ -14,7 +14,7 @@ import {
 import { SessionContext } from './session';
 
 import Inventory from '../../models/Inventory';
-import { FormatQuantity } from '../../ui/text/format';
+import { ShortenNumber } from '../../ui/text/format';
 
 const InventoryProvider: FunctionComponent = ({ children }) => {
   const [inventory, setInventory] = useState(new Inventory({}));
@@ -100,17 +100,17 @@ const InventoryProvider: FunctionComponent = ({ children }) => {
 
         setInventory(inv);
 
-        let matFormatted = FormatQuantity(inv.material);
+        let matFormatted = ShortenNumber(inv.material);
         if (matFormatted !== materialFormatted) {
           setMaterialFormatted(matFormatted);
         }
 
-        let newFoodFormatted = FormatQuantity(inv.food);
+        let newFoodFormatted = ShortenNumber(inv.food);
         if (newFoodFormatted !== foodFormatted) {
           setFoodFormatted(newFoodFormatted);
         }
 
-        let newFrozenFoodFormatted = FormatQuantity(inv.frozenFood);
+        let newFrozenFoodFormatted = ShortenNumber(inv.frozenFood);
         if (newFrozenFoodFormatted !== frozenFoodFormatted) {
           setFrozenFoodFormatted(newFrozenFoodFormatted);
         }

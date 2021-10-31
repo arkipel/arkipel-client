@@ -21,7 +21,7 @@ import Blueprint from '../../models/Blueprint';
 import TileStatusToggle from '../../components/TileStatusToggle';
 
 import { Error } from '../../ui/dialog/Msg';
-import { FormatQuantity } from '../../ui/text/format';
+import { ShortenNumber } from '../../ui/text/format';
 import TimeLeft from '../../ui/text/TimeLeft';
 import { Button } from '../../ui/form/Button';
 
@@ -208,8 +208,8 @@ const TilePage: FunctionComponent = () => {
                 />
                 <span>
                   You can upgrade for{' '}
-                  {FormatQuantity(blueprints[0].materialCost)} material. It
-                  would take{' '}
+                  {ShortenNumber(blueprints[0].materialCost)} material. It would
+                  take{' '}
                   {blueprints[0].durationWithWorkersStr(
                     inventory.populationFree,
                   )}
@@ -378,7 +378,7 @@ const InfrastructureOption: FunctionComponent<{
           <td>
             <span>
               <img src="https://icons.arkipel.io/res/material.svg" />
-              {FormatQuantity(bp.materialCost)}
+              {ShortenNumber(bp.materialCost)}
             </span>
           </td>
           <td>{bp.durationWithWorkersStr(inventory.populationFree)}</td>

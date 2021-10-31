@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import { useQuery, gql } from '@apollo/client';
 import { GetTopPlayers } from 'generated/GetTopPlayers';
 
-import { FormatQuantity } from '../../ui/text/format';
+import { ShortenNumber } from '../../ui/text/format';
 
 const Ranking = () => {
   let { data } = useQuery<GetTopPlayers>(
@@ -108,7 +108,7 @@ const Ranking = () => {
               </span>
             </td>
             <td>
-              <span>{FormatQuantity(player1.score)}</span>
+              <span>{ShortenNumber(player1.score)}</span>
             </td>
           </tr>
           <tr>
@@ -124,7 +124,7 @@ const Ranking = () => {
               </span>
             </td>
             <td>
-              <span>{FormatQuantity(player2.score)}</span>
+              <span>{ShortenNumber(player2.score)}</span>
             </td>
           </tr>
           <tr>
@@ -140,7 +140,7 @@ const Ranking = () => {
               </span>
             </td>
             <td>
-              <span>{FormatQuantity(player3.score)}</span>
+              <span>{ShortenNumber(player3.score)}</span>
             </td>
           </tr>
           {(() => {
@@ -160,7 +160,7 @@ const Ranking = () => {
                     </span>
                   </td>
                   <td>
-                    <span>{FormatQuantity(p.score)}</span>
+                    <span>{ShortenNumber(p.score)}</span>
                   </td>
                 </tr>,
               );
