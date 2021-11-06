@@ -22,6 +22,7 @@ import TimeLeft from '../../ui/text/TimeLeft';
 import { Form } from '../../ui/form/Form';
 import { Input, Submit, Select, Radio } from '../../ui/form/Input';
 import { Button } from '../../ui/form/Button';
+import { FormatNumber, ShortenNumber } from '../../ui/text/format';
 
 const TradePage = () => {
   const [orderSent, setOrderSent] = useState(false);
@@ -138,7 +139,8 @@ const TradePage = () => {
 
   let currencyCode = orderParams.currencyId.toUpperCase();
 
-  const totalAmount = orderParams.quantity * orderParams.price;
+  const price = Number(orderParams.price);
+  const totalAmount = orderParams.quantity * price;
   let totalQuantity = orderParams.quantity;
 
   // Commodity currency
@@ -319,6 +321,7 @@ const TradePage = () => {
             id="price"
             placeholder="Price"
             min={0}
+            step="any"
             disabled={formDisabled}
             style={{ width: '100%' }}
           />
@@ -364,18 +367,34 @@ const TradePage = () => {
           </Select>
         </div>
 
-        <div
-          style={{
-            gridArea: 'summary',
-            display: 'grid',
-            alignItems: 'center',
-            justifyItems: 'flex-end',
-          }}
-        >
-          <p style={{ fontSize: '24px' }}>
-            {orderParams.quantity * orderParams.price} {currencyCode}
-          </p>
-        </div>
+        <StyledPriceSummary style={{ gridArea: 'price-summary' }}>
+          <div>
+            <span>{ShortenNumber(totalQuantity)}</span>
+          </div>
+          <div>
+            <span>@</span>
+          </div>
+          <div>
+            <span>{FormatNumber(price)}</span>
+          </div>
+          <div>
+            <span>=</span>
+          </div>
+          <div>
+            <span>{ShortenNumber(totalAmount)}</span>
+          </div>
+          <div>
+            <span>material</span>
+          </div>
+          <div></div>
+          <div>
+            <span>/unit</span>
+          </div>
+          <div></div>
+          <div>
+            <span>{currencyCode}</span>
+          </div>
+        </StyledPriceSummary>
 
         <div style={{ gridArea: 'submit' }}>
           {!formDisabled && <Submit value={submitText} disabled={!canSend} />}
@@ -448,28 +467,54 @@ interface sendOrderParams {
 
 const StyledForm = styled(Form)`
   grid-template-areas:
-    'sell-buy         summary'
+    'sell-buy         _'
     'commodity-amount commodity-type'
     'empty            commodity-currency'
     'price-amount     price-currency'
     'expires-in       order-duration'
+    'price            price'
+    'price-summary    price-summary'
     'submit           errors';
-  grid-template-columns: 200px 1fr;
+  grid-template-columns: 1fr 1fr;
 
   @media all and (max-width: 499px) {
     grid-template-areas:
-      'sell-buy'
-      'summary'
-      'commodity-amount'
-      'commodity-type'
-      'commodity-currency'
-      'price-amount'
-      'price-currency'
-      'expires-in'
-      'order-duration'
-      'submit'
-      'errors';
-    grid-template-columns: 1fr;
+      'sell-buy         sell-buy'
+      'commodity-amount commodity-type'
+      '_                commodity-currency'
+      'price-amount     price-currency'
+      'expires-in       order-duration'
+      'price-summary    price-summary'
+      'submit           submit'
+      'errors           errors';
+    grid-template-columns: 1fr 1fr;
+  }
+`;
+
+const StyledPriceSummary = styled.div`
+  display: grid;
+  grid-template-columns: 1fr auto 1fr auto 1fr;
+  grid-template-rows: auto auto;
+  gap: 4px 10px;
+  font-size: 18px;
+
+  div {
+    text-align: center;
+  }
+
+  div:nth-child(6) {
+    font-size: 16px;
+    color: #666;
+  }
+
+  div:nth-child(8) {
+    font-size: 16px;
+    color: #666;
+  }
+
+  div:nth-child(10) {
+    font-size: 16px;
+    color: #666;
   }
 `;
 
