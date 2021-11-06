@@ -39,4 +39,17 @@ const ShortenNumber = (n: number): string => {
   return str + a;
 };
 
-export { FormatNumber, ShortenNumber };
+const FormatMoney = (n: number): string => {
+  // For some reasons I don't have time
+  // to investigate, this solves some issues.
+  n = Number(n);
+
+  let str = n.toLocaleString('en-US', {
+    maximumFractionDigits: 2,
+    minimumFractionDigits: 2,
+  });
+
+  return str;
+};
+
+export { FormatNumber, ShortenNumber, FormatMoney };

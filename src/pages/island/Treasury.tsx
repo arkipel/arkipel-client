@@ -8,6 +8,7 @@ import { SessionContext } from '../../libs/session/session';
 import { BankAccountsContext } from '../../libs/session/bank_accounts';
 
 import { Error } from '../../ui/dialog/Msg';
+import { FormatMoney } from '../../ui/text/format';
 
 import Currency from '../../models/Currency';
 
@@ -79,7 +80,7 @@ const BankAccounts = () => {
                 <tr key={ba.id}>
                   <td>{ba.currencyName}</td>
                   <td>
-                    {ba.amountStr()} {ba.currencyCodeStr()}
+                    {FormatMoney(ba.amount)} {ba.currencyCodeStr()}
                   </td>
                 </tr>
               );
