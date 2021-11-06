@@ -4,6 +4,8 @@ import styled from 'styled-components';
 import { InventoryContext } from '../libs/session/inventory';
 import { BankAccountsContext } from '../libs/session/bank_accounts';
 
+import { FormatNumber } from '../ui/text/format';
+
 // Assets
 
 const ResourcesPane: FunctionComponent = () => {
@@ -44,7 +46,7 @@ const ResourcesPane: FunctionComponent = () => {
         {bankAccounts.map((ba) => {
           return (
             <span key={ba.id}>
-              {ba.amountStr()} {ba.currencyCodeStr()}
+              {FormatNumber(ba.amount)} {ba.currencyCodeStr()}
             </span>
           );
         })}

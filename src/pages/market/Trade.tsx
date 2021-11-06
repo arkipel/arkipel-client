@@ -22,7 +22,7 @@ import TimeLeft from '../../ui/text/TimeLeft';
 import { Form } from '../../ui/form/Form';
 import { Input, Submit, Select, Radio } from '../../ui/form/Input';
 import { Button } from '../../ui/form/Button';
-import { FormatQuantity } from '../../ui/text/format';
+import { FormatNumber, ShortenNumber } from '../../ui/text/format';
 
 const TradePage = () => {
   const [orderSent, setOrderSent] = useState(false);
@@ -139,7 +139,7 @@ const TradePage = () => {
 
   let currencyCode = orderParams.currencyId.toUpperCase();
 
-  const price = orderParams.price;
+  const price = Number(orderParams.price);
   const totalAmount = orderParams.quantity * price;
   let totalQuantity = orderParams.quantity;
 
@@ -321,6 +321,7 @@ const TradePage = () => {
             id="price"
             placeholder="Price"
             min={0}
+            step="any"
             disabled={formDisabled}
             style={{ width: '100%' }}
           />
@@ -366,48 +367,33 @@ const TradePage = () => {
           </Select>
         </div>
 
-        {/* <div
-          style={{
-            gridArea: 'summary',
-            display: 'grid',
-            alignItems: 'center',
-            justifyItems: 'flex-end',
-          }}
-        >
-          <p style={{ fontSize: '24px' }}>
-            {orderParams.quantity * orderParams.price} {currencyCode}
-          </p>
-        </div> */}
-
         <StyledPriceSummary style={{ gridArea: 'price-summary' }}>
           <div>
-            <span>{FormatQuantity(totalQuantity)}</span>
+            <span>{ShortenNumber(totalQuantity)}</span>
           </div>
           <div>
             <span>@</span>
           </div>
           <div>
-            <span>{price}</span>
+            <span>{FormatNumber(price)}</span>
           </div>
           <div>
             <span>=</span>
           </div>
           <div>
-            <span>{totalAmount * 1000000}</span>
+            <span>{ShortenNumber(totalAmount)}</span>
           </div>
           <div>
             <span>material</span>
           </div>
           <div></div>
           <div>
-            <span>/ 1 unit</span>
+            <span>/unit</span>
           </div>
           <div></div>
           <div>
             <span>{currencyCode}</span>
           </div>
-          {/* <p>1,234,567 material @ 0.0012/unit</p>
-          <p>1481.48</p> */}
         </StyledPriceSummary>
 
         <div style={{ gridArea: 'submit' }}>
@@ -514,34 +500,21 @@ const StyledPriceSummary = styled.div`
 
   div {
     text-align: center;
-    /* border: 1px solid black; */
-  }
-
-  div:nth-child(1) {
-    /* font-size: 18px; */
-    /* text-align: center; */
-    /* border: 1px solid red; */
   }
 
   div:nth-child(6) {
     font-size: 16px;
     color: #666;
-    /* text-align: center; */
-    /* border: 1px solid red; */
   }
 
   div:nth-child(8) {
     font-size: 16px;
     color: #666;
-    /* text-align: center; */
-    /* border: 1px solid red; */
   }
 
   div:nth-child(10) {
     font-size: 16px;
     color: #666;
-    /* text-align: center; */
-    /* border: 1px solid red; */
   }
 `;
 

@@ -1,4 +1,8 @@
 const FormatNumber = (n: number): string => {
+  // For some reasons I don't have time
+  // to investigate, this solves some issues.
+  n = Number(n);
+
   let str = n.toLocaleString('en-US', {
     maximumFractionDigits: 2,
   });
