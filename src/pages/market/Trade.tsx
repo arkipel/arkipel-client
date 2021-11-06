@@ -131,7 +131,6 @@ const TradePage = () => {
     submitText = 'Buy';
   }
 
-  orderParams.quantity = orderParams.quantity || 0;
   orderParams.price = orderParams.price || 0;
 
   const isBuy = orderParams.orderType === 'buy';
@@ -140,8 +139,8 @@ const TradePage = () => {
   let currencyCode = orderParams.currencyId.toUpperCase();
 
   const price = Number(orderParams.price);
-  const totalAmount = orderParams.quantity * price;
-  let totalQuantity = orderParams.quantity;
+  let totalQuantity = orderParams.quantity || 0;
+  const totalAmount = totalQuantity * price;
 
   // Commodity currency
   let commodityIsCurrency = orderParams.commodityType == CommodityType.CURRENCY;
@@ -150,7 +149,8 @@ const TradePage = () => {
     commodityIsCurrency && !orderParams.commodityCurrencyId;
 
   // Check quantity
-  let quantityAboveZero = orderParams.quantity > 0;
+  let quantityAboveZero =
+    orderParams.quantity !== undefined && totalQuantity > 0;
 
   // Check liquidity
   let liquidity = 0;
@@ -173,7 +173,7 @@ const TradePage = () => {
     case CommodityType.MATERIAL_1M:
       commodityAvailable = inventory.material;
       notEnoughErrorMsg = "You don't have enough material to sell.";
-      totalQuantity = orderParams.quantity * 1_000_000;
+      totalQuantity = totalQuantity * 1_000_000;
       break;
 
     case CommodityType.CURRENCY:
@@ -320,6 +320,7 @@ const TradePage = () => {
             type="number"
             id="price"
             placeholder="Price"
+            defaultValue={0}
             min={0}
             step="any"
             disabled={formDisabled}
@@ -447,6 +448,10 @@ const TradePage = () => {
           <Error visible={commodityCurrencySameAsCurrency && !orderSent}>
             Cannot trade a currency using the same currency.
           </Error>
+
+          <Info visible={canSend && !orderSent}>
+            The order is ready to be sent.
+          </Info>
         </div>
       </StyledForm>
       <h2>Open offers</h2>
@@ -474,7 +479,8 @@ const StyledForm = styled(Form)`
     'expires-in       order-duration'
     'price            price'
     'price-summary    price-summary'
-    'submit           errors';
+    'submit           submit'
+    'errors           errors';
   grid-template-columns: 1fr 1fr;
 
   @media all and (max-width: 499px) {
