@@ -73,7 +73,7 @@ const ResourcesPage = () => {
             <h3>Food</h3>
             <p>
               Food is used to feed citizens. Every hour, 10% of the food stock
-              goes abd and is thrown away. It currently has no impact in the
+              goes bad and is thrown away. It currently has no impact in the
               game.
             </p>
           </div>
