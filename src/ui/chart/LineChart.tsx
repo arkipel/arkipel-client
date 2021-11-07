@@ -2,73 +2,114 @@ import React, { FunctionComponent, useRef } from 'react';
 import { useEffect } from 'react';
 import styled from 'styled-components';
 
-import { debounce } from 'lodash';
+import {
+  Chart,
+  LineController,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Tooltip,
+  TimeSeriesScale,
+} from 'chart.js';
+import 'chartjs-adapter-luxon';
 
-import draw from './draw';
-import { Point } from '../../ui/chart/draw';
-
-const LineChart: FunctionComponent<props> = ({ width, height, points }) => {
-  if (!width) {
-    width = '100%';
-  }
-
-  if (!height) {
-    height = '100%';
-  }
-
-  let styleVars = {
-    '--chartWidth': width,
-    '--chartHeight': height,
-  } as React.CSSProperties;
-
+const LineChart: FunctionComponent<props> = ({ points }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
-  let redraw = debounce(() => {
-    let canvas = canvasRef.current;
-
-    if (!canvas) {
-      return;
-    }
-
-    canvas.width = canvas.width = canvas.clientWidth;
-    canvas.height = canvas.height = canvas.clientHeight;
-
-    draw(canvas, points);
-  }, 200);
+  Chart.register(
+    LineController,
+    LinearScale,
+    PointElement,
+    LineElement,
+    Tooltip,
+    TimeSeriesScale,
+  );
 
   useEffect(() => {
-    const canvas = canvasRef.current;
-
-    if (!canvas) {
-      return;
+    let chart: Chart;
+    let ctx = canvasRef.current?.getContext('2d');
+    if (ctx) {
+      chart = new Chart(ctx, {
+        type: 'line',
+        options: {
+          maintainAspectRatio: false,
+          animation: false,
+          responsive: true,
+          interaction: {
+            intersect: false,
+            mode: 'index',
+          },
+          elements: {
+            line: {
+              borderColor: '#289486',
+              borderWidth: 2,
+            },
+            point: {
+              radius: 0,
+            },
+          },
+          scales: {
+            x: {
+              type: 'timeseries',
+              time: {
+                tooltipFormat: 'yyyy-LL-dd HH:mm:ss',
+                displayFormats: {
+                  second: 'HH:mm:ss',
+                  minute: 'HH:mm',
+                  hour: 'HH:mm',
+                  day: 'LL-dd',
+                  month: 'yy-LL-dd',
+                },
+              },
+              ticks: {
+                align: 'start',
+                padding: 0,
+                labelOffset: 2,
+                minRotation: 0,
+                maxRotation: 0,
+                autoSkip: true,
+                // The following property seems
+                // valid, but TS does not think so.
+                // @ts-ignore
+                maxTicksLimit: 5,
+              },
+            },
+          },
+          plugins: {
+            tooltip: {
+              enabled: true,
+            },
+          },
+        },
+        data: {
+          datasets: [
+            {
+              data: points,
+            },
+          ],
+        },
+      });
     }
 
-    redraw();
-
-    window.addEventListener('resize', redraw);
-
     return () => {
-      canvas.removeEventListener('resize', redraw);
+      chart.destroy();
     };
-  }, [height, width, points]);
+  }, [points]);
 
   return (
-    <StyledLineChart style={styleVars}>
-      <canvas ref={canvasRef} width={width} height={height} />
+    <StyledLineChart style={{ overflow: 'hidden' }}>
+      <canvas ref={canvasRef} />
     </StyledLineChart>
   );
 };
 
 interface props {
-  width?: string | number;
-  height?: string | number;
-  points: Point[];
+  points: { x: number; y: number }[];
 }
 
 const StyledLineChart = styled.div`
   width: var(--chartWidth);
   height: var(--chartHeight);
-  border: 1px solid #ddd;
 
   & > canvas {
     display: block;

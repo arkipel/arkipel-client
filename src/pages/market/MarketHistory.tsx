@@ -9,7 +9,6 @@ import {
 import { CommodityType, Range } from '../../generated/globalTypes';
 
 import LineChart from '../../ui/chart/LineChart';
-import { Point } from '../../ui/chart/draw';
 import { DateTime } from 'luxon';
 import { Select, Radio } from '../../ui/form/Input';
 
@@ -115,12 +114,7 @@ const MarketHistory = () => {
           </Select>
         </div>
       </form>
-      <ControlledLineChart
-        width={400}
-        height={300}
-        control1={control1}
-        control2={control2}
-      />
+      <ControlledLineChart control1={control1} control2={control2} />
       <div
         style={{
           display: 'grid',
@@ -167,8 +161,6 @@ interface priceHistoryParams2 {
 }
 
 const ControlledLineChart: FunctionComponent<controlledLineChartProps> = ({
-  width,
-  height,
   control1,
   control2,
 }) => {
@@ -227,8 +219,7 @@ const ControlledLineChart: FunctionComponent<controlledLineChartProps> = ({
           justifyContent: 'center',
           alignItems: 'center',
           width: '100%',
-          height: '302px',
-          border: '1px solid #ddd',
+          height: '300px',
           color: '#ddd',
         }}
       >
@@ -245,8 +236,7 @@ const ControlledLineChart: FunctionComponent<controlledLineChartProps> = ({
           justifyContent: 'center',
           alignItems: 'center',
           width: '100%',
-          height: '302px',
-          border: '1px solid #ddd',
+          height: '300px',
           color: '#a00',
         }}
       >
@@ -256,7 +246,7 @@ const ControlledLineChart: FunctionComponent<controlledLineChartProps> = ({
   }
 
   // Crunch the data points
-  let points = new Array<Point>();
+  let points = new Array<{ x: number; y: number }>();
   if (data?.marketPrices.__typename === 'MarketPrices') {
     data.marketPrices.prices.forEach((mp) => {
       let x = DateTime.fromISO(mp.timestamp).toMillis();
@@ -268,12 +258,10 @@ const ControlledLineChart: FunctionComponent<controlledLineChartProps> = ({
     });
   }
 
-  return <LineChart width={width} height={height} points={points} />;
+  return <LineChart points={points} />;
 };
 
 interface controlledLineChartProps {
-  width: number;
-  height: number;
   control1: Control<priceHistoryParams1, object>;
   control2: Control<priceHistoryParams2, object>;
 }
