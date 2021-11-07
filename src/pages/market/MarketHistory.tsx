@@ -35,7 +35,7 @@ const MarketHistory = () => {
 
   // Form (2nd part)
   const defaultValues2: priceHistoryParams2 = {
-    range: 'PT60S',
+    range: 'PT24H',
   };
 
   const { register: register2, control: control2 } =
