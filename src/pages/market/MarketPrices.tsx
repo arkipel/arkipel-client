@@ -10,6 +10,8 @@ import {
 
 import { Select } from '../../ui/form/Input';
 
+import { FormatMoney } from '../../ui/text/format';
+
 const MarketPrices = () => {
   // Currency selection form
   const defaultSelection = {
@@ -64,7 +66,8 @@ const MarketPrices = () => {
             data.currentMarketPrices.commodityPrices.map((cp) => {
               return (
                 <li key={cp.commodity}>
-                  <b>{cp.commodity}:</b> {cp.price} {currencyId.toUpperCase()}
+                  <b>{cp.commodity}:</b> {FormatMoney(cp.price)}{' '}
+                  {currencyId.toUpperCase()}
                 </li>
               );
             })}
@@ -81,7 +84,7 @@ const MarketPrices = () => {
                   <b>
                     {cp.currency.name} ({cp.currency.code.toUpperCase()}):
                   </b>{' '}
-                  {cp.price} {currencyId.toUpperCase()}
+                  {FormatMoney(cp.price)} {currencyId.toUpperCase()}
                 </li>
               );
             })}
