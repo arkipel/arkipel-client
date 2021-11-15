@@ -37,7 +37,7 @@ export interface SendOrder_sendOrder_Order {
   readonly commodity: CommodityType;
   readonly commodityCurrency: SendOrder_sendOrder_Order_commodityCurrency | null;
   readonly quantity: number;
-  readonly price: number;
+  readonly price: any;
 }
 
 export type SendOrder_sendOrder =

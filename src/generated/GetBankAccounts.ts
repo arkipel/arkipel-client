@@ -21,7 +21,7 @@ export interface GetBankAccounts_bankAccounts_BankAccountList_bankAccounts_curre
 export interface GetBankAccounts_bankAccounts_BankAccountList_bankAccounts {
   readonly __typename: 'BankAccount';
   readonly id: string;
-  readonly amount: number;
+  readonly amount: any;
   readonly currency: GetBankAccounts_bankAccounts_BankAccountList_bankAccounts_currency;
 }
 

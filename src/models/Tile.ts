@@ -11,6 +11,7 @@ class Tile {
     this.position = obj?.position || 0;
     this.infrastructure = obj?.infrastructure || Infrastructure.EMPTY;
     this.level = obj?.level || 0;
+    this.maxLevel = obj?.maxLevel || 0;
     this.desiredStatus =
       obj?.desiredStatus === InfrastructureStatus.OFF
         ? InfrastructureStatus.OFF
@@ -34,6 +35,7 @@ class Tile {
   position: number;
   infrastructure: Infrastructure;
   level: number;
+  maxLevel: number;
   desiredStatus: InfrastructureStatus;
   currentStatus: InfrastructureStatus;
   population: number;

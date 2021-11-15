@@ -16,7 +16,7 @@ export interface GetCurrentMarketPrices_currentMarketPrices_NotFound {
 export interface GetCurrentMarketPrices_currentMarketPrices_CurrentMarketPrices_commodityPrices {
   readonly __typename: 'CommodityPrice';
   readonly commodity: CommodityType;
-  readonly price: number;
+  readonly price: any;
 }
 
 export interface GetCurrentMarketPrices_currentMarketPrices_CurrentMarketPrices_currencyPrices_currency {
@@ -29,7 +29,7 @@ export interface GetCurrentMarketPrices_currentMarketPrices_CurrentMarketPrices_
 export interface GetCurrentMarketPrices_currentMarketPrices_CurrentMarketPrices_currencyPrices {
   readonly __typename: 'CurrencyPrice';
   readonly currency: GetCurrentMarketPrices_currentMarketPrices_CurrentMarketPrices_currencyPrices_currency;
-  readonly price: number;
+  readonly price: any;
 }
 
 export interface GetCurrentMarketPrices_currentMarketPrices_CurrentMarketPrices {

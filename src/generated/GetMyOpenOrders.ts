@@ -27,7 +27,7 @@ export interface GetMyOpenOrders_myOpenOrders_OrderList_orders {
   readonly currency: GetMyOpenOrders_myOpenOrders_OrderList_orders_currency;
   readonly commodity: CommodityType;
   readonly quantity: number;
-  readonly price: number;
+  readonly price: any;
 }
 
 export interface GetMyOpenOrders_myOpenOrders_OrderList {

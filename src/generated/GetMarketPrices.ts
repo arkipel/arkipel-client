@@ -25,10 +25,10 @@ export interface GetMarketPrices_marketPrices_MarketPrices_prices {
   readonly commodity: CommodityType;
   readonly numTrades: number;
   readonly quantity: number;
-  readonly price: number;
+  readonly price: any;
   readonly prevNumTrades: number;
   readonly prevQuantity: number;
-  readonly prevPrice: number;
+  readonly prevPrice: any;
 }
 
 export interface GetMarketPrices_marketPrices_MarketPrices {
