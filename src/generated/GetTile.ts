@@ -35,6 +35,7 @@ export interface GetTile_tile_Tile {
   readonly kind: TileKind;
   readonly infrastructure: Infrastructure;
   readonly level: number;
+  readonly maxLevel: number;
   readonly desiredStatus: InfrastructureStatus;
   readonly currentStatus: InfrastructureStatus;
   readonly population: number;

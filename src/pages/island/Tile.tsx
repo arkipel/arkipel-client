@@ -56,6 +56,7 @@ const TilePage: FunctionComponent = () => {
             kind
             infrastructure
             level
+            maxLevel
             desiredStatus
             currentStatus
             population
@@ -116,6 +117,8 @@ const TilePage: FunctionComponent = () => {
             <b>Infrastructure:</b> {tile.infrastructure.toLowerCase()}
             <br />
             <b>Level:</b> {tile.level}
+            <br />
+            <b>Maximum level:</b> {tile.maxLevel > 100 ? '∞' : tile.maxLevel}
             <br />
             <b>Desired status:</b> {tile.desiredStatus}
             <br />
@@ -199,7 +202,8 @@ const TilePage: FunctionComponent = () => {
           )}
           {tile.level !== 0 &&
             blueprints.length === 1 &&
-            !constructionSite.exists && (
+            !constructionSite.exists &&
+            tile.level < tile.maxLevel && (
               <Fragment>
                 <UpgradeButton
                   islandId={islandId}
