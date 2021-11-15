@@ -33,5 +33,5 @@ export interface NewOrder {
   readonly commodity: CommodityType;
   readonly commodityCurrency: NewOrder_commodityCurrency | null;
   readonly quantity: number;
-  readonly price: number;
+  readonly price: any;
 }

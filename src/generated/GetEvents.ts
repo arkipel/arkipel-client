@@ -37,7 +37,7 @@ export interface GetEvents_events_EventList_events_SellOrderExecution {
   readonly commodity: CommodityType;
   readonly commodityCurrency: GetEvents_events_EventList_events_SellOrderExecution_commodityCurrency | null;
   readonly quantity: number;
-  readonly price: number;
+  readonly price: any;
 }
 
 export interface GetEvents_events_EventList_events_BuyOrderExecution_currency {
@@ -58,7 +58,7 @@ export interface GetEvents_events_EventList_events_BuyOrderExecution {
   readonly commodity: CommodityType;
   readonly commodityCurrency: GetEvents_events_EventList_events_BuyOrderExecution_commodityCurrency | null;
   readonly quantity: number;
-  readonly price: number;
+  readonly price: any;
 }
 
 export type GetEvents_events_EventList_events =

@@ -98,7 +98,7 @@ export interface SendOrderInput {
   readonly commodity: CommodityType;
   readonly commodityCurrencyId?: string | null;
   readonly quantity: number;
-  readonly price: number;
+  readonly price: any;
 }
 
 export interface TopPlayersInput {
