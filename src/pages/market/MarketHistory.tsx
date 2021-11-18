@@ -22,16 +22,10 @@ const MarketHistory = () => {
     commodityCurrencyId: null,
   };
 
-  const {
-    register: register1,
-    control: control1,
-    watch: watch1,
-  } = useForm<priceHistoryParams1>({
-    defaultValues: defaultValues1,
-  });
-
-  let commodityType = watch1('commodityType');
-  let commodityIsCurrency = commodityType == CommodityType.CURRENCY;
+  const { register: register1, control: control1 } =
+    useForm<priceHistoryParams1>({
+      defaultValues: defaultValues1,
+    });
 
   // Form (2nd part)
   const defaultValues2: priceHistoryParams2 = {
@@ -50,18 +44,21 @@ const MarketHistory = () => {
         <div
           style={{
             display: 'grid',
-            gridAutoColumns: '1fr auto',
+            gridAutoColumns: '1fr 1fr auto',
             gridAutoFlow: 'column',
             gap: '10px',
           }}
         >
+          <Select {...register1('commodityType')} style={{ width: '100%' }}>
+            <option value={CommodityType.MATERIAL_1M}>Material (1M)</option>
+          </Select>
           <Select
             {...register1('currencyId')}
             id="currency"
+            disabled={true}
             style={{ width: '100%' }}
           >
             <option value="ark">Arki Dollar (ARK)</option>
-            <option value="rck">Rock (RCK)</option>
           </Select>
           <button
             style={{
@@ -85,33 +82,6 @@ const MarketHistory = () => {
               alt="&#8635;"
             />
           </button>
-        </div>
-        <div
-          style={{
-            display: 'grid',
-            gridAutoColumns: '1fr 1fr',
-            gridAutoFlow: 'column',
-            gap: '10px',
-          }}
-        >
-          <Select {...register1('commodityType')} style={{ width: '100%' }}>
-            <option value={CommodityType.MATERIAL_1M}>Material (1M)</option>
-            <option value={CommodityType.CURRENCY}>Currency</option>
-          </Select>
-
-          <Select
-            {...register1('commodityCurrencyId')}
-            style={{ width: '100%' }}
-            placeholder={'commodity crrency'}
-            disabled={!commodityIsCurrency}
-            defaultValue=""
-          >
-            <option value="" disabled>
-              Select currency
-            </option>
-            <option value="ark">Arki Dollar (ARK)</option>
-            <option value="rck">Rock (RCK)</option>
-          </Select>
         </div>
       </form>
       <ControlledLineChart control1={control1} control2={control2} />

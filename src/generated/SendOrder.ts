@@ -20,13 +20,6 @@ export interface SendOrder_sendOrder_Order_currency {
   readonly name: string;
 }
 
-export interface SendOrder_sendOrder_Order_commodityCurrency {
-  readonly __typename: 'Currency';
-  readonly id: string;
-  readonly code: string;
-  readonly name: string;
-}
-
 export interface SendOrder_sendOrder_Order {
   readonly __typename: 'Order';
   readonly id: string;
@@ -35,7 +28,6 @@ export interface SendOrder_sendOrder_Order {
   readonly side: OrderSide;
   readonly currency: SendOrder_sendOrder_Order_currency;
   readonly commodity: CommodityType;
-  readonly commodityCurrency: SendOrder_sendOrder_Order_commodityCurrency | null;
   readonly quantity: number;
   readonly price: any;
 }
