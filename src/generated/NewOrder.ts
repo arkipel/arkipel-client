@@ -16,13 +16,6 @@ export interface NewOrder_currency {
   readonly name: string;
 }
 
-export interface NewOrder_commodityCurrency {
-  readonly __typename: 'Currency';
-  readonly id: string;
-  readonly code: string;
-  readonly name: string;
-}
-
 export interface NewOrder {
   readonly __typename: 'Order';
   readonly id: string;
@@ -31,7 +24,6 @@ export interface NewOrder {
   readonly side: OrderSide;
   readonly currency: NewOrder_currency;
   readonly commodity: CommodityType;
-  readonly commodityCurrency: NewOrder_commodityCurrency | null;
   readonly quantity: number;
   readonly price: any;
 }
