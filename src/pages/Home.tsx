@@ -21,7 +21,6 @@ import { SessionContext } from '../libs/session/session';
 
 import { Error, Info, Success } from '../ui/dialog/Msg';
 
-import arkipelLogo256 from '../assets/logo/arkipel_256.png';
 import { DateTime } from 'luxon';
 
 const Home = () => {
@@ -56,24 +55,6 @@ const Home = () => {
 
   return (
     <Fragment>
-      <div style={{ display: 'flex' }}>
-        <img
-          style={{ float: 'left', marginRight: '10px' }}
-          src={arkipelLogo256}
-          alt="Arkipel logo (256 pixels)"
-          height={128}
-          width={128}
-        />
-        <p>
-          <i>
-            Arkipel is a persistent browser-based game that takes place in a
-            fictional archipelago called Arkipel. Players must manage and grow a
-            small island to compete economically and politically against each
-            other. The global market is built on the trust of currencies created
-            by players.
-          </i>
-        </p>
-      </div>
       {canWriteArticle && <PublishArticleForm />}
       {loading && <Info>News are loading...</Info>}
       {error && <Info>News could not be loaded...</Info>}
