@@ -140,20 +140,18 @@ const PublishArticleForm = () => {
   return (
     <StyledForm
       onSubmit={handleSubmit((params) => {
-        let res = publish({
+        publish({
           variables: {
             input: {
               title: params.title,
               content: params.content,
             },
           },
-        });
-
-        res
-          .then((e) => {
+        })
+          .then(() => {
             setPublishSucceeded(true);
           })
-          .catch((e) => {
+          .catch(() => {
             setPublishFailed(true);
           });
       })}
