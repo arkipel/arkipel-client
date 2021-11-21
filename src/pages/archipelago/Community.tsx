@@ -16,11 +16,6 @@ const Community = () => {
           <a href="https://reddit.com/r/arkipel">Reddit</a>
         </dt>
         <dd>Discussion board for all players.</dd>
-        <dt>
-          <img src="https://icons.arkipel.io/logos/youtube.svg" />
-          <a href="https://youtube.com/user/SuperM92">YouTube</a>
-        </dt>
-        <dd>Devlog on the development of the game.</dd>
       </StyledList>
     </Fragment>
   );
