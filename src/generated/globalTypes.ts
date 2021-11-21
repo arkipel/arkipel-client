@@ -61,6 +61,10 @@ export enum TileKind {
   WATER = 'WATER',
 }
 
+export interface ArticleInput {
+  readonly articleId: string;
+}
+
 export interface CitizenInput {
   readonly citizenId: string;
 }
@@ -71,6 +75,12 @@ export interface CitizensFromIslandInput {
 
 export interface CurrentMarketPricesInput {
   readonly currencyId: string;
+}
+
+export interface EditArticleInput {
+  readonly articleId: string;
+  readonly title?: string | null;
+  readonly content?: string | null;
 }
 
 export interface EventsInput {
@@ -88,6 +98,15 @@ export interface MarketPricesInput {
 
 export interface PlayerInput {
   readonly playerId: string;
+}
+
+export interface PublishArticleInput {
+  readonly title: string;
+  readonly content: string;
+}
+
+export interface RecentArticlesInput {
+  readonly limit: number;
 }
 
 export interface SendOrderInput {

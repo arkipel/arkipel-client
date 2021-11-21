@@ -26,6 +26,29 @@ const StyledInput = styled.input`
   }
 `;
 
+// TextArea
+const TextArea = React.forwardRef<HTMLTextAreaElement, textAreaProps>(
+  (textAreaProps, ref) => {
+    return <StyledTextArea ref={ref} {...textAreaProps} />;
+  },
+);
+
+type textAreaProps = InputHTMLAttributes<HTMLTextAreaElement>;
+
+const StyledTextArea = styled.textarea`
+  padding: 6px;
+  font-size: 18px;
+  border: 1px solid black;
+
+  &:disabled {
+    background: #eee;
+  }
+
+  @media all and (max-width: 499px) {
+    width: 100%;
+  }
+`;
+
 // Submit (input)
 const Submit = forwardRef<HTMLInputElement, submitProps>(
   ({ ...props }, ref) => {
@@ -128,4 +151,4 @@ const StyledRadio = styled.label`
   }
 `;
 
-export { Input, Submit, Select, Radio };
+export { Input, TextArea, Submit, Select, Radio };
