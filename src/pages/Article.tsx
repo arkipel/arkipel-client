@@ -232,8 +232,8 @@ const EditArticleForm: FunctionComponent<{
           alignContent: 'center',
         }}
       >
-        {editFailed && <Error>Publication failed.</Error>}
-        {editSucceeded && <Success>Article published.</Success>}
+        {editFailed && <Error>Could not save.</Error>}
+        {editSucceeded && <Success>Article updated.</Success>}
       </div>
     </StyledForm>
   );
