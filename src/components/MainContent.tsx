@@ -8,6 +8,7 @@ import { SessionContext } from '../libs/session/session';
 // Pages
 import About from '../pages/About';
 import Home from '../pages/Home';
+import Article from '../pages/Article';
 import ArchipelagoOverview from '../pages/archipelago/Overview';
 import Ranking from '../pages/archipelago/Ranking';
 import SearchIslandsPage from '../pages/archipelago/Search';
@@ -78,6 +79,7 @@ const MainContent: FunctionComponent<props> = ({
         <ContentStyle>
           <Switch>
             <Route path="/" exact component={Home} />
+            <Route path="/article/:articleId" exact component={Article} />
             <Route path="/about" exact component={About} />
             <Route path="/login" exact component={Login} />
             <Route path="/registration" exact component={Registration} />
