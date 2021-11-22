@@ -50,6 +50,7 @@ const MarketHistory = () => {
           }}
         >
           <Select {...register1('commodityType')} style={{ width: '100%' }}>
+            <option value={CommodityType.FROZEN_FOOD}>Frozen food</option>
             <option value={CommodityType.MATERIAL}>Material</option>
           </Select>
           <Select

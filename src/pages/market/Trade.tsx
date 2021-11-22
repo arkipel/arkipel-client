@@ -153,6 +153,12 @@ const TradePage = () => {
   let commodityAvailable = 0;
   let notEnoughErrorMsg = '';
   switch (orderParams.commodityType) {
+    case CommodityType.FROZEN_FOOD:
+      commodityAvailable = inventory.frozenFood;
+      notEnoughErrorMsg = "You don't have enough frozen food to sell.";
+      totalQuantity = totalQuantity;
+      break;
+
     case CommodityType.MATERIAL:
       commodityAvailable = inventory.material;
       notEnoughErrorMsg = "You don't have enough material to sell.";
@@ -252,6 +258,7 @@ const TradePage = () => {
             disabled={formDisabled}
             style={{ width: '100%' }}
           >
+            <option value={CommodityType.FROZEN_FOOD}>Fozen food</option>
             <option value={CommodityType.MATERIAL}>Material</option>
           </Select>
         </div>
@@ -568,6 +575,8 @@ const commodityToString = (
   currencyCode?: string,
 ): string => {
   switch (commodity) {
+    case CommodityType.FROZEN_FOOD:
+      return 'Frozen food';
     case CommodityType.MATERIAL:
       return 'Material';
     case CommodityType.CURRENCY:

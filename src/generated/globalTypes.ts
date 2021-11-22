@@ -13,6 +13,7 @@ export enum BadgeType {
 
 export enum CommodityType {
   CURRENCY = 'CURRENCY',
+  FROZEN_FOOD = 'FROZEN_FOOD',
   MATERIAL = 'MATERIAL',
 }
 
