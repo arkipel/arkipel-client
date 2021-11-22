@@ -140,6 +140,9 @@ const formatQtyAndCommodity = (
   cur: String | undefined,
 ): string => {
   switch (commodity) {
+    case CommodityType.FROZEN_FOOD:
+      return `${ShortenNumber(qty)} frozen food`;
+
     case CommodityType.MATERIAL:
       return `${ShortenNumber(qty)} material`;
 

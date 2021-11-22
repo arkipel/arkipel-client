@@ -82,6 +82,7 @@ const Profile = () => {
 
   let scoresheet = {
     material: 0,
+    food: 0,
     buildings: 0,
     currencies: 0,
     total: 0,
@@ -99,6 +100,10 @@ const Profile = () => {
 
     for (const cs of dataPlayer?.player.scoresheet.commodities) {
       switch (cs.commodity) {
+        case CommodityType.FOOD:
+          scoresheet.food = cs.score;
+          break;
+
         case CommodityType.MATERIAL:
           scoresheet.material = cs.score;
           break;
@@ -142,6 +147,10 @@ const Profile = () => {
           <tr>
             <td>Material</td>
             <td>{ShortenNumber(scoresheet.material)}</td>
+          </tr>
+          <tr>
+            <td>Food</td>
+            <td>{ShortenNumber(scoresheet.food)}</td>
           </tr>
           <tr>
             <td>Buildings</td>
