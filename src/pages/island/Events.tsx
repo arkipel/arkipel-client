@@ -9,6 +9,7 @@ import {
 import { CommodityType } from '../../generated/globalTypes';
 
 import { DateTime } from 'luxon';
+import { ShortenNumber } from '../../ui/text/format';
 
 import { SessionContext } from '../../libs/session/session';
 
@@ -139,8 +140,8 @@ const formatQtyAndCommodity = (
   cur: String | undefined,
 ): string => {
   switch (commodity) {
-    case CommodityType.MATERIAL_1M:
-      return `${qty}M material`;
+    case CommodityType.MATERIAL:
+      return `${ShortenNumber(qty)} material`;
 
     case CommodityType.CURRENCY:
       return `${qty} ${cur?.toUpperCase()}`;

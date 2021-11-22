@@ -99,7 +99,7 @@ const TradePage = () => {
   const defaultValues = {
     orderType: 'sell',
     currencyId: 'ark',
-    commodityType: CommodityType.MATERIAL_1M,
+    commodityType: CommodityType.MATERIAL,
     duration: 'PT1H',
     quantity: undefined,
     price: undefined,
@@ -153,10 +153,10 @@ const TradePage = () => {
   let commodityAvailable = 0;
   let notEnoughErrorMsg = '';
   switch (orderParams.commodityType) {
-    case CommodityType.MATERIAL_1M:
+    case CommodityType.MATERIAL:
       commodityAvailable = inventory.material;
       notEnoughErrorMsg = "You don't have enough material to sell.";
-      totalQuantity = totalQuantity * 1_000_000;
+      totalQuantity = totalQuantity;
       break;
 
     default:
@@ -252,7 +252,7 @@ const TradePage = () => {
             disabled={formDisabled}
             style={{ width: '100%' }}
           >
-            <option value={CommodityType.MATERIAL_1M}>Material (1M)</option>
+            <option value={CommodityType.MATERIAL}>Material</option>
           </Select>
         </div>
 
@@ -530,7 +530,7 @@ const OpenOffers = () => {
               return (
                 <tr key={offer.id}>
                   <td>{offer.side}</td>
-                  <td>{offer.quantity}</td>
+                  <td>{ShortenNumber(offer.quantity)}</td>
                   <td>{commodityToString(offer.commodity)}</td>
                   <td>{offer.price}</td>
                   <td>
@@ -558,7 +558,7 @@ class offer {
   side: OrderSide = OrderSide.SELL;
   expiresAt: DateTime = DateTime.now();
   currencyCode: string = '';
-  commodity: CommodityType = CommodityType.MATERIAL_1M;
+  commodity: CommodityType = CommodityType.MATERIAL;
   quantity: number = 0;
   price: number = 0;
 }
@@ -568,8 +568,8 @@ const commodityToString = (
   currencyCode?: string,
 ): string => {
   switch (commodity) {
-    case CommodityType.MATERIAL_1M:
-      return 'Material (1M)';
+    case CommodityType.MATERIAL:
+      return 'Material';
     case CommodityType.CURRENCY:
       return currencyCode || '¤';
     default:
