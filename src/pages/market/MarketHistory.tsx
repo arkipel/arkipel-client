@@ -18,7 +18,7 @@ const MarketHistory = () => {
   // Form (1st part)
   const defaultValues1: priceHistoryParams1 = {
     currencyId: 'ark',
-    commodityType: CommodityType.MATERIAL_1M,
+    commodityType: CommodityType.MATERIAL,
     commodityCurrencyId: null,
   };
 
@@ -50,7 +50,7 @@ const MarketHistory = () => {
           }}
         >
           <Select {...register1('commodityType')} style={{ width: '100%' }}>
-            <option value={CommodityType.MATERIAL_1M}>Material (1M)</option>
+            <option value={CommodityType.MATERIAL}>Material</option>
           </Select>
           <Select
             {...register1('currencyId')}

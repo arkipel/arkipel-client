@@ -99,7 +99,7 @@ const Profile = () => {
 
     for (const cs of dataPlayer?.player.scoresheet.commodities) {
       switch (cs.commodity) {
-        case CommodityType.MATERIAL_1M:
+        case CommodityType.MATERIAL:
           scoresheet.material = cs.score;
           break;
 

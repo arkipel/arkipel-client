@@ -14,7 +14,6 @@ export enum BadgeType {
 export enum CommodityType {
   CURRENCY = 'CURRENCY',
   MATERIAL = 'MATERIAL',
-  MATERIAL_1M = 'MATERIAL_1M',
 }
 
 export enum Infrastructure {
