@@ -334,7 +334,9 @@ const TradePage = () => {
             <span>{ShortenNumber(totalAmount)}</span>
           </div>
           <div>
-            <span>material</span>
+            <span>
+              {orderParams.commodityType.toLowerCase().replace('_', ' ')}
+            </span>
           </div>
           <div></div>
           <div>
