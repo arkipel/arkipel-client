@@ -16,6 +16,7 @@ const StyledInput = styled.input`
   padding: 6px;
   font-size: 18px;
   border: 1px solid black;
+  border-radius: 0;
 
   -webkit-appearance: none;
   -moz-appearance: none;
@@ -43,6 +44,7 @@ const StyledTextArea = styled.textarea`
   padding: 6px;
   font-size: 18px;
   border: 1px solid black;
+  border-radius: 0;
 
   -webkit-appearance: none;
   -moz-appearance: none;
@@ -74,6 +76,7 @@ const StyledSubmit = styled.input`
   border: none;
   background: rgb(40, 40, 40);
   cursor: pointer;
+  border-radius: 0;
 
   -webkit-appearance: none;
   -moz-appearance: none;
@@ -109,6 +112,7 @@ const StyledSelect = styled.select`
   border: 1px solid black;
   background: #fff;
   cursor: pointer;
+  border-radius: 0;
 
   -webkit-appearance: none;
   -moz-appearance: none;
@@ -144,6 +148,7 @@ interface radioProps
 const StyledRadio = styled.label`
   display: block;
   cursor: pointer;
+  border-radius: 0;
 
   -webkit-appearance: none;
   -moz-appearance: none;
