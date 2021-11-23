@@ -356,10 +356,6 @@ const TradePage = () => {
               onClick={() => {
                 setOrderSent(false);
                 setSendingError(false);
-                reset(
-                  { currencyId: 'ark', orderType: orderParams.orderType },
-                  { keepDefaultValues: true },
-                );
               }}
             >
               Restart
