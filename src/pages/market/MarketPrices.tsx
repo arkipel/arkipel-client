@@ -7,7 +7,7 @@ import {
   GetCurrentMarketPricesVariables,
 } from 'generated/GetCurrentMarketPrices';
 
-import { FormatMoney } from '../../ui/text/format';
+import { FormatPrice } from '../../ui/text/format';
 
 const MarketPrices = () => {
   let { data, loading } = useQuery<
@@ -51,7 +51,7 @@ const MarketPrices = () => {
             data.currentMarketPrices.commodityPrices.map((cp) => {
               return (
                 <li key={cp.commodity}>
-                  <b>{cp.commodity}:</b> {FormatMoney(cp.price)} ARK
+                  <b>{cp.commodity}:</b> {FormatPrice(cp.price)} ARK
                 </li>
               );
             })}

@@ -52,4 +52,16 @@ const FormatMoney = (n: number): string => {
   return str;
 };
 
-export { FormatNumber, ShortenNumber, FormatMoney };
+const FormatPrice = (n: number): string => {
+  // For some reasons I don't have time
+  // to investigate, this solves some issues.
+  n = Number(n);
+
+  let str = n.toLocaleString('en-US', {
+    maximumFractionDigits: 8,
+  });
+
+  return str;
+};
+
+export { FormatNumber, ShortenNumber, FormatMoney, FormatPrice };
