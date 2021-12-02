@@ -105,7 +105,13 @@ const TradePage = () => {
     price: undefined,
   };
 
-  const { register, handleSubmit, watch } = useForm<sendOrderParams>({
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+    watch,
+  } = useForm<sendOrderParams>({
+    mode: 'onChange',
     defaultValues,
   });
 
@@ -266,7 +272,26 @@ const TradePage = () => {
         <div style={{ gridArea: 'price-amount' }}>
           {/* Currency */}
           <Input
-            {...register('price')}
+            {...register('price', {
+              validate: {
+                maxValue: (v) => {
+                  if (v === undefined) {
+                    return true;
+                  }
+                  return v <= 42949672965;
+                },
+                maxDecimals: (v) => {
+                  if (v === undefined) {
+                    return true;
+                  }
+                  let parts = v.toString().split('.');
+                  if (parts.length > 1) {
+                    return parts[1].length <= 6;
+                  }
+                  return true;
+                },
+              },
+            })}
             type="number"
             id="price"
             placeholder="Price"
@@ -383,6 +408,14 @@ const TradePage = () => {
           <Error visible={notEnoughMoney && !orderSent}>
             You don't have enough money to buy.
           </Error>
+
+          {errors.price && errors.price.type === 'maxValue' && (
+            <Error>Price cannot be above 42949672965.</Error>
+          )}
+
+          {errors.price && errors.price.type === 'maxDecimals' && (
+            <Error>Price cannot have more than 6 decimals.</Error>
+          )}
 
           <Error visible={notEnoughCommodity && !orderSent}>
             {notEnoughErrorMsg}
