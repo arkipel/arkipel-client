@@ -105,7 +105,7 @@ const TradePage = () => {
     price: undefined,
   };
 
-  const { register, handleSubmit, watch, reset } = useForm<sendOrderParams>({
+  const { register, handleSubmit, watch } = useForm<sendOrderParams>({
     defaultValues,
   });
 
