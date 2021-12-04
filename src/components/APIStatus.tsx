@@ -19,7 +19,7 @@ const APIStatus: FunctionComponent = () => {
         }
       }
     `,
-    { pollInterval: 10000 },
+    { pollInterval: 60000 },
   );
 
   // Green
