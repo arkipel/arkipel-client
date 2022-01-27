@@ -16,6 +16,7 @@ const TopBarStyle = styled.div`
   display: grid;
   height: 50px;
   background: var(--background, rgba(24, 19, 19, 0.06));
+  /* background: #1d1f26; */
   grid-template-columns: 1fr 1fr;
 
   div {
@@ -66,7 +67,8 @@ const Box: FunctionComponent<boxProps> = ({ onClick, children }) => {
 const BoxStyle = styled.div`
   display: grid;
   align-content: center;
-  padding: 10px;
+  /* padding: 10px; */
+  border: 1px solid red;
   cursor: var(--cursor);
 `;
 

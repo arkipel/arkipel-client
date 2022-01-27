@@ -34,7 +34,7 @@ const NotificationPane: FunctionComponent<props> = ({
   let translateX = '0';
   let visibleBoxShadow = '0';
   if (!visible) {
-    translateX = '300px';
+    translateX = '320px';
   } else {
     visibleBoxShadow = '-1px 0 10px #111';
   }
@@ -87,7 +87,7 @@ const NotificationPane: FunctionComponent<props> = ({
 
   return (
     <Style style={styleVars}>
-      <TopBar background="#ed947e">
+      <TopBar background="#B02E0C">
         <div>
           {/* This empty div makes the other one
               the second div, which has its content
@@ -187,12 +187,13 @@ const Style = styled.div`
   min-height: 0;
   height: 100%;
   width: 300px;
-  background: #ffffff;
+  /* background: #ffffff; */
   z-index: 120;
   transform: translateX(var(--translateX));
   transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
   scrollbar-width: thin;
-  scrollbar-color: #e76f51 white;
+  /* scrollbar-color: #e76f51 white; */
+  scrollbar-color: #d62828 white;
 
   @media all and (max-width: 699px) {
     grid-column: 1;

@@ -35,6 +35,7 @@ const Style = styled.div`
   // In medium size mode, we want the shadow to be below the
   // notification pane and above the menu pane.
   @media all and (min-width: 700px) and (max-width: 999px) {
+    grid-column: 1 / span 2;
     z-index: 110;
   }
 `;

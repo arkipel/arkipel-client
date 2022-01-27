@@ -129,17 +129,23 @@ type props = {};
 const Style = styled.div`
   display: grid;
   grid-template-rows: 1fr;
-  grid-auto-flow: column;
+  /* grid-auto-flow: column; */
+  gap: 10px;
   height: 100%;
   max-width: 1200px;
   margin: auto;
+  padding: 0 10px;
 
   @media all and (max-width: 699px) {
     grid-template-columns: 1fr;
+    gap: 0;
+    padding: 0;
   }
 
   @media all and (min-width: 700px) and (max-width: 999px) {
     grid-template-columns: 200px 1fr;
+    padding: 0 0 0 10px;
+    /* gap: 0; */
   }
 
   @media all and (min-width: 1000px) {

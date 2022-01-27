@@ -136,7 +136,7 @@ const Style = styled.div`
   min-height: 0;
   height: 100%;
   width: 100%;
-  background: #fff;
+  /* background: #fff; */
   scrollbar-width: thin;
   scrollbar-color: #ccc white;
 
@@ -160,7 +160,9 @@ const ContentStyle = styled.div`
   display: grid;
   grid-gap: 10px;
   align-content: start;
+  background: #fff;
   min-height: 100%;
+  margin-top: 10px;
   padding: 10px;
 
   p {

@@ -25,8 +25,28 @@ const MenuPane: FunctionComponent<props> = ({ visible, onCloseClick }) => {
 
   return (
     <Style style={styleVars} className={menuPaneClassName}>
-      <TopBar background="rgba(0, 0, 0, 0.14)">
+      <TopBar background="rgba(49, 55, 71, 0.6)">
+        {/* <TopBar> */}
         <div>
+          {/* <Media
+            query="(min-width: 700px)"
+            render={() => (
+              <div style={{ width: '100%', border: '1px solid red' }}>
+                <h1
+                  style={{
+                    display: 'box',
+                    border: '1px solid black',
+                    fontSize: '32px',
+                    textAlign: 'center',
+                    width: '100%',
+                    fontFamily: `'Rubik', 'sans-serif'`,
+                  }}
+                >
+                  Arkipel
+                </h1>
+              </div>
+            )}
+          /> */}
           <Media
             query="(max-width: 699px)"
             render={() => (
@@ -243,8 +263,9 @@ const Style = styled.div`
   min-height: 0;
   height: 100%;
   width: 200px;
-  color: white;
-  background: #264653;
+  /* color: white; */
+  /* background: #264653; */
+  /* background: #313747; */
   z-index: 100;
   transform: translateX(var(--translateX));
   scrollbar-width: thin;
@@ -271,11 +292,14 @@ const Style = styled.div`
   }
 
   a {
-    color: #fff;
+    /* color: #fff; */
+    /* color: #313747; */
+    color: rgba(49, 55, 71, 0.6);
   }
 
   @media all and (max-width: 699px) {
     transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+    background: #ede7d4;
   }
 
   @media all and (min-width: 700px) {
@@ -300,6 +324,7 @@ const MenuStyle = styled.div`
     display: block;
     padding: 10px;
     font-size: 28px;
+    text-decoration: underline;
   }
 
   ul li {
@@ -325,8 +350,8 @@ const MenuStyle = styled.div`
     img {
       width: 20px;
       height: 20px;
-      filter: invert(1);
-      opacity: 0.4;
+      /* filter: invert(1); */
+      opacity: 0.6;
     }
   }
 `;
