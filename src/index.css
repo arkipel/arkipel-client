@@ -21,6 +21,7 @@ body {
 }
 
 /* Fonts */
+
 @font-face {
   font-family: 'Rubik';
   font-weight: normal;
@@ -47,4 +48,18 @@ body {
   font-weight: bold;
   font-style: italic;
   src: url('../src/assets/fonts/rubik/rubik-bold-italic.ttf');
+}
+
+@font-face {
+  font-family: 'Inter';
+  font-weight: normal;
+  font-style: normal;
+  src: url('../src/assets/fonts/inter/inter-regular.ttf');
+}
+
+@font-face {
+  font-family: 'Inter';
+  font-weight: bold;
+  font-style: normal;
+  src: url('../src/assets/fonts/inter/inter-bold.ttf');
 }
