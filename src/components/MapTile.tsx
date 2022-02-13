@@ -30,7 +30,7 @@ const MapTile: FunctionComponent<props> = ({
   }
 
   let cursor = 'default';
-  if (!clickable) {
+  if (clickable) {
     cursor = 'pointer';
     onClick = () => {};
   }
@@ -52,6 +52,7 @@ const MapTile: FunctionComponent<props> = ({
     '--tileWidth': tileWidth,
     '--tileHeight': tileHeight,
     '--tilePaddingBottom': tilePaddingBottom,
+    '--cursor': cursor,
   } as React.CSSProperties;
 
   let src: string = '';
@@ -131,6 +132,7 @@ const Style = styled.div`
 
   img {
     margin: 6px;
+    filter: sepia(0.4);
   }
 `;
 class props {

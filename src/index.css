@@ -2,7 +2,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Rubik', sans-serif;
+  font-family: 'Inter', sans-serif;
 }
 
 html,
@@ -12,7 +12,7 @@ body {
 }
 
 body {
-  background: #2a9d8f url('https://icons.arkipel.io/bg/main.svg');
+  background: #ede7d4;
   background-size: 800px 400px;
 }
 
@@ -21,34 +21,6 @@ body {
 }
 
 /* Fonts */
-
-@font-face {
-  font-family: 'Rubik';
-  font-weight: normal;
-  font-style: normal;
-  src: url('../src/assets/fonts/rubik/rubik-regular.ttf');
-}
-
-@font-face {
-  font-family: 'Rubik';
-  font-weight: bold;
-  font-style: normal;
-  src: url('../src/assets/fonts/rubik/rubik-bold.ttf');
-}
-
-@font-face {
-  font-family: 'Rubik';
-  font-weight: normal;
-  font-style: italic;
-  src: url('../src/assets/fonts/rubik/rubik-italic.ttf');
-}
-
-@font-face {
-  font-family: 'Rubik';
-  font-weight: bold;
-  font-style: italic;
-  src: url('../src/assets/fonts/rubik/rubik-bold-italic.ttf');
-}
 
 @font-face {
   font-family: 'Inter';

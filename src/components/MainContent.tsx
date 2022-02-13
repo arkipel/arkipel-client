@@ -1,9 +1,6 @@
-import React, { FunctionComponent, useContext } from 'react';
+import React from 'react';
 import { Route, Switch } from 'react-router-dom';
-import Media from 'react-media';
 import styled from 'styled-components';
-
-import { SessionContext } from '../libs/session/session';
 
 // Pages
 import About from '../pages/About';
@@ -31,52 +28,13 @@ import Settings from '../pages/account/Settings';
 import CitizenPage from '../pages/citizen/Citizen';
 
 // Components
-import APIStatus from '../components/APIStatus';
-import { TopBar, Box } from '../ui/layout/TopBar';
 import Scrollable from '../ui/layout/Scrollable';
 
-const MainContent: FunctionComponent<props> = ({
-  onMenuOpen,
-  onNotificationOpen,
-}) => {
-  const session = useContext(SessionContext);
-
+const MainContent = () => {
   return (
-    <Style>
-      <TopBar>
-        <div>
-          <Media
-            query="(max-width: 699px)"
-            render={() => (
-              <Box onClick={onMenuOpen}>
-                <img
-                  src="https://icons.arkipel.io/ui/menu.svg"
-                  alt="&#10092;"
-                />
-              </Box>
-            )}
-          />
-          <Box>{session.loggedIn && <span>{session.username}</span>}</Box>
-        </div>
-        <div>
-          <Box>
-            <APIStatus />
-          </Box>
-          <Media
-            query="(max-width: 999px)"
-            render={() => (
-              <Box onClick={onNotificationOpen}>
-                <img
-                  src="https://icons.arkipel.io/ui/notification.svg"
-                  alt="&#128276;"
-                />
-              </Box>
-            )}
-          />
-        </div>
-      </TopBar>
+    <StyledMainContent>
       <Scrollable>
-        <ContentStyle>
+        <StyledContent>
           <Switch>
             <Route path="/" exact component={Home} />
             <Route path="/article/:articleId" exact component={Article} />
@@ -118,50 +76,39 @@ const MainContent: FunctionComponent<props> = ({
             />
             <Route path="/citizen/:citizenId" exact component={CitizenPage} />
           </Switch>
-        </ContentStyle>
+        </StyledContent>
       </Scrollable>
-    </Style>
+    </StyledMainContent>
   );
 };
 
-type props = {
-  onMenuOpen: () => void;
-  onNotificationOpen: () => void;
-};
-
-const Style = styled.div`
+const StyledMainContent = styled.div`
   display: grid;
-  grid-template-rows: auto 1fr;
+  grid-template-rows: 1fr;
+  gap: 10px;
+  grid-row: 1;
+  grid-column: 2;
   align-content: start;
   min-height: 0;
   height: 100%;
   width: 100%;
-  background: #fff;
-  scrollbar-width: thin;
-  scrollbar-color: #ccc white;
 
   @media all and (max-width: 699px) {
-    grid-row: 1;
     grid-column: 1;
   }
 
   @media all and (min-width: 700px) and (max-width: 999px) {
-    grid-row: 1;
-    grid-column: 2;
-  }
-
-  @media all and (min-width: 1000px) {
-    grid-row: 1;
-    grid-column: 2;
+    margin-right: 10px;
   }
 `;
 
-const ContentStyle = styled.div`
+const StyledContent = styled.div`
   display: grid;
   grid-gap: 10px;
   align-content: start;
-  min-height: 100%;
+  background: #fff;
   padding: 10px;
+  border-radius: 4px;
 
   p {
     font-size: 18px;
@@ -229,6 +176,10 @@ const ContentStyle = styled.div`
     td {
       padding: 4px;
     }
+  }
+
+  @media all and (max-width: 699px) {
+    min-height: 100%;
   }
 `;
 
