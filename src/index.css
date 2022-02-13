@@ -54,12 +54,12 @@ body {
   font-family: 'Inter';
   font-weight: normal;
   font-style: normal;
-  src: url('../src/assets/fonts/rubik/inter-regular.ttf');
+  src: url('../src/assets/fonts/inter/inter-regular.ttf');
 }
 
 @font-face {
   font-family: 'Inter';
   font-weight: bold;
   font-style: normal;
-  src: url('../src/assets/fonts/rubik/inter-bold.ttf');
+  src: url('../src/assets/fonts/inter/inter-bold.ttf');
 }
