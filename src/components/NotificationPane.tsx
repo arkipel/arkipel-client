@@ -1,7 +1,6 @@
 import React, { FunctionComponent, useContext } from 'react';
 import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
-import Media from 'react-media';
 
 import { useQuery, gql, useApolloClient } from '@apollo/client';
 import {
@@ -15,7 +14,7 @@ import { SessionContext } from '../libs/session/session';
 
 // Components
 import ResourcesPane from '../components/ResourcesPane';
-import { TopBar, Box } from '../ui/layout/TopBar';
+import MoneyPane from '../components/MoneyPane';
 import Scrollable from '../ui/layout/Scrollable';
 import TimeLeft from '../ui/text/TimeLeft';
 import Tile from '../models/Tile';
@@ -31,17 +30,13 @@ const NotificationPane: FunctionComponent<props> = ({
 
   // To hide the pane, move
   // it to the right.
-  let translateX = '0';
-  let visibleBoxShadow = '0';
+  let display = 'grid';
   if (!visible) {
-    translateX = '320px';
-  } else {
-    visibleBoxShadow = '-1px 0 10px #111';
+    display = 'none';
   }
 
   let styleVars = {
-    '--translateX': translateX,
-    '--visibleBoxShadow': visibleBoxShadow,
+    '--display': display,
   } as React.CSSProperties;
 
   let islandId = session.id;
@@ -86,35 +81,15 @@ const NotificationPane: FunctionComponent<props> = ({
   const hasSites = sites.length > 0;
 
   return (
-    <Style style={styleVars}>
-      <TopBar background="#B02E0C">
-        <div>
-          {/* This empty div makes the other one
-              the second div, which has its content
-              displayed to the right. */}
-        </div>
-        <div>
-          <Media
-            query="(max-width: 999px)"
-            render={() => (
-              <Box onClick={onCloseClick}>
-                <img
-                  style={{
-                    // transition: '0.2s linear',
-                    rotate: '180deg',
-                    opacity: '20%',
-                  }}
-                  src="https://icons.arkipel.io/ui/arrow_left.svg"
-                  alt="&#10092;"
-                />
-              </Box>
-            )}
-          />
-        </div>
-      </TopBar>
-      <ResourcesPane />
+    <StyledNotificationPane style={styleVars}>
+      <StyledContent>
+        <ResourcesPane />
+      </StyledContent>
+      <StyledContent>
+        <MoneyPane />
+      </StyledContent>
       <Scrollable>
-        <StyleContent>
+        <StyledContent>
           {!loggedIn && <p>You are not logged in.</p>}
           {loggedIn && error && <p>Construction sites could not be loaded.</p>}
           {loggedIn && !hasSites && <p>Nothing is currently being built.</p>}
@@ -168,9 +143,9 @@ const NotificationPane: FunctionComponent<props> = ({
                 </StyledNotification>
               );
             })}
-        </StyleContent>
+        </StyledContent>
       </Scrollable>
-    </Style>
+    </StyledNotificationPane>
   );
 };
 
@@ -179,38 +154,36 @@ type props = {
   onCloseClick: () => void;
 };
 
-const Style = styled.div`
+const StyledNotificationPane = styled.div`
   display: grid;
   grid-template-rows: auto auto 1fr;
+  gap: 10px;
   grid-row: 1;
+  grid-column: 2;
   justify-self: flex-end;
   min-height: 0;
   height: 100%;
   width: 300px;
-  /* background: #ffffff; */
-  z-index: 120;
-  transform: translateX(var(--translateX));
-  transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
-  scrollbar-width: thin;
-  /* scrollbar-color: #e76f51 white; */
-  scrollbar-color: #d62828 white;
+  z-index: 110;
 
   @media all and (max-width: 699px) {
+    display: var(--display);
     grid-column: 1;
+    background: #fff;
   }
 
   @media all and (min-width: 700px) and (max-width: 999px) {
+    display: var(--display);
+    margin-top: -10px;
+    margin-right: -10px;
+    height: calc(100% + 20px);
     grid-column: 2;
+    background: #fff;
   }
 
   @media all and (min-width: 1000px) {
     grid-column: 3;
-    transform: translateX(calc(0 - var(--translateX)));
     transition: none;
-  }
-
-  @media all and (max-width: 999px) {
-    box-shadow: var(--visibleBoxShadow);
   }
 `;
 
@@ -246,10 +219,12 @@ const StyledNotification = styled.div`
   }
 `;
 
-const StyleContent = styled.div`
+const StyledContent = styled.div`
   display: grid;
   grid-gap: 10px;
   padding: 10px;
+  background: #fff;
+  border-radius: 4px;
 `;
 
 export default NotificationPane;

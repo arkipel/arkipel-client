@@ -2,7 +2,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Merriweather', sans-serif;
+  font-family: 'Inter', 'Noto Sans', 'Merriweather', sans-serif;
 }
 
 html,
@@ -13,7 +13,6 @@ body {
 
 body {
   background: #ede7d4;
-  /* background: #2a9d8f url('https://icons.arkipel.io/bg/main.svg'); */
   background-size: 800px 400px;
 }
 

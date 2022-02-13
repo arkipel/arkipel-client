@@ -35,24 +35,13 @@ const APIStatus: FunctionComponent = () => {
     color = '#d68787';
   }
 
-  return (
-    <Style>
-      <div style={{ background: color }}></div>
-    </Style>
-  );
+  return <Styled style={{ background: color }}></Styled>;
 };
 
-const Style = styled.div`
-  display: flex;
-  justify-content: center;
-  height: 50px;
-  padding: 0 10px;
-
-  div {
-    height: 12px;
-    width: 12px;
-    border-radius: 100px;
-  }
+const Styled = styled.div`
+  min-height: 12px;
+  width: 12px;
+  border-radius: 100px;
 `;
 
 export default APIStatus;

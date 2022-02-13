@@ -83,7 +83,9 @@ const Article = () => {
       {!editMode && (
         <StyledArticle key={a.id}>
           <header>
-            <h1>{a.title}</h1>
+            <div>
+              <h1>{a.title}</h1>
+            </div>
             <time dateTime={a.publishedAt}>
               {time.toFormat('yyyy/LL/dd HH:mm')}
             </time>
@@ -109,7 +111,11 @@ const Article = () => {
 const StyledArticle = styled.div`
   header {
     h1 {
+      display: inline;
       font-size: x-large;
+      padding: 0 4px;
+      color: #fff;
+      background: #000;
     }
 
     time {

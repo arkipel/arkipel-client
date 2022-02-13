@@ -64,7 +64,9 @@ const Home = () => {
         return (
           <StyledArticle key={a.id}>
             <header>
-              <h1>{a.title}</h1>
+              <div>
+                <h1>{a.title}</h1>
+              </div>
               <NavLink exact to={'/article/' + a.id}>
                 <time dateTime={a.publishedAt}>
                   {time.toFormat('yyyy/LL/dd HH:mm')}
@@ -84,7 +86,11 @@ const Home = () => {
 const StyledArticle = styled.div`
   header {
     h1 {
+      display: inline;
       font-size: x-large;
+      padding: 0 4px;
+      color: #fff;
+      background: #000;
     }
 
     time {

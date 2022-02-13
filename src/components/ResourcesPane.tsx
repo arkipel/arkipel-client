@@ -4,10 +4,6 @@ import styled from 'styled-components';
 import { InventoryContext } from '../libs/session/inventory';
 import { BankAccountsContext } from '../libs/session/bank_accounts';
 
-import { FormatMoney } from '../ui/text/format';
-
-// Assets
-
 const ResourcesPane: FunctionComponent = () => {
   const inventory = useContext(InventoryContext);
   const bankAccounts = useContext(BankAccountsContext);
@@ -17,7 +13,7 @@ const ResourcesPane: FunctionComponent = () => {
   });
 
   return (
-    <Style>
+    <StyledResourcesPane>
       <div>
         <img src="https://icons.arkipel.io/res/housing.svg" />
         <span>{inventory.populationTotal}</span>
@@ -42,42 +38,20 @@ const ResourcesPane: FunctionComponent = () => {
         <img src="https://icons.arkipel.io/res/material.svg" />
         <span>{inventory.materialFormatted}</span>
       </div>
-      <div>
-        {bankAccounts.map((ba) => {
-          return (
-            <span key={ba.id}>
-              {FormatMoney(ba.amount)} {ba.currencyCodeStr()}
-            </span>
-          );
-        })}
-      </div>
-    </Style>
+    </StyledResourcesPane>
   );
 };
 
-const Style = styled.div`
+const StyledResourcesPane = styled.div`
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
-  padding: 10px;
-  border-bottom: 1px solid #ddd;
 
   div {
     display: flex;
     align-items: center;
     gap: 4px;
     width: calc(100% / 3 - (20px / 3));
-  }
-
-  & > div:last-child {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-
-    span {
-      width: 100%;
-      text-align: right;
-    }
   }
 
   img {
