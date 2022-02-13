@@ -296,7 +296,6 @@ const StyledMenu = styled.div`
     img {
       width: 20px;
       height: 20px;
-      /* filter: (1); */
       opacity: 0.6;
     }
   }
