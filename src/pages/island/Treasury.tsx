@@ -66,6 +66,7 @@ const BankAccounts = () => {
           <thead>
             <tr>
               <th>Currency</th>
+              <th>Code</th>
               <th>Amount</th>
             </tr>
           </thead>
@@ -78,6 +79,7 @@ const BankAccounts = () => {
               return (
                 <tr key={ba.id}>
                   <td>{ba.currencyName}</td>
+                  <td>{ba.currencyCodeStr()}</td>
                   <td>
                     {FormatMoney(ba.amount)} {ba.currencyCodeStr()}
                   </td>
