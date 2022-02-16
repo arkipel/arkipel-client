@@ -54,11 +54,11 @@ module.exports = {
       name: 'Arkipel',
       short_name: 'Arkipel',
       description: 'Client for Arkipel.',
-      background_color: '#ffffff',
+      background_color: '#ede7d4',
       start_url: '/',
       display: 'standalone',
       scope: '/',
-      theme_color: '#ddd',
+      theme_color: '#423d39',
       fingerprints: false,
       icons: [
         {
