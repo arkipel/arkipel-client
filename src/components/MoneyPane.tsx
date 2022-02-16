@@ -22,14 +22,16 @@ const MoneyPane: FunctionComponent = () => {
 
   return (
     <StyledMoneyPane>
-      <div>
-        <span>{FormatMoney(amount)} ARK</span>
-      </div>
+      <img src="https://icons.arkipel.io/ui/wealth.svg" />
+      <span>{FormatMoney(amount)} ARK</span>
     </StyledMoneyPane>
   );
 };
 
 const StyledMoneyPane = styled.div`
+  display: grid;
+  gap: 10px;
+  grid-template-columns: auto 1fr;
   width: 100%;
   text-align: right;
 
