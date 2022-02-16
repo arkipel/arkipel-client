@@ -10,7 +10,8 @@
     "format": "prettier --write \"**/*.{md,js,jsx,ts,tsx,json,css,scss}\"",
     "format-watch": "onchange \"**/*.{md,js,jsx,ts,tsx,json,css,scss}\" -- prettier --write {{changed}}",
     "start": "concurrently --kill-others \"webpack serve --config webpack.dev.js --allowed-hosts arkipel.local\" \"npm:*-watch\"",
-    "test-onchange": "onchange \"**/*.js\" \"**/*.jsx\" -- npm test"
+    "test-onchange": "onchange \"**/*.js\" \"**/*.jsx\" -- npm test",
+    "codegen2": "graphql-codegen --config codegen.yml"
   },
   "keywords": [
     "arkipel"
@@ -45,16 +46,23 @@
     "webpack-cli": "^4.6.0",
     "webpack-dev-server": "^4.0.0",
     "webpack-merge": "^5.7.3",
-    "webpack-pwa-manifest": "^4.3.0"
+    "webpack-pwa-manifest": "^4.3.0",
+    "@graphql-codegen/typescript": "2.4.4",
+    "@graphql-codegen/typescript-react-apollo": "3.2.7",
+    "@graphql-codegen/typescript-operations": "2.3.1",
+    "@graphql-codegen/introspection": "2.1.1",
+    "@graphql-codegen/cli": "2.6.2"
   },
   "dependencies": {
     "@apollo/client": "^3.3.17",
+    "@graphql-codegen/cli": "^2.6.2",
     "@hcaptcha/react-hcaptcha": "^1.0.0",
     "@types/react": "^17.0.3",
     "@types/react-dom": "^17.0.4",
     "@types/react-router-dom": "^5.1.7",
     "chart.js": "^3.6.0",
     "chartjs-adapter-luxon": "^1.1.0",
+    "graphql": "^14.7.0",
     "lodash": "^4.17.21",
     "luxon": "^2.0.2",
     "react": "^17.0.2",
