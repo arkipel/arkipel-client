@@ -21,7 +21,7 @@ const Header: FunctionComponent<props> = ({
         <Media
           query="(max-width: 699px)"
           render={() => (
-            <Box style={{ zIndex: 110 }} onClick={onMenuOpen}>
+            <Box onClick={onMenuOpen}>
               <img src="https://icons.arkipel.io/ui/menu.svg" alt="&#10092;" />
             </Box>
           )}
@@ -35,7 +35,7 @@ const Header: FunctionComponent<props> = ({
         <Media
           query="(max-width: 999px)"
           render={() => (
-            <Box style={{ zIndex: 110 }} onClick={onNotificationOpen}>
+            <Box onClick={onNotificationOpen}>
               <img
                 src="https://icons.arkipel.io/ui/notification.svg"
                 alt="&#128276;"
@@ -55,9 +55,10 @@ const HeaderStyle = styled.div`
   grid-column: 1;
   height: 50px;
   border-radius: 0 0 4px 4px;
-  background: var(--background, rgba(24, 19, 19, 0.8));
+  background: #423d39;
   padding: 0 10px;
   color: #fff;
+  z-index: 110;
 
   div {
     display: grid;
