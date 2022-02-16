@@ -59,6 +59,7 @@ module.exports = {
       display: 'standalone',
       scope: '/',
       theme_color: '#ddd',
+      fingerprints: false,
       icons: [
         {
           src: './src/assets/logo/arkipel_192.png',
