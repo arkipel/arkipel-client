@@ -71,6 +71,10 @@ const BankAccounts = () => {
           </thead>
           <tbody>
             {bankAccounts.map((ba) => {
+              if (ba.currencyCode !== 'ark') {
+                return;
+              }
+
               return (
                 <tr key={ba.id}>
                   <td>{ba.currencyName}</td>
