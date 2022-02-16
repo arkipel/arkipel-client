@@ -190,7 +190,7 @@ const StyledNotificationPane = styled.div`
 const StyledNotification = styled.div`
   display: grid;
   font-size: 14px;
-  height: 50px;
+  min-height: 50px;
   grid-template-columns: 50px 1fr;
 
   a {
