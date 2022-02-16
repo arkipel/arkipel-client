@@ -7,7 +7,7 @@ class Tile {
     this.infrastructure = obj?.infrastructure || '';
     this.materialCost = obj?.materialCost || 0;
 
-    let seconds = obj?.duration || 0;
+    let seconds = obj?.workload || 0;
     this.duration = Duration.fromObject({ seconds });
     this.duration = this.duration.normalize();
   }
@@ -33,6 +33,15 @@ class Tile {
 
   durationStr(): string {
     return this.duration.toFormat('hh:mm:ss');
+  }
+
+  durationWithWorkersStr(fw: number): string {
+    let seconds = this.duration.seconds / fw;
+    if (seconds < 1) {
+      seconds = 1;
+    }
+    let dur = Duration.fromObject({ seconds });
+    return dur.toFormat('hh:mm:ss');
   }
 }
 

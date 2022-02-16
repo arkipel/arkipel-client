@@ -1,0 +1,37 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Inter', sans-serif;
+}
+
+html,
+body {
+  height: 100%;
+  overflow-x: hidden;
+}
+
+body {
+  background: #ede7d4;
+  background-size: 800px 400px;
+}
+
+#mount {
+  height: 100%;
+}
+
+/* Fonts */
+
+@font-face {
+  font-family: 'Inter';
+  font-weight: normal;
+  font-style: normal;
+  src: url('../src/assets/fonts/inter/inter-regular.ttf');
+}
+
+@font-face {
+  font-family: 'Inter';
+  font-weight: bold;
+  font-style: normal;
+  src: url('../src/assets/fonts/inter/inter-bold.ttf');
+}

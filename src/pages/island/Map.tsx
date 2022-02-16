@@ -23,6 +23,7 @@ const MapPage = () => {
           ... on Island {
             id
             owner {
+              id
               username
             }
             tiles {
@@ -58,7 +59,7 @@ const MapPage = () => {
   return (
     <Fragment>
       <h1>Map</h1>
-      <IslandMap island={island} />
+      <IslandMap island={island} clickable={true} />
     </Fragment>
   );
 };

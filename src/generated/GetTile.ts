@@ -3,7 +3,7 @@
 // @generated
 // This file was automatically generated and should not be edited.
 
-import { TileKind, Infrastructure } from './globalTypes';
+import { TileKind, Infrastructure, InfrastructureStatus } from './globalTypes';
 
 // ====================================================
 // GraphQL query operation: GetTile
@@ -25,7 +25,7 @@ export interface GetTile_tile_Tile_blueprints {
   readonly __typename: 'Blueprint';
   readonly infrastructure: Infrastructure;
   readonly materialCost: number;
-  readonly duration: number;
+  readonly workload: number;
 }
 
 export interface GetTile_tile_Tile {
@@ -35,6 +35,15 @@ export interface GetTile_tile_Tile {
   readonly kind: TileKind;
   readonly infrastructure: Infrastructure;
   readonly level: number;
+  readonly maxLevel: number;
+  readonly desiredStatus: InfrastructureStatus;
+  readonly currentStatus: InfrastructureStatus;
+  readonly population: number;
+  readonly energy: number;
+  readonly material: number;
+  readonly food: number;
+  readonly frozenFood: number;
+  readonly frozenFoodStorage: number;
   readonly constructionSite: GetTile_tile_Tile_constructionSite | null;
   readonly blueprints: ReadonlyArray<GetTile_tile_Tile_blueprints>;
 }

@@ -22,7 +22,7 @@ export interface DestroyInfrastructure_destroyInfrastructure_Tile_blueprints {
   readonly __typename: 'Blueprint';
   readonly infrastructure: Infrastructure;
   readonly materialCost: number;
-  readonly duration: number;
+  readonly workload: number;
 }
 
 export interface DestroyInfrastructure_destroyInfrastructure_Tile {
@@ -31,9 +31,7 @@ export interface DestroyInfrastructure_destroyInfrastructure_Tile {
   readonly infrastructure: Infrastructure;
   readonly level: number;
   readonly constructionSite: DestroyInfrastructure_destroyInfrastructure_Tile_constructionSite | null;
-  readonly blueprints: ReadonlyArray<
-    DestroyInfrastructure_destroyInfrastructure_Tile_blueprints
-  >;
+  readonly blueprints: ReadonlyArray<DestroyInfrastructure_destroyInfrastructure_Tile_blueprints>;
 }
 
 export type DestroyInfrastructure_destroyInfrastructure =

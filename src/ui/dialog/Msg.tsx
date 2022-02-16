@@ -1,6 +1,5 @@
 import React, { FunctionComponent } from 'react';
-
-import styles from './Msg.scss';
+import styled from 'styled-components';
 
 const Info: FunctionComponent<props> = ({
   children,
@@ -53,13 +52,32 @@ const Msg: FunctionComponent<props> = ({
     OK = <a onClick={onConfirmation}>OK</a>;
   }
 
+  let color = '#000';
+  switch (kind) {
+    case 'info':
+      color = '#222';
+      break;
+    case 'success':
+      color = '#080';
+      break;
+    case 'error':
+      color = '#a00';
+      break;
+    default:
+      break;
+  }
+
+  const styleVars = {
+    '--color': color,
+  } as React.CSSProperties;
+
   return (
-    <p className={styles[kind || 'info']}>
+    <Style style={styleVars}>
       <>
         {children}
         {OK}
       </>
-    </p>
+    </Style>
   );
 };
 
@@ -68,5 +86,13 @@ class props {
   visible?: boolean = true;
   onConfirmation?: () => void;
 }
+
+const Style = styled.p`
+  color: var(--color);
+
+  a {
+    margin-left: 4px;
+  }
+`;
 
 export { Info, Success, Error };

@@ -1,5 +1,6 @@
 import React, { FunctionComponent, useContext } from 'react';
-import Media from 'react-media';
+import { NavLink } from 'react-router-dom';
+import styled from 'styled-components';
 
 import { useQuery, gql, useApolloClient } from '@apollo/client';
 import {
@@ -12,11 +13,12 @@ import ConstructionSite from '../models/ConstructionSite';
 import { SessionContext } from '../libs/session/session';
 
 // Components
+import ResourcesPane from '../components/ResourcesPane';
+import MoneyPane from '../components/MoneyPane';
 import Scrollable from '../ui/layout/Scrollable';
 import TimeLeft from '../ui/text/TimeLeft';
-
-// Assets
-import styles from './NotificationPane.scss';
+import Tile from '../models/Tile';
+import MapTile from '../components/MapTile';
 
 const NotificationPane: FunctionComponent<props> = ({
   visible,
@@ -26,8 +28,16 @@ const NotificationPane: FunctionComponent<props> = ({
 
   const client = useApolloClient();
 
-  let notificationPaneClassName = visible ? styles.visible + ' ' : '';
-  notificationPaneClassName += styles.notificationPane;
+  // To hide the pane, move
+  // it to the right.
+  let display = 'grid';
+  if (!visible) {
+    display = 'none';
+  }
+
+  let styleVars = {
+    '--display': display,
+  } as React.CSSProperties;
 
   let islandId = session.id;
   const loggedIn = session.id !== '';
@@ -48,6 +58,7 @@ const NotificationPane: FunctionComponent<props> = ({
               finishedAt
               tile {
                 position
+                level
               }
             }
           }
@@ -70,51 +81,71 @@ const NotificationPane: FunctionComponent<props> = ({
   const hasSites = sites.length > 0;
 
   return (
-    <div className={notificationPaneClassName}>
-      <div className={styles.topBar}>
-        <div>
-          <Media
-            query="(max-width: 999px)"
-            render={() => (
-              <div onClick={onCloseClick} className="button">
-                <img
-                  src="https://icons.arkipel.io/ui/arrow_left.svg"
-                  alt="&#10092;"
-                />
-              </div>
-            )}
-          />
-        </div>
-      </div>
+    <StyledNotificationPane style={styleVars}>
+      <StyledContent>
+        <ResourcesPane />
+      </StyledContent>
+      <StyledContent>
+        <MoneyPane />
+      </StyledContent>
       <Scrollable>
-        <div className={styles.content}>
+        <StyledContent>
           {!loggedIn && <p>You are not logged in.</p>}
-          {error && <p>Construction sites could not be loaded.</p>}
+          {loggedIn && error && <p>Construction sites could not be loaded.</p>}
           {loggedIn && !hasSites && <p>Nothing is currently being built.</p>}
           {loggedIn &&
             hasSites &&
             sites.map((site) => {
               return (
-                <p key={Math.random()}>
-                  Some infrastructure is being built on tile {site.tilePosition}
-                  . It will be done{' '}
-                  <b>
-                    <TimeLeft
-                      target={site.finishedAt}
-                      onReach={() => {
-                        client.cache.evict({
-                          id: 'ConstructionSite:' + site.id,
-                        });
-                      }}
+                <StyledNotification key={site.id}>
+                  <div>
+                    <MapTile
+                      tile={
+                        new Tile({
+                          position: site.tilePosition,
+                          infrastructure: site.infrastructure,
+                        })
+                      }
+                      size={50}
                     />
-                  </b>
-                  .
-                </p>
+                  </div>
+                  <div>
+                    <p>
+                      <b>
+                        Construction on{' '}
+                        <NavLink
+                          exact
+                          to={'/island/tiles/' + site.tilePosition}
+                          onClick={onCloseClick}
+                        >
+                          {site.infrastructure.toLocaleLowerCase()} (
+                          {site.tilePosition})
+                        </NavLink>{' '}
+                      </b>
+                    </p>
+                    <p>
+                      Level {site.tile.level} → {site.tile.level + 1}
+                    </p>
+                  </div>
+                  <div>
+                    <p>
+                      Done{' '}
+                      <TimeLeft
+                        target={site.finishedAt}
+                        onReach={() => {
+                          client.cache.evict({
+                            id: 'ConstructionSite:' + site.id,
+                          });
+                        }}
+                      />
+                    </p>
+                  </div>
+                </StyledNotification>
               );
             })}
-        </div>
+        </StyledContent>
       </Scrollable>
-    </div>
+    </StyledNotificationPane>
   );
 };
 
@@ -122,5 +153,78 @@ type props = {
   visible: boolean;
   onCloseClick: () => void;
 };
+
+const StyledNotificationPane = styled.div`
+  display: grid;
+  grid-template-rows: auto auto 1fr;
+  gap: 10px;
+  grid-row: 1;
+  grid-column: 2;
+  justify-self: flex-end;
+  min-height: 0;
+  height: 100%;
+  width: 300px;
+  z-index: 110;
+
+  @media all and (max-width: 699px) {
+    display: var(--display);
+    grid-column: 1;
+    background: #fff;
+  }
+
+  @media all and (min-width: 700px) and (max-width: 999px) {
+    display: var(--display);
+    margin-top: -10px;
+    margin-right: -10px;
+    height: calc(100% + 20px);
+    grid-column: 2;
+    background: #fff;
+  }
+
+  @media all and (min-width: 1000px) {
+    grid-column: 3;
+    transition: none;
+  }
+`;
+
+const StyledNotification = styled.div`
+  display: grid;
+  font-size: 14px;
+  min-height: 50px;
+  grid-template-columns: 50px 1fr;
+
+  a {
+    color: #666;
+  }
+
+  div:nth-child(1) {
+    grid-row: 1;
+    grid-column: 1;
+  }
+
+  div:nth-child(2) {
+    grid-row: 1;
+    grid-column: 2;
+    padding: 4px;
+  }
+
+  div:nth-child(3) {
+    grid-row: 1;
+    grid-column: 1 / 3;
+    place-self: end end;
+    padding: 2px 4px;
+    background: rgba(0, 0, 0, 0.2);
+    color: #eee;
+    font-size: 12px;
+  }
+`;
+
+const StyledContent = styled.div`
+  display: grid;
+  grid-gap: 10px;
+  padding: 10px;
+  background: #fff;
+  border-radius: 4px;
+`;
 
 export default NotificationPane;

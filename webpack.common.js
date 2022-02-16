@@ -18,6 +18,12 @@ module.exports = {
   module: {
     rules: [
       {
+        test: /\.m?js/,
+        resolve: {
+          fullySpecified: false,
+        },
+      },
+      {
         test: /\.(ts|js)x?$/,
         exclude: /node_modules/,
         use: {
@@ -25,32 +31,16 @@ module.exports = {
         },
       },
       {
-        test: /\.s[ac]ss$/i,
-        use: [
-          'style-loader',
-          {
-            loader: 'css-loader',
-            options: {
-              modules: {
-                mode: 'local',
-                localIdentName: '[local]--[hash:base64:4]',
-              },
-            },
-          },
-          'sass-loader',
-        ],
-      },
-      {
-        test: /\.css$/,
+        test: /\.(css)$/,
         use: ['style-loader', 'css-loader'],
       },
       {
         test: /\.(gif|jpg|png|svg)$/,
-        use: ['file-loader'],
+        type: 'asset/resource',
       },
       {
         test: /\.(woff|woff2|eot|ttf|otf)$/,
-        use: ['file-loader'],
+        type: 'asset/resource',
       },
     ],
   },

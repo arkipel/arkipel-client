@@ -1,27 +1,51 @@
-import { TileKind, Infrastructure } from '../generated/globalTypes';
+import {
+  TileKind,
+  Infrastructure,
+  InfrastructureStatus,
+} from '../generated/globalTypes';
 
 class Tile {
   constructor(obj: any) {
     this.id = obj?.id || '';
+    this.islandId = obj?.island?.id || '';
     this.position = obj?.position || 0;
     this.infrastructure = obj?.infrastructure || Infrastructure.EMPTY;
     this.level = obj?.level || 0;
-    this.housingCapacity = obj?.housingCapacity || 0;
+    this.maxLevel = obj?.maxLevel || 0;
+    this.desiredStatus =
+      obj?.desiredStatus === InfrastructureStatus.OFF
+        ? InfrastructureStatus.OFF
+        : InfrastructureStatus.ON;
+    this.currentStatus =
+      obj?.currentStatus === InfrastructureStatus.OFF
+        ? InfrastructureStatus.OFF
+        : InfrastructureStatus.ON;
+    this.population = obj?.population || 0;
+    this.material = obj?.material || 0;
+    this.energy = obj?.energy || 0;
+    this.food = obj?.food || 0;
+    this.frozenFood = obj?.frozenFood || 0;
+    this.frozenFoodStorage = obj?.frozenFoodStorage || 0;
+    this.isActive = obj?.isActive === true ? true : false;
     this.materialProduction = obj?.materialProduction || 0;
-    this.energyProduction = obj?.energyProduction || 0;
-    this.requiredWorkforce = obj?.requiredWorkforce || 0;
-    this.energyConsumption = obj?.energyConsumption || 0;
   }
 
   id: string;
+  islandId: string;
   position: number;
   infrastructure: Infrastructure;
   level: number;
-  housingCapacity: number;
+  maxLevel: number;
+  desiredStatus: InfrastructureStatus;
+  currentStatus: InfrastructureStatus;
+  population: number;
+  material: number;
+  food: number;
+  frozenFood: number;
+  frozenFoodStorage: number;
+  energy: number;
+  isActive: boolean;
   materialProduction: number;
-  energyProduction: number;
-  requiredWorkforce: number;
-  energyConsumption: number;
 
   kind(): TileKind {
     switch (dna[this.position]) {
@@ -73,26 +97,33 @@ class Tile {
         return 'port';
       case Infrastructure.BANK:
         return 'bank';
+      case Infrastructure.HUT:
+        return 'hut';
+      case Infrastructure.WAREHOUSE:
+        return 'warehouse';
+      case Infrastructure.GARDEN:
+        return 'garden';
     }
+  }
+
+  isStalled(): boolean {
+    return (
+      this.desiredStatus === InfrastructureStatus.ON &&
+      this.currentStatus === InfrastructureStatus.OFF
+    );
   }
 }
 
 export default Tile;
 
 const dna =
-  '0000000000000000' +
-  '0000011111100000' +
-  '0001112222111000' +
-  '0011222332221100' +
-  '0012233333322100' +
-  '0112333333332110' +
-  '0122333333332210' +
-  '0123333333333210' +
-  '0123333333333210' +
-  '0122333333332210' +
-  '0112333333332110' +
-  '0012233333322100' +
-  '0011222332221100' +
-  '0001112222111000' +
-  '0000011111100000' +
-  '0000000000000000';
+  '0011111100' +
+  '0112222110' +
+  '1122332211' +
+  '1223333221' +
+  '1233333321' +
+  '1233333321' +
+  '1223333221' +
+  '1122332211' +
+  '0112222110' +
+  '0011111100';

@@ -10,7 +10,7 @@ import { Infrastructure } from './globalTypes';
 // ====================================================
 
 export interface BuildInfrastructure_buildInfrastructure_NotAuthorized {
-  readonly __typename: 'NotAuthorized' | 'NotFound';
+  readonly __typename: 'NotAuthorized' | 'NotFound' | 'NotEnoughMaterial';
 }
 
 export interface BuildInfrastructure_buildInfrastructure_Tile_constructionSite_tile {
@@ -31,7 +31,19 @@ export interface BuildInfrastructure_buildInfrastructure_Tile_blueprints {
   readonly __typename: 'Blueprint';
   readonly infrastructure: Infrastructure;
   readonly materialCost: number;
-  readonly duration: number;
+  readonly workload: number;
+}
+
+export interface BuildInfrastructure_buildInfrastructure_Tile_island_inventory {
+  readonly __typename: 'Inventory';
+  readonly id: string;
+  readonly material: number;
+}
+
+export interface BuildInfrastructure_buildInfrastructure_Tile_island {
+  readonly __typename: 'Island';
+  readonly id: string;
+  readonly inventory: BuildInfrastructure_buildInfrastructure_Tile_island_inventory;
 }
 
 export interface BuildInfrastructure_buildInfrastructure_Tile {
@@ -40,9 +52,8 @@ export interface BuildInfrastructure_buildInfrastructure_Tile {
   readonly infrastructure: Infrastructure;
   readonly level: number;
   readonly constructionSite: BuildInfrastructure_buildInfrastructure_Tile_constructionSite | null;
-  readonly blueprints: ReadonlyArray<
-    BuildInfrastructure_buildInfrastructure_Tile_blueprints
-  >;
+  readonly blueprints: ReadonlyArray<BuildInfrastructure_buildInfrastructure_Tile_blueprints>;
+  readonly island: BuildInfrastructure_buildInfrastructure_Tile_island;
 }
 
 export type BuildInfrastructure_buildInfrastructure =

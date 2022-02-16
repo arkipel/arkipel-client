@@ -1,4 +1,6 @@
 import React, { Fragment, FunctionComponent, useContext } from 'react';
+import { NavLink } from 'react-router-dom';
+import styled from 'styled-components';
 
 import { useQuery, gql } from '@apollo/client';
 import { GetIsland, GetIslandVariables } from 'generated/GetIsland';
@@ -9,11 +11,11 @@ import { SessionContext } from '../../libs/session/session';
 import Tile from '../../models/Tile';
 import Island from '../../models/Island';
 
+import TileStatusToggle from '../../components/TileStatusToggle';
 import MapTile from '../../components/MapTile';
 
 import { Info, Error } from '../../ui/dialog/Msg';
-
-import styles from './Infrastructure.scss';
+import Label from '../../ui/text/Label';
 
 const InfrastructurePage = () => {
   const session = useContext(SessionContext);
@@ -32,11 +34,16 @@ const InfrastructurePage = () => {
               kind
               infrastructure
               level
-              housingCapacity
-              materialProduction
-              energyProduction
-              requiredWorkforce
-              energyConsumption
+              desiredStatus
+              currentStatus
+              population
+              material
+              food
+              frozenFood
+              energy
+              island {
+                id
+              }
             }
           }
         }
@@ -80,43 +87,129 @@ const InfrastructurePage = () => {
     <Fragment>
       <h1>Infrastructure</h1>
       {loading && <p>Loading...</p>}
-      <div className={styles.list}>
-        {island.tiles.map((t) => {
-          return <InfrastructureItem key={t.position} tile={t} />;
-        })}
-      </div>
+      {!loading && (
+        <TableStyle>
+          <thead>
+            <tr>
+              <th></th>
+              <th></th>
+              <th></th>
+              <th>
+                <img src="https://icons.arkipel.io/res/population.svg" />
+              </th>
+              <th>
+                <img src="https://icons.arkipel.io/res/energy.svg" />
+              </th>
+              <th></th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            {island.tiles.map((t) => {
+              return <InfrastructureItem key={t.position} tile={t} />;
+            })}
+          </tbody>
+        </TableStyle>
+      )}
     </Fragment>
   );
 };
 
+const TableStyle = styled.table`
+  width: 100%;
+
+  thead tr {
+    height: 30px;
+
+    th:nth-child(4),
+    th:nth-child(5),
+    th:nth-child(6) {
+      text-align: center;
+    }
+
+    th {
+      img {
+        height: 16px;
+        width: 16px;
+      }
+    }
+  }
+
+  thead tr {
+    th:nth-child(1) {
+      width: 45px;
+    }
+
+    th:nth-child(2) {
+      width: 40px;
+    }
+
+    th:nth-child(4) {
+      width: 50px;
+    }
+
+    th:nth-child(5) {
+      width: 50px;
+    }
+
+    th:nth-child(6) {
+      width: 50px;
+    }
+
+    th:nth-child(7) {
+      width: 40px;
+    }
+  }
+
+  tbody tr {
+    td:nth-child(2) {
+      text-align: right;
+    }
+
+    td:nth-child(4),
+    td:nth-child(5),
+    td:nth-child(6) {
+      text-align: center;
+    }
+  }
+
+  tbody tr {
+    height: 60px;
+  }
+`;
+
 const InfrastructureItem: FunctionComponent<props> = ({ tile }) => {
+  let mainProd = <td></td>;
+
+  if (tile.material !== 0) {
+    mainProd = <td>{tile.material}/s</td>;
+  } else if (tile.food !== 0) {
+    mainProd = <td>{tile.food}/s</td>;
+  } else if (tile.frozenFood !== 0) {
+    mainProd = <td>{tile.frozenFood}/s</td>;
+  }
+
   return (
-    <div className={styles.tile}>
-      <div className={styles.logo}>
-        <MapTile tile={tile} />
-      </div>
-      <span className={styles.title}>
-        {tile.position} {tile.infrastructureName()} on {tile.kindName()}
-      </span>
-      <div className={styles.level}>
-        <span>Level {tile.level}</span>
-      </div>
-      <div className={styles.population}>
-        <img src="https://icons.arkipel.io/res/population.svg" />
-        <span>{tile.housingCapacity - tile.requiredWorkforce}</span>
-      </div>
-      <div className={styles.energy}>
-        <img src="https://icons.arkipel.io/res/energy.svg" />
-        <span>{tile.energyProduction - tile.energyConsumption}</span>
-      </div>
-      <div className={styles.material}>
-        <img src="https://icons.arkipel.io/res/material.svg" />
-        <span>{tile.materialProduction}/s</span>
-      </div>
-      {/* <button className={styles.manage} disabled={true}>
-        Manage
-      </button> */}
-    </div>
+    <tr>
+      <td>
+        <MapTile tile={tile} size={36} />
+      </td>
+      <td>{tile.position}</td>
+      <td>
+        <NavLink exact to={'/island/tiles/' + tile.position}>
+          {tile.infrastructureName()} ({tile.level}){' '}
+        </NavLink>
+        {tile.isStalled() && (
+          <Label text="Stalled" textColor="#fff" backgroundColor="#b66" />
+        )}
+      </td>
+      <td>{tile.population}</td>
+      <td>{tile.energy}</td>
+      {mainProd}
+      <td>
+        <TileStatusToggle islandId={tile.islandId} position={tile.position} />
+      </td>
+    </tr>
   );
 };
 

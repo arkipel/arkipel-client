@@ -23,7 +23,11 @@ import { SessionContext } from '../../libs/session/session';
 import UsernameInput from '../../components/usernameInput';
 import PasswordInput from '../../components/passwordInput';
 
+import { HintError } from '../../ui/dialog/Hint';
 import { Success, Error } from '../../ui/dialog/Msg';
+import { Button } from '../../ui/form/Button';
+import { Form } from '../../ui/form/Form';
+import { Input, Submit } from '../../ui/form/Input';
 
 const Settings = () => {
   // Router
@@ -50,19 +54,22 @@ const Settings = () => {
       </p>
       <ChangeEmailAddress />
       <p>
-        There is currently no verification. Make sure the address is correct.
-        The owner of the address is considered the owner of this account.
-      </p>
-      <p>
-        It is impossible to recover a lost password without an email address.
+        The owner of the address is considered the owner of this account. It is
+        impossible to recover a lost password without an email address.
       </p>
       <h2>Password</h2>
       <ChangePassword />
       <h2>Delete account</h2>
       <p>
-        To delete your account, simply stop logging in. Accounts hold no
-        personal information except for the email address (which is never public
-        and can be deleted) and are deleted after 30 days of inactivity.
+        There is currently no way to automatically delete your account, but that
+        feature is definitely planned. To delete your account, send a request to{' '}
+        <a href="mailto:support@arkipel.io">support@arkipel.io</a>. Your account
+        must have a verified email address and you must use that address to make
+        the request.
+      </p>
+      <p>
+        There will be a way to automatically delete accounts in the future, but
+        development time is spent on other features for now.
       </p>
     </Fragment>
   );
@@ -71,7 +78,7 @@ const Settings = () => {
 const ChangeUsernameForm = () => {
   const [updateSucceeded, setUpdateSuccess] = useState(false);
   const [updateFailed, setUpdateFailure] = useState(false);
-  const [networkFailed, setNetworkailure] = useState(false);
+  const [networkFailed, setNetworkFailure] = useState(false);
 
   const client = useApolloClient();
   const session = useContext(SessionContext);
@@ -92,11 +99,11 @@ const ChangeUsernameForm = () => {
   return (
     <Fragment>
       <FormProvider {...formFunctions}>
-        <form
+        <Form
           onSubmit={handleSubmit(async ({ username }) => {
             setUpdateSuccess(false);
             setUpdateFailure(false);
-            setNetworkailure(false);
+            setNetworkFailure(false);
 
             try {
               let response = await client.mutate<
@@ -118,19 +125,18 @@ const ChangeUsernameForm = () => {
                 setUpdateSuccess(true);
               }
             } catch {
-              setNetworkailure(true);
+              setNetworkFailure(true);
             }
           })}
         >
           <UsernameInput current={session.username} />
           <p>
-            <input
-              type="submit"
+            <Submit
               value="Update"
               disabled={!formState.isValid || !different}
             />
           </p>
-        </form>
+        </Form>
       </FormProvider>
       <Success
         visible={updateSucceeded}
@@ -143,7 +149,7 @@ const ChangeUsernameForm = () => {
       </Error>
       <Error
         visible={networkFailed}
-        onConfirmation={() => setNetworkailure(false)}
+        onConfirmation={() => setNetworkFailure(false)}
       >
         Request could not be sent, Errorlease try again later.{' '}
       </Error>
@@ -154,9 +160,10 @@ const ChangeUsernameForm = () => {
 const ChangeEmailAddress = () => {
   const [currentAddress, setCurrentAddress] = useState('');
   const [updateSucceeded, setUpdateSuccess] = useState(false);
+  const [deleteSucceeded, setDeleteSuccess] = useState(false);
   const [alreadyUsed, setAlreadyUsed] = useState(false);
   const [updateFailed, setUpdateFailure] = useState(false);
-  const [networkFailed, setNetworkailure] = useState(false);
+  const [networkFailed, setNetworkFailure] = useState(false);
 
   const client = useApolloClient();
   const session = useContext(SessionContext);
@@ -169,6 +176,7 @@ const ChangeEmailAddress = () => {
           ... on User {
             id
             emailAddress
+            emailAddressVerified
           }
         }
       }
@@ -198,13 +206,21 @@ const ChangeEmailAddress = () => {
 
   const { handleSubmit, formState, register } = formFunctions;
 
+  let needsToBeVerified = false;
+  let hasBeenVerified = false;
+  if (data?.me?.__typename === 'User' && data.me.emailAddress) {
+    needsToBeVerified = !data.me.emailAddressVerified;
+    hasBeenVerified = data.me.emailAddressVerified;
+  }
+
   return (
     <Fragment>
-      <form
+      <Form
         onSubmit={handleSubmit(async ({ email_address: emailAddress }) => {
           setUpdateSuccess(false);
           setUpdateFailure(false);
-          setNetworkailure(false);
+          setDeleteSuccess(false);
+          setNetworkFailure(false);
 
           try {
             let response = await client.mutate<
@@ -221,6 +237,7 @@ const ChangeEmailAddress = () => {
                     ... on User {
                       id
                       emailAddress
+                      emailAddressVerified
                     }
                   }
                 }
@@ -236,30 +253,27 @@ const ChangeEmailAddress = () => {
               setAlreadyUsed(true);
             }
           } catch (err) {
-            setNetworkailure(true);
+            setNetworkFailure(true);
           }
         })}
       >
         <p>
-          <input
+          <Input
             type="email"
             placeholder={loading ? 'Loading...' : 'Email address'}
-            name="email_address"
-            ref={register({
+            {...register('email_address', {
               required: true,
               minLength: 5,
             })}
           />
         </p>
         <p>
-          <input
-            type="submit"
+          <Submit
             value="Update"
             disabled={!formState.isDirty || !formState.isValid}
           />{' '}
-          <input
+          <Button
             type="button"
-            value="Delete"
             disabled={!currentAddress}
             onClick={async () => {
               try {
@@ -282,20 +296,30 @@ const ChangeEmailAddress = () => {
                 });
 
                 if (response?.data?.deleteEmailAddress?.__typename === 'User') {
-                  setUpdateSuccess(true);
+                  setDeleteSuccess(true);
                 }
               } catch (err) {
-                setNetworkailure(true);
+                setNetworkFailure(true);
               }
             }}
-          />
+          >
+            Delete
+          </Button>
         </p>
-      </form>
+      </Form>
+      <Error visible={needsToBeVerified}>Email address not verified.</Error>
+      <Success visible={hasBeenVerified}>Email address verified.</Success>
       <Success
         visible={updateSucceeded}
         onConfirmation={() => setUpdateSuccess(false)}
       >
-        Your email address has been updated.
+        An email has been sent to verify your email address.
+      </Success>
+      <Success
+        visible={deleteSucceeded}
+        onConfirmation={() => setDeleteSuccess(false)}
+      >
+        The email address has been deleted.
       </Success>
       <Error visible={alreadyUsed} onConfirmation={() => setAlreadyUsed(false)}>
         Sorry, that email address is already used.
@@ -308,7 +332,7 @@ const ChangeEmailAddress = () => {
       </Error>
       <Error
         visible={networkFailed}
-        onConfirmation={() => setNetworkailure(false)}
+        onConfirmation={() => setNetworkFailure(false)}
       >
         Request could not be sent, please try again later.
       </Error>
@@ -319,7 +343,7 @@ const ChangeEmailAddress = () => {
 const ChangePassword = () => {
   const [updateSucceeded, setUpdateSuccess] = useState(false);
   const [updateFailed, setUpdateFailure] = useState(false);
-  const [networkFailed, setNetworkailure] = useState(false);
+  const [networkFailed, setNetworkFailure] = useState(false);
 
   const client = useApolloClient();
   const session = useContext(SessionContext);
@@ -328,7 +352,8 @@ const ChangePassword = () => {
     mode: 'onChange',
     criteriaMode: 'all',
   });
-  const { handleSubmit, register, formState, watch, errors } = formFunctions;
+  const { handleSubmit, register, formState, watch } = formFunctions;
+  const errors = formState.errors;
 
   const currentPassword = watch('current_password');
 
@@ -353,7 +378,7 @@ const ChangePassword = () => {
         setUpdateSuccess(true);
       }
     } catch (err) {
-      setNetworkailure(true);
+      setNetworkFailure(true);
     }
   };
 
@@ -363,14 +388,13 @@ const ChangePassword = () => {
 
   return (
     <FormProvider {...formFunctions}>
-      <form onSubmit={handleSubmit(setPassword)}>
+      <Form onSubmit={handleSubmit(setPassword)}>
         <PasswordInput disabled={false} />
         <p>
-          <input
+          <Input
             type="password"
-            name="current_password"
             placeholder="Current password"
-            ref={register({
+            {...register('current_password', {
               required: {
                 value: true,
                 message: 'required',
@@ -380,18 +404,17 @@ const ChangePassword = () => {
           {errorMsgs && (
             <Fragment>
               <br />
-              <span className="hint-error">{errorMsgs}</span>
+              <HintError>{errorMsgs}</HintError>
             </Fragment>
           )}
         </p>
         <p>
-          <input
-            type="submit"
+          <Submit
             value="Update"
             disabled={!formState.isValid || currentPassword === ''}
           />
         </p>
-      </form>
+      </Form>
       <Success
         visible={updateSucceeded}
         onConfirmation={() => setUpdateSuccess(false)}
@@ -406,7 +429,7 @@ const ChangePassword = () => {
       </Error>
       <Error
         visible={networkFailed}
-        onConfirmation={() => setNetworkailure(false)}
+        onConfirmation={() => setNetworkFailure(false)}
       >
         Request could not be sent, please try again later.
       </Error>

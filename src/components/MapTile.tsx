@@ -1,117 +1,143 @@
 import React, { FunctionComponent } from 'react';
-
-import styles from './MapTile.scss';
+import styled from 'styled-components';
 
 import Tile from '../models/Tile';
 import { Infrastructure, TileKind } from '../generated/globalTypes';
 
 const MapTile: FunctionComponent<props> = ({
   tile,
+  size,
   clickable = false,
   onClick = () => {},
 }) => {
   // Tile kind
-  let className = styles['deepWater'];
+  let tileColor = '#3a7ead';
   switch (tile.kind()) {
     case TileKind.WATER:
-      className = styles['water'];
+      tileColor = '#669abd';
       break;
     case TileKind.SAND:
-      className = styles['sand'];
+      tileColor = '#e8e0c9';
       break;
     case TileKind.LAND:
-      className = styles['land'];
+      tileColor = '#accfa0';
       break;
   }
 
-  if (!clickable) {
-    className += ' ' + styles.inactive;
+  // Size must be equal or greater than 1.
+  if (size && size <= 0) {
+    size = 1;
+  }
+
+  let cursor = 'default';
+  if (clickable) {
+    cursor = 'pointer';
     onClick = () => {};
   }
 
-  let infraIcon = <></>;
+  let tileHeight = '';
+  let tileWidth = '';
+  let tilePaddingBottom = '';
+  if (size) {
+    tileHeight = size + 'px';
+    tileWidth = size + 'px';
+  } else {
+    tileWidth = '100%';
+    tileHeight = '0';
+    tilePaddingBottom = '100%';
+  }
+
+  let styleVars = {
+    '--tileColor': tileColor,
+    '--tileWidth': tileWidth,
+    '--tileHeight': tileHeight,
+    '--tilePaddingBottom': tilePaddingBottom,
+    '--cursor': cursor,
+  } as React.CSSProperties;
+
+  let src: string = '';
+  let alt: string = '';
   if (tile.infrastructure) {
     switch (tile.infrastructure) {
       case Infrastructure.JUNGLE:
-        infraIcon = (
-          <img src="https://icons.arkipel.io/infra/jungle.svg" alt="Jungle" />
-        );
+        src = 'https://icons.arkipel.io/infra/jungle.svg';
+        alt = 'Jungle';
         break;
       case Infrastructure.QUARRY:
-        infraIcon = (
-          <img src="https://icons.arkipel.io/infra/quarry.svg" alt="Quarry" />
-        );
+        src = 'https://icons.arkipel.io/infra/quarry.svg';
+        alt = 'Quarry';
         break;
       case Infrastructure.APARTMENTS:
-        infraIcon = (
-          <img
-            src="https://icons.arkipel.io/infra/apartments.svg"
-            alt="Apartments"
-          />
-        );
+        src = 'https://icons.arkipel.io/infra/apartments.svg';
+        alt = 'Apartments';
         break;
       case Infrastructure.HOUSE:
-        infraIcon = (
-          <img src="https://icons.arkipel.io/infra/house.svg" alt="House" />
-        );
+        src = 'https://icons.arkipel.io/infra/house.svg';
+        alt = 'House';
         break;
       case Infrastructure.WHEAT_FIELD:
-        infraIcon = (
-          <img
-            src="https://icons.arkipel.io/infra/wheat_field.svg"
-            alt="Wheat field"
-          />
-        );
+        src = 'https://icons.arkipel.io/infra/wheat_field.svg';
+        alt = 'Wheat field';
         break;
       case Infrastructure.ANIMAL_FARM:
-        infraIcon = (
-          <img
-            src="https://icons.arkipel.io/infra/animal_farm.svg"
-            alt="Animal farm"
-          />
-        );
+        src = 'https://icons.arkipel.io/infra/animal_farm.svg';
+        alt = 'Animal farm';
         break;
       case Infrastructure.NUCLEAR_PLANT:
-        infraIcon = (
-          <img
-            src="https://icons.arkipel.io/infra/nuclear_plant.svg"
-            alt="Nuclear plant"
-          />
-        );
+        src = 'https://icons.arkipel.io/infra/nuclear_plant.svg';
+        alt = 'Nuclear plant';
         break;
       case Infrastructure.WIND_TURBINE:
-        infraIcon = (
-          <img
-            src="https://icons.arkipel.io/infra/wind_turbine.svg"
-            alt="Wind turbine"
-          />
-        );
+        src = 'https://icons.arkipel.io/infra/wind_turbine.svg';
+        alt = 'Wind turbine';
         break;
       case Infrastructure.PORT:
-        infraIcon = (
-          <img src="https://icons.arkipel.io/infra/port.svg" alt="Port" />
-        );
+        src = 'https://icons.arkipel.io/infra/port.svg';
+        alt = 'Port';
         break;
       case Infrastructure.BANK:
-        infraIcon = (
-          <img src="https://icons.arkipel.io/infra/bank.svg" alt="Bank" />
-        );
+        src = 'https://icons.arkipel.io/infra/bank.svg';
+        alt = 'Bank';
         break;
-
-      default:
+      case Infrastructure.HUT:
+        src = 'https://icons.arkipel.io/infra/hut.svg';
+        alt = 'Bank';
+        break;
+      case Infrastructure.WAREHOUSE:
+        src = 'https://icons.arkipel.io/infra/warehouse.svg';
+        alt = 'Warehouse';
+        break;
+      case Infrastructure.GARDEN:
+        src = 'https://icons.arkipel.io/infra/garden.svg';
+        alt = 'Garden';
         break;
     }
   }
 
+  let infraIcon = <img src={src} alt={alt} />;
+
   return (
-    <div className={className} onClick={onClick}>
+    <Style onClick={onClick} style={styleVars}>
       {infraIcon}
-    </div>
+    </Style>
   );
 };
 
+const Style = styled.div`
+  width: var(--tileWidth);
+  height: var(--tileHeight);
+  padding-bottom: var(--tilePaddingBottom);
+  background: var(--tileColor);
+  cursor: var(--cursor);
+
+  img {
+    margin: 6px;
+    filter: sepia(0.4);
+  }
+`;
 class props {
   tile: Tile = new Tile({});
+  size?: number = 12;
   clickable?: boolean = false;
   onClick?: () => void = () => {};
 }

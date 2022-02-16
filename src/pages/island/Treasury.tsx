@@ -4,10 +4,10 @@ import { useQuery, gql } from '@apollo/client';
 import { GetBankLevels, GetBankLevelsVariables } from 'generated/GetBankLevels';
 
 import { SessionContext } from '../../libs/session/session';
+import { BankAccountsContext } from '../../libs/session/bank_accounts';
 
 import { Error } from '../../ui/dialog/Msg';
-
-// import styles from './Treasury.scss';
+import { FormatMoney } from '../../ui/text/format';
 
 const TreasuryPage = () => {
   const session = useContext(SessionContext);
@@ -32,11 +32,11 @@ const TreasuryPage = () => {
     { variables: { userId: session.id, islandId } },
   );
 
-  if (data?.inventory.__typename === 'NotFound') {
-    return <Error>Sorry, this treasury does not exist.</Error>;
+  if (loading) {
+    return <p>Loading...</p>;
   }
 
-  if (error || data?.inventory.__typename === 'NotAuthorized') {
+  if (error || data?.inventory.__typename !== 'Inventory') {
     return <Error>Sorry, an error occurred.</Error>;
   }
 
@@ -45,24 +45,49 @@ const TreasuryPage = () => {
     bankLevels = data.inventory.bankLevels;
   }
 
-  let canHaveAccounts = bankLevels >= 1;
-  let canManageCurrencies = bankLevels >= 10;
-
   return (
     <Fragment>
       <h1>Treasury</h1>
-      {loading && <p>Loading...</p>}
-      <h2>Accounts</h2>
-      {!canHaveAccounts && (
-        <p>You need at least one bank to manage your treasury.</p>
-      )}
-      {canHaveAccounts && <p>You have no bank accounts.</p>}
-      <h2>Currencies</h2>
-      {!canManageCurrencies && (
-        <p>
-          All of your banks must have a cummulative number of levels of at least
-          10 to manage currencies. You are currently at {bankLevels}.
-        </p>
+      <p>All of your banks total {bankLevels} levels together.</p>
+      <h2>Bank accounts</h2>
+      <BankAccounts />
+    </Fragment>
+  );
+};
+
+const BankAccounts = () => {
+  const bankAccounts = useContext(BankAccountsContext);
+
+  return (
+    <Fragment>
+      {bankAccounts.length === 0 && <p>There are no existing bank accounts.</p>}
+      {bankAccounts.length > 0 && (
+        <table>
+          <thead>
+            <tr>
+              <th>Currency</th>
+              <th>Code</th>
+              <th>Amount</th>
+            </tr>
+          </thead>
+          <tbody>
+            {bankAccounts.map((ba) => {
+              if (ba.currencyCode !== 'ark') {
+                return;
+              }
+
+              return (
+                <tr key={ba.id}>
+                  <td>{ba.currencyName}</td>
+                  <td>{ba.currencyCodeStr()}</td>
+                  <td>
+                    {FormatMoney(ba.amount)} {ba.currencyCodeStr()}
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
       )}
     </Fragment>
   );

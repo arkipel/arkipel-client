@@ -3,7 +3,7 @@
 // @generated
 // This file was automatically generated and should not be edited.
 
-import { TileKind, Infrastructure } from './globalTypes';
+import { TileKind, Infrastructure, InfrastructureStatus } from './globalTypes';
 
 // ====================================================
 // GraphQL query operation: GetTiles
@@ -13,6 +13,11 @@ export interface GetTiles_island_NotFound {
   readonly __typename: 'NotFound' | 'NotAuthorized';
 }
 
+export interface GetTiles_island_Island_tiles_island {
+  readonly __typename: 'Island';
+  readonly id: string;
+}
+
 export interface GetTiles_island_Island_tiles {
   readonly __typename: 'Tile';
   readonly id: string;
@@ -20,11 +25,14 @@ export interface GetTiles_island_Island_tiles {
   readonly kind: TileKind;
   readonly infrastructure: Infrastructure;
   readonly level: number;
-  readonly housingCapacity: number;
-  readonly materialProduction: number;
-  readonly energyProduction: number;
-  readonly requiredWorkforce: number;
-  readonly energyConsumption: number;
+  readonly desiredStatus: InfrastructureStatus;
+  readonly currentStatus: InfrastructureStatus;
+  readonly population: number;
+  readonly material: number;
+  readonly food: number;
+  readonly frozenFood: number;
+  readonly energy: number;
+  readonly island: GetTiles_island_Island_tiles_island;
 }
 
 export interface GetTiles_island_Island {

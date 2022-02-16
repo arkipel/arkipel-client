@@ -7,11 +7,17 @@ import {
   GetUsernameAvailabilityVariables,
 } from '../generated/GetUsernameAvailability';
 
+import { HintInfo, HintError } from '../ui/dialog/Hint';
+import { Input } from '../ui/form/Input';
+
 const UsernameInput: FunctionComponent<Partial<props>> = ({
   current,
   disabled,
 }) => {
-  const { register, errors } = useFormContext<{
+  const {
+    register,
+    formState: { errors },
+  } = useFormContext<{
     username: string;
   }>();
 
@@ -22,13 +28,12 @@ const UsernameInput: FunctionComponent<Partial<props>> = ({
   return (
     <Fragment>
       <p>
-        <input
+        <Input
           type="text"
-          name="username"
           placeholder="Username"
           maxLength={20}
           disabled={disabled || false}
-          ref={register({
+          {...register('username', {
             required: {
               value: true,
               message: 'required',
@@ -46,6 +51,10 @@ const UsernameInput: FunctionComponent<Partial<props>> = ({
               message: 'invalid characters',
             },
             validate: async (username: string): Promise<string | boolean> => {
+              if (!username) {
+                return true;
+              }
+
               if (username.length < 4) {
                 return true;
               }
@@ -81,11 +90,11 @@ const UsernameInput: FunctionComponent<Partial<props>> = ({
         {errorMsgs && (
           <Fragment>
             <br />
-            <span className="hint-error">{errorMsgs}</span>
+            <HintError>{errorMsgs}</HintError>
           </Fragment>
         )}
         <br />
-        <span className="hint">a-z, A-Z, 0-9, 4-20 characters</span>
+        <HintInfo>a-z, A-Z, 0-9, 4-20 characters</HintInfo>
       </p>
     </Fragment>
   );
