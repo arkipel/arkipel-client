@@ -854,10 +854,6 @@ export type GetUsernameAvailabilityQueryVariables = Exact<{
 
 export type GetUsernameAvailabilityQuery = { __typename?: 'Query', usernameAvailability: boolean };
 
-export type NewConstructionSiteFragment = { __typename?: 'ConstructionSite', id: string, infrastructure: Infrastructure, workloadLeft: number, finishedAt: any, tile: { __typename?: 'Tile', position: number } };
-
-export type NewOrderFragment = { __typename?: 'Order', id: string, createdAt: any, expiresAt: any, side: OrderSide, commodity: CommodityType, quantity: number, price: any, currency: { __typename?: 'Currency', id: string, code: string, name: string } };
-
 export type GetBankAccountsQueryVariables = Exact<{
   userId: Scalars['String'];
 }>;
@@ -1049,6 +1045,8 @@ export type BuildInfrastructureMutationVariables = Exact<{
 
 export type BuildInfrastructureMutation = { __typename?: 'Mutation', buildInfrastructure?: { __typename?: 'NotAuthorized' } | { __typename?: 'NotEnoughMaterial' } | { __typename?: 'NotFound' } | { __typename?: 'Tile', id: string, infrastructure: Infrastructure, level: number, constructionSite?: { __typename?: 'ConstructionSite', id: string, infrastructure: Infrastructure, workloadLeft: number, finishedAt: any, tile: { __typename?: 'Tile', position: number } } | null, blueprints: Array<{ __typename?: 'Blueprint', infrastructure: Infrastructure, materialCost: number, workload: number }>, island: { __typename?: 'Island', id: string, inventory: { __typename?: 'Inventory', id: string, material: number } } } | null };
 
+export type NewConstructionSiteFragment = { __typename?: 'ConstructionSite', id: string, infrastructure: Infrastructure, workloadLeft: number, finishedAt: any, tile: { __typename?: 'Tile', position: number } };
+
 export type CancelConstructionMutationVariables = Exact<{
   islandId: Scalars['String'];
   position: Scalars['Int'];
@@ -1101,6 +1099,8 @@ export type SendOrderMutationVariables = Exact<{
 
 
 export type SendOrderMutation = { __typename?: 'Mutation', sendOrder?: { __typename: 'NotAuthorized' } | { __typename: 'NotEnoughCommodity' } | { __typename: 'Order', id: string, createdAt: any, expiresAt: any, side: OrderSide, commodity: CommodityType, quantity: number, price: any, currency: { __typename?: 'Currency', id: string, code: string, name: string } } | null };
+
+export type NewOrderFragment = { __typename?: 'Order', id: string, createdAt: any, expiresAt: any, side: OrderSide, commodity: CommodityType, quantity: number, price: any, currency: { __typename?: 'Currency', id: string, code: string, name: string } };
 
 export type GetMyOpenOrdersQueryVariables = Exact<{
   userId: Scalars['String'];
