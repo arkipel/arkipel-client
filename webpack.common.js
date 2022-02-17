@@ -1,7 +1,6 @@
 const path = require('path');
 const HTMLWebpackPlugin = require('html-webpack-plugin');
 const WebpackPWAManifest = require('webpack-pwa-manifest');
-const WorkboxPlugin = require('workbox-webpack-plugin');
 
 module.exports = {
   entry: './src/index',
@@ -70,11 +69,6 @@ module.exports = {
           size: '512x512',
         },
       ],
-    }),
-    new WorkboxPlugin.GenerateSW({
-      clientsClaim: true,
-      skipWaiting: true,
-      maximumFileSizeToCacheInBytes: 20000000,
     }),
   ],
 };
