@@ -87,7 +87,7 @@ const Profile = () => {
 
     for (const cs of dataPlayer?.player.scoresheet.commodities) {
       switch (cs.commodity) {
-        case CommodityType.FOOD:
+        case CommodityType.FROZEN_FOOD:
           scoresheet.food = cs.score;
           break;
 
