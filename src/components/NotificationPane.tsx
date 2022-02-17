@@ -88,7 +88,7 @@ const NotificationPane: FunctionComponent<props> = ({
       <StyledContent>
         <MoneyPane />
       </StyledContent>
-      <Scrollable>
+      <Scrollable style={{ borderRadius: '4px' }}>
         <StyledContent>
           {!loggedIn && <p>You are not logged in.</p>}
           {loggedIn && error && <p>Construction sites could not be loaded.</p>}

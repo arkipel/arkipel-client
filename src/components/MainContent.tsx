@@ -92,6 +92,9 @@ const StyledMainContent = styled.div`
   min-height: 0;
   height: 100%;
   width: 100%;
+  background: #fff;
+  border-radius: 4px;
+  padding: 0 10px;
 
   @media all and (max-width: 699px) {
     grid-column: 1;
@@ -106,9 +109,6 @@ const StyledContent = styled.div`
   display: grid;
   grid-gap: 10px;
   align-content: start;
-  background: #fff;
-  padding: 10px;
-  border-radius: 4px;
 
   p {
     font-size: 18px;
