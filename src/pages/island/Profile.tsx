@@ -3,10 +3,13 @@ import styled from 'styled-components';
 
 import { SessionContext } from '../../libs/session/session';
 
-import { useQuery, gql } from '@apollo/client';
-import { GetIslandOverview } from '../../generated/GetIslandOverview';
-import { GetPlayerProfile } from '../../generated/GetPlayerProfile';
-import { BadgeType, CommodityType } from '../../generated/globalTypes';
+import { gql } from '@apollo/client';
+import {
+  useGetIslandOverviewQuery,
+  useGetPlayerProfileQuery,
+  BadgeType,
+  CommodityType,
+} from '../../generated/graphql';
 
 import { ShortenNumber } from '../../ui/text/format';
 import { DateTime } from 'luxon';
@@ -14,23 +17,24 @@ import { DateTime } from 'luxon';
 const Profile = () => {
   const session = useContext(SessionContext);
 
-  let { data, loading } = useQuery<GetIslandOverview>(
-    gql`
-      query GetIslandOverview($islandId: String!) {
-        island(islandId: $islandId) {
-          ... on Island {
+  gql`
+    query GetIslandOverview($islandId: String!) {
+      island(islandId: $islandId) {
+        ... on Island {
+          id
+          name
+          owner {
             id
             name
-            owner {
-              id
-              name
-            }
           }
         }
       }
-    `,
-    { variables: { islandId: session.id } },
-  );
+    }
+  `;
+
+  let { data, loading } = useGetIslandOverviewQuery({
+    variables: { islandId: session.id },
+  });
 
   let ownerName = '';
   let islandName = '';
@@ -42,43 +46,42 @@ const Profile = () => {
     islandName = 'Loading...';
   }
 
-  let { data: dataPlayer } = useQuery<GetPlayerProfile>(
-    gql`
-      query GetPlayerProfile($input: PlayerInput!) {
-        player(input: $input) {
-          ... on Player {
-            scoresheet {
-              id
+  gql`
+    query GetPlayerProfile($input: PlayerInput!) {
+      player(input: $input) {
+        ... on Player {
+          scoresheet {
+            id
+            score
+            commodities {
+              commodity
               score
-              commodities {
-                commodity
-                score
-              }
-              buildings {
-                score
-              }
-              currencies {
-                currency {
-                  id
-                }
-                score
-              }
             }
-            badges {
-              id
-              createdAt
-              type
+            buildings {
+              score
             }
+            currencies {
+              currency {
+                id
+              }
+              score
+            }
+          }
+          badges {
+            id
+            createdAt
+            type
           }
         }
       }
-    `,
-    {
-      pollInterval: 60 * 1000,
-      fetchPolicy: 'cache-and-network',
-      variables: { input: { playerId: session.id } },
-    },
-  );
+    }
+  `;
+
+  let { data: dataPlayer } = useGetPlayerProfileQuery({
+    pollInterval: 60 * 1000,
+    fetchPolicy: 'cache-and-network',
+    variables: { input: { playerId: session.id } },
+  });
 
   let scoresheet = {
     material: 0,
@@ -100,11 +103,11 @@ const Profile = () => {
 
     for (const cs of dataPlayer?.player.scoresheet.commodities) {
       switch (cs.commodity) {
-        case CommodityType.FOOD:
+        case CommodityType.FrozenFood:
           scoresheet.food = cs.score;
           break;
 
-        case CommodityType.MATERIAL:
+        case CommodityType.Material:
           scoresheet.material = cs.score;
           break;
 
@@ -229,7 +232,7 @@ const StyledBadgeShowcase = styled.div`
 
 const BadgeTypeToName = (badgeType: BadgeType): string => {
   switch (badgeType) {
-    case BadgeType.EARLY_PLAYER:
+    case BadgeType.EarlyPlayer:
       return 'Early player';
     default:
       return 'Unknown';
