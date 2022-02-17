@@ -11,6 +11,7 @@ const IslandMap: FunctionComponent<props> = ({ island, clickable = false }) => {
   for (let i = 0; i < 100; i++) {
     map[i] = (
       <MapTile
+        key={i}
         tile={island.tiles[i] || new Tile({ position: i })}
         clickable={island.id !== '' && clickable}
       />
