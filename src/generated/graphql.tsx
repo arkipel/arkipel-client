@@ -2,15 +2,9 @@ import { gql } from '@apollo/client';
 import * as Apollo from '@apollo/client';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
-export type Exact<T extends { [key: string]: unknown }> = {
-  [K in keyof T]: T[K];
-};
-export type MakeOptional<T, K extends keyof T> = Omit<T, K> & {
-  [SubKey in K]?: Maybe<T[SubKey]>;
-};
-export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & {
-  [SubKey in K]: Maybe<T[SubKey]>;
-};
+export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
+export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
+export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
 const defaultOptions = {} as const;
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
@@ -53,92 +47,114 @@ export type Query = {
   usernameAvailability: Scalars['Boolean'];
 };
 
+
 export type QueryArticleArgs = {
   input: ArticleInput;
 };
+
 
 export type QueryBankAccountArgs = {
   accountId: Scalars['String'];
 };
 
+
 export type QueryBankAccountsArgs = {
   userId: Scalars['String'];
 };
+
 
 export type QueryCitizenArgs = {
   input: CitizenInput;
 };
 
+
 export type QueryCitizensFromIslandArgs = {
   input: CitizensFromIslandInput;
 };
+
 
 export type QueryCurrencyArgs = {
   code: Scalars['String'];
 };
 
+
 export type QueryCurrentMarketPricesArgs = {
   input: CurrentMarketPricesInput;
 };
 
+
 export type QueryEventsArgs = {
   input: EventsInput;
 };
+
 
 export type QueryInventoryArgs = {
   islandId: Scalars['String'];
   userId: Scalars['String'];
 };
 
+
 export type QueryIslandArgs = {
   islandId: Scalars['String'];
 };
+
 
 export type QueryMarketPricesArgs = {
   input: MarketPricesInput;
 };
 
+
 export type QueryMeArgs = {
   userId: Scalars['String'];
 };
+
 
 export type QueryMyOpenOrdersArgs = {
   userId: Scalars['String'];
 };
 
+
 export type QueryNewSessionTokenArgs = {
   old: Scalars['String'];
 };
+
 
 export type QueryOrdersArgs = {
   input: OrdersInput;
 };
 
+
 export type QueryPlayerArgs = {
   input: PlayerInput;
 };
+
 
 export type QueryRecentArticlesArgs = {
   input: RecentArticlesInput;
 };
 
+
 export type QuerySearchIslandsArgs = {
   term: Scalars['String'];
 };
+
 
 export type QuerySessionTokenArgs = {
   password: Scalars['String'];
   username: Scalars['String'];
 };
 
+
 export type QueryTileArgs = {
   islandId: Scalars['String'];
   position: Scalars['Int'];
 };
 
+
 export type QueryTopPlayersArgs = {
   input: TopPlayersInput;
 };
+
 
 export type QueryUsernameAvailabilityArgs = {
   username: Scalars['String'];
@@ -271,7 +287,7 @@ export enum Infrastructure {
   Quarry = 'QUARRY',
   Warehouse = 'WAREHOUSE',
   WheatField = 'WHEAT_FIELD',
-  WindTurbine = 'WIND_TURBINE',
+  WindTurbine = 'WIND_TURBINE'
 }
 
 export type Tile = {
@@ -305,14 +321,14 @@ export type Blueprint = {
 
 export enum InfrastructureStatus {
   Off = 'OFF',
-  On = 'ON',
+  On = 'ON'
 }
 
 export enum TileKind {
   DeepWater = 'DEEP_WATER',
   Land = 'LAND',
   Sand = 'SAND',
-  Water = 'WATER',
+  Water = 'WATER'
 }
 
 export type Inventory = {
@@ -382,7 +398,7 @@ export type CommodityPrice = {
 export enum CommodityType {
   Currency = 'CURRENCY',
   FrozenFood = 'FROZEN_FOOD',
-  Material = 'MATERIAL',
+  Material = 'MATERIAL'
 }
 
 export type CurrencyPrice = {
@@ -429,7 +445,7 @@ export enum Range {
   Hour_24 = 'HOUR_24',
   Min_60 = 'MIN_60',
   Sec_300 = 'SEC_300',
-  Sec_60 = 'SEC_60',
+  Sec_60 = 'SEC_60'
 }
 
 export type MarketPricesResult = MarketPrices | NotAuthorized;
@@ -478,7 +494,7 @@ export type Order = {
 
 export enum OrderSide {
   Buy = 'BUY',
-  Sell = 'SELL',
+  Sell = 'SELL'
 }
 
 export type OrdersInput = {
@@ -514,7 +530,7 @@ export type Badge = {
 };
 
 export enum BadgeType {
-  EarlyPlayer = 'EARLY_PLAYER',
+  EarlyPlayer = 'EARLY_PLAYER'
 }
 
 export type Scoresheet = {
@@ -597,38 +613,46 @@ export type Mutation = {
   upgradeInfrastructure?: Maybe<UpgradeInfrastructureResult>;
 };
 
+
 export type MutationBuildInfrastructureArgs = {
   infrastructure: Infrastructure;
   islandId: Scalars['String'];
   position: Scalars['Int'];
 };
 
+
 export type MutationCancelConstructionArgs = {
   islandId: Scalars['String'];
   position: Scalars['Int'];
 };
+
 
 export type MutationCancelOrderArgs = {
   orderId: Scalars['String'];
   userId: Scalars['String'];
 };
 
+
 export type MutationDeleteEmailAddressArgs = {
   userId: Scalars['String'];
 };
+
 
 export type MutationDestroyInfrastructureArgs = {
   islandId: Scalars['String'];
   position: Scalars['Int'];
 };
 
+
 export type MutationEditArticleArgs = {
   input: EditArticleInput;
 };
 
+
 export type MutationPublishArticleArgs = {
   input: PublishArticleInput;
 };
+
 
 export type MutationRegisterArgs = {
   captcha: Scalars['String'];
@@ -636,14 +660,17 @@ export type MutationRegisterArgs = {
   username: Scalars['String'];
 };
 
+
 export type MutationSendOrderArgs = {
   input: SendOrderInput;
 };
+
 
 export type MutationSetEmailAddressArgs = {
   new: Scalars['String'];
   userId: Scalars['String'];
 };
+
 
 export type MutationSetInfrastructureDesiredStatusArgs = {
   islandId: Scalars['String'];
@@ -651,27 +678,26 @@ export type MutationSetInfrastructureDesiredStatusArgs = {
   status: InfrastructureStatus;
 };
 
+
 export type MutationSetPasswordArgs = {
   new: Scalars['String'];
   old: Scalars['String'];
   userId: Scalars['String'];
 };
 
+
 export type MutationSetUsernameArgs = {
   new: Scalars['String'];
   userId: Scalars['String'];
 };
+
 
 export type MutationUpgradeInfrastructureArgs = {
   islandId: Scalars['String'];
   position: Scalars['Int'];
 };
 
-export type BuildInfrastructureResult =
-  | NotAuthorized
-  | NotEnoughMaterial
-  | NotFound
-  | Tile;
+export type BuildInfrastructureResult = NotAuthorized | NotEnoughMaterial | NotFound | Tile;
 
 export type NotEnoughMaterial = Rejection & {
   __typename?: 'NotEnoughMaterial';
@@ -742,20 +768,13 @@ export type NotEnoughCommodity = {
 
 export type SetEmailAddressResult = AlreadyExists | NotAuthorized | User;
 
-export type SetInfrastructureDesiredStatusResult =
-  | NotAuthorized
-  | NotFound
-  | Tile;
+export type SetInfrastructureDesiredStatusResult = NotAuthorized | NotFound | Tile;
 
 export type SetPasswordResult = NotAuthorized | User;
 
 export type SetUsernameResult = AlreadyExists | NotAuthorized | User;
 
-export type UpgradeInfrastructureResult =
-  | NotAuthorized
-  | NotEnoughMaterial
-  | NotFound
-  | Tile;
+export type UpgradeInfrastructureResult = NotAuthorized | NotEnoughMaterial | NotFound | Tile;
 
 export type AccountCreation = Event & {
   __typename?: 'AccountCreation';
@@ -782,7 +801,7 @@ export enum Precision {
   Day = 'DAY',
   Hour = 'HOUR',
   Minute = 'MINUTE',
-  Second = 'SECOND',
+  Second = 'SECOND'
 }
 
 export type SellOrderExecution = Event & {
@@ -799,48 +818,25 @@ export type SellOrderExecution = Event & {
   user?: Maybe<User>;
 };
 
-export type GetApiStatusQueryVariables = Exact<{ [key: string]: never }>;
+export type GetApiStatusQueryVariables = Exact<{ [key: string]: never; }>;
 
-export type GetApiStatusQuery = {
-  __typename?: 'Query';
-  apiStatus: { __typename?: 'APIStatus'; running: boolean };
-};
+
+export type GetApiStatusQuery = { __typename?: 'Query', apiStatus: { __typename?: 'APIStatus', running: boolean } };
 
 export type GetAllConstructionSitesQueryVariables = Exact<{
   islandId: Scalars['String'];
 }>;
 
-export type GetAllConstructionSitesQuery = {
-  __typename?: 'Query';
-  island:
-    | {
-        __typename?: 'Island';
-        id: string;
-        constructionSites: Array<{
-          __typename?: 'ConstructionSite';
-          id: string;
-          infrastructure: Infrastructure;
-          workloadLeft: number;
-          finishedAt: any;
-          tile: { __typename?: 'Tile'; position: number; level: number };
-        }>;
-      }
-    | { __typename?: 'NotAuthorized' }
-    | { __typename?: 'NotFound' };
-};
+
+export type GetAllConstructionSitesQuery = { __typename?: 'Query', island: { __typename?: 'Island', id: string, constructionSites: Array<{ __typename?: 'ConstructionSite', id: string, infrastructure: Infrastructure, workloadLeft: number, finishedAt: any, tile: { __typename?: 'Tile', position: number, level: number } }> } | { __typename?: 'NotAuthorized' } | { __typename?: 'NotFound' } };
 
 export type GetTileStatusQueryVariables = Exact<{
   islandId: Scalars['String'];
   position: Scalars['Int'];
 }>;
 
-export type GetTileStatusQuery = {
-  __typename?: 'Query';
-  tile:
-    | { __typename?: 'NotAuthorized' }
-    | { __typename?: 'NotFound' }
-    | { __typename?: 'Tile'; id: string; desiredStatus: InfrastructureStatus };
-};
+
+export type GetTileStatusQuery = { __typename?: 'Query', tile: { __typename?: 'NotAuthorized' } | { __typename?: 'NotFound' } | { __typename?: 'Tile', id: string, desiredStatus: InfrastructureStatus } };
 
 export type SetInfrastructureDesiredStatusMutationVariables = Exact<{
   islandId: Scalars['String'];
@@ -848,195 +844,73 @@ export type SetInfrastructureDesiredStatusMutationVariables = Exact<{
   status: InfrastructureStatus;
 }>;
 
-export type SetInfrastructureDesiredStatusMutation = {
-  __typename?: 'Mutation';
-  setInfrastructureDesiredStatus?:
-    | { __typename?: 'NotAuthorized' }
-    | { __typename?: 'NotFound' }
-    | {
-        __typename?: 'Tile';
-        id: string;
-        desiredStatus: InfrastructureStatus;
-        currentStatus: InfrastructureStatus;
-        population: number;
-        material: number;
-        energy: number;
-        island: {
-          __typename?: 'Island';
-          id: string;
-          inventory: {
-            __typename?: 'Inventory';
-            id: string;
-            populationUsed: number;
-            populationFree: number;
-            populationTotal: number;
-            energyUsed: number;
-            energyFree: number;
-            energyTotal: number;
-            materialProduction: number;
-            timestamp: any;
-          };
-          tiles: Array<{
-            __typename?: 'Tile';
-            id: string;
-            currentStatus: InfrastructureStatus;
-          }>;
-        };
-      }
-    | null;
-};
+
+export type SetInfrastructureDesiredStatusMutation = { __typename?: 'Mutation', setInfrastructureDesiredStatus?: { __typename?: 'NotAuthorized' } | { __typename?: 'NotFound' } | { __typename?: 'Tile', id: string, desiredStatus: InfrastructureStatus, currentStatus: InfrastructureStatus, population: number, material: number, energy: number, island: { __typename?: 'Island', id: string, inventory: { __typename?: 'Inventory', id: string, populationUsed: number, populationFree: number, populationTotal: number, energyUsed: number, energyFree: number, energyTotal: number, materialProduction: number, timestamp: any }, tiles: Array<{ __typename?: 'Tile', id: string, currentStatus: InfrastructureStatus }> } } | null };
 
 export type GetUsernameAvailabilityQueryVariables = Exact<{
   username: Scalars['String'];
 }>;
 
-export type GetUsernameAvailabilityQuery = {
-  __typename?: 'Query';
-  usernameAvailability: boolean;
-};
+
+export type GetUsernameAvailabilityQuery = { __typename?: 'Query', usernameAvailability: boolean };
 
 export type GetBankAccountsQueryVariables = Exact<{
   userId: Scalars['String'];
 }>;
 
-export type GetBankAccountsQuery = {
-  __typename?: 'Query';
-  bankAccounts:
-    | {
-        __typename: 'BankAccountList';
-        bankAccounts: Array<{
-          __typename?: 'BankAccount';
-          id: string;
-          amount: any;
-          currency: {
-            __typename?: 'Currency';
-            id: string;
-            code: string;
-            name: string;
-          };
-        }>;
-      }
-    | { __typename: 'NotAuthorized' };
-};
+
+export type GetBankAccountsQuery = { __typename?: 'Query', bankAccounts: { __typename: 'BankAccountList', bankAccounts: Array<{ __typename?: 'BankAccount', id: string, amount: any, currency: { __typename?: 'Currency', id: string, code: string, name: string } }> } | { __typename: 'NotAuthorized' } };
 
 export type GetCurrentInventoryQueryVariables = Exact<{
   islandId: Scalars['String'];
   userId: Scalars['String'];
 }>;
 
-export type GetCurrentInventoryQuery = {
-  __typename?: 'Query';
-  inventory:
-    | {
-        __typename?: 'Inventory';
-        id: string;
-        populationUsed: number;
-        populationFree: number;
-        populationTotal: number;
-        energyUsed: number;
-        energyFree: number;
-        energyTotal: number;
-        materialProduction: number;
-        material: number;
-        foodProduction: number;
-        food: number;
-        frozenFoodProduction: number;
-        frozenFood: number;
-        frozenFoodStorage: number;
-        bankLevels: number;
-        timestamp: any;
-        island: { __typename?: 'Island'; lastUpdateAt: any };
-      }
-    | { __typename?: 'NotAuthorized' }
-    | { __typename?: 'NotFound' };
-};
+
+export type GetCurrentInventoryQuery = { __typename?: 'Query', inventory: { __typename?: 'Inventory', id: string, populationUsed: number, populationFree: number, populationTotal: number, energyUsed: number, energyFree: number, energyTotal: number, materialProduction: number, material: number, foodProduction: number, food: number, frozenFoodProduction: number, frozenFood: number, frozenFoodStorage: number, bankLevels: number, timestamp: any, island: { __typename?: 'Island', lastUpdateAt: any } } | { __typename?: 'NotAuthorized' } | { __typename?: 'NotFound' } };
 
 export type LoginQueryVariables = Exact<{
   username: Scalars['String'];
   password: Scalars['String'];
 }>;
 
-export type LoginQuery = { __typename?: 'Query'; sessionToken: string };
+
+export type LoginQuery = { __typename?: 'Query', sessionToken: string };
 
 export type RefreshTokenQueryVariables = Exact<{
   token: Scalars['String'];
 }>;
 
-export type RefreshTokenQuery = {
-  __typename?: 'Query';
-  newSessionToken: string;
-};
+
+export type RefreshTokenQuery = { __typename?: 'Query', newSessionToken: string };
 
 export type GetArticleQueryVariables = Exact<{
   input: ArticleInput;
 }>;
 
-export type GetArticleQuery = {
-  __typename?: 'Query';
-  article:
-    | {
-        __typename: 'Article';
-        id: string;
-        publishedAt: any;
-        title: string;
-        content: string;
-      }
-    | { __typename: 'NotFound' };
-};
+
+export type GetArticleQuery = { __typename?: 'Query', article: { __typename: 'Article', id: string, publishedAt: any, title: string, content: string } | { __typename: 'NotFound' } };
 
 export type EditArticleMutationVariables = Exact<{
   input: EditArticleInput;
 }>;
 
-export type EditArticleMutation = {
-  __typename?: 'Mutation';
-  editArticle:
-    | {
-        __typename: 'Article';
-        id: string;
-        publishedAt: any;
-        title: string;
-        content: string;
-      }
-    | { __typename: 'NotAuthorized' }
-    | { __typename: 'NotFound' };
-};
+
+export type EditArticleMutation = { __typename?: 'Mutation', editArticle: { __typename: 'Article', id: string, publishedAt: any, title: string, content: string } | { __typename: 'NotAuthorized' } | { __typename: 'NotFound' } };
 
 export type GetRecentArticlesQueryVariables = Exact<{
   input: RecentArticlesInput;
 }>;
 
-export type GetRecentArticlesQuery = {
-  __typename?: 'Query';
-  recentArticles: {
-    __typename: 'ArticleList';
-    articles: Array<{
-      __typename?: 'Article';
-      id: string;
-      publishedAt: any;
-      title: string;
-      content: string;
-    }>;
-  };
-};
+
+export type GetRecentArticlesQuery = { __typename?: 'Query', recentArticles: { __typename: 'ArticleList', articles: Array<{ __typename?: 'Article', id: string, publishedAt: any, title: string, content: string }> } };
 
 export type PublishArticleMutationVariables = Exact<{
   input: PublishArticleInput;
 }>;
 
-export type PublishArticleMutation = {
-  __typename?: 'Mutation';
-  publishArticle:
-    | {
-        __typename: 'Article';
-        id: string;
-        publishedAt: any;
-        title: string;
-        content: string;
-      }
-    | { __typename: 'NotAuthorized' }
-    | { __typename: 'NotFound' };
-};
+
+export type PublishArticleMutation = { __typename?: 'Mutation', publishArticle: { __typename: 'Article', id: string, publishedAt: any, title: string, content: string } | { __typename: 'NotAuthorized' } | { __typename: 'NotFound' } };
 
 export type RegisterMutationVariables = Exact<{
   username: Scalars['String'];
@@ -1044,71 +918,38 @@ export type RegisterMutationVariables = Exact<{
   captcha: Scalars['String'];
 }>;
 
-export type RegisterMutation = {
-  __typename?: 'Mutation';
-  register:
-    | { __typename: 'AlreadyExists'; identifier?: string | null }
-    | { __typename: 'User'; id: string; username: string };
-};
+
+export type RegisterMutation = { __typename?: 'Mutation', register: { __typename: 'AlreadyExists', identifier?: string | null } | { __typename: 'User', id: string, username: string } };
 
 export type SetUsernameMutationVariables = Exact<{
   userId: Scalars['String'];
   username: Scalars['String'];
 }>;
 
-export type SetUsernameMutation = {
-  __typename?: 'Mutation';
-  setUsername:
-    | { __typename: 'AlreadyExists' }
-    | { __typename: 'NotAuthorized' }
-    | { __typename: 'User' };
-};
+
+export type SetUsernameMutation = { __typename?: 'Mutation', setUsername: { __typename: 'AlreadyExists' } | { __typename: 'NotAuthorized' } | { __typename: 'User' } };
 
 export type GetEmailAddressQueryVariables = Exact<{
   userId: Scalars['String'];
 }>;
 
-export type GetEmailAddressQuery = {
-  __typename?: 'Query';
-  me:
-    | { __typename: 'NotAuthorized' }
-    | { __typename: 'NotFound' }
-    | {
-        __typename: 'User';
-        id: string;
-        emailAddress?: string | null;
-        emailAddressVerified: boolean;
-      };
-};
+
+export type GetEmailAddressQuery = { __typename?: 'Query', me: { __typename: 'NotAuthorized' } | { __typename: 'NotFound' } | { __typename: 'User', id: string, emailAddress?: string | null, emailAddressVerified: boolean } };
 
 export type SetEmailAddressMutationVariables = Exact<{
   userId: Scalars['String'];
   emailAddress: Scalars['String'];
 }>;
 
-export type SetEmailAddressMutation = {
-  __typename?: 'Mutation';
-  setEmailAddress:
-    | { __typename: 'AlreadyExists' }
-    | { __typename: 'NotAuthorized' }
-    | {
-        __typename: 'User';
-        id: string;
-        emailAddress?: string | null;
-        emailAddressVerified: boolean;
-      };
-};
+
+export type SetEmailAddressMutation = { __typename?: 'Mutation', setEmailAddress: { __typename: 'AlreadyExists' } | { __typename: 'NotAuthorized' } | { __typename: 'User', id: string, emailAddress?: string | null, emailAddressVerified: boolean } };
 
 export type DeleteEmailAddressMutationVariables = Exact<{
   userId: Scalars['String'];
 }>;
 
-export type DeleteEmailAddressMutation = {
-  __typename?: 'Mutation';
-  deleteEmailAddress:
-    | { __typename: 'NotAuthorized' }
-    | { __typename: 'User'; id: string; emailAddress?: string | null };
-};
+
+export type DeleteEmailAddressMutation = { __typename?: 'Mutation', deleteEmailAddress: { __typename: 'NotAuthorized' } | { __typename: 'User', id: string, emailAddress?: string | null } };
 
 export type SetPasswordMutationVariables = Exact<{
   userId: Scalars['String'];
@@ -1116,272 +957,84 @@ export type SetPasswordMutationVariables = Exact<{
   new: Scalars['String'];
 }>;
 
-export type SetPasswordMutation = {
-  __typename?: 'Mutation';
-  setPassword: { __typename: 'NotAuthorized' } | { __typename: 'User' };
-};
 
-export type GetNumberIslandsQueryVariables = Exact<{ [key: string]: never }>;
+export type SetPasswordMutation = { __typename?: 'Mutation', setPassword: { __typename: 'NotAuthorized' } | { __typename: 'User' } };
 
-export type GetNumberIslandsQuery = {
-  __typename?: 'Query';
-  archipelago: {
-    __typename?: 'Archipelago';
-    id: string;
-    numberIslands: number;
-  };
-};
+export type GetNumberIslandsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetNumberIslandsQuery = { __typename?: 'Query', archipelago: { __typename?: 'Archipelago', id: string, numberIslands: number } };
 
 export type GetTopPlayersQueryVariables = Exact<{
   input: TopPlayersInput;
 }>;
 
-export type GetTopPlayersQuery = {
-  __typename?: 'Query';
-  topPlayers: {
-    __typename?: 'TopPlayers';
-    players?: Array<{
-      __typename?: 'Player';
-      id: string;
-      name: string;
-      scoresheet: { __typename?: 'Scoresheet'; id: string; score: number };
-    }> | null;
-  };
-};
+
+export type GetTopPlayersQuery = { __typename?: 'Query', topPlayers: { __typename?: 'TopPlayers', players?: Array<{ __typename?: 'Player', id: string, name: string, scoresheet: { __typename?: 'Scoresheet', id: string, score: number } }> | null } };
 
 export type SearchIslandsQueryVariables = Exact<{
   term: Scalars['String'];
 }>;
 
-export type SearchIslandsQuery = {
-  __typename?: 'Query';
-  searchIslands:
-    | {
-        __typename?: 'IslandList';
-        islands: Array<{ __typename?: 'Island'; id: string; name: string }>;
-      }
-    | { __typename?: 'NotAuthorized' };
-};
+
+export type SearchIslandsQuery = { __typename?: 'Query', searchIslands: { __typename?: 'IslandList', islands: Array<{ __typename?: 'Island', id: string, name: string }> } | { __typename?: 'NotAuthorized' } };
 
 export type GetCitizenQueryVariables = Exact<{
   input: CitizenInput;
 }>;
 
-export type GetCitizenQuery = {
-  __typename?: 'Query';
-  citizen:
-    | { __typename: 'Citizen'; id: string; name: string; createdAt: any }
-    | { __typename: 'NotFound' };
-};
+
+export type GetCitizenQuery = { __typename?: 'Query', citizen: { __typename: 'Citizen', id: string, name: string, createdAt: any } | { __typename: 'NotFound' } };
 
 export type GetCitizensQueryVariables = Exact<{
   input: CitizensFromIslandInput;
 }>;
 
-export type GetCitizensQuery = {
-  __typename?: 'Query';
-  citizensFromIsland:
-    | {
-        __typename?: 'CitizenList';
-        citizens: Array<{
-          __typename?: 'Citizen';
-          id: string;
-          createdAt: any;
-          name: string;
-        }>;
-      }
-    | { __typename?: 'NotFound' };
-};
+
+export type GetCitizensQuery = { __typename?: 'Query', citizensFromIsland: { __typename?: 'CitizenList', citizens: Array<{ __typename?: 'Citizen', id: string, createdAt: any, name: string }> } | { __typename?: 'NotFound' } };
 
 export type GetEventsQueryVariables = Exact<{
   input: EventsInput;
 }>;
 
-export type GetEventsQuery = {
-  __typename?: 'Query';
-  events:
-    | {
-        __typename?: 'EventList';
-        events: Array<
-          | { __typename: 'AccountCreation'; id: number; happenedAt: any }
-          | {
-              __typename: 'BuyOrderExecution';
-              id: number;
-              happenedAt: any;
-              commodity: CommodityType;
-              quantity: number;
-              price: any;
-              currency: { __typename?: 'Currency'; code: string };
-              commodityCurrency?: {
-                __typename?: 'Currency';
-                code: string;
-              } | null;
-            }
-          | {
-              __typename: 'SellOrderExecution';
-              id: number;
-              happenedAt: any;
-              commodity: CommodityType;
-              quantity: number;
-              price: any;
-              currency: { __typename?: 'Currency'; code: string };
-              commodityCurrency?: {
-                __typename?: 'Currency';
-                code: string;
-              } | null;
-            }
-        >;
-      }
-    | { __typename?: 'NotAuthorized' };
-};
+
+export type GetEventsQuery = { __typename?: 'Query', events: { __typename?: 'EventList', events: Array<{ __typename: 'AccountCreation', id: number, happenedAt: any } | { __typename: 'BuyOrderExecution', id: number, happenedAt: any, commodity: CommodityType, quantity: number, price: any, currency: { __typename?: 'Currency', code: string }, commodityCurrency?: { __typename?: 'Currency', code: string } | null } | { __typename: 'SellOrderExecution', id: number, happenedAt: any, commodity: CommodityType, quantity: number, price: any, currency: { __typename?: 'Currency', code: string }, commodityCurrency?: { __typename?: 'Currency', code: string } | null }> } | { __typename?: 'NotAuthorized' } };
 
 export type GetTilesQueryVariables = Exact<{
   islandId: Scalars['String'];
 }>;
 
-export type GetTilesQuery = {
-  __typename?: 'Query';
-  island:
-    | {
-        __typename?: 'Island';
-        id: string;
-        tiles: Array<{
-          __typename?: 'Tile';
-          id: string;
-          position: number;
-          kind: TileKind;
-          infrastructure: Infrastructure;
-          level: number;
-          desiredStatus: InfrastructureStatus;
-          currentStatus: InfrastructureStatus;
-          population: number;
-          material: number;
-          food: number;
-          frozenFood: number;
-          energy: number;
-          island: { __typename?: 'Island'; id: string };
-        }>;
-      }
-    | { __typename?: 'NotAuthorized' }
-    | { __typename?: 'NotFound' };
-};
+
+export type GetTilesQuery = { __typename?: 'Query', island: { __typename?: 'Island', id: string, tiles: Array<{ __typename?: 'Tile', id: string, position: number, kind: TileKind, infrastructure: Infrastructure, level: number, desiredStatus: InfrastructureStatus, currentStatus: InfrastructureStatus, population: number, material: number, food: number, frozenFood: number, energy: number, island: { __typename?: 'Island', id: string } }> } | { __typename?: 'NotAuthorized' } | { __typename?: 'NotFound' } };
 
 export type GetIslandQueryVariables = Exact<{
   islandId: Scalars['String'];
 }>;
 
-export type GetIslandQuery = {
-  __typename?: 'Query';
-  island:
-    | {
-        __typename?: 'Island';
-        id: string;
-        owner: { __typename?: 'User'; id: string; username: string };
-        tiles: Array<{
-          __typename?: 'Tile';
-          id: string;
-          position: number;
-          infrastructure: Infrastructure;
-          level: number;
-        }>;
-      }
-    | { __typename?: 'NotAuthorized' }
-    | { __typename?: 'NotFound' };
-};
+
+export type GetIslandQuery = { __typename?: 'Query', island: { __typename?: 'Island', id: string, owner: { __typename?: 'User', id: string, username: string }, tiles: Array<{ __typename?: 'Tile', id: string, position: number, infrastructure: Infrastructure, level: number }> } | { __typename?: 'NotAuthorized' } | { __typename?: 'NotFound' } };
 
 export type GetIslandOverviewQueryVariables = Exact<{
   islandId: Scalars['String'];
 }>;
 
-export type GetIslandOverviewQuery = {
-  __typename?: 'Query';
-  island:
-    | {
-        __typename?: 'Island';
-        id: string;
-        name: string;
-        owner: { __typename?: 'User'; id: string; name: string };
-      }
-    | { __typename?: 'NotAuthorized' }
-    | { __typename?: 'NotFound' };
-};
+
+export type GetIslandOverviewQuery = { __typename?: 'Query', island: { __typename?: 'Island', id: string, name: string, owner: { __typename?: 'User', id: string, name: string } } | { __typename?: 'NotAuthorized' } | { __typename?: 'NotFound' } };
 
 export type GetPlayerProfileQueryVariables = Exact<{
   input: PlayerInput;
 }>;
 
-export type GetPlayerProfileQuery = {
-  __typename?: 'Query';
-  player:
-    | { __typename?: 'NotFound' }
-    | {
-        __typename?: 'Player';
-        scoresheet: {
-          __typename?: 'Scoresheet';
-          id: string;
-          score: number;
-          commodities: Array<{
-            __typename?: 'CommodityScore';
-            commodity: CommodityType;
-            score: number;
-          }>;
-          buildings: Array<{ __typename?: 'BuildingScore'; score: number }>;
-          currencies: Array<{
-            __typename?: 'CurrencyScore';
-            score: number;
-            currency: { __typename?: 'Currency'; id: string };
-          }>;
-        };
-        badges: Array<{
-          __typename?: 'Badge';
-          id: string;
-          createdAt: any;
-          type: BadgeType;
-        }>;
-      };
-};
+
+export type GetPlayerProfileQuery = { __typename?: 'Query', player: { __typename?: 'NotFound' } | { __typename?: 'Player', scoresheet: { __typename?: 'Scoresheet', id: string, score: number, commodities: Array<{ __typename?: 'CommodityScore', commodity: CommodityType, score: number }>, buildings: Array<{ __typename?: 'BuildingScore', score: number }>, currencies: Array<{ __typename?: 'CurrencyScore', score: number, currency: { __typename?: 'Currency', id: string } }> }, badges: Array<{ __typename?: 'Badge', id: string, createdAt: any, type: BadgeType }> } };
 
 export type GetTileQueryVariables = Exact<{
   islandId: Scalars['String'];
   position: Scalars['Int'];
 }>;
 
-export type GetTileQuery = {
-  __typename?: 'Query';
-  tile:
-    | { __typename?: 'NotAuthorized' }
-    | { __typename?: 'NotFound' }
-    | {
-        __typename?: 'Tile';
-        id: string;
-        position: number;
-        kind: TileKind;
-        infrastructure: Infrastructure;
-        level: number;
-        maxLevel: number;
-        desiredStatus: InfrastructureStatus;
-        currentStatus: InfrastructureStatus;
-        population: number;
-        energy: number;
-        material: number;
-        food: number;
-        frozenFood: number;
-        frozenFoodStorage: number;
-        constructionSite?: {
-          __typename?: 'ConstructionSite';
-          id: string;
-          infrastructure: Infrastructure;
-          workloadLeft: number;
-          finishedAt: any;
-        } | null;
-        blueprints: Array<{
-          __typename?: 'Blueprint';
-          infrastructure: Infrastructure;
-          materialCost: number;
-          workload: number;
-        }>;
-      };
-};
+
+export type GetTileQuery = { __typename?: 'Query', tile: { __typename?: 'NotAuthorized' } | { __typename?: 'NotFound' } | { __typename?: 'Tile', id: string, position: number, kind: TileKind, infrastructure: Infrastructure, level: number, maxLevel: number, desiredStatus: InfrastructureStatus, currentStatus: InfrastructureStatus, population: number, energy: number, material: number, food: number, frozenFood: number, frozenFoodStorage: number, constructionSite?: { __typename?: 'ConstructionSite', id: string, infrastructure: Infrastructure, workloadLeft: number, finishedAt: any } | null, blueprints: Array<{ __typename?: 'Blueprint', infrastructure: Infrastructure, materialCost: number, workload: number }> } };
 
 export type BuildInfrastructureMutationVariables = Exact<{
   islandId: Scalars['String'];
@@ -1389,362 +1042,114 @@ export type BuildInfrastructureMutationVariables = Exact<{
   infrastructure: Infrastructure;
 }>;
 
-export type BuildInfrastructureMutation = {
-  __typename?: 'Mutation';
-  buildInfrastructure?:
-    | { __typename?: 'NotAuthorized' }
-    | { __typename?: 'NotEnoughMaterial' }
-    | { __typename?: 'NotFound' }
-    | {
-        __typename?: 'Tile';
-        id: string;
-        infrastructure: Infrastructure;
-        level: number;
-        constructionSite?: {
-          __typename?: 'ConstructionSite';
-          id: string;
-          infrastructure: Infrastructure;
-          workloadLeft: number;
-          finishedAt: any;
-          tile: { __typename?: 'Tile'; position: number };
-        } | null;
-        blueprints: Array<{
-          __typename?: 'Blueprint';
-          infrastructure: Infrastructure;
-          materialCost: number;
-          workload: number;
-        }>;
-        island: {
-          __typename?: 'Island';
-          id: string;
-          inventory: { __typename?: 'Inventory'; id: string; material: number };
-        };
-      }
-    | null;
-};
 
-export type NewConstructionSiteFragment = {
-  __typename?: 'ConstructionSite';
-  id: string;
-  infrastructure: Infrastructure;
-  workloadLeft: number;
-  finishedAt: any;
-  tile: { __typename?: 'Tile'; position: number };
-};
+export type BuildInfrastructureMutation = { __typename?: 'Mutation', buildInfrastructure?: { __typename?: 'NotAuthorized' } | { __typename?: 'NotEnoughMaterial' } | { __typename?: 'NotFound' } | { __typename?: 'Tile', id: string, infrastructure: Infrastructure, level: number, constructionSite?: { __typename?: 'ConstructionSite', id: string, infrastructure: Infrastructure, workloadLeft: number, finishedAt: any, tile: { __typename?: 'Tile', position: number } } | null, blueprints: Array<{ __typename?: 'Blueprint', infrastructure: Infrastructure, materialCost: number, workload: number }>, island: { __typename?: 'Island', id: string, inventory: { __typename?: 'Inventory', id: string, material: number } } } | null };
+
+export type NewConstructionSiteFragment = { __typename?: 'ConstructionSite', id: string, infrastructure: Infrastructure, workloadLeft: number, finishedAt: any, tile: { __typename?: 'Tile', position: number } };
 
 export type CancelConstructionMutationVariables = Exact<{
   islandId: Scalars['String'];
   position: Scalars['Int'];
 }>;
 
-export type CancelConstructionMutation = {
-  __typename?: 'Mutation';
-  cancelConstruction?:
-    | { __typename?: 'NotAuthorized' }
-    | { __typename?: 'NotFound' }
-    | {
-        __typename?: 'Tile';
-        id: string;
-        position: number;
-        infrastructure: Infrastructure;
-        level: number;
-        constructionSite?: {
-          __typename?: 'ConstructionSite';
-          id: string;
-        } | null;
-        blueprints: Array<{
-          __typename?: 'Blueprint';
-          infrastructure: Infrastructure;
-          materialCost: number;
-          workload: number;
-        }>;
-        island: {
-          __typename?: 'Island';
-          id: string;
-          inventory: { __typename?: 'Inventory'; id: string; material: number };
-        };
-      }
-    | null;
-};
+
+export type CancelConstructionMutation = { __typename?: 'Mutation', cancelConstruction?: { __typename?: 'NotAuthorized' } | { __typename?: 'NotFound' } | { __typename?: 'Tile', id: string, position: number, infrastructure: Infrastructure, level: number, constructionSite?: { __typename?: 'ConstructionSite', id: string } | null, blueprints: Array<{ __typename?: 'Blueprint', infrastructure: Infrastructure, materialCost: number, workload: number }>, island: { __typename?: 'Island', id: string, inventory: { __typename?: 'Inventory', id: string, material: number } } } | null };
 
 export type UpgradeInfrastructureMutationVariables = Exact<{
   islandId: Scalars['String'];
   position: Scalars['Int'];
 }>;
 
-export type UpgradeInfrastructureMutation = {
-  __typename?: 'Mutation';
-  upgradeInfrastructure?:
-    | { __typename?: 'NotAuthorized' }
-    | { __typename?: 'NotEnoughMaterial' }
-    | { __typename?: 'NotFound' }
-    | {
-        __typename?: 'Tile';
-        id: string;
-        infrastructure: Infrastructure;
-        level: number;
-        constructionSite?: {
-          __typename?: 'ConstructionSite';
-          id: string;
-          infrastructure: Infrastructure;
-          workloadLeft: number;
-          finishedAt: any;
-          tile: { __typename?: 'Tile'; position: number };
-        } | null;
-        blueprints: Array<{
-          __typename?: 'Blueprint';
-          infrastructure: Infrastructure;
-          materialCost: number;
-          workload: number;
-        }>;
-        island: {
-          __typename?: 'Island';
-          id: string;
-          inventory: { __typename?: 'Inventory'; id: string; material: number };
-        };
-      }
-    | null;
-};
+
+export type UpgradeInfrastructureMutation = { __typename?: 'Mutation', upgradeInfrastructure?: { __typename?: 'NotAuthorized' } | { __typename?: 'NotEnoughMaterial' } | { __typename?: 'NotFound' } | { __typename?: 'Tile', id: string, infrastructure: Infrastructure, level: number, constructionSite?: { __typename?: 'ConstructionSite', id: string, infrastructure: Infrastructure, workloadLeft: number, finishedAt: any, tile: { __typename?: 'Tile', position: number } } | null, blueprints: Array<{ __typename?: 'Blueprint', infrastructure: Infrastructure, materialCost: number, workload: number }>, island: { __typename?: 'Island', id: string, inventory: { __typename?: 'Inventory', id: string, material: number } } } | null };
 
 export type DestroyInfrastructureMutationVariables = Exact<{
   islandId: Scalars['String'];
   position: Scalars['Int'];
 }>;
 
-export type DestroyInfrastructureMutation = {
-  __typename?: 'Mutation';
-  destroyInfrastructure?:
-    | { __typename?: 'NotAuthorized' }
-    | {
-        __typename?: 'Tile';
-        id: string;
-        infrastructure: Infrastructure;
-        level: number;
-        constructionSite?: {
-          __typename?: 'ConstructionSite';
-          finishedAt: any;
-        } | null;
-        blueprints: Array<{
-          __typename?: 'Blueprint';
-          infrastructure: Infrastructure;
-          materialCost: number;
-          workload: number;
-        }>;
-      }
-    | null;
-};
+
+export type DestroyInfrastructureMutation = { __typename?: 'Mutation', destroyInfrastructure?: { __typename?: 'NotAuthorized' } | { __typename?: 'Tile', id: string, infrastructure: Infrastructure, level: number, constructionSite?: { __typename?: 'ConstructionSite', finishedAt: any } | null, blueprints: Array<{ __typename?: 'Blueprint', infrastructure: Infrastructure, materialCost: number, workload: number }> } | null };
 
 export type GetBankLevelsQueryVariables = Exact<{
   userId: Scalars['String'];
   islandId: Scalars['String'];
 }>;
 
-export type GetBankLevelsQuery = {
-  __typename?: 'Query';
-  inventory:
-    | { __typename: 'Inventory'; id: string; bankLevels: number }
-    | { __typename: 'NotAuthorized' }
-    | { __typename: 'NotFound' };
-};
+
+export type GetBankLevelsQuery = { __typename?: 'Query', inventory: { __typename: 'Inventory', id: string, bankLevels: number } | { __typename: 'NotAuthorized' } | { __typename: 'NotFound' } };
 
 export type GetMarketPricesQueryVariables = Exact<{
   input: MarketPricesInput;
 }>;
 
-export type GetMarketPricesQuery = {
-  __typename?: 'Query';
-  marketPrices:
-    | {
-        __typename: 'MarketPrices';
-        prices: Array<{
-          __typename?: 'MarketPrice';
-          timestamp: any;
-          commodity: CommodityType;
-          numTrades: number;
-          quantity: number;
-          price: any;
-          prevNumTrades: number;
-          prevQuantity: number;
-          prevPrice: any;
-          currency: { __typename?: 'Currency'; id: string };
-        }>;
-      }
-    | { __typename: 'NotAuthorized' };
-};
+
+export type GetMarketPricesQuery = { __typename?: 'Query', marketPrices: { __typename: 'MarketPrices', prices: Array<{ __typename?: 'MarketPrice', timestamp: any, commodity: CommodityType, numTrades: number, quantity: number, price: any, prevNumTrades: number, prevQuantity: number, prevPrice: any, currency: { __typename?: 'Currency', id: string } }> } | { __typename: 'NotAuthorized' } };
 
 export type GetCurrentMarketPricesQueryVariables = Exact<{
   input: CurrentMarketPricesInput;
 }>;
 
-export type GetCurrentMarketPricesQuery = {
-  __typename?: 'Query';
-  currentMarketPrices:
-    | {
-        __typename?: 'CurrentMarketPrices';
-        commodityPrices: Array<{
-          __typename?: 'CommodityPrice';
-          commodity: CommodityType;
-          price: any;
-        }>;
-        currencyPrices: Array<{
-          __typename?: 'CurrencyPrice';
-          price: any;
-          currency: {
-            __typename?: 'Currency';
-            id: string;
-            code: string;
-            name: string;
-          };
-        }>;
-      }
-    | { __typename?: 'NotFound' };
-};
+
+export type GetCurrentMarketPricesQuery = { __typename?: 'Query', currentMarketPrices: { __typename?: 'CurrentMarketPrices', commodityPrices: Array<{ __typename?: 'CommodityPrice', commodity: CommodityType, price: any }>, currencyPrices: Array<{ __typename?: 'CurrencyPrice', price: any, currency: { __typename?: 'Currency', id: string, code: string, name: string } }> } | { __typename?: 'NotFound' } };
 
 export type SendOrderMutationVariables = Exact<{
   input: SendOrderInput;
 }>;
 
-export type SendOrderMutation = {
-  __typename?: 'Mutation';
-  sendOrder?:
-    | { __typename: 'NotAuthorized' }
-    | { __typename: 'NotEnoughCommodity' }
-    | {
-        __typename: 'Order';
-        id: string;
-        createdAt: any;
-        expiresAt: any;
-        side: OrderSide;
-        commodity: CommodityType;
-        quantity: number;
-        price: any;
-        currency: {
-          __typename?: 'Currency';
-          id: string;
-          code: string;
-          name: string;
-        };
-      }
-    | null;
-};
 
-export type NewOrderFragment = {
-  __typename?: 'Order';
-  id: string;
-  createdAt: any;
-  expiresAt: any;
-  side: OrderSide;
-  commodity: CommodityType;
-  quantity: number;
-  price: any;
-  currency: { __typename?: 'Currency'; id: string; code: string; name: string };
-};
+export type SendOrderMutation = { __typename?: 'Mutation', sendOrder?: { __typename: 'NotAuthorized' } | { __typename: 'NotEnoughCommodity' } | { __typename: 'Order', id: string, createdAt: any, expiresAt: any, side: OrderSide, commodity: CommodityType, quantity: number, price: any, currency: { __typename?: 'Currency', id: string, code: string, name: string } } | null };
+
+export type NewOrderFragment = { __typename?: 'Order', id: string, createdAt: any, expiresAt: any, side: OrderSide, commodity: CommodityType, quantity: number, price: any, currency: { __typename?: 'Currency', id: string, code: string, name: string } };
 
 export type GetMyOpenOrdersQueryVariables = Exact<{
   userId: Scalars['String'];
 }>;
 
-export type GetMyOpenOrdersQuery = {
-  __typename?: 'Query';
-  myOpenOrders:
-    | { __typename: 'NotAuthorized' }
-    | {
-        __typename: 'OrderList';
-        orders: Array<{
-          __typename?: 'Order';
-          id: string;
-          side: OrderSide;
-          expiresAt: any;
-          commodity: CommodityType;
-          quantity: number;
-          price: any;
-          currency: { __typename?: 'Currency'; id: string; code: string };
-        }>;
-      };
-};
+
+export type GetMyOpenOrdersQuery = { __typename?: 'Query', myOpenOrders: { __typename: 'NotAuthorized' } | { __typename: 'OrderList', orders: Array<{ __typename?: 'Order', id: string, side: OrderSide, expiresAt: any, commodity: CommodityType, quantity: number, price: any, currency: { __typename?: 'Currency', id: string, code: string } }> } };
 
 export type GetPublicPlayerProfileQueryVariables = Exact<{
   input: PlayerInput;
 }>;
 
-export type GetPublicPlayerProfileQuery = {
-  __typename?: 'Query';
-  player:
-    | { __typename?: 'NotFound' }
-    | {
-        __typename?: 'Player';
-        id: string;
-        name: string;
-        island: {
-          __typename?: 'Island';
-          name: string;
-          tiles: Array<{
-            __typename?: 'Tile';
-            id: string;
-            position: number;
-            infrastructure: Infrastructure;
-            level: number;
-          }>;
-        };
-        scoresheet: {
-          __typename?: 'Scoresheet';
-          id: string;
-          score: number;
-          commodities: Array<{
-            __typename?: 'CommodityScore';
-            commodity: CommodityType;
-            score: number;
-          }>;
-          buildings: Array<{ __typename?: 'BuildingScore'; score: number }>;
-          currencies: Array<{
-            __typename?: 'CurrencyScore';
-            score: number;
-            currency: { __typename?: 'Currency'; id: string };
-          }>;
-        };
-        badges: Array<{
-          __typename?: 'Badge';
-          id: string;
-          createdAt: any;
-          type: BadgeType;
-        }>;
-      };
-};
+
+export type GetPublicPlayerProfileQuery = { __typename?: 'Query', player: { __typename?: 'NotFound' } | { __typename?: 'Player', id: string, name: string, island: { __typename?: 'Island', name: string, tiles: Array<{ __typename?: 'Tile', id: string, position: number, infrastructure: Infrastructure, level: number }> }, scoresheet: { __typename?: 'Scoresheet', id: string, score: number, commodities: Array<{ __typename?: 'CommodityScore', commodity: CommodityType, score: number }>, buildings: Array<{ __typename?: 'BuildingScore', score: number }>, currencies: Array<{ __typename?: 'CurrencyScore', score: number, currency: { __typename?: 'Currency', id: string } }> }, badges: Array<{ __typename?: 'Badge', id: string, createdAt: any, type: BadgeType }> } };
 
 export const NewConstructionSiteFragmentDoc = gql`
-  fragment NewConstructionSite on ConstructionSite {
-    id
-    infrastructure
-    workloadLeft
-    finishedAt
-    tile {
-      position
-    }
+    fragment NewConstructionSite on ConstructionSite {
+  id
+  infrastructure
+  workloadLeft
+  finishedAt
+  tile {
+    position
   }
-`;
+}
+    `;
 export const NewOrderFragmentDoc = gql`
-  fragment NewOrder on Order {
+    fragment NewOrder on Order {
+  id
+  createdAt
+  expiresAt
+  side
+  currency {
     id
-    createdAt
-    expiresAt
-    side
-    currency {
-      id
-      code
-      name
-    }
-    commodity
-    quantity
-    price
+    code
+    name
   }
-`;
+  commodity
+  quantity
+  price
+}
+    `;
 export const GetApiStatusDocument = gql`
-  query GetAPIStatus {
-    apiStatus {
-      running
-    }
+    query GetAPIStatus {
+  apiStatus {
+    running
   }
-`;
+}
+    `;
 
 /**
  * __useGetApiStatusQuery__
@@ -1761,59 +1166,36 @@ export const GetApiStatusDocument = gql`
  *   },
  * });
  */
-export function useGetApiStatusQuery(
-  baseOptions?: Apollo.QueryHookOptions<
-    GetApiStatusQuery,
-    GetApiStatusQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<GetApiStatusQuery, GetApiStatusQueryVariables>(
-    GetApiStatusDocument,
-    options,
-  );
-}
-export function useGetApiStatusLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    GetApiStatusQuery,
-    GetApiStatusQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<GetApiStatusQuery, GetApiStatusQueryVariables>(
-    GetApiStatusDocument,
-    options,
-  );
-}
-export type GetApiStatusQueryHookResult = ReturnType<
-  typeof useGetApiStatusQuery
->;
-export type GetApiStatusLazyQueryHookResult = ReturnType<
-  typeof useGetApiStatusLazyQuery
->;
-export type GetApiStatusQueryResult = Apollo.QueryResult<
-  GetApiStatusQuery,
-  GetApiStatusQueryVariables
->;
+export function useGetApiStatusQuery(baseOptions?: Apollo.QueryHookOptions<GetApiStatusQuery, GetApiStatusQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetApiStatusQuery, GetApiStatusQueryVariables>(GetApiStatusDocument, options);
+      }
+export function useGetApiStatusLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetApiStatusQuery, GetApiStatusQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetApiStatusQuery, GetApiStatusQueryVariables>(GetApiStatusDocument, options);
+        }
+export type GetApiStatusQueryHookResult = ReturnType<typeof useGetApiStatusQuery>;
+export type GetApiStatusLazyQueryHookResult = ReturnType<typeof useGetApiStatusLazyQuery>;
+export type GetApiStatusQueryResult = Apollo.QueryResult<GetApiStatusQuery, GetApiStatusQueryVariables>;
 export const GetAllConstructionSitesDocument = gql`
-  query GetAllConstructionSites($islandId: String!) {
-    island(islandId: $islandId) {
-      ... on Island {
+    query GetAllConstructionSites($islandId: String!) {
+  island(islandId: $islandId) {
+    ... on Island {
+      id
+      constructionSites {
         id
-        constructionSites {
-          id
-          infrastructure
-          workloadLeft
-          finishedAt
-          tile {
-            position
-            level
-          }
+        infrastructure
+        workloadLeft
+        finishedAt
+        tile {
+          position
+          level
         }
       }
     }
   }
-`;
+}
+    `;
 
 /**
  * __useGetAllConstructionSitesQuery__
@@ -1831,50 +1213,27 @@ export const GetAllConstructionSitesDocument = gql`
  *   },
  * });
  */
-export function useGetAllConstructionSitesQuery(
-  baseOptions: Apollo.QueryHookOptions<
-    GetAllConstructionSitesQuery,
-    GetAllConstructionSitesQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<
-    GetAllConstructionSitesQuery,
-    GetAllConstructionSitesQueryVariables
-  >(GetAllConstructionSitesDocument, options);
-}
-export function useGetAllConstructionSitesLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    GetAllConstructionSitesQuery,
-    GetAllConstructionSitesQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<
-    GetAllConstructionSitesQuery,
-    GetAllConstructionSitesQueryVariables
-  >(GetAllConstructionSitesDocument, options);
-}
-export type GetAllConstructionSitesQueryHookResult = ReturnType<
-  typeof useGetAllConstructionSitesQuery
->;
-export type GetAllConstructionSitesLazyQueryHookResult = ReturnType<
-  typeof useGetAllConstructionSitesLazyQuery
->;
-export type GetAllConstructionSitesQueryResult = Apollo.QueryResult<
-  GetAllConstructionSitesQuery,
-  GetAllConstructionSitesQueryVariables
->;
-export const GetTileStatusDocument = gql`
-  query GetTileStatus($islandId: String!, $position: Int!) {
-    tile(islandId: $islandId, position: $position) {
-      ... on Tile {
-        id
-        desiredStatus
+export function useGetAllConstructionSitesQuery(baseOptions: Apollo.QueryHookOptions<GetAllConstructionSitesQuery, GetAllConstructionSitesQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetAllConstructionSitesQuery, GetAllConstructionSitesQueryVariables>(GetAllConstructionSitesDocument, options);
       }
+export function useGetAllConstructionSitesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetAllConstructionSitesQuery, GetAllConstructionSitesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetAllConstructionSitesQuery, GetAllConstructionSitesQueryVariables>(GetAllConstructionSitesDocument, options);
+        }
+export type GetAllConstructionSitesQueryHookResult = ReturnType<typeof useGetAllConstructionSitesQuery>;
+export type GetAllConstructionSitesLazyQueryHookResult = ReturnType<typeof useGetAllConstructionSitesLazyQuery>;
+export type GetAllConstructionSitesQueryResult = Apollo.QueryResult<GetAllConstructionSitesQuery, GetAllConstructionSitesQueryVariables>;
+export const GetTileStatusDocument = gql`
+    query GetTileStatus($islandId: String!, $position: Int!) {
+  tile(islandId: $islandId, position: $position) {
+    ... on Tile {
+      id
+      desiredStatus
     }
   }
-`;
+}
+    `;
 
 /**
  * __useGetTileStatusQuery__
@@ -1893,84 +1252,50 @@ export const GetTileStatusDocument = gql`
  *   },
  * });
  */
-export function useGetTileStatusQuery(
-  baseOptions: Apollo.QueryHookOptions<
-    GetTileStatusQuery,
-    GetTileStatusQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<GetTileStatusQuery, GetTileStatusQueryVariables>(
-    GetTileStatusDocument,
-    options,
-  );
-}
-export function useGetTileStatusLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    GetTileStatusQuery,
-    GetTileStatusQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<GetTileStatusQuery, GetTileStatusQueryVariables>(
-    GetTileStatusDocument,
-    options,
-  );
-}
-export type GetTileStatusQueryHookResult = ReturnType<
-  typeof useGetTileStatusQuery
->;
-export type GetTileStatusLazyQueryHookResult = ReturnType<
-  typeof useGetTileStatusLazyQuery
->;
-export type GetTileStatusQueryResult = Apollo.QueryResult<
-  GetTileStatusQuery,
-  GetTileStatusQueryVariables
->;
+export function useGetTileStatusQuery(baseOptions: Apollo.QueryHookOptions<GetTileStatusQuery, GetTileStatusQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetTileStatusQuery, GetTileStatusQueryVariables>(GetTileStatusDocument, options);
+      }
+export function useGetTileStatusLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetTileStatusQuery, GetTileStatusQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetTileStatusQuery, GetTileStatusQueryVariables>(GetTileStatusDocument, options);
+        }
+export type GetTileStatusQueryHookResult = ReturnType<typeof useGetTileStatusQuery>;
+export type GetTileStatusLazyQueryHookResult = ReturnType<typeof useGetTileStatusLazyQuery>;
+export type GetTileStatusQueryResult = Apollo.QueryResult<GetTileStatusQuery, GetTileStatusQueryVariables>;
 export const SetInfrastructureDesiredStatusDocument = gql`
-  mutation SetInfrastructureDesiredStatus(
-    $islandId: String!
-    $position: Int!
-    $status: InfrastructureStatus!
-  ) {
-    setInfrastructureDesiredStatus(
-      islandId: $islandId
-      position: $position
-      status: $status
-    ) {
-      ... on Tile {
+    mutation SetInfrastructureDesiredStatus($islandId: String!, $position: Int!, $status: InfrastructureStatus!) {
+  setInfrastructureDesiredStatus(islandId: $islandId, position: $position, status: $status) {
+    ... on Tile {
+      id
+      desiredStatus
+      currentStatus
+      population
+      material
+      energy
+      island {
         id
-        desiredStatus
-        currentStatus
-        population
-        material
-        energy
-        island {
+        inventory {
           id
-          inventory {
-            id
-            populationUsed
-            populationFree
-            populationTotal
-            energyUsed
-            energyFree
-            energyTotal
-            materialProduction
-            timestamp
-          }
-          tiles {
-            id
-            currentStatus
-          }
+          populationUsed
+          populationFree
+          populationTotal
+          energyUsed
+          energyFree
+          energyTotal
+          materialProduction
+          timestamp
+        }
+        tiles {
+          id
+          currentStatus
         }
       }
     }
   }
-`;
-export type SetInfrastructureDesiredStatusMutationFn = Apollo.MutationFunction<
-  SetInfrastructureDesiredStatusMutation,
-  SetInfrastructureDesiredStatusMutationVariables
->;
+}
+    `;
+export type SetInfrastructureDesiredStatusMutationFn = Apollo.MutationFunction<SetInfrastructureDesiredStatusMutation, SetInfrastructureDesiredStatusMutationVariables>;
 
 /**
  * __useSetInfrastructureDesiredStatusMutation__
@@ -1991,33 +1316,18 @@ export type SetInfrastructureDesiredStatusMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useSetInfrastructureDesiredStatusMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    SetInfrastructureDesiredStatusMutation,
-    SetInfrastructureDesiredStatusMutationVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<
-    SetInfrastructureDesiredStatusMutation,
-    SetInfrastructureDesiredStatusMutationVariables
-  >(SetInfrastructureDesiredStatusDocument, options);
-}
-export type SetInfrastructureDesiredStatusMutationHookResult = ReturnType<
-  typeof useSetInfrastructureDesiredStatusMutation
->;
-export type SetInfrastructureDesiredStatusMutationResult =
-  Apollo.MutationResult<SetInfrastructureDesiredStatusMutation>;
-export type SetInfrastructureDesiredStatusMutationOptions =
-  Apollo.BaseMutationOptions<
-    SetInfrastructureDesiredStatusMutation,
-    SetInfrastructureDesiredStatusMutationVariables
-  >;
+export function useSetInfrastructureDesiredStatusMutation(baseOptions?: Apollo.MutationHookOptions<SetInfrastructureDesiredStatusMutation, SetInfrastructureDesiredStatusMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<SetInfrastructureDesiredStatusMutation, SetInfrastructureDesiredStatusMutationVariables>(SetInfrastructureDesiredStatusDocument, options);
+      }
+export type SetInfrastructureDesiredStatusMutationHookResult = ReturnType<typeof useSetInfrastructureDesiredStatusMutation>;
+export type SetInfrastructureDesiredStatusMutationResult = Apollo.MutationResult<SetInfrastructureDesiredStatusMutation>;
+export type SetInfrastructureDesiredStatusMutationOptions = Apollo.BaseMutationOptions<SetInfrastructureDesiredStatusMutation, SetInfrastructureDesiredStatusMutationVariables>;
 export const GetUsernameAvailabilityDocument = gql`
-  query GetUsernameAvailability($username: String!) {
-    usernameAvailability(username: $username)
-  }
-`;
+    query GetUsernameAvailability($username: String!) {
+  usernameAvailability(username: $username)
+}
+    `;
 
 /**
  * __useGetUsernameAvailabilityQuery__
@@ -2035,58 +1345,35 @@ export const GetUsernameAvailabilityDocument = gql`
  *   },
  * });
  */
-export function useGetUsernameAvailabilityQuery(
-  baseOptions: Apollo.QueryHookOptions<
-    GetUsernameAvailabilityQuery,
-    GetUsernameAvailabilityQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<
-    GetUsernameAvailabilityQuery,
-    GetUsernameAvailabilityQueryVariables
-  >(GetUsernameAvailabilityDocument, options);
-}
-export function useGetUsernameAvailabilityLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    GetUsernameAvailabilityQuery,
-    GetUsernameAvailabilityQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<
-    GetUsernameAvailabilityQuery,
-    GetUsernameAvailabilityQueryVariables
-  >(GetUsernameAvailabilityDocument, options);
-}
-export type GetUsernameAvailabilityQueryHookResult = ReturnType<
-  typeof useGetUsernameAvailabilityQuery
->;
-export type GetUsernameAvailabilityLazyQueryHookResult = ReturnType<
-  typeof useGetUsernameAvailabilityLazyQuery
->;
-export type GetUsernameAvailabilityQueryResult = Apollo.QueryResult<
-  GetUsernameAvailabilityQuery,
-  GetUsernameAvailabilityQueryVariables
->;
+export function useGetUsernameAvailabilityQuery(baseOptions: Apollo.QueryHookOptions<GetUsernameAvailabilityQuery, GetUsernameAvailabilityQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetUsernameAvailabilityQuery, GetUsernameAvailabilityQueryVariables>(GetUsernameAvailabilityDocument, options);
+      }
+export function useGetUsernameAvailabilityLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetUsernameAvailabilityQuery, GetUsernameAvailabilityQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetUsernameAvailabilityQuery, GetUsernameAvailabilityQueryVariables>(GetUsernameAvailabilityDocument, options);
+        }
+export type GetUsernameAvailabilityQueryHookResult = ReturnType<typeof useGetUsernameAvailabilityQuery>;
+export type GetUsernameAvailabilityLazyQueryHookResult = ReturnType<typeof useGetUsernameAvailabilityLazyQuery>;
+export type GetUsernameAvailabilityQueryResult = Apollo.QueryResult<GetUsernameAvailabilityQuery, GetUsernameAvailabilityQueryVariables>;
 export const GetBankAccountsDocument = gql`
-  query GetBankAccounts($userId: String!) {
-    bankAccounts(userId: $userId) {
-      __typename
-      ... on BankAccountList {
-        bankAccounts {
+    query GetBankAccounts($userId: String!) {
+  bankAccounts(userId: $userId) {
+    __typename
+    ... on BankAccountList {
+      bankAccounts {
+        id
+        amount
+        currency {
           id
-          amount
-          currency {
-            id
-            code
-            name
-          }
+          code
+          name
         }
       }
     }
   }
-`;
+}
+    `;
 
 /**
  * __useGetBankAccountsQuery__
@@ -2104,67 +1391,44 @@ export const GetBankAccountsDocument = gql`
  *   },
  * });
  */
-export function useGetBankAccountsQuery(
-  baseOptions: Apollo.QueryHookOptions<
-    GetBankAccountsQuery,
-    GetBankAccountsQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<GetBankAccountsQuery, GetBankAccountsQueryVariables>(
-    GetBankAccountsDocument,
-    options,
-  );
-}
-export function useGetBankAccountsLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    GetBankAccountsQuery,
-    GetBankAccountsQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<
-    GetBankAccountsQuery,
-    GetBankAccountsQueryVariables
-  >(GetBankAccountsDocument, options);
-}
-export type GetBankAccountsQueryHookResult = ReturnType<
-  typeof useGetBankAccountsQuery
->;
-export type GetBankAccountsLazyQueryHookResult = ReturnType<
-  typeof useGetBankAccountsLazyQuery
->;
-export type GetBankAccountsQueryResult = Apollo.QueryResult<
-  GetBankAccountsQuery,
-  GetBankAccountsQueryVariables
->;
-export const GetCurrentInventoryDocument = gql`
-  query GetCurrentInventory($islandId: String!, $userId: String!) {
-    inventory(islandId: $islandId, userId: $userId) {
-      ... on Inventory {
-        id
-        populationUsed
-        populationFree
-        populationTotal
-        energyUsed
-        energyFree
-        energyTotal
-        materialProduction
-        material
-        foodProduction
-        food
-        frozenFoodProduction
-        frozenFood
-        frozenFoodStorage
-        bankLevels
-        timestamp
-        island {
-          lastUpdateAt
+export function useGetBankAccountsQuery(baseOptions: Apollo.QueryHookOptions<GetBankAccountsQuery, GetBankAccountsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetBankAccountsQuery, GetBankAccountsQueryVariables>(GetBankAccountsDocument, options);
+      }
+export function useGetBankAccountsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetBankAccountsQuery, GetBankAccountsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetBankAccountsQuery, GetBankAccountsQueryVariables>(GetBankAccountsDocument, options);
         }
+export type GetBankAccountsQueryHookResult = ReturnType<typeof useGetBankAccountsQuery>;
+export type GetBankAccountsLazyQueryHookResult = ReturnType<typeof useGetBankAccountsLazyQuery>;
+export type GetBankAccountsQueryResult = Apollo.QueryResult<GetBankAccountsQuery, GetBankAccountsQueryVariables>;
+export const GetCurrentInventoryDocument = gql`
+    query GetCurrentInventory($islandId: String!, $userId: String!) {
+  inventory(islandId: $islandId, userId: $userId) {
+    ... on Inventory {
+      id
+      populationUsed
+      populationFree
+      populationTotal
+      energyUsed
+      energyFree
+      energyTotal
+      materialProduction
+      material
+      foodProduction
+      food
+      frozenFoodProduction
+      frozenFood
+      frozenFoodStorage
+      bankLevels
+      timestamp
+      island {
+        lastUpdateAt
       }
     }
   }
-`;
+}
+    `;
 
 /**
  * __useGetCurrentInventoryQuery__
@@ -2183,45 +1447,22 @@ export const GetCurrentInventoryDocument = gql`
  *   },
  * });
  */
-export function useGetCurrentInventoryQuery(
-  baseOptions: Apollo.QueryHookOptions<
-    GetCurrentInventoryQuery,
-    GetCurrentInventoryQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<
-    GetCurrentInventoryQuery,
-    GetCurrentInventoryQueryVariables
-  >(GetCurrentInventoryDocument, options);
-}
-export function useGetCurrentInventoryLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    GetCurrentInventoryQuery,
-    GetCurrentInventoryQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<
-    GetCurrentInventoryQuery,
-    GetCurrentInventoryQueryVariables
-  >(GetCurrentInventoryDocument, options);
-}
-export type GetCurrentInventoryQueryHookResult = ReturnType<
-  typeof useGetCurrentInventoryQuery
->;
-export type GetCurrentInventoryLazyQueryHookResult = ReturnType<
-  typeof useGetCurrentInventoryLazyQuery
->;
-export type GetCurrentInventoryQueryResult = Apollo.QueryResult<
-  GetCurrentInventoryQuery,
-  GetCurrentInventoryQueryVariables
->;
+export function useGetCurrentInventoryQuery(baseOptions: Apollo.QueryHookOptions<GetCurrentInventoryQuery, GetCurrentInventoryQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetCurrentInventoryQuery, GetCurrentInventoryQueryVariables>(GetCurrentInventoryDocument, options);
+      }
+export function useGetCurrentInventoryLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetCurrentInventoryQuery, GetCurrentInventoryQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetCurrentInventoryQuery, GetCurrentInventoryQueryVariables>(GetCurrentInventoryDocument, options);
+        }
+export type GetCurrentInventoryQueryHookResult = ReturnType<typeof useGetCurrentInventoryQuery>;
+export type GetCurrentInventoryLazyQueryHookResult = ReturnType<typeof useGetCurrentInventoryLazyQuery>;
+export type GetCurrentInventoryQueryResult = Apollo.QueryResult<GetCurrentInventoryQuery, GetCurrentInventoryQueryVariables>;
 export const LoginDocument = gql`
-  query Login($username: String!, $password: String!) {
-    sessionToken(username: $username, password: $password)
-  }
-`;
+    query Login($username: String!, $password: String!) {
+  sessionToken(username: $username, password: $password)
+}
+    `;
 
 /**
  * __useLoginQuery__
@@ -2240,35 +1481,22 @@ export const LoginDocument = gql`
  *   },
  * });
  */
-export function useLoginQuery(
-  baseOptions: Apollo.QueryHookOptions<LoginQuery, LoginQueryVariables>,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<LoginQuery, LoginQueryVariables>(
-    LoginDocument,
-    options,
-  );
-}
-export function useLoginLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<LoginQuery, LoginQueryVariables>,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<LoginQuery, LoginQueryVariables>(
-    LoginDocument,
-    options,
-  );
-}
+export function useLoginQuery(baseOptions: Apollo.QueryHookOptions<LoginQuery, LoginQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<LoginQuery, LoginQueryVariables>(LoginDocument, options);
+      }
+export function useLoginLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<LoginQuery, LoginQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<LoginQuery, LoginQueryVariables>(LoginDocument, options);
+        }
 export type LoginQueryHookResult = ReturnType<typeof useLoginQuery>;
 export type LoginLazyQueryHookResult = ReturnType<typeof useLoginLazyQuery>;
-export type LoginQueryResult = Apollo.QueryResult<
-  LoginQuery,
-  LoginQueryVariables
->;
+export type LoginQueryResult = Apollo.QueryResult<LoginQuery, LoginQueryVariables>;
 export const RefreshTokenDocument = gql`
-  query RefreshToken($token: String!) {
-    newSessionToken(old: $token)
-  }
-`;
+    query RefreshToken($token: String!) {
+  newSessionToken(old: $token)
+}
+    `;
 
 /**
  * __useRefreshTokenQuery__
@@ -2286,53 +1514,30 @@ export const RefreshTokenDocument = gql`
  *   },
  * });
  */
-export function useRefreshTokenQuery(
-  baseOptions: Apollo.QueryHookOptions<
-    RefreshTokenQuery,
-    RefreshTokenQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<RefreshTokenQuery, RefreshTokenQueryVariables>(
-    RefreshTokenDocument,
-    options,
-  );
-}
-export function useRefreshTokenLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    RefreshTokenQuery,
-    RefreshTokenQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<RefreshTokenQuery, RefreshTokenQueryVariables>(
-    RefreshTokenDocument,
-    options,
-  );
-}
-export type RefreshTokenQueryHookResult = ReturnType<
-  typeof useRefreshTokenQuery
->;
-export type RefreshTokenLazyQueryHookResult = ReturnType<
-  typeof useRefreshTokenLazyQuery
->;
-export type RefreshTokenQueryResult = Apollo.QueryResult<
-  RefreshTokenQuery,
-  RefreshTokenQueryVariables
->;
-export const GetArticleDocument = gql`
-  query GetArticle($input: ArticleInput!) {
-    article(input: $input) {
-      __typename
-      ... on Article {
-        id
-        publishedAt
-        title
-        content
+export function useRefreshTokenQuery(baseOptions: Apollo.QueryHookOptions<RefreshTokenQuery, RefreshTokenQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<RefreshTokenQuery, RefreshTokenQueryVariables>(RefreshTokenDocument, options);
       }
+export function useRefreshTokenLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<RefreshTokenQuery, RefreshTokenQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<RefreshTokenQuery, RefreshTokenQueryVariables>(RefreshTokenDocument, options);
+        }
+export type RefreshTokenQueryHookResult = ReturnType<typeof useRefreshTokenQuery>;
+export type RefreshTokenLazyQueryHookResult = ReturnType<typeof useRefreshTokenLazyQuery>;
+export type RefreshTokenQueryResult = Apollo.QueryResult<RefreshTokenQuery, RefreshTokenQueryVariables>;
+export const GetArticleDocument = gql`
+    query GetArticle($input: ArticleInput!) {
+  article(input: $input) {
+    __typename
+    ... on Article {
+      id
+      publishedAt
+      title
+      content
     }
   }
-`;
+}
+    `;
 
 /**
  * __useGetArticleQuery__
@@ -2350,55 +1555,31 @@ export const GetArticleDocument = gql`
  *   },
  * });
  */
-export function useGetArticleQuery(
-  baseOptions: Apollo.QueryHookOptions<
-    GetArticleQuery,
-    GetArticleQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<GetArticleQuery, GetArticleQueryVariables>(
-    GetArticleDocument,
-    options,
-  );
-}
-export function useGetArticleLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    GetArticleQuery,
-    GetArticleQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<GetArticleQuery, GetArticleQueryVariables>(
-    GetArticleDocument,
-    options,
-  );
-}
-export type GetArticleQueryHookResult = ReturnType<typeof useGetArticleQuery>;
-export type GetArticleLazyQueryHookResult = ReturnType<
-  typeof useGetArticleLazyQuery
->;
-export type GetArticleQueryResult = Apollo.QueryResult<
-  GetArticleQuery,
-  GetArticleQueryVariables
->;
-export const EditArticleDocument = gql`
-  mutation EditArticle($input: EditArticleInput!) {
-    editArticle(input: $input) {
-      __typename
-      ... on Article {
-        id
-        publishedAt
-        title
-        content
+export function useGetArticleQuery(baseOptions: Apollo.QueryHookOptions<GetArticleQuery, GetArticleQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetArticleQuery, GetArticleQueryVariables>(GetArticleDocument, options);
       }
+export function useGetArticleLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetArticleQuery, GetArticleQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetArticleQuery, GetArticleQueryVariables>(GetArticleDocument, options);
+        }
+export type GetArticleQueryHookResult = ReturnType<typeof useGetArticleQuery>;
+export type GetArticleLazyQueryHookResult = ReturnType<typeof useGetArticleLazyQuery>;
+export type GetArticleQueryResult = Apollo.QueryResult<GetArticleQuery, GetArticleQueryVariables>;
+export const EditArticleDocument = gql`
+    mutation EditArticle($input: EditArticleInput!) {
+  editArticle(input: $input) {
+    __typename
+    ... on Article {
+      id
+      publishedAt
+      title
+      content
     }
   }
-`;
-export type EditArticleMutationFn = Apollo.MutationFunction<
-  EditArticleMutation,
-  EditArticleMutationVariables
->;
+}
+    `;
+export type EditArticleMutationFn = Apollo.MutationFunction<EditArticleMutation, EditArticleMutationVariables>;
 
 /**
  * __useEditArticleMutation__
@@ -2417,42 +1598,28 @@ export type EditArticleMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useEditArticleMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    EditArticleMutation,
-    EditArticleMutationVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<EditArticleMutation, EditArticleMutationVariables>(
-    EditArticleDocument,
-    options,
-  );
-}
-export type EditArticleMutationHookResult = ReturnType<
-  typeof useEditArticleMutation
->;
-export type EditArticleMutationResult =
-  Apollo.MutationResult<EditArticleMutation>;
-export type EditArticleMutationOptions = Apollo.BaseMutationOptions<
-  EditArticleMutation,
-  EditArticleMutationVariables
->;
+export function useEditArticleMutation(baseOptions?: Apollo.MutationHookOptions<EditArticleMutation, EditArticleMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<EditArticleMutation, EditArticleMutationVariables>(EditArticleDocument, options);
+      }
+export type EditArticleMutationHookResult = ReturnType<typeof useEditArticleMutation>;
+export type EditArticleMutationResult = Apollo.MutationResult<EditArticleMutation>;
+export type EditArticleMutationOptions = Apollo.BaseMutationOptions<EditArticleMutation, EditArticleMutationVariables>;
 export const GetRecentArticlesDocument = gql`
-  query GetRecentArticles($input: RecentArticlesInput!) {
-    recentArticles(input: $input) {
-      __typename
-      ... on ArticleList {
-        articles {
-          id
-          publishedAt
-          title
-          content
-        }
+    query GetRecentArticles($input: RecentArticlesInput!) {
+  recentArticles(input: $input) {
+    __typename
+    ... on ArticleList {
+      articles {
+        id
+        publishedAt
+        title
+        content
       }
     }
   }
-`;
+}
+    `;
 
 /**
  * __useGetRecentArticlesQuery__
@@ -2470,57 +1637,31 @@ export const GetRecentArticlesDocument = gql`
  *   },
  * });
  */
-export function useGetRecentArticlesQuery(
-  baseOptions: Apollo.QueryHookOptions<
-    GetRecentArticlesQuery,
-    GetRecentArticlesQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<
-    GetRecentArticlesQuery,
-    GetRecentArticlesQueryVariables
-  >(GetRecentArticlesDocument, options);
-}
-export function useGetRecentArticlesLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    GetRecentArticlesQuery,
-    GetRecentArticlesQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<
-    GetRecentArticlesQuery,
-    GetRecentArticlesQueryVariables
-  >(GetRecentArticlesDocument, options);
-}
-export type GetRecentArticlesQueryHookResult = ReturnType<
-  typeof useGetRecentArticlesQuery
->;
-export type GetRecentArticlesLazyQueryHookResult = ReturnType<
-  typeof useGetRecentArticlesLazyQuery
->;
-export type GetRecentArticlesQueryResult = Apollo.QueryResult<
-  GetRecentArticlesQuery,
-  GetRecentArticlesQueryVariables
->;
-export const PublishArticleDocument = gql`
-  mutation PublishArticle($input: PublishArticleInput!) {
-    publishArticle(input: $input) {
-      __typename
-      ... on Article {
-        id
-        publishedAt
-        title
-        content
+export function useGetRecentArticlesQuery(baseOptions: Apollo.QueryHookOptions<GetRecentArticlesQuery, GetRecentArticlesQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetRecentArticlesQuery, GetRecentArticlesQueryVariables>(GetRecentArticlesDocument, options);
       }
+export function useGetRecentArticlesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetRecentArticlesQuery, GetRecentArticlesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetRecentArticlesQuery, GetRecentArticlesQueryVariables>(GetRecentArticlesDocument, options);
+        }
+export type GetRecentArticlesQueryHookResult = ReturnType<typeof useGetRecentArticlesQuery>;
+export type GetRecentArticlesLazyQueryHookResult = ReturnType<typeof useGetRecentArticlesLazyQuery>;
+export type GetRecentArticlesQueryResult = Apollo.QueryResult<GetRecentArticlesQuery, GetRecentArticlesQueryVariables>;
+export const PublishArticleDocument = gql`
+    mutation PublishArticle($input: PublishArticleInput!) {
+  publishArticle(input: $input) {
+    __typename
+    ... on Article {
+      id
+      publishedAt
+      title
+      content
     }
   }
-`;
-export type PublishArticleMutationFn = Apollo.MutationFunction<
-  PublishArticleMutation,
-  PublishArticleMutationVariables
->;
+}
+    `;
+export type PublishArticleMutationFn = Apollo.MutationFunction<PublishArticleMutation, PublishArticleMutationVariables>;
 
 /**
  * __usePublishArticleMutation__
@@ -2539,45 +1680,28 @@ export type PublishArticleMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function usePublishArticleMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    PublishArticleMutation,
-    PublishArticleMutationVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<
-    PublishArticleMutation,
-    PublishArticleMutationVariables
-  >(PublishArticleDocument, options);
-}
-export type PublishArticleMutationHookResult = ReturnType<
-  typeof usePublishArticleMutation
->;
-export type PublishArticleMutationResult =
-  Apollo.MutationResult<PublishArticleMutation>;
-export type PublishArticleMutationOptions = Apollo.BaseMutationOptions<
-  PublishArticleMutation,
-  PublishArticleMutationVariables
->;
+export function usePublishArticleMutation(baseOptions?: Apollo.MutationHookOptions<PublishArticleMutation, PublishArticleMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<PublishArticleMutation, PublishArticleMutationVariables>(PublishArticleDocument, options);
+      }
+export type PublishArticleMutationHookResult = ReturnType<typeof usePublishArticleMutation>;
+export type PublishArticleMutationResult = Apollo.MutationResult<PublishArticleMutation>;
+export type PublishArticleMutationOptions = Apollo.BaseMutationOptions<PublishArticleMutation, PublishArticleMutationVariables>;
 export const RegisterDocument = gql`
-  mutation Register($username: String!, $password: String!, $captcha: String!) {
-    register(username: $username, password: $password, captcha: $captcha) {
-      __typename
-      ... on User {
-        id
-        username
-      }
-      ... on AlreadyExists {
-        identifier
-      }
+    mutation Register($username: String!, $password: String!, $captcha: String!) {
+  register(username: $username, password: $password, captcha: $captcha) {
+    __typename
+    ... on User {
+      id
+      username
+    }
+    ... on AlreadyExists {
+      identifier
     }
   }
-`;
-export type RegisterMutationFn = Apollo.MutationFunction<
-  RegisterMutation,
-  RegisterMutationVariables
->;
+}
+    `;
+export type RegisterMutationFn = Apollo.MutationFunction<RegisterMutation, RegisterMutationVariables>;
 
 /**
  * __useRegisterMutation__
@@ -2598,35 +1722,21 @@ export type RegisterMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useRegisterMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    RegisterMutation,
-    RegisterMutationVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<RegisterMutation, RegisterMutationVariables>(
-    RegisterDocument,
-    options,
-  );
-}
+export function useRegisterMutation(baseOptions?: Apollo.MutationHookOptions<RegisterMutation, RegisterMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<RegisterMutation, RegisterMutationVariables>(RegisterDocument, options);
+      }
 export type RegisterMutationHookResult = ReturnType<typeof useRegisterMutation>;
 export type RegisterMutationResult = Apollo.MutationResult<RegisterMutation>;
-export type RegisterMutationOptions = Apollo.BaseMutationOptions<
-  RegisterMutation,
-  RegisterMutationVariables
->;
+export type RegisterMutationOptions = Apollo.BaseMutationOptions<RegisterMutation, RegisterMutationVariables>;
 export const SetUsernameDocument = gql`
-  mutation SetUsername($userId: String!, $username: String!) {
-    setUsername(userId: $userId, new: $username) {
-      __typename
-    }
+    mutation SetUsername($userId: String!, $username: String!) {
+  setUsername(userId: $userId, new: $username) {
+    __typename
   }
-`;
-export type SetUsernameMutationFn = Apollo.MutationFunction<
-  SetUsernameMutation,
-  SetUsernameMutationVariables
->;
+}
+    `;
+export type SetUsernameMutationFn = Apollo.MutationFunction<SetUsernameMutation, SetUsernameMutationVariables>;
 
 /**
  * __useSetUsernameMutation__
@@ -2646,39 +1756,25 @@ export type SetUsernameMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useSetUsernameMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    SetUsernameMutation,
-    SetUsernameMutationVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<SetUsernameMutation, SetUsernameMutationVariables>(
-    SetUsernameDocument,
-    options,
-  );
-}
-export type SetUsernameMutationHookResult = ReturnType<
-  typeof useSetUsernameMutation
->;
-export type SetUsernameMutationResult =
-  Apollo.MutationResult<SetUsernameMutation>;
-export type SetUsernameMutationOptions = Apollo.BaseMutationOptions<
-  SetUsernameMutation,
-  SetUsernameMutationVariables
->;
-export const GetEmailAddressDocument = gql`
-  query GetEmailAddress($userId: String!) {
-    me(userId: $userId) {
-      __typename
-      ... on User {
-        id
-        emailAddress
-        emailAddressVerified
+export function useSetUsernameMutation(baseOptions?: Apollo.MutationHookOptions<SetUsernameMutation, SetUsernameMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<SetUsernameMutation, SetUsernameMutationVariables>(SetUsernameDocument, options);
       }
+export type SetUsernameMutationHookResult = ReturnType<typeof useSetUsernameMutation>;
+export type SetUsernameMutationResult = Apollo.MutationResult<SetUsernameMutation>;
+export type SetUsernameMutationOptions = Apollo.BaseMutationOptions<SetUsernameMutation, SetUsernameMutationVariables>;
+export const GetEmailAddressDocument = gql`
+    query GetEmailAddress($userId: String!) {
+  me(userId: $userId) {
+    __typename
+    ... on User {
+      id
+      emailAddress
+      emailAddressVerified
     }
   }
-`;
+}
+    `;
 
 /**
  * __useGetEmailAddressQuery__
@@ -2696,56 +1792,30 @@ export const GetEmailAddressDocument = gql`
  *   },
  * });
  */
-export function useGetEmailAddressQuery(
-  baseOptions: Apollo.QueryHookOptions<
-    GetEmailAddressQuery,
-    GetEmailAddressQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<GetEmailAddressQuery, GetEmailAddressQueryVariables>(
-    GetEmailAddressDocument,
-    options,
-  );
-}
-export function useGetEmailAddressLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    GetEmailAddressQuery,
-    GetEmailAddressQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<
-    GetEmailAddressQuery,
-    GetEmailAddressQueryVariables
-  >(GetEmailAddressDocument, options);
-}
-export type GetEmailAddressQueryHookResult = ReturnType<
-  typeof useGetEmailAddressQuery
->;
-export type GetEmailAddressLazyQueryHookResult = ReturnType<
-  typeof useGetEmailAddressLazyQuery
->;
-export type GetEmailAddressQueryResult = Apollo.QueryResult<
-  GetEmailAddressQuery,
-  GetEmailAddressQueryVariables
->;
-export const SetEmailAddressDocument = gql`
-  mutation SetEmailAddress($userId: String!, $emailAddress: String!) {
-    setEmailAddress(userId: $userId, new: $emailAddress) {
-      __typename
-      ... on User {
-        id
-        emailAddress
-        emailAddressVerified
+export function useGetEmailAddressQuery(baseOptions: Apollo.QueryHookOptions<GetEmailAddressQuery, GetEmailAddressQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetEmailAddressQuery, GetEmailAddressQueryVariables>(GetEmailAddressDocument, options);
       }
+export function useGetEmailAddressLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetEmailAddressQuery, GetEmailAddressQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetEmailAddressQuery, GetEmailAddressQueryVariables>(GetEmailAddressDocument, options);
+        }
+export type GetEmailAddressQueryHookResult = ReturnType<typeof useGetEmailAddressQuery>;
+export type GetEmailAddressLazyQueryHookResult = ReturnType<typeof useGetEmailAddressLazyQuery>;
+export type GetEmailAddressQueryResult = Apollo.QueryResult<GetEmailAddressQuery, GetEmailAddressQueryVariables>;
+export const SetEmailAddressDocument = gql`
+    mutation SetEmailAddress($userId: String!, $emailAddress: String!) {
+  setEmailAddress(userId: $userId, new: $emailAddress) {
+    __typename
+    ... on User {
+      id
+      emailAddress
+      emailAddressVerified
     }
   }
-`;
-export type SetEmailAddressMutationFn = Apollo.MutationFunction<
-  SetEmailAddressMutation,
-  SetEmailAddressMutationVariables
->;
+}
+    `;
+export type SetEmailAddressMutationFn = Apollo.MutationFunction<SetEmailAddressMutation, SetEmailAddressMutationVariables>;
 
 /**
  * __useSetEmailAddressMutation__
@@ -2765,42 +1835,25 @@ export type SetEmailAddressMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useSetEmailAddressMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    SetEmailAddressMutation,
-    SetEmailAddressMutationVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<
-    SetEmailAddressMutation,
-    SetEmailAddressMutationVariables
-  >(SetEmailAddressDocument, options);
-}
-export type SetEmailAddressMutationHookResult = ReturnType<
-  typeof useSetEmailAddressMutation
->;
-export type SetEmailAddressMutationResult =
-  Apollo.MutationResult<SetEmailAddressMutation>;
-export type SetEmailAddressMutationOptions = Apollo.BaseMutationOptions<
-  SetEmailAddressMutation,
-  SetEmailAddressMutationVariables
->;
-export const DeleteEmailAddressDocument = gql`
-  mutation DeleteEmailAddress($userId: String!) {
-    deleteEmailAddress(userId: $userId) {
-      __typename
-      ... on User {
-        id
-        emailAddress
+export function useSetEmailAddressMutation(baseOptions?: Apollo.MutationHookOptions<SetEmailAddressMutation, SetEmailAddressMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<SetEmailAddressMutation, SetEmailAddressMutationVariables>(SetEmailAddressDocument, options);
       }
+export type SetEmailAddressMutationHookResult = ReturnType<typeof useSetEmailAddressMutation>;
+export type SetEmailAddressMutationResult = Apollo.MutationResult<SetEmailAddressMutation>;
+export type SetEmailAddressMutationOptions = Apollo.BaseMutationOptions<SetEmailAddressMutation, SetEmailAddressMutationVariables>;
+export const DeleteEmailAddressDocument = gql`
+    mutation DeleteEmailAddress($userId: String!) {
+  deleteEmailAddress(userId: $userId) {
+    __typename
+    ... on User {
+      id
+      emailAddress
     }
   }
-`;
-export type DeleteEmailAddressMutationFn = Apollo.MutationFunction<
-  DeleteEmailAddressMutation,
-  DeleteEmailAddressMutationVariables
->;
+}
+    `;
+export type DeleteEmailAddressMutationFn = Apollo.MutationFunction<DeleteEmailAddressMutation, DeleteEmailAddressMutationVariables>;
 
 /**
  * __useDeleteEmailAddressMutation__
@@ -2819,38 +1872,21 @@ export type DeleteEmailAddressMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useDeleteEmailAddressMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    DeleteEmailAddressMutation,
-    DeleteEmailAddressMutationVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<
-    DeleteEmailAddressMutation,
-    DeleteEmailAddressMutationVariables
-  >(DeleteEmailAddressDocument, options);
-}
-export type DeleteEmailAddressMutationHookResult = ReturnType<
-  typeof useDeleteEmailAddressMutation
->;
-export type DeleteEmailAddressMutationResult =
-  Apollo.MutationResult<DeleteEmailAddressMutation>;
-export type DeleteEmailAddressMutationOptions = Apollo.BaseMutationOptions<
-  DeleteEmailAddressMutation,
-  DeleteEmailAddressMutationVariables
->;
+export function useDeleteEmailAddressMutation(baseOptions?: Apollo.MutationHookOptions<DeleteEmailAddressMutation, DeleteEmailAddressMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteEmailAddressMutation, DeleteEmailAddressMutationVariables>(DeleteEmailAddressDocument, options);
+      }
+export type DeleteEmailAddressMutationHookResult = ReturnType<typeof useDeleteEmailAddressMutation>;
+export type DeleteEmailAddressMutationResult = Apollo.MutationResult<DeleteEmailAddressMutation>;
+export type DeleteEmailAddressMutationOptions = Apollo.BaseMutationOptions<DeleteEmailAddressMutation, DeleteEmailAddressMutationVariables>;
 export const SetPasswordDocument = gql`
-  mutation SetPassword($userId: String!, $old: String!, $new: String!) {
-    setPassword(userId: $userId, old: $old, new: $new) {
-      __typename
-    }
+    mutation SetPassword($userId: String!, $old: String!, $new: String!) {
+  setPassword(userId: $userId, old: $old, new: $new) {
+    __typename
   }
-`;
-export type SetPasswordMutationFn = Apollo.MutationFunction<
-  SetPasswordMutation,
-  SetPasswordMutationVariables
->;
+}
+    `;
+export type SetPasswordMutationFn = Apollo.MutationFunction<SetPasswordMutation, SetPasswordMutationVariables>;
 
 /**
  * __useSetPasswordMutation__
@@ -2871,35 +1907,21 @@ export type SetPasswordMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useSetPasswordMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    SetPasswordMutation,
-    SetPasswordMutationVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<SetPasswordMutation, SetPasswordMutationVariables>(
-    SetPasswordDocument,
-    options,
-  );
-}
-export type SetPasswordMutationHookResult = ReturnType<
-  typeof useSetPasswordMutation
->;
-export type SetPasswordMutationResult =
-  Apollo.MutationResult<SetPasswordMutation>;
-export type SetPasswordMutationOptions = Apollo.BaseMutationOptions<
-  SetPasswordMutation,
-  SetPasswordMutationVariables
->;
+export function useSetPasswordMutation(baseOptions?: Apollo.MutationHookOptions<SetPasswordMutation, SetPasswordMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<SetPasswordMutation, SetPasswordMutationVariables>(SetPasswordDocument, options);
+      }
+export type SetPasswordMutationHookResult = ReturnType<typeof useSetPasswordMutation>;
+export type SetPasswordMutationResult = Apollo.MutationResult<SetPasswordMutation>;
+export type SetPasswordMutationOptions = Apollo.BaseMutationOptions<SetPasswordMutation, SetPasswordMutationVariables>;
 export const GetNumberIslandsDocument = gql`
-  query GetNumberIslands {
-    archipelago {
-      id
-      numberIslands
-    }
+    query GetNumberIslands {
+  archipelago {
+    id
+    numberIslands
   }
-`;
+}
+    `;
 
 /**
  * __useGetNumberIslandsQuery__
@@ -2916,56 +1938,33 @@ export const GetNumberIslandsDocument = gql`
  *   },
  * });
  */
-export function useGetNumberIslandsQuery(
-  baseOptions?: Apollo.QueryHookOptions<
-    GetNumberIslandsQuery,
-    GetNumberIslandsQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<GetNumberIslandsQuery, GetNumberIslandsQueryVariables>(
-    GetNumberIslandsDocument,
-    options,
-  );
-}
-export function useGetNumberIslandsLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    GetNumberIslandsQuery,
-    GetNumberIslandsQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<
-    GetNumberIslandsQuery,
-    GetNumberIslandsQueryVariables
-  >(GetNumberIslandsDocument, options);
-}
-export type GetNumberIslandsQueryHookResult = ReturnType<
-  typeof useGetNumberIslandsQuery
->;
-export type GetNumberIslandsLazyQueryHookResult = ReturnType<
-  typeof useGetNumberIslandsLazyQuery
->;
-export type GetNumberIslandsQueryResult = Apollo.QueryResult<
-  GetNumberIslandsQuery,
-  GetNumberIslandsQueryVariables
->;
+export function useGetNumberIslandsQuery(baseOptions?: Apollo.QueryHookOptions<GetNumberIslandsQuery, GetNumberIslandsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetNumberIslandsQuery, GetNumberIslandsQueryVariables>(GetNumberIslandsDocument, options);
+      }
+export function useGetNumberIslandsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetNumberIslandsQuery, GetNumberIslandsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetNumberIslandsQuery, GetNumberIslandsQueryVariables>(GetNumberIslandsDocument, options);
+        }
+export type GetNumberIslandsQueryHookResult = ReturnType<typeof useGetNumberIslandsQuery>;
+export type GetNumberIslandsLazyQueryHookResult = ReturnType<typeof useGetNumberIslandsLazyQuery>;
+export type GetNumberIslandsQueryResult = Apollo.QueryResult<GetNumberIslandsQuery, GetNumberIslandsQueryVariables>;
 export const GetTopPlayersDocument = gql`
-  query GetTopPlayers($input: TopPlayersInput!) {
-    topPlayers(input: $input) {
-      ... on TopPlayers {
-        players {
+    query GetTopPlayers($input: TopPlayersInput!) {
+  topPlayers(input: $input) {
+    ... on TopPlayers {
+      players {
+        id
+        name
+        scoresheet {
           id
-          name
-          scoresheet {
-            id
-            score
-          }
+          score
         }
       }
     }
   }
-`;
+}
+    `;
 
 /**
  * __useGetTopPlayersQuery__
@@ -2983,52 +1982,29 @@ export const GetTopPlayersDocument = gql`
  *   },
  * });
  */
-export function useGetTopPlayersQuery(
-  baseOptions: Apollo.QueryHookOptions<
-    GetTopPlayersQuery,
-    GetTopPlayersQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<GetTopPlayersQuery, GetTopPlayersQueryVariables>(
-    GetTopPlayersDocument,
-    options,
-  );
-}
-export function useGetTopPlayersLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    GetTopPlayersQuery,
-    GetTopPlayersQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<GetTopPlayersQuery, GetTopPlayersQueryVariables>(
-    GetTopPlayersDocument,
-    options,
-  );
-}
-export type GetTopPlayersQueryHookResult = ReturnType<
-  typeof useGetTopPlayersQuery
->;
-export type GetTopPlayersLazyQueryHookResult = ReturnType<
-  typeof useGetTopPlayersLazyQuery
->;
-export type GetTopPlayersQueryResult = Apollo.QueryResult<
-  GetTopPlayersQuery,
-  GetTopPlayersQueryVariables
->;
-export const SearchIslandsDocument = gql`
-  query SearchIslands($term: String!) {
-    searchIslands(term: $term) {
-      ... on IslandList {
-        islands {
-          id
-          name
+export function useGetTopPlayersQuery(baseOptions: Apollo.QueryHookOptions<GetTopPlayersQuery, GetTopPlayersQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetTopPlayersQuery, GetTopPlayersQueryVariables>(GetTopPlayersDocument, options);
+      }
+export function useGetTopPlayersLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetTopPlayersQuery, GetTopPlayersQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetTopPlayersQuery, GetTopPlayersQueryVariables>(GetTopPlayersDocument, options);
         }
+export type GetTopPlayersQueryHookResult = ReturnType<typeof useGetTopPlayersQuery>;
+export type GetTopPlayersLazyQueryHookResult = ReturnType<typeof useGetTopPlayersLazyQuery>;
+export type GetTopPlayersQueryResult = Apollo.QueryResult<GetTopPlayersQuery, GetTopPlayersQueryVariables>;
+export const SearchIslandsDocument = gql`
+    query SearchIslands($term: String!) {
+  searchIslands(term: $term) {
+    ... on IslandList {
+      islands {
+        id
+        name
       }
     }
   }
-`;
+}
+    `;
 
 /**
  * __useSearchIslandsQuery__
@@ -3046,52 +2022,29 @@ export const SearchIslandsDocument = gql`
  *   },
  * });
  */
-export function useSearchIslandsQuery(
-  baseOptions: Apollo.QueryHookOptions<
-    SearchIslandsQuery,
-    SearchIslandsQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<SearchIslandsQuery, SearchIslandsQueryVariables>(
-    SearchIslandsDocument,
-    options,
-  );
-}
-export function useSearchIslandsLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    SearchIslandsQuery,
-    SearchIslandsQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<SearchIslandsQuery, SearchIslandsQueryVariables>(
-    SearchIslandsDocument,
-    options,
-  );
-}
-export type SearchIslandsQueryHookResult = ReturnType<
-  typeof useSearchIslandsQuery
->;
-export type SearchIslandsLazyQueryHookResult = ReturnType<
-  typeof useSearchIslandsLazyQuery
->;
-export type SearchIslandsQueryResult = Apollo.QueryResult<
-  SearchIslandsQuery,
-  SearchIslandsQueryVariables
->;
-export const GetCitizenDocument = gql`
-  query GetCitizen($input: CitizenInput!) {
-    citizen(input: $input) {
-      __typename
-      ... on Citizen {
-        id
-        name
-        createdAt
+export function useSearchIslandsQuery(baseOptions: Apollo.QueryHookOptions<SearchIslandsQuery, SearchIslandsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<SearchIslandsQuery, SearchIslandsQueryVariables>(SearchIslandsDocument, options);
       }
+export function useSearchIslandsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<SearchIslandsQuery, SearchIslandsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<SearchIslandsQuery, SearchIslandsQueryVariables>(SearchIslandsDocument, options);
+        }
+export type SearchIslandsQueryHookResult = ReturnType<typeof useSearchIslandsQuery>;
+export type SearchIslandsLazyQueryHookResult = ReturnType<typeof useSearchIslandsLazyQuery>;
+export type SearchIslandsQueryResult = Apollo.QueryResult<SearchIslandsQuery, SearchIslandsQueryVariables>;
+export const GetCitizenDocument = gql`
+    query GetCitizen($input: CitizenInput!) {
+  citizen(input: $input) {
+    __typename
+    ... on Citizen {
+      id
+      name
+      createdAt
     }
   }
-`;
+}
+    `;
 
 /**
  * __useGetCitizenQuery__
@@ -3109,51 +2062,30 @@ export const GetCitizenDocument = gql`
  *   },
  * });
  */
-export function useGetCitizenQuery(
-  baseOptions: Apollo.QueryHookOptions<
-    GetCitizenQuery,
-    GetCitizenQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<GetCitizenQuery, GetCitizenQueryVariables>(
-    GetCitizenDocument,
-    options,
-  );
-}
-export function useGetCitizenLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    GetCitizenQuery,
-    GetCitizenQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<GetCitizenQuery, GetCitizenQueryVariables>(
-    GetCitizenDocument,
-    options,
-  );
-}
-export type GetCitizenQueryHookResult = ReturnType<typeof useGetCitizenQuery>;
-export type GetCitizenLazyQueryHookResult = ReturnType<
-  typeof useGetCitizenLazyQuery
->;
-export type GetCitizenQueryResult = Apollo.QueryResult<
-  GetCitizenQuery,
-  GetCitizenQueryVariables
->;
-export const GetCitizensDocument = gql`
-  query GetCitizens($input: CitizensFromIslandInput!) {
-    citizensFromIsland(input: $input) {
-      ... on CitizenList {
-        citizens {
-          id
-          createdAt
-          name
+export function useGetCitizenQuery(baseOptions: Apollo.QueryHookOptions<GetCitizenQuery, GetCitizenQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetCitizenQuery, GetCitizenQueryVariables>(GetCitizenDocument, options);
+      }
+export function useGetCitizenLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetCitizenQuery, GetCitizenQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetCitizenQuery, GetCitizenQueryVariables>(GetCitizenDocument, options);
         }
+export type GetCitizenQueryHookResult = ReturnType<typeof useGetCitizenQuery>;
+export type GetCitizenLazyQueryHookResult = ReturnType<typeof useGetCitizenLazyQuery>;
+export type GetCitizenQueryResult = Apollo.QueryResult<GetCitizenQuery, GetCitizenQueryVariables>;
+export const GetCitizensDocument = gql`
+    query GetCitizens($input: CitizensFromIslandInput!) {
+  citizensFromIsland(input: $input) {
+    ... on CitizenList {
+      citizens {
+        id
+        createdAt
+        name
       }
     }
   }
-`;
+}
+    `;
 
 /**
  * __useGetCitizensQuery__
@@ -3171,81 +2103,60 @@ export const GetCitizensDocument = gql`
  *   },
  * });
  */
-export function useGetCitizensQuery(
-  baseOptions: Apollo.QueryHookOptions<
-    GetCitizensQuery,
-    GetCitizensQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<GetCitizensQuery, GetCitizensQueryVariables>(
-    GetCitizensDocument,
-    options,
-  );
-}
-export function useGetCitizensLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    GetCitizensQuery,
-    GetCitizensQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<GetCitizensQuery, GetCitizensQueryVariables>(
-    GetCitizensDocument,
-    options,
-  );
-}
+export function useGetCitizensQuery(baseOptions: Apollo.QueryHookOptions<GetCitizensQuery, GetCitizensQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetCitizensQuery, GetCitizensQueryVariables>(GetCitizensDocument, options);
+      }
+export function useGetCitizensLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetCitizensQuery, GetCitizensQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetCitizensQuery, GetCitizensQueryVariables>(GetCitizensDocument, options);
+        }
 export type GetCitizensQueryHookResult = ReturnType<typeof useGetCitizensQuery>;
-export type GetCitizensLazyQueryHookResult = ReturnType<
-  typeof useGetCitizensLazyQuery
->;
-export type GetCitizensQueryResult = Apollo.QueryResult<
-  GetCitizensQuery,
-  GetCitizensQueryVariables
->;
+export type GetCitizensLazyQueryHookResult = ReturnType<typeof useGetCitizensLazyQuery>;
+export type GetCitizensQueryResult = Apollo.QueryResult<GetCitizensQuery, GetCitizensQueryVariables>;
 export const GetEventsDocument = gql`
-  query GetEvents($input: EventsInput!) {
-    events(input: $input) {
-      ... on EventList {
-        events {
-          ... on AccountCreation {
-            __typename
-            id
-            happenedAt
+    query GetEvents($input: EventsInput!) {
+  events(input: $input) {
+    ... on EventList {
+      events {
+        ... on AccountCreation {
+          __typename
+          id
+          happenedAt
+        }
+        ... on SellOrderExecution {
+          __typename
+          id
+          happenedAt
+          currency {
+            code
           }
-          ... on SellOrderExecution {
-            __typename
-            id
-            happenedAt
-            currency {
-              code
-            }
-            commodity
-            commodityCurrency {
-              code
-            }
-            quantity
-            price
+          commodity
+          commodityCurrency {
+            code
           }
-          ... on BuyOrderExecution {
-            __typename
-            id
-            happenedAt
-            currency {
-              code
-            }
-            commodity
-            commodityCurrency {
-              code
-            }
-            quantity
-            price
+          quantity
+          price
+        }
+        ... on BuyOrderExecution {
+          __typename
+          id
+          happenedAt
+          currency {
+            code
           }
+          commodity
+          commodityCurrency {
+            code
+          }
+          quantity
+          price
         }
       }
     }
   }
-`;
+}
+    `;
 
 /**
  * __useGetEventsQuery__
@@ -3263,61 +2174,43 @@ export const GetEventsDocument = gql`
  *   },
  * });
  */
-export function useGetEventsQuery(
-  baseOptions: Apollo.QueryHookOptions<GetEventsQuery, GetEventsQueryVariables>,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<GetEventsQuery, GetEventsQueryVariables>(
-    GetEventsDocument,
-    options,
-  );
-}
-export function useGetEventsLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    GetEventsQuery,
-    GetEventsQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<GetEventsQuery, GetEventsQueryVariables>(
-    GetEventsDocument,
-    options,
-  );
-}
+export function useGetEventsQuery(baseOptions: Apollo.QueryHookOptions<GetEventsQuery, GetEventsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetEventsQuery, GetEventsQueryVariables>(GetEventsDocument, options);
+      }
+export function useGetEventsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetEventsQuery, GetEventsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetEventsQuery, GetEventsQueryVariables>(GetEventsDocument, options);
+        }
 export type GetEventsQueryHookResult = ReturnType<typeof useGetEventsQuery>;
-export type GetEventsLazyQueryHookResult = ReturnType<
-  typeof useGetEventsLazyQuery
->;
-export type GetEventsQueryResult = Apollo.QueryResult<
-  GetEventsQuery,
-  GetEventsQueryVariables
->;
+export type GetEventsLazyQueryHookResult = ReturnType<typeof useGetEventsLazyQuery>;
+export type GetEventsQueryResult = Apollo.QueryResult<GetEventsQuery, GetEventsQueryVariables>;
 export const GetTilesDocument = gql`
-  query GetTiles($islandId: String!) {
-    island(islandId: $islandId) {
-      ... on Island {
+    query GetTiles($islandId: String!) {
+  island(islandId: $islandId) {
+    ... on Island {
+      id
+      tiles {
         id
-        tiles {
+        position
+        kind
+        infrastructure
+        level
+        desiredStatus
+        currentStatus
+        population
+        material
+        food
+        frozenFood
+        energy
+        island {
           id
-          position
-          kind
-          infrastructure
-          level
-          desiredStatus
-          currentStatus
-          population
-          material
-          food
-          frozenFood
-          energy
-          island {
-            id
-          }
         }
       }
     }
   }
-`;
+}
+    `;
 
 /**
  * __useGetTilesQuery__
@@ -3335,54 +2228,36 @@ export const GetTilesDocument = gql`
  *   },
  * });
  */
-export function useGetTilesQuery(
-  baseOptions: Apollo.QueryHookOptions<GetTilesQuery, GetTilesQueryVariables>,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<GetTilesQuery, GetTilesQueryVariables>(
-    GetTilesDocument,
-    options,
-  );
-}
-export function useGetTilesLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    GetTilesQuery,
-    GetTilesQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<GetTilesQuery, GetTilesQueryVariables>(
-    GetTilesDocument,
-    options,
-  );
-}
+export function useGetTilesQuery(baseOptions: Apollo.QueryHookOptions<GetTilesQuery, GetTilesQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetTilesQuery, GetTilesQueryVariables>(GetTilesDocument, options);
+      }
+export function useGetTilesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetTilesQuery, GetTilesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetTilesQuery, GetTilesQueryVariables>(GetTilesDocument, options);
+        }
 export type GetTilesQueryHookResult = ReturnType<typeof useGetTilesQuery>;
-export type GetTilesLazyQueryHookResult = ReturnType<
-  typeof useGetTilesLazyQuery
->;
-export type GetTilesQueryResult = Apollo.QueryResult<
-  GetTilesQuery,
-  GetTilesQueryVariables
->;
+export type GetTilesLazyQueryHookResult = ReturnType<typeof useGetTilesLazyQuery>;
+export type GetTilesQueryResult = Apollo.QueryResult<GetTilesQuery, GetTilesQueryVariables>;
 export const GetIslandDocument = gql`
-  query GetIsland($islandId: String!) {
-    island(islandId: $islandId) {
-      ... on Island {
+    query GetIsland($islandId: String!) {
+  island(islandId: $islandId) {
+    ... on Island {
+      id
+      owner {
         id
-        owner {
-          id
-          username
-        }
-        tiles {
-          id
-          position
-          infrastructure
-          level
-        }
+        username
+      }
+      tiles {
+        id
+        position
+        infrastructure
+        level
       }
     }
   }
-`;
+}
+    `;
 
 /**
  * __useGetIslandQuery__
@@ -3400,49 +2275,31 @@ export const GetIslandDocument = gql`
  *   },
  * });
  */
-export function useGetIslandQuery(
-  baseOptions: Apollo.QueryHookOptions<GetIslandQuery, GetIslandQueryVariables>,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<GetIslandQuery, GetIslandQueryVariables>(
-    GetIslandDocument,
-    options,
-  );
-}
-export function useGetIslandLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    GetIslandQuery,
-    GetIslandQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<GetIslandQuery, GetIslandQueryVariables>(
-    GetIslandDocument,
-    options,
-  );
-}
+export function useGetIslandQuery(baseOptions: Apollo.QueryHookOptions<GetIslandQuery, GetIslandQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetIslandQuery, GetIslandQueryVariables>(GetIslandDocument, options);
+      }
+export function useGetIslandLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetIslandQuery, GetIslandQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetIslandQuery, GetIslandQueryVariables>(GetIslandDocument, options);
+        }
 export type GetIslandQueryHookResult = ReturnType<typeof useGetIslandQuery>;
-export type GetIslandLazyQueryHookResult = ReturnType<
-  typeof useGetIslandLazyQuery
->;
-export type GetIslandQueryResult = Apollo.QueryResult<
-  GetIslandQuery,
-  GetIslandQueryVariables
->;
+export type GetIslandLazyQueryHookResult = ReturnType<typeof useGetIslandLazyQuery>;
+export type GetIslandQueryResult = Apollo.QueryResult<GetIslandQuery, GetIslandQueryVariables>;
 export const GetIslandOverviewDocument = gql`
-  query GetIslandOverview($islandId: String!) {
-    island(islandId: $islandId) {
-      ... on Island {
+    query GetIslandOverview($islandId: String!) {
+  island(islandId: $islandId) {
+    ... on Island {
+      id
+      name
+      owner {
         id
         name
-        owner {
-          id
-          name
-        }
       }
     }
   }
-`;
+}
+    `;
 
 /**
  * __useGetIslandOverviewQuery__
@@ -3460,70 +2317,47 @@ export const GetIslandOverviewDocument = gql`
  *   },
  * });
  */
-export function useGetIslandOverviewQuery(
-  baseOptions: Apollo.QueryHookOptions<
-    GetIslandOverviewQuery,
-    GetIslandOverviewQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<
-    GetIslandOverviewQuery,
-    GetIslandOverviewQueryVariables
-  >(GetIslandOverviewDocument, options);
-}
-export function useGetIslandOverviewLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    GetIslandOverviewQuery,
-    GetIslandOverviewQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<
-    GetIslandOverviewQuery,
-    GetIslandOverviewQueryVariables
-  >(GetIslandOverviewDocument, options);
-}
-export type GetIslandOverviewQueryHookResult = ReturnType<
-  typeof useGetIslandOverviewQuery
->;
-export type GetIslandOverviewLazyQueryHookResult = ReturnType<
-  typeof useGetIslandOverviewLazyQuery
->;
-export type GetIslandOverviewQueryResult = Apollo.QueryResult<
-  GetIslandOverviewQuery,
-  GetIslandOverviewQueryVariables
->;
+export function useGetIslandOverviewQuery(baseOptions: Apollo.QueryHookOptions<GetIslandOverviewQuery, GetIslandOverviewQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetIslandOverviewQuery, GetIslandOverviewQueryVariables>(GetIslandOverviewDocument, options);
+      }
+export function useGetIslandOverviewLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetIslandOverviewQuery, GetIslandOverviewQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetIslandOverviewQuery, GetIslandOverviewQueryVariables>(GetIslandOverviewDocument, options);
+        }
+export type GetIslandOverviewQueryHookResult = ReturnType<typeof useGetIslandOverviewQuery>;
+export type GetIslandOverviewLazyQueryHookResult = ReturnType<typeof useGetIslandOverviewLazyQuery>;
+export type GetIslandOverviewQueryResult = Apollo.QueryResult<GetIslandOverviewQuery, GetIslandOverviewQueryVariables>;
 export const GetPlayerProfileDocument = gql`
-  query GetPlayerProfile($input: PlayerInput!) {
-    player(input: $input) {
-      ... on Player {
-        scoresheet {
-          id
+    query GetPlayerProfile($input: PlayerInput!) {
+  player(input: $input) {
+    ... on Player {
+      scoresheet {
+        id
+        score
+        commodities {
+          commodity
           score
-          commodities {
-            commodity
-            score
-          }
-          buildings {
-            score
-          }
-          currencies {
-            currency {
-              id
-            }
-            score
-          }
         }
-        badges {
-          id
-          createdAt
-          type
+        buildings {
+          score
         }
+        currencies {
+          currency {
+            id
+          }
+          score
+        }
+      }
+      badges {
+        id
+        createdAt
+        type
       }
     }
   }
-`;
+}
+    `;
 
 /**
  * __useGetPlayerProfileQuery__
@@ -3541,73 +2375,50 @@ export const GetPlayerProfileDocument = gql`
  *   },
  * });
  */
-export function useGetPlayerProfileQuery(
-  baseOptions: Apollo.QueryHookOptions<
-    GetPlayerProfileQuery,
-    GetPlayerProfileQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<GetPlayerProfileQuery, GetPlayerProfileQueryVariables>(
-    GetPlayerProfileDocument,
-    options,
-  );
-}
-export function useGetPlayerProfileLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    GetPlayerProfileQuery,
-    GetPlayerProfileQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<
-    GetPlayerProfileQuery,
-    GetPlayerProfileQueryVariables
-  >(GetPlayerProfileDocument, options);
-}
-export type GetPlayerProfileQueryHookResult = ReturnType<
-  typeof useGetPlayerProfileQuery
->;
-export type GetPlayerProfileLazyQueryHookResult = ReturnType<
-  typeof useGetPlayerProfileLazyQuery
->;
-export type GetPlayerProfileQueryResult = Apollo.QueryResult<
-  GetPlayerProfileQuery,
-  GetPlayerProfileQueryVariables
->;
+export function useGetPlayerProfileQuery(baseOptions: Apollo.QueryHookOptions<GetPlayerProfileQuery, GetPlayerProfileQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetPlayerProfileQuery, GetPlayerProfileQueryVariables>(GetPlayerProfileDocument, options);
+      }
+export function useGetPlayerProfileLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetPlayerProfileQuery, GetPlayerProfileQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetPlayerProfileQuery, GetPlayerProfileQueryVariables>(GetPlayerProfileDocument, options);
+        }
+export type GetPlayerProfileQueryHookResult = ReturnType<typeof useGetPlayerProfileQuery>;
+export type GetPlayerProfileLazyQueryHookResult = ReturnType<typeof useGetPlayerProfileLazyQuery>;
+export type GetPlayerProfileQueryResult = Apollo.QueryResult<GetPlayerProfileQuery, GetPlayerProfileQueryVariables>;
 export const GetTileDocument = gql`
-  query GetTile($islandId: String!, $position: Int!) {
-    tile(islandId: $islandId, position: $position) {
-      ... on Tile {
+    query GetTile($islandId: String!, $position: Int!) {
+  tile(islandId: $islandId, position: $position) {
+    ... on Tile {
+      id
+      position
+      kind
+      infrastructure
+      level
+      maxLevel
+      desiredStatus
+      currentStatus
+      population
+      energy
+      material
+      food
+      frozenFood
+      frozenFoodStorage
+      constructionSite {
         id
-        position
-        kind
         infrastructure
-        level
-        maxLevel
-        desiredStatus
-        currentStatus
-        population
-        energy
-        material
-        food
-        frozenFood
-        frozenFoodStorage
-        constructionSite {
-          id
-          infrastructure
-          workloadLeft
-          finishedAt
-        }
-        blueprints {
-          infrastructure
-          materialCost
-          workload
-        }
+        workloadLeft
+        finishedAt
+      }
+      blueprints {
+        infrastructure
+        materialCost
+        workload
       }
     }
   }
-`;
+}
+    `;
 
 /**
  * __useGetTileQuery__
@@ -3626,77 +2437,50 @@ export const GetTileDocument = gql`
  *   },
  * });
  */
-export function useGetTileQuery(
-  baseOptions: Apollo.QueryHookOptions<GetTileQuery, GetTileQueryVariables>,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<GetTileQuery, GetTileQueryVariables>(
-    GetTileDocument,
-    options,
-  );
-}
-export function useGetTileLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    GetTileQuery,
-    GetTileQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<GetTileQuery, GetTileQueryVariables>(
-    GetTileDocument,
-    options,
-  );
-}
+export function useGetTileQuery(baseOptions: Apollo.QueryHookOptions<GetTileQuery, GetTileQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetTileQuery, GetTileQueryVariables>(GetTileDocument, options);
+      }
+export function useGetTileLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetTileQuery, GetTileQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetTileQuery, GetTileQueryVariables>(GetTileDocument, options);
+        }
 export type GetTileQueryHookResult = ReturnType<typeof useGetTileQuery>;
 export type GetTileLazyQueryHookResult = ReturnType<typeof useGetTileLazyQuery>;
-export type GetTileQueryResult = Apollo.QueryResult<
-  GetTileQuery,
-  GetTileQueryVariables
->;
+export type GetTileQueryResult = Apollo.QueryResult<GetTileQuery, GetTileQueryVariables>;
 export const BuildInfrastructureDocument = gql`
-  mutation BuildInfrastructure(
-    $islandId: String!
-    $position: Int!
-    $infrastructure: Infrastructure!
-  ) {
-    buildInfrastructure(
-      islandId: $islandId
-      position: $position
-      infrastructure: $infrastructure
-    ) {
-      ... on Tile {
+    mutation BuildInfrastructure($islandId: String!, $position: Int!, $infrastructure: Infrastructure!) {
+  buildInfrastructure(islandId: $islandId, position: $position, infrastructure: $infrastructure) {
+    ... on Tile {
+      id
+      infrastructure
+      level
+      constructionSite {
         id
         infrastructure
-        level
-        constructionSite {
-          id
-          infrastructure
-          workloadLeft
-          finishedAt
-          tile {
-            position
-          }
+        workloadLeft
+        finishedAt
+        tile {
+          position
         }
-        blueprints {
-          infrastructure
-          materialCost
-          workload
-        }
-        island {
+      }
+      blueprints {
+        infrastructure
+        materialCost
+        workload
+      }
+      island {
+        id
+        inventory {
           id
-          inventory {
-            id
-            material
-          }
+          material
         }
       }
     }
   }
-`;
-export type BuildInfrastructureMutationFn = Apollo.MutationFunction<
-  BuildInfrastructureMutation,
-  BuildInfrastructureMutationVariables
->;
+}
+    `;
+export type BuildInfrastructureMutationFn = Apollo.MutationFunction<BuildInfrastructureMutation, BuildInfrastructureMutationVariables>;
 
 /**
  * __useBuildInfrastructureMutation__
@@ -3717,58 +2501,41 @@ export type BuildInfrastructureMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useBuildInfrastructureMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    BuildInfrastructureMutation,
-    BuildInfrastructureMutationVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<
-    BuildInfrastructureMutation,
-    BuildInfrastructureMutationVariables
-  >(BuildInfrastructureDocument, options);
-}
-export type BuildInfrastructureMutationHookResult = ReturnType<
-  typeof useBuildInfrastructureMutation
->;
-export type BuildInfrastructureMutationResult =
-  Apollo.MutationResult<BuildInfrastructureMutation>;
-export type BuildInfrastructureMutationOptions = Apollo.BaseMutationOptions<
-  BuildInfrastructureMutation,
-  BuildInfrastructureMutationVariables
->;
+export function useBuildInfrastructureMutation(baseOptions?: Apollo.MutationHookOptions<BuildInfrastructureMutation, BuildInfrastructureMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<BuildInfrastructureMutation, BuildInfrastructureMutationVariables>(BuildInfrastructureDocument, options);
+      }
+export type BuildInfrastructureMutationHookResult = ReturnType<typeof useBuildInfrastructureMutation>;
+export type BuildInfrastructureMutationResult = Apollo.MutationResult<BuildInfrastructureMutation>;
+export type BuildInfrastructureMutationOptions = Apollo.BaseMutationOptions<BuildInfrastructureMutation, BuildInfrastructureMutationVariables>;
 export const CancelConstructionDocument = gql`
-  mutation CancelConstruction($islandId: String!, $position: Int!) {
-    cancelConstruction(islandId: $islandId, position: $position) {
-      ... on Tile {
+    mutation CancelConstruction($islandId: String!, $position: Int!) {
+  cancelConstruction(islandId: $islandId, position: $position) {
+    ... on Tile {
+      id
+      position
+      infrastructure
+      level
+      constructionSite {
         id
-        position
+      }
+      blueprints {
         infrastructure
-        level
-        constructionSite {
+        materialCost
+        workload
+      }
+      island {
+        id
+        inventory {
           id
-        }
-        blueprints {
-          infrastructure
-          materialCost
-          workload
-        }
-        island {
-          id
-          inventory {
-            id
-            material
-          }
+          material
         }
       }
     }
   }
-`;
-export type CancelConstructionMutationFn = Apollo.MutationFunction<
-  CancelConstructionMutation,
-  CancelConstructionMutationVariables
->;
+}
+    `;
+export type CancelConstructionMutationFn = Apollo.MutationFunction<CancelConstructionMutation, CancelConstructionMutationVariables>;
 
 /**
  * __useCancelConstructionMutation__
@@ -3788,63 +2555,46 @@ export type CancelConstructionMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useCancelConstructionMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    CancelConstructionMutation,
-    CancelConstructionMutationVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<
-    CancelConstructionMutation,
-    CancelConstructionMutationVariables
-  >(CancelConstructionDocument, options);
-}
-export type CancelConstructionMutationHookResult = ReturnType<
-  typeof useCancelConstructionMutation
->;
-export type CancelConstructionMutationResult =
-  Apollo.MutationResult<CancelConstructionMutation>;
-export type CancelConstructionMutationOptions = Apollo.BaseMutationOptions<
-  CancelConstructionMutation,
-  CancelConstructionMutationVariables
->;
+export function useCancelConstructionMutation(baseOptions?: Apollo.MutationHookOptions<CancelConstructionMutation, CancelConstructionMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CancelConstructionMutation, CancelConstructionMutationVariables>(CancelConstructionDocument, options);
+      }
+export type CancelConstructionMutationHookResult = ReturnType<typeof useCancelConstructionMutation>;
+export type CancelConstructionMutationResult = Apollo.MutationResult<CancelConstructionMutation>;
+export type CancelConstructionMutationOptions = Apollo.BaseMutationOptions<CancelConstructionMutation, CancelConstructionMutationVariables>;
 export const UpgradeInfrastructureDocument = gql`
-  mutation UpgradeInfrastructure($islandId: String!, $position: Int!) {
-    upgradeInfrastructure(islandId: $islandId, position: $position) {
-      ... on Tile {
+    mutation UpgradeInfrastructure($islandId: String!, $position: Int!) {
+  upgradeInfrastructure(islandId: $islandId, position: $position) {
+    ... on Tile {
+      id
+      infrastructure
+      level
+      constructionSite {
         id
         infrastructure
-        level
-        constructionSite {
-          id
-          infrastructure
-          workloadLeft
-          finishedAt
-          tile {
-            position
-          }
+        workloadLeft
+        finishedAt
+        tile {
+          position
         }
-        blueprints {
-          infrastructure
-          materialCost
-          workload
-        }
-        island {
+      }
+      blueprints {
+        infrastructure
+        materialCost
+        workload
+      }
+      island {
+        id
+        inventory {
           id
-          inventory {
-            id
-            material
-          }
+          material
         }
       }
     }
   }
-`;
-export type UpgradeInfrastructureMutationFn = Apollo.MutationFunction<
-  UpgradeInfrastructureMutation,
-  UpgradeInfrastructureMutationVariables
->;
+}
+    `;
+export type UpgradeInfrastructureMutationFn = Apollo.MutationFunction<UpgradeInfrastructureMutation, UpgradeInfrastructureMutationVariables>;
 
 /**
  * __useUpgradeInfrastructureMutation__
@@ -3864,50 +2614,33 @@ export type UpgradeInfrastructureMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useUpgradeInfrastructureMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    UpgradeInfrastructureMutation,
-    UpgradeInfrastructureMutationVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<
-    UpgradeInfrastructureMutation,
-    UpgradeInfrastructureMutationVariables
-  >(UpgradeInfrastructureDocument, options);
-}
-export type UpgradeInfrastructureMutationHookResult = ReturnType<
-  typeof useUpgradeInfrastructureMutation
->;
-export type UpgradeInfrastructureMutationResult =
-  Apollo.MutationResult<UpgradeInfrastructureMutation>;
-export type UpgradeInfrastructureMutationOptions = Apollo.BaseMutationOptions<
-  UpgradeInfrastructureMutation,
-  UpgradeInfrastructureMutationVariables
->;
+export function useUpgradeInfrastructureMutation(baseOptions?: Apollo.MutationHookOptions<UpgradeInfrastructureMutation, UpgradeInfrastructureMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpgradeInfrastructureMutation, UpgradeInfrastructureMutationVariables>(UpgradeInfrastructureDocument, options);
+      }
+export type UpgradeInfrastructureMutationHookResult = ReturnType<typeof useUpgradeInfrastructureMutation>;
+export type UpgradeInfrastructureMutationResult = Apollo.MutationResult<UpgradeInfrastructureMutation>;
+export type UpgradeInfrastructureMutationOptions = Apollo.BaseMutationOptions<UpgradeInfrastructureMutation, UpgradeInfrastructureMutationVariables>;
 export const DestroyInfrastructureDocument = gql`
-  mutation DestroyInfrastructure($islandId: String!, $position: Int!) {
-    destroyInfrastructure(islandId: $islandId, position: $position) {
-      ... on Tile {
-        id
+    mutation DestroyInfrastructure($islandId: String!, $position: Int!) {
+  destroyInfrastructure(islandId: $islandId, position: $position) {
+    ... on Tile {
+      id
+      infrastructure
+      level
+      constructionSite {
+        finishedAt
+      }
+      blueprints {
         infrastructure
-        level
-        constructionSite {
-          finishedAt
-        }
-        blueprints {
-          infrastructure
-          materialCost
-          workload
-        }
+        materialCost
+        workload
       }
     }
   }
-`;
-export type DestroyInfrastructureMutationFn = Apollo.MutationFunction<
-  DestroyInfrastructureMutation,
-  DestroyInfrastructureMutationVariables
->;
+}
+    `;
+export type DestroyInfrastructureMutationFn = Apollo.MutationFunction<DestroyInfrastructureMutation, DestroyInfrastructureMutationVariables>;
 
 /**
  * __useDestroyInfrastructureMutation__
@@ -3927,38 +2660,24 @@ export type DestroyInfrastructureMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useDestroyInfrastructureMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    DestroyInfrastructureMutation,
-    DestroyInfrastructureMutationVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<
-    DestroyInfrastructureMutation,
-    DestroyInfrastructureMutationVariables
-  >(DestroyInfrastructureDocument, options);
-}
-export type DestroyInfrastructureMutationHookResult = ReturnType<
-  typeof useDestroyInfrastructureMutation
->;
-export type DestroyInfrastructureMutationResult =
-  Apollo.MutationResult<DestroyInfrastructureMutation>;
-export type DestroyInfrastructureMutationOptions = Apollo.BaseMutationOptions<
-  DestroyInfrastructureMutation,
-  DestroyInfrastructureMutationVariables
->;
-export const GetBankLevelsDocument = gql`
-  query GetBankLevels($userId: String!, $islandId: String!) {
-    inventory(userId: $userId, islandId: $islandId) {
-      __typename
-      ... on Inventory {
-        id
-        bankLevels
+export function useDestroyInfrastructureMutation(baseOptions?: Apollo.MutationHookOptions<DestroyInfrastructureMutation, DestroyInfrastructureMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DestroyInfrastructureMutation, DestroyInfrastructureMutationVariables>(DestroyInfrastructureDocument, options);
       }
+export type DestroyInfrastructureMutationHookResult = ReturnType<typeof useDestroyInfrastructureMutation>;
+export type DestroyInfrastructureMutationResult = Apollo.MutationResult<DestroyInfrastructureMutation>;
+export type DestroyInfrastructureMutationOptions = Apollo.BaseMutationOptions<DestroyInfrastructureMutation, DestroyInfrastructureMutationVariables>;
+export const GetBankLevelsDocument = gql`
+    query GetBankLevels($userId: String!, $islandId: String!) {
+  inventory(userId: $userId, islandId: $islandId) {
+    __typename
+    ... on Inventory {
+      id
+      bankLevels
     }
   }
-`;
+}
+    `;
 
 /**
  * __useGetBankLevelsQuery__
@@ -3977,62 +2696,39 @@ export const GetBankLevelsDocument = gql`
  *   },
  * });
  */
-export function useGetBankLevelsQuery(
-  baseOptions: Apollo.QueryHookOptions<
-    GetBankLevelsQuery,
-    GetBankLevelsQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<GetBankLevelsQuery, GetBankLevelsQueryVariables>(
-    GetBankLevelsDocument,
-    options,
-  );
-}
-export function useGetBankLevelsLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    GetBankLevelsQuery,
-    GetBankLevelsQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<GetBankLevelsQuery, GetBankLevelsQueryVariables>(
-    GetBankLevelsDocument,
-    options,
-  );
-}
-export type GetBankLevelsQueryHookResult = ReturnType<
-  typeof useGetBankLevelsQuery
->;
-export type GetBankLevelsLazyQueryHookResult = ReturnType<
-  typeof useGetBankLevelsLazyQuery
->;
-export type GetBankLevelsQueryResult = Apollo.QueryResult<
-  GetBankLevelsQuery,
-  GetBankLevelsQueryVariables
->;
-export const GetMarketPricesDocument = gql`
-  query GetMarketPrices($input: MarketPricesInput!) {
-    marketPrices(input: $input) {
-      __typename
-      ... on MarketPrices {
-        prices {
-          timestamp
-          currency {
-            id
-          }
-          commodity
-          numTrades
-          quantity
-          price
-          prevNumTrades
-          prevQuantity
-          prevPrice
+export function useGetBankLevelsQuery(baseOptions: Apollo.QueryHookOptions<GetBankLevelsQuery, GetBankLevelsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetBankLevelsQuery, GetBankLevelsQueryVariables>(GetBankLevelsDocument, options);
+      }
+export function useGetBankLevelsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetBankLevelsQuery, GetBankLevelsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetBankLevelsQuery, GetBankLevelsQueryVariables>(GetBankLevelsDocument, options);
         }
+export type GetBankLevelsQueryHookResult = ReturnType<typeof useGetBankLevelsQuery>;
+export type GetBankLevelsLazyQueryHookResult = ReturnType<typeof useGetBankLevelsLazyQuery>;
+export type GetBankLevelsQueryResult = Apollo.QueryResult<GetBankLevelsQuery, GetBankLevelsQueryVariables>;
+export const GetMarketPricesDocument = gql`
+    query GetMarketPrices($input: MarketPricesInput!) {
+  marketPrices(input: $input) {
+    __typename
+    ... on MarketPrices {
+      prices {
+        timestamp
+        currency {
+          id
+        }
+        commodity
+        numTrades
+        quantity
+        price
+        prevNumTrades
+        prevQuantity
+        prevPrice
       }
     }
   }
-`;
+}
+    `;
 
 /**
  * __useGetMarketPricesQuery__
@@ -4050,60 +2746,37 @@ export const GetMarketPricesDocument = gql`
  *   },
  * });
  */
-export function useGetMarketPricesQuery(
-  baseOptions: Apollo.QueryHookOptions<
-    GetMarketPricesQuery,
-    GetMarketPricesQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<GetMarketPricesQuery, GetMarketPricesQueryVariables>(
-    GetMarketPricesDocument,
-    options,
-  );
-}
-export function useGetMarketPricesLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    GetMarketPricesQuery,
-    GetMarketPricesQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<
-    GetMarketPricesQuery,
-    GetMarketPricesQueryVariables
-  >(GetMarketPricesDocument, options);
-}
-export type GetMarketPricesQueryHookResult = ReturnType<
-  typeof useGetMarketPricesQuery
->;
-export type GetMarketPricesLazyQueryHookResult = ReturnType<
-  typeof useGetMarketPricesLazyQuery
->;
-export type GetMarketPricesQueryResult = Apollo.QueryResult<
-  GetMarketPricesQuery,
-  GetMarketPricesQueryVariables
->;
+export function useGetMarketPricesQuery(baseOptions: Apollo.QueryHookOptions<GetMarketPricesQuery, GetMarketPricesQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetMarketPricesQuery, GetMarketPricesQueryVariables>(GetMarketPricesDocument, options);
+      }
+export function useGetMarketPricesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetMarketPricesQuery, GetMarketPricesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetMarketPricesQuery, GetMarketPricesQueryVariables>(GetMarketPricesDocument, options);
+        }
+export type GetMarketPricesQueryHookResult = ReturnType<typeof useGetMarketPricesQuery>;
+export type GetMarketPricesLazyQueryHookResult = ReturnType<typeof useGetMarketPricesLazyQuery>;
+export type GetMarketPricesQueryResult = Apollo.QueryResult<GetMarketPricesQuery, GetMarketPricesQueryVariables>;
 export const GetCurrentMarketPricesDocument = gql`
-  query GetCurrentMarketPrices($input: CurrentMarketPricesInput!) {
-    currentMarketPrices(input: $input) {
-      ... on CurrentMarketPrices {
-        commodityPrices {
-          commodity
-          price
+    query GetCurrentMarketPrices($input: CurrentMarketPricesInput!) {
+  currentMarketPrices(input: $input) {
+    ... on CurrentMarketPrices {
+      commodityPrices {
+        commodity
+        price
+      }
+      currencyPrices {
+        currency {
+          id
+          code
+          name
         }
-        currencyPrices {
-          currency {
-            id
-            code
-            name
-          }
-          price
-        }
+        price
       }
     }
   }
-`;
+}
+    `;
 
 /**
  * __useGetCurrentMarketPricesQuery__
@@ -4121,65 +2794,39 @@ export const GetCurrentMarketPricesDocument = gql`
  *   },
  * });
  */
-export function useGetCurrentMarketPricesQuery(
-  baseOptions: Apollo.QueryHookOptions<
-    GetCurrentMarketPricesQuery,
-    GetCurrentMarketPricesQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<
-    GetCurrentMarketPricesQuery,
-    GetCurrentMarketPricesQueryVariables
-  >(GetCurrentMarketPricesDocument, options);
-}
-export function useGetCurrentMarketPricesLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    GetCurrentMarketPricesQuery,
-    GetCurrentMarketPricesQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<
-    GetCurrentMarketPricesQuery,
-    GetCurrentMarketPricesQueryVariables
-  >(GetCurrentMarketPricesDocument, options);
-}
-export type GetCurrentMarketPricesQueryHookResult = ReturnType<
-  typeof useGetCurrentMarketPricesQuery
->;
-export type GetCurrentMarketPricesLazyQueryHookResult = ReturnType<
-  typeof useGetCurrentMarketPricesLazyQuery
->;
-export type GetCurrentMarketPricesQueryResult = Apollo.QueryResult<
-  GetCurrentMarketPricesQuery,
-  GetCurrentMarketPricesQueryVariables
->;
-export const SendOrderDocument = gql`
-  mutation SendOrder($input: SendOrderInput!) {
-    sendOrder(input: $input) {
-      __typename
-      ... on Order {
-        id
-        createdAt
-        expiresAt
-        side
-        currency {
-          id
-          code
-          name
-        }
-        commodity
-        quantity
-        price
+export function useGetCurrentMarketPricesQuery(baseOptions: Apollo.QueryHookOptions<GetCurrentMarketPricesQuery, GetCurrentMarketPricesQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetCurrentMarketPricesQuery, GetCurrentMarketPricesQueryVariables>(GetCurrentMarketPricesDocument, options);
       }
+export function useGetCurrentMarketPricesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetCurrentMarketPricesQuery, GetCurrentMarketPricesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetCurrentMarketPricesQuery, GetCurrentMarketPricesQueryVariables>(GetCurrentMarketPricesDocument, options);
+        }
+export type GetCurrentMarketPricesQueryHookResult = ReturnType<typeof useGetCurrentMarketPricesQuery>;
+export type GetCurrentMarketPricesLazyQueryHookResult = ReturnType<typeof useGetCurrentMarketPricesLazyQuery>;
+export type GetCurrentMarketPricesQueryResult = Apollo.QueryResult<GetCurrentMarketPricesQuery, GetCurrentMarketPricesQueryVariables>;
+export const SendOrderDocument = gql`
+    mutation SendOrder($input: SendOrderInput!) {
+  sendOrder(input: $input) {
+    __typename
+    ... on Order {
+      id
+      createdAt
+      expiresAt
+      side
+      currency {
+        id
+        code
+        name
+      }
+      commodity
+      quantity
+      price
     }
   }
-`;
-export type SendOrderMutationFn = Apollo.MutationFunction<
-  SendOrderMutation,
-  SendOrderMutationVariables
->;
+}
+    `;
+export type SendOrderMutationFn = Apollo.MutationFunction<SendOrderMutation, SendOrderMutationVariables>;
 
 /**
  * __useSendOrderMutation__
@@ -4198,47 +2845,34 @@ export type SendOrderMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useSendOrderMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    SendOrderMutation,
-    SendOrderMutationVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<SendOrderMutation, SendOrderMutationVariables>(
-    SendOrderDocument,
-    options,
-  );
-}
-export type SendOrderMutationHookResult = ReturnType<
-  typeof useSendOrderMutation
->;
+export function useSendOrderMutation(baseOptions?: Apollo.MutationHookOptions<SendOrderMutation, SendOrderMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<SendOrderMutation, SendOrderMutationVariables>(SendOrderDocument, options);
+      }
+export type SendOrderMutationHookResult = ReturnType<typeof useSendOrderMutation>;
 export type SendOrderMutationResult = Apollo.MutationResult<SendOrderMutation>;
-export type SendOrderMutationOptions = Apollo.BaseMutationOptions<
-  SendOrderMutation,
-  SendOrderMutationVariables
->;
+export type SendOrderMutationOptions = Apollo.BaseMutationOptions<SendOrderMutation, SendOrderMutationVariables>;
 export const GetMyOpenOrdersDocument = gql`
-  query GetMyOpenOrders($userId: String!) {
-    myOpenOrders(userId: $userId) {
-      __typename
-      ... on OrderList {
-        orders {
+    query GetMyOpenOrders($userId: String!) {
+  myOpenOrders(userId: $userId) {
+    __typename
+    ... on OrderList {
+      orders {
+        id
+        side
+        expiresAt
+        currency {
           id
-          side
-          expiresAt
-          currency {
-            id
-            code
-          }
-          commodity
-          quantity
-          price
+          code
         }
+        commodity
+        quantity
+        price
       }
     }
   }
-`;
+}
+    `;
 
 /**
  * __useGetMyOpenOrdersQuery__
@@ -4256,81 +2890,58 @@ export const GetMyOpenOrdersDocument = gql`
  *   },
  * });
  */
-export function useGetMyOpenOrdersQuery(
-  baseOptions: Apollo.QueryHookOptions<
-    GetMyOpenOrdersQuery,
-    GetMyOpenOrdersQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<GetMyOpenOrdersQuery, GetMyOpenOrdersQueryVariables>(
-    GetMyOpenOrdersDocument,
-    options,
-  );
-}
-export function useGetMyOpenOrdersLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    GetMyOpenOrdersQuery,
-    GetMyOpenOrdersQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<
-    GetMyOpenOrdersQuery,
-    GetMyOpenOrdersQueryVariables
-  >(GetMyOpenOrdersDocument, options);
-}
-export type GetMyOpenOrdersQueryHookResult = ReturnType<
-  typeof useGetMyOpenOrdersQuery
->;
-export type GetMyOpenOrdersLazyQueryHookResult = ReturnType<
-  typeof useGetMyOpenOrdersLazyQuery
->;
-export type GetMyOpenOrdersQueryResult = Apollo.QueryResult<
-  GetMyOpenOrdersQuery,
-  GetMyOpenOrdersQueryVariables
->;
+export function useGetMyOpenOrdersQuery(baseOptions: Apollo.QueryHookOptions<GetMyOpenOrdersQuery, GetMyOpenOrdersQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetMyOpenOrdersQuery, GetMyOpenOrdersQueryVariables>(GetMyOpenOrdersDocument, options);
+      }
+export function useGetMyOpenOrdersLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetMyOpenOrdersQuery, GetMyOpenOrdersQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetMyOpenOrdersQuery, GetMyOpenOrdersQueryVariables>(GetMyOpenOrdersDocument, options);
+        }
+export type GetMyOpenOrdersQueryHookResult = ReturnType<typeof useGetMyOpenOrdersQuery>;
+export type GetMyOpenOrdersLazyQueryHookResult = ReturnType<typeof useGetMyOpenOrdersLazyQuery>;
+export type GetMyOpenOrdersQueryResult = Apollo.QueryResult<GetMyOpenOrdersQuery, GetMyOpenOrdersQueryVariables>;
 export const GetPublicPlayerProfileDocument = gql`
-  query GetPublicPlayerProfile($input: PlayerInput!) {
-    player(input: $input) {
-      ... on Player {
-        id
+    query GetPublicPlayerProfile($input: PlayerInput!) {
+  player(input: $input) {
+    ... on Player {
+      id
+      name
+      island {
         name
-        island {
-          name
-          tiles {
-            id
-            position
-            infrastructure
-            level
-          }
-        }
-        scoresheet {
+        tiles {
           id
+          position
+          infrastructure
+          level
+        }
+      }
+      scoresheet {
+        id
+        score
+        commodities {
+          commodity
           score
-          commodities {
-            commodity
-            score
-          }
-          buildings {
-            score
-          }
-          currencies {
-            currency {
-              id
-            }
-            score
-          }
         }
-        badges {
-          id
-          createdAt
-          type
+        buildings {
+          score
         }
+        currencies {
+          currency {
+            id
+          }
+          score
+        }
+      }
+      badges {
+        id
+        createdAt
+        type
       }
     }
   }
-`;
+}
+    `;
 
 /**
  * __useGetPublicPlayerProfileQuery__
@@ -4348,37 +2959,14 @@ export const GetPublicPlayerProfileDocument = gql`
  *   },
  * });
  */
-export function useGetPublicPlayerProfileQuery(
-  baseOptions: Apollo.QueryHookOptions<
-    GetPublicPlayerProfileQuery,
-    GetPublicPlayerProfileQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<
-    GetPublicPlayerProfileQuery,
-    GetPublicPlayerProfileQueryVariables
-  >(GetPublicPlayerProfileDocument, options);
-}
-export function useGetPublicPlayerProfileLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    GetPublicPlayerProfileQuery,
-    GetPublicPlayerProfileQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<
-    GetPublicPlayerProfileQuery,
-    GetPublicPlayerProfileQueryVariables
-  >(GetPublicPlayerProfileDocument, options);
-}
-export type GetPublicPlayerProfileQueryHookResult = ReturnType<
-  typeof useGetPublicPlayerProfileQuery
->;
-export type GetPublicPlayerProfileLazyQueryHookResult = ReturnType<
-  typeof useGetPublicPlayerProfileLazyQuery
->;
-export type GetPublicPlayerProfileQueryResult = Apollo.QueryResult<
-  GetPublicPlayerProfileQuery,
-  GetPublicPlayerProfileQueryVariables
->;
+export function useGetPublicPlayerProfileQuery(baseOptions: Apollo.QueryHookOptions<GetPublicPlayerProfileQuery, GetPublicPlayerProfileQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetPublicPlayerProfileQuery, GetPublicPlayerProfileQueryVariables>(GetPublicPlayerProfileDocument, options);
+      }
+export function useGetPublicPlayerProfileLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetPublicPlayerProfileQuery, GetPublicPlayerProfileQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetPublicPlayerProfileQuery, GetPublicPlayerProfileQueryVariables>(GetPublicPlayerProfileDocument, options);
+        }
+export type GetPublicPlayerProfileQueryHookResult = ReturnType<typeof useGetPublicPlayerProfileQuery>;
+export type GetPublicPlayerProfileLazyQueryHookResult = ReturnType<typeof useGetPublicPlayerProfileLazyQuery>;
+export type GetPublicPlayerProfileQueryResult = Apollo.QueryResult<GetPublicPlayerProfileQuery, GetPublicPlayerProfileQueryVariables>;

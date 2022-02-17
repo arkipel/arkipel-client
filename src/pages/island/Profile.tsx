@@ -7,8 +7,9 @@ import { gql } from '@apollo/client';
 import {
   useGetIslandOverviewQuery,
   useGetPlayerProfileQuery,
+  BadgeType,
+  CommodityType,
 } from '../../generated/graphql';
-import { BadgeType, CommodityType } from '../../generated/graphql';
 
 import { ShortenNumber } from '../../ui/text/format';
 import { DateTime } from 'luxon';
