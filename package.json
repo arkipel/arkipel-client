@@ -45,7 +45,6 @@
     "webpack-cli": "^4.6.0",
     "webpack-dev-server": "^4.0.0",
     "webpack-merge": "^5.7.3",
-    "webpack-pwa-manifest": "^4.3.0",
     "workbox-webpack-plugin": "^6.4.2"
   },
   "dependencies": {
@@ -66,6 +65,7 @@
     "react-markdown": "^7.1.0",
     "react-media": "^1.10.0",
     "react-router-dom": "^5.2.0",
-    "styled-components": "^5.3.0"
+    "styled-components": "^5.3.0",
+    "webpack-pwa-manifest": "^4.3.0"
   }
 }
