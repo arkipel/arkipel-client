@@ -47,7 +47,6 @@ module.exports = {
 
   plugins: [
     new HTMLWebpackPlugin({
-      favicon: './src/assets/favicon.ico',
       template: './src/index.html',
     }),
     new FaviconsWebpackPlugin({
@@ -55,7 +54,8 @@ module.exports = {
       devMode: 'webapp',
       logo: './src/assets/logo/arkipel_512.png',
       inject: true,
-      outputPath: 'pwa/',
+      outputPath: 'pwa',
+      publicPath: 'pwa',
       favicons: {
         appName: 'Arkipel',
         appShortName: 'Arkipel',
@@ -66,7 +66,13 @@ module.exports = {
         background: '#ede7d4',
         theme_color: '#ede7d4',
         developerName: 'Marc-François Cochaux-Laberge',
-        developerURL: 'https://mfcl.io'
+        developerURL: 'https://mfcl.io',
+        icons: {
+          android: { background: '#ede7d4' },
+          appleIcon: { background: '#ede7d4' },
+          appleStartup: { background: '#ede7d4', offset: 12 },
+          windows: { background: '#ede7d4' },
+        },
       },
     }),
   ],
