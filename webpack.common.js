@@ -52,7 +52,7 @@ module.exports = {
     new FaviconsWebpackPlugin({
       mode: 'webapp',
       devMode: 'webapp',
-      logo: './src/assets/logo/arkipel_512.png',
+      logo: './src/assets/logo/arkipel_logo_wbg.svg',
       inject: true,
       outputPath: 'pwa',
       publicPath: 'pwa',
