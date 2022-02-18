@@ -49,7 +49,8 @@ const StyledResourcesPane = styled.div`
   gap: 10px;
 
   div {
-    display: flex;
+    display: grid;
+    grid-template-columns: 20px 1fr;
     align-items: center;
     gap: 4px;
     width: calc(100% / 3 - (20px / 3));
