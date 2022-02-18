@@ -56,6 +56,7 @@ module.exports = {
       inject: true,
       outputPath: 'pwa',
       publicPath: 'pwa',
+      prefix: '',
       favicons: {
         appName: 'Arkipel',
         appShortName: 'Arkipel',
