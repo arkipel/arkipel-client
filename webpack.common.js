@@ -65,7 +65,7 @@ module.exports = {
         score: '/',
         display: 'standalone',
         background: '#ede7d4',
-        theme_color: '#ede7d4',
+        theme_color: '#423d39',
         developerName: 'Marc-François Cochaux-Laberge',
         developerURL: 'https://mfcl.io',
         icons: {
