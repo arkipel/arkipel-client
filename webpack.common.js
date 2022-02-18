@@ -1,6 +1,6 @@
 const path = require('path');
 const HTMLWebpackPlugin = require('html-webpack-plugin');
-const WebpackPWAManifest = require('webpack-pwa-manifest');
+const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
 
 module.exports = {
   entry: './src/index',
@@ -50,25 +50,24 @@ module.exports = {
       favicon: './src/assets/favicon.ico',
       template: './src/index.html',
     }),
-    new WebpackPWAManifest({
-      name: 'Arkipel',
-      short_name: 'Arkipel',
-      description: 'Client for Arkipel.',
-      background_color: '#ede7d4',
-      start_url: '/',
-      display: 'standalone',
-      scope: '/',
-      theme_color: '#423d39',
-      icons: [
-        {
-          src: './src/assets/logo/arkipel_192.png',
-          sizes: '192x192',
-        },
-        {
-          src: './src/assets/logo/arkipel_512.png',
-          size: '512x512',
-        },
-      ],
+    new FaviconsWebpackPlugin({
+      mode: 'webapp',
+      devMode: 'webapp',
+      logo: './src/assets/logo/arkipel_512.png',
+      inject: true,
+      outputPath: 'pwa/',
+      favicons: {
+        appName: 'Arkipel',
+        appShortName: 'Arkipel',
+        appDescription: 'Client for Arkipel.',
+        start_url: '/',
+        score: '/',
+        display: 'standalone',
+        background: '#ede7d4',
+        theme_color: '#ede7d4',
+        developerName: 'Marc-François Cochaux-Laberge',
+        developerURL: 'https://mfcl.io'
+      },
     }),
   ],
 };
