@@ -62,7 +62,7 @@ module.exports = {
         appShortName: 'Arkipel',
         appDescription: 'Client for Arkipel.',
         start_url: '/',
-        score: '/',
+        scope: '/',
         display: 'standalone',
         background: '#ede7d4',
         theme_color: '#423d39',
