@@ -121,15 +121,24 @@ const InventoryProvider: FunctionComponent = ({ children }) => {
     };
   }, [data]);
 
+  let value = {
+    ...inventory,
+    materialFormatted,
+    foodFormatted,
+    frozenFoodFormatted,
+  };
+
+  if (session.id === '') {
+    value = {
+      ...new Inventory({}),
+      materialFormatted: '0',
+      foodFormatted: '0',
+      frozenFoodFormatted: '0',
+    };
+  }
+
   return (
-    <InventoryContext.Provider
-      value={{
-        ...inventory,
-        materialFormatted,
-        foodFormatted,
-        frozenFoodFormatted,
-      }}
-    >
+    <InventoryContext.Provider value={value}>
       {children}
     </InventoryContext.Provider>
   );

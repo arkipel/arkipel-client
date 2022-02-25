@@ -51,8 +51,14 @@ const BankAccountsProvider: FunctionComponent = ({ children }) => {
     }
   }, [data]);
 
+  let value = bankAccounts;
+
+  if (session.id === '') {
+    value = new Array<BankAccount>();
+  }
+
   return (
-    <BankAccountsContext.Provider value={bankAccounts}>
+    <BankAccountsContext.Provider value={value}>
       {children}
     </BankAccountsContext.Provider>
   );
