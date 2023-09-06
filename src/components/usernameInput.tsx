@@ -2,7 +2,10 @@ import React, { Fragment, FunctionComponent } from 'react';
 import { useFormContext } from 'react-hook-form';
 
 import { gql, useApolloClient } from '@apollo/client';
-import { GetUsernameAvailabilityQuery } from '../generated/graphql';
+import {
+  GetUsernameAvailabilityQuery,
+  GetUsernameAvailabilityQueryVariables,
+} from '../generated/graphql';
 
 import { HintInfo, HintError } from '../ui/dialog/Hint';
 import { Input } from '../ui/form/Input';
@@ -61,16 +64,17 @@ const UsernameInput: FunctionComponent<Partial<props>> = ({
               }
 
               try {
-                let response = await client.query<GetUsernameAvailabilityQuery>(
-                  {
-                    query: gql`
-                      query GetUsernameAvailability($username: String!) {
-                        usernameAvailability(username: $username)
-                      }
-                    `,
-                    variables: { username },
-                  },
-                );
+                let response = await client.query<
+                  GetUsernameAvailabilityQuery,
+                  GetUsernameAvailabilityQueryVariables
+                >({
+                  query: gql`
+                    query GetUsernameAvailability($username: String!) {
+                      usernameAvailability(username: $username)
+                    }
+                  `,
+                  variables: { username },
+                });
 
                 if (!response.data?.usernameAvailability) {
                   return 'already taken';
