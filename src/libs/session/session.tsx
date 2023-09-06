@@ -2,11 +2,12 @@ import React, { FunctionComponent, useState } from 'react';
 import { useCookies } from 'react-cookie';
 
 import { useApolloClient, gql } from '@apollo/client';
-import { Login, LoginVariables } from '../../generated/Login';
 import {
-  RefreshToken,
-  RefreshTokenVariables,
-} from '../../generated/RefreshToken';
+  LoginQuery,
+  LoginQueryVariables,
+  RefreshTokenQuery,
+  RefreshTokenQueryVariables,
+} from '../../generated/graphql';
 
 // Config
 import { domain } from 'Config';
@@ -29,7 +30,7 @@ const SessionProvider: FunctionComponent = ({ children }) => {
 
         logIn: async (username: string, password: string): Promise<boolean> => {
           return client
-            .query<Login, LoginVariables>({
+            .query<LoginQuery, LoginQueryVariables>({
               query: gql`
                 query Login($username: String!, $password: String!) {
                   sessionToken(username: $username, password: $password)
@@ -81,7 +82,7 @@ const SessionProvider: FunctionComponent = ({ children }) => {
           setSession(newSession);
 
           client
-            .query<RefreshToken, RefreshTokenVariables>({
+            .query<RefreshTokenQuery, RefreshTokenQueryVariables>({
               query: gql`
                 query RefreshToken($token: String!) {
                   newSessionToken(old: $token)
