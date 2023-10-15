@@ -35,44 +35,72 @@ const MainContent = () => {
       <Scrollable>
         <StyledContent>
           <Switch>
-            <Route path="/" exact component={Home} />
-            <Route path="/about" exact component={About} />
-            <Route path="/login" exact component={Login} />
-            <Route path="/registration" exact component={Registration} />
-            <Route path="/account/settings" exact component={Settings} />
-            <Route path="/profile/:profileId" exact component={PlayerProfile} />
-            <Route path="/island/profile" exact component={Profile} />
-            <Route path="/island/map" exact component={MapPage} />
-            <Route path="/island/citizens" exact component={CitizensPage} />
-            <Route
-              path="/island/infrastructure"
-              exact
-              component={InfrastructurePage}
-            />
-            <Route path="/island/resources" exact component={ResourcesPage} />
-            <Route path="/island/treasury" exact component={TreasuryPage} />
-            <Route path="/island/events" exact component={EventsPage} />
-            <Route path="/island/tiles/:position" exact component={TilePage} />
-            <Route
-              path="/archipelago/overview"
-              exact
-              component={ArchipelagoOverview}
-            />
-            <Route path="/archipelago/ranking" exact component={Ranking} />
-            <Route path="/market/prices" exact component={MarketPrices} />
-            <Route path="/market/history" exact component={MarketHistory} />
-            <Route path="/market/trade" exact component={TradePage} />
-            <Route
-              path="/archipelago/search"
-              exact
-              component={SearchIslandsPage}
-            />
-            <Route
-              path="/archipelago/community"
-              exact
-              component={CommunityPage}
-            />
-            <Route path="/citizen/:citizenId" exact component={CitizenPage} />
+            <Route path="/" exact>
+              {Home}
+            </Route>
+            <Route path="/about" exact>
+              {About}
+            </Route>
+            <Route path="/login" exact>
+              {Login}
+            </Route>
+            <Route path="/registration" exact>
+              {Registration}
+            </Route>
+            <Route path="/account/settings" exact>
+              {Settings}
+            </Route>
+            <Route path="/profile/:profileId" exact>
+              {PlayerProfile}
+            </Route>
+            <Route path="/island/profile" exact>
+              {Profile}
+            </Route>
+            <Route path="/island/map" exact>
+              {MapPage}
+            </Route>
+            <Route path="/island/citizens" exact>
+              {CitizensPage}
+            </Route>
+            <Route path="/island/infrastructure" exact>
+              {InfrastructurePage}
+            </Route>
+            <Route path="/island/resources" exact>
+              {ResourcesPage}
+            </Route>
+            <Route path="/island/treasury" exact>
+              {TreasuryPage}
+            </Route>
+            <Route path="/island/events" exact>
+              {EventsPage}
+            </Route>
+            <Route path="/island/tiles/:position" exact>
+              {TilePage}
+            </Route>
+            <Route path="/archipelago/overview" exact>
+              {ArchipelagoOverview}
+            </Route>
+            <Route path="/archipelago/ranking" exact>
+              {Ranking}
+            </Route>
+            <Route path="/market/prices" exact>
+              {MarketPrices}
+            </Route>
+            <Route path="/market/history" exact>
+              {MarketHistory}
+            </Route>
+            <Route path="/market/trade" exact>
+              {TradePage}
+            </Route>
+            <Route path="/archipelago/search" exact>
+              {SearchIslandsPage}
+            </Route>
+            <Route path="/archipelago/community" exact>
+              {CommunityPage}
+            </Route>
+            <Route path="/citizen/:citizenId" exact>
+              {CitizenPage}
+            </Route>
           </Switch>
         </StyledContent>
       </Scrollable>
