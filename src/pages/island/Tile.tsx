@@ -336,7 +336,7 @@ const InfrastructureOption: FunctionComponent<{
                 data.data?.buildInfrastructure?.__typename !== 'Tile' ||
                 !data.data.buildInfrastructure.constructionSite
               ) {
-                return;
+                return currentConstructionSites;
               }
 
               const newSiteRef =
@@ -355,12 +355,12 @@ const InfrastructureOption: FunctionComponent<{
                   `,
                 });
 
-              const newSites = currentConstructionSites;
+              const updatedSites = [...currentConstructionSites];
               if (newSiteRef) {
-                newSites.push(newSiteRef);
+                updatedSites.push(newSiteRef);
               }
 
-              return newSites;
+              return updatedSites;
             },
           },
         });

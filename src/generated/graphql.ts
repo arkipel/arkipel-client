@@ -5,17 +5,19 @@ export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
+export type MakeEmpty<T extends { [key: string]: unknown }, K extends keyof T> = { [_ in K]?: never };
+export type Incremental<T> = T | { [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never };
 const defaultOptions = {} as const;
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
-  ID: string;
-  String: string;
-  Boolean: boolean;
-  Int: number;
-  Float: number;
-  Time: any;
-  Decimal: any;
-  JSON: any;
+  ID: { input: string; output: string; }
+  String: { input: string; output: string; }
+  Boolean: { input: boolean; output: boolean; }
+  Int: { input: number; output: number; }
+  Float: { input: number; output: number; }
+  Time: { input: any; output: any; }
+  Decimal: { input: any; output: any; }
+  JSON: { input: any; output: any; }
 };
 
 export type Query = {
@@ -36,15 +38,15 @@ export type Query = {
   marketPrices: MarketPricesResult;
   me: MeResult;
   myOpenOrders: OrdersResult;
-  newSessionToken: Scalars['String'];
+  newSessionToken: Scalars['String']['output'];
   orders: OrdersResult;
   player: PlayerResult;
   recentArticles: RecentArticlesResult;
   searchIslands: IslandSearchResult;
-  sessionToken: Scalars['String'];
+  sessionToken: Scalars['String']['output'];
   tile: TileResult;
   topPlayers: TopPlayersResult;
-  usernameAvailability: Scalars['Boolean'];
+  usernameAvailability: Scalars['Boolean']['output'];
 };
 
 
@@ -54,12 +56,12 @@ export type QueryArticleArgs = {
 
 
 export type QueryBankAccountArgs = {
-  accountId: Scalars['String'];
+  accountId: Scalars['String']['input'];
 };
 
 
 export type QueryBankAccountsArgs = {
-  userId: Scalars['String'];
+  userId: Scalars['String']['input'];
 };
 
 
@@ -74,7 +76,7 @@ export type QueryCitizensFromIslandArgs = {
 
 
 export type QueryCurrencyArgs = {
-  code: Scalars['String'];
+  code: Scalars['String']['input'];
 };
 
 
@@ -89,13 +91,13 @@ export type QueryEventsArgs = {
 
 
 export type QueryInventoryArgs = {
-  islandId: Scalars['String'];
-  userId: Scalars['String'];
+  islandId: Scalars['String']['input'];
+  userId: Scalars['String']['input'];
 };
 
 
 export type QueryIslandArgs = {
-  islandId: Scalars['String'];
+  islandId: Scalars['String']['input'];
 };
 
 
@@ -105,17 +107,17 @@ export type QueryMarketPricesArgs = {
 
 
 export type QueryMeArgs = {
-  userId: Scalars['String'];
+  userId: Scalars['String']['input'];
 };
 
 
 export type QueryMyOpenOrdersArgs = {
-  userId: Scalars['String'];
+  userId: Scalars['String']['input'];
 };
 
 
 export type QueryNewSessionTokenArgs = {
-  old: Scalars['String'];
+  old: Scalars['String']['input'];
 };
 
 
@@ -135,19 +137,19 @@ export type QueryRecentArticlesArgs = {
 
 
 export type QuerySearchIslandsArgs = {
-  term: Scalars['String'];
+  term: Scalars['String']['input'];
 };
 
 
 export type QuerySessionTokenArgs = {
-  password: Scalars['String'];
-  username: Scalars['String'];
+  password: Scalars['String']['input'];
+  username: Scalars['String']['input'];
 };
 
 
 export type QueryTileArgs = {
-  islandId: Scalars['String'];
-  position: Scalars['Int'];
+  islandId: Scalars['String']['input'];
+  position: Scalars['Int']['input'];
 };
 
 
@@ -157,77 +159,77 @@ export type QueryTopPlayersArgs = {
 
 
 export type QueryUsernameAvailabilityArgs = {
-  username: Scalars['String'];
+  username: Scalars['String']['input'];
 };
 
 export type ApiStatus = {
   __typename?: 'APIStatus';
-  running: Scalars['Boolean'];
+  running: Scalars['Boolean']['output'];
 };
 
 export type Archipelago = {
   __typename?: 'Archipelago';
-  id: Scalars['ID'];
-  numberIslands: Scalars['Int'];
+  id: Scalars['ID']['output'];
+  numberIslands: Scalars['Int']['output'];
 };
 
 export type ArticleInput = {
-  articleId: Scalars['ID'];
+  articleId: Scalars['ID']['input'];
 };
 
 export type ArticleResult = Article | NotFound;
 
 export type Article = {
   __typename?: 'Article';
-  content: Scalars['String'];
-  id: Scalars['ID'];
-  publishedAt: Scalars['Time'];
-  title: Scalars['String'];
+  content: Scalars['String']['output'];
+  id: Scalars['ID']['output'];
+  publishedAt: Scalars['Time']['output'];
+  title: Scalars['String']['output'];
 };
 
 export type NotFound = {
   __typename?: 'NotFound';
-  identifier?: Maybe<Scalars['String']>;
+  identifier?: Maybe<Scalars['String']['output']>;
 };
 
 export type BankAccountResult = BankAccount | NotAuthorized | NotFound;
 
 export type BankAccount = {
   __typename?: 'BankAccount';
-  amount: Scalars['Decimal'];
+  amount: Scalars['Decimal']['output'];
   currency: Currency;
-  id: Scalars['ID'];
+  id: Scalars['ID']['output'];
   owner: User;
 };
 
 export type Currency = {
   __typename?: 'Currency';
-  code: Scalars['String'];
-  id: Scalars['ID'];
-  name: Scalars['String'];
+  code: Scalars['String']['output'];
+  id: Scalars['ID']['output'];
+  name: Scalars['String']['output'];
 };
 
 export type User = {
   __typename?: 'User';
-  createdAt: Scalars['Time'];
-  emailAddress?: Maybe<Scalars['String']>;
-  emailAddressVerified: Scalars['Boolean'];
+  createdAt: Scalars['Time']['output'];
+  emailAddress?: Maybe<Scalars['String']['output']>;
+  emailAddressVerified: Scalars['Boolean']['output'];
   groups: Array<Group>;
-  id: Scalars['ID'];
-  lastActivityAt?: Maybe<Scalars['Time']>;
-  name: Scalars['String'];
-  username: Scalars['String'];
+  id: Scalars['ID']['output'];
+  lastActivityAt?: Maybe<Scalars['Time']['output']>;
+  name: Scalars['String']['output'];
+  username: Scalars['String']['output'];
 };
 
 export type Group = {
   __typename?: 'Group';
-  id: Scalars['ID'];
-  name: Scalars['String'];
+  id: Scalars['ID']['output'];
+  name: Scalars['String']['output'];
 };
 
 export type NotAuthorized = {
   __typename?: 'NotAuthorized';
-  reason?: Maybe<Scalars['String']>;
+  reason?: Maybe<Scalars['String']['output']>;
 };
 
 export type BankAccountsResult = BankAccountList | NotAuthorized;
@@ -238,39 +240,39 @@ export type BankAccountList = {
 };
 
 export type CitizenInput = {
-  citizenId: Scalars['ID'];
+  citizenId: Scalars['ID']['input'];
 };
 
 export type CitizenResult = Citizen | NotFound;
 
 export type Citizen = {
   __typename?: 'Citizen';
-  createdAt: Scalars['Time'];
-  id: Scalars['ID'];
+  createdAt: Scalars['Time']['output'];
+  id: Scalars['ID']['output'];
   island: Island;
-  name: Scalars['String'];
+  name: Scalars['String']['output'];
 };
 
 export type Island = {
   __typename?: 'Island';
   constructionSites: Array<ConstructionSite>;
-  id: Scalars['ID'];
+  id: Scalars['ID']['output'];
   inventory: Inventory;
-  lastUpdateAt: Scalars['Time'];
-  name: Scalars['String'];
+  lastUpdateAt: Scalars['Time']['output'];
+  name: Scalars['String']['output'];
   owner: User;
   tiles: Array<Tile>;
 };
 
 export type ConstructionSite = {
   __typename?: 'ConstructionSite';
-  createdAt: Scalars['Time'];
-  finishedAt: Scalars['Time'];
-  id: Scalars['ID'];
+  createdAt: Scalars['Time']['output'];
+  finishedAt: Scalars['Time']['output'];
+  id: Scalars['ID']['output'];
   infrastructure: Infrastructure;
-  materialSpent: Scalars['Int'];
+  materialSpent: Scalars['Int']['output'];
   tile: Tile;
-  workloadLeft: Scalars['Int'];
+  workloadLeft: Scalars['Int']['output'];
 };
 
 export enum Infrastructure {
@@ -296,27 +298,27 @@ export type Tile = {
   constructionSite?: Maybe<ConstructionSite>;
   currentStatus: InfrastructureStatus;
   desiredStatus: InfrastructureStatus;
-  energy: Scalars['Int'];
-  food: Scalars['Int'];
-  frozenFood: Scalars['Int'];
-  frozenFoodStorage: Scalars['Int'];
-  id: Scalars['ID'];
+  energy: Scalars['Int']['output'];
+  food: Scalars['Int']['output'];
+  frozenFood: Scalars['Int']['output'];
+  frozenFoodStorage: Scalars['Int']['output'];
+  id: Scalars['ID']['output'];
   infrastructure: Infrastructure;
   island: Island;
   kind: TileKind;
-  level: Scalars['Int'];
-  material: Scalars['Int'];
-  materialProduction: Scalars['Int'];
-  maxLevel: Scalars['Int'];
-  population: Scalars['Int'];
-  position: Scalars['Int'];
+  level: Scalars['Int']['output'];
+  material: Scalars['Int']['output'];
+  materialProduction: Scalars['Int']['output'];
+  maxLevel: Scalars['Int']['output'];
+  population: Scalars['Int']['output'];
+  position: Scalars['Int']['output'];
 };
 
 export type Blueprint = {
   __typename?: 'Blueprint';
   infrastructure: Infrastructure;
-  materialCost: Scalars['Int'];
-  workload: Scalars['Int'];
+  materialCost: Scalars['Int']['output'];
+  workload: Scalars['Int']['output'];
 };
 
 export enum InfrastructureStatus {
@@ -333,31 +335,31 @@ export enum TileKind {
 
 export type Inventory = {
   __typename?: 'Inventory';
-  bankLevels: Scalars['Int'];
-  energy: Scalars['Int'];
-  energyFree: Scalars['Int'];
-  energyTotal: Scalars['Int'];
-  energyUsed: Scalars['Int'];
-  food: Scalars['Int'];
-  foodProduction: Scalars['Int'];
-  frozenFood: Scalars['Int'];
-  frozenFoodProduction: Scalars['Int'];
-  frozenFoodStorage: Scalars['Int'];
-  id: Scalars['ID'];
+  bankLevels: Scalars['Int']['output'];
+  energy: Scalars['Int']['output'];
+  energyFree: Scalars['Int']['output'];
+  energyTotal: Scalars['Int']['output'];
+  energyUsed: Scalars['Int']['output'];
+  food: Scalars['Int']['output'];
+  foodProduction: Scalars['Int']['output'];
+  frozenFood: Scalars['Int']['output'];
+  frozenFoodProduction: Scalars['Int']['output'];
+  frozenFoodStorage: Scalars['Int']['output'];
+  id: Scalars['ID']['output'];
   island: Island;
-  lastFoodRotAt: Scalars['Time'];
-  material: Scalars['Int'];
-  materialProduction: Scalars['Int'];
+  lastFoodRotAt: Scalars['Time']['output'];
+  material: Scalars['Int']['output'];
+  materialProduction: Scalars['Int']['output'];
   owner: User;
-  population: Scalars['Int'];
-  populationFree: Scalars['Int'];
-  populationTotal: Scalars['Int'];
-  populationUsed: Scalars['Int'];
-  timestamp: Scalars['Time'];
+  population: Scalars['Int']['output'];
+  populationFree: Scalars['Int']['output'];
+  populationTotal: Scalars['Int']['output'];
+  populationUsed: Scalars['Int']['output'];
+  timestamp: Scalars['Time']['output'];
 };
 
 export type CitizensFromIslandInput = {
-  islandId: Scalars['ID'];
+  islandId: Scalars['ID']['input'];
 };
 
 export type CitizensFromIslandResult = CitizenList | NotFound;
@@ -377,7 +379,7 @@ export type CurrencyList = {
 export type CurrencyResult = Currency | NotFound;
 
 export type CurrentMarketPricesInput = {
-  currencyId: Scalars['ID'];
+  currencyId: Scalars['ID']['input'];
 };
 
 export type CurrentMarketPricesResult = CurrentMarketPrices | NotFound;
@@ -392,7 +394,7 @@ export type CurrentMarketPrices = {
 export type CommodityPrice = {
   __typename?: 'CommodityPrice';
   commodity: CommodityType;
-  price: Scalars['Decimal'];
+  price: Scalars['Decimal']['output'];
 };
 
 export enum CommodityType {
@@ -404,13 +406,13 @@ export enum CommodityType {
 export type CurrencyPrice = {
   __typename?: 'CurrencyPrice';
   currency: Currency;
-  price: Scalars['Decimal'];
+  price: Scalars['Decimal']['output'];
 };
 
 export type EventsInput = {
-  limit: Scalars['Int'];
-  startAt?: InputMaybe<Scalars['Int']>;
-  userId: Scalars['ID'];
+  limit: Scalars['Int']['input'];
+  startAt?: InputMaybe<Scalars['Int']['input']>;
+  userId: Scalars['ID']['input'];
 };
 
 export type EventsResult = EventList | NotAuthorized;
@@ -421,8 +423,8 @@ export type EventList = {
 };
 
 export type Event = {
-  happenedAt: Scalars['Time'];
-  id: Scalars['Int'];
+  happenedAt: Scalars['Time']['output'];
+  id: Scalars['Int']['output'];
   user?: Maybe<User>;
 };
 
@@ -432,8 +434,8 @@ export type IslandResult = Island | NotAuthorized | NotFound;
 
 export type MarketPricesInput = {
   commodity: CommodityType;
-  commodityCurrencyId?: InputMaybe<Scalars['String']>;
-  currencyId: Scalars['String'];
+  commodityCurrencyId?: InputMaybe<Scalars['String']['input']>;
+  currencyId: Scalars['String']['input'];
   range: Range;
 };
 
@@ -460,13 +462,13 @@ export type MarketPrice = {
   commodity: CommodityType;
   commodityCurrency?: Maybe<Currency>;
   currency: Currency;
-  numTrades: Scalars['Int'];
-  prevNumTrades: Scalars['Int'];
-  prevPrice: Scalars['Decimal'];
-  prevQuantity: Scalars['Int'];
-  price: Scalars['Decimal'];
-  quantity: Scalars['Int'];
-  timestamp: Scalars['Time'];
+  numTrades: Scalars['Int']['output'];
+  prevNumTrades: Scalars['Int']['output'];
+  prevPrice: Scalars['Decimal']['output'];
+  prevQuantity: Scalars['Int']['output'];
+  price: Scalars['Decimal']['output'];
+  quantity: Scalars['Int']['output'];
+  timestamp: Scalars['Time']['output'];
 };
 
 export type MeResult = NotAuthorized | NotFound | User;
@@ -483,12 +485,12 @@ export type Order = {
   author: User;
   commodity: CommodityType;
   commodityCurrency?: Maybe<Currency>;
-  createdAt: Scalars['Time'];
+  createdAt: Scalars['Time']['output'];
   currency: Currency;
-  expiresAt: Scalars['Time'];
-  id: Scalars['ID'];
-  price: Scalars['Decimal'];
-  quantity: Scalars['Int'];
+  expiresAt: Scalars['Time']['output'];
+  id: Scalars['ID']['output'];
+  price: Scalars['Decimal']['output'];
+  quantity: Scalars['Int']['output'];
   side: OrderSide;
 };
 
@@ -499,13 +501,13 @@ export enum OrderSide {
 
 export type OrdersInput = {
   commodity: CommodityType;
-  commodityCurrencyId?: InputMaybe<Scalars['String']>;
-  currencyId: Scalars['String'];
+  commodityCurrencyId?: InputMaybe<Scalars['String']['input']>;
+  currencyId: Scalars['String']['input'];
   side: OrderSide;
 };
 
 export type PlayerInput = {
-  playerId: Scalars['ID'];
+  playerId: Scalars['ID']['input'];
 };
 
 export type PlayerResult = NotFound | Player;
@@ -513,17 +515,17 @@ export type PlayerResult = NotFound | Player;
 export type Player = {
   __typename?: 'Player';
   badges: Array<Badge>;
-  createdAt: Scalars['Time'];
-  id: Scalars['ID'];
+  createdAt: Scalars['Time']['output'];
+  id: Scalars['ID']['output'];
   island: Island;
-  name: Scalars['String'];
+  name: Scalars['String']['output'];
   scoresheet: Scoresheet;
 };
 
 export type Badge = {
   __typename?: 'Badge';
-  createdAt: Scalars['Time'];
-  id: Scalars['ID'];
+  createdAt: Scalars['Time']['output'];
+  id: Scalars['ID']['output'];
   owner: Player;
   recipient: Player;
   type: BadgeType;
@@ -538,34 +540,34 @@ export type Scoresheet = {
   buildings: Array<BuildingScore>;
   commodities: Array<CommodityScore>;
   currencies: Array<CurrencyScore>;
-  id: Scalars['ID'];
+  id: Scalars['ID']['output'];
   player: Player;
-  score: Scalars['Int'];
+  score: Scalars['Int']['output'];
 };
 
 export type BuildingScore = {
   __typename?: 'BuildingScore';
-  id: Scalars['String'];
-  score: Scalars['Int'];
+  id: Scalars['String']['output'];
+  score: Scalars['Int']['output'];
   tile: Tile;
 };
 
 export type CommodityScore = {
   __typename?: 'CommodityScore';
   commodity: CommodityType;
-  id: Scalars['String'];
-  score: Scalars['Int'];
+  id: Scalars['String']['output'];
+  score: Scalars['Int']['output'];
 };
 
 export type CurrencyScore = {
   __typename?: 'CurrencyScore';
   currency: Currency;
-  id: Scalars['String'];
-  score: Scalars['Int'];
+  id: Scalars['String']['output'];
+  score: Scalars['Int']['output'];
 };
 
 export type RecentArticlesInput = {
-  limit: Scalars['Int'];
+  limit: Scalars['Int']['input'];
 };
 
 export type RecentArticlesResult = ArticleList;
@@ -585,7 +587,7 @@ export type IslandList = {
 export type TileResult = NotAuthorized | NotFound | Tile;
 
 export type TopPlayersInput = {
-  limit: Scalars['Int'];
+  limit: Scalars['Int']['input'];
 };
 
 export type TopPlayersResult = TopPlayers;
@@ -616,31 +618,31 @@ export type Mutation = {
 
 export type MutationBuildInfrastructureArgs = {
   infrastructure: Infrastructure;
-  islandId: Scalars['String'];
-  position: Scalars['Int'];
+  islandId: Scalars['String']['input'];
+  position: Scalars['Int']['input'];
 };
 
 
 export type MutationCancelConstructionArgs = {
-  islandId: Scalars['String'];
-  position: Scalars['Int'];
+  islandId: Scalars['String']['input'];
+  position: Scalars['Int']['input'];
 };
 
 
 export type MutationCancelOrderArgs = {
-  orderId: Scalars['String'];
-  userId: Scalars['String'];
+  orderId: Scalars['String']['input'];
+  userId: Scalars['String']['input'];
 };
 
 
 export type MutationDeleteEmailAddressArgs = {
-  userId: Scalars['String'];
+  userId: Scalars['String']['input'];
 };
 
 
 export type MutationDestroyInfrastructureArgs = {
-  islandId: Scalars['String'];
-  position: Scalars['Int'];
+  islandId: Scalars['String']['input'];
+  position: Scalars['Int']['input'];
 };
 
 
@@ -655,9 +657,9 @@ export type MutationPublishArticleArgs = {
 
 
 export type MutationRegisterArgs = {
-  captcha: Scalars['String'];
-  password: Scalars['String'];
-  username: Scalars['String'];
+  captcha: Scalars['String']['input'];
+  password: Scalars['String']['input'];
+  username: Scalars['String']['input'];
 };
 
 
@@ -667,48 +669,48 @@ export type MutationSendOrderArgs = {
 
 
 export type MutationSetEmailAddressArgs = {
-  new: Scalars['String'];
-  userId: Scalars['String'];
+  new: Scalars['String']['input'];
+  userId: Scalars['String']['input'];
 };
 
 
 export type MutationSetInfrastructureDesiredStatusArgs = {
-  islandId: Scalars['String'];
-  position: Scalars['Int'];
+  islandId: Scalars['String']['input'];
+  position: Scalars['Int']['input'];
   status: InfrastructureStatus;
 };
 
 
 export type MutationSetPasswordArgs = {
-  new: Scalars['String'];
-  old: Scalars['String'];
-  userId: Scalars['String'];
+  new: Scalars['String']['input'];
+  old: Scalars['String']['input'];
+  userId: Scalars['String']['input'];
 };
 
 
 export type MutationSetUsernameArgs = {
-  new: Scalars['String'];
-  userId: Scalars['String'];
+  new: Scalars['String']['input'];
+  userId: Scalars['String']['input'];
 };
 
 
 export type MutationUpgradeInfrastructureArgs = {
-  islandId: Scalars['String'];
-  position: Scalars['Int'];
+  islandId: Scalars['String']['input'];
+  position: Scalars['Int']['input'];
 };
 
 export type BuildInfrastructureResult = NotAuthorized | NotEnoughMaterial | NotFound | Tile;
 
 export type NotEnoughMaterial = Rejection & {
   __typename?: 'NotEnoughMaterial';
-  available: Scalars['Int'];
-  missing: Scalars['Int'];
-  needed: Scalars['Int'];
-  reason?: Maybe<Scalars['String']>;
+  available: Scalars['Int']['output'];
+  missing: Scalars['Int']['output'];
+  needed: Scalars['Int']['output'];
+  reason?: Maybe<Scalars['String']['output']>;
 };
 
 export type Rejection = {
-  reason?: Maybe<Scalars['String']>;
+  reason?: Maybe<Scalars['String']['output']>;
 };
 
 export type CancelConstructionResult = NotAuthorized | NotFound | Tile;
@@ -717,7 +719,7 @@ export type CancelOrderResult = Confirmation | NotAuthorized | NotFound;
 
 export type Confirmation = {
   __typename?: 'Confirmation';
-  identifier?: Maybe<Scalars['String']>;
+  identifier?: Maybe<Scalars['String']['output']>;
 };
 
 export type DeleteEmailAddressResult = NotAuthorized | User;
@@ -725,16 +727,16 @@ export type DeleteEmailAddressResult = NotAuthorized | User;
 export type DestroyInfrastructureResult = NotAuthorized | Tile;
 
 export type EditArticleInput = {
-  articleId: Scalars['ID'];
-  content?: InputMaybe<Scalars['String']>;
-  title?: InputMaybe<Scalars['String']>;
+  articleId: Scalars['ID']['input'];
+  content?: InputMaybe<Scalars['String']['input']>;
+  title?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type EditArticleResult = Article | NotAuthorized | NotFound;
 
 export type PublishArticleInput = {
-  content: Scalars['String'];
-  title: Scalars['String'];
+  content: Scalars['String']['input'];
+  title: Scalars['String']['input'];
 };
 
 export type PublishArticleResult = Article | NotAuthorized | NotFound;
@@ -743,27 +745,27 @@ export type RegistrationResult = AlreadyExists | User;
 
 export type AlreadyExists = {
   __typename?: 'AlreadyExists';
-  identifier?: Maybe<Scalars['String']>;
+  identifier?: Maybe<Scalars['String']['output']>;
 };
 
 export type SendOrderInput = {
   commodity: CommodityType;
-  commodityCurrencyId?: InputMaybe<Scalars['String']>;
-  currencyId: Scalars['String'];
-  expiresAt: Scalars['Time'];
-  price: Scalars['Decimal'];
-  quantity: Scalars['Int'];
+  commodityCurrencyId?: InputMaybe<Scalars['String']['input']>;
+  currencyId: Scalars['String']['input'];
+  expiresAt: Scalars['Time']['input'];
+  price: Scalars['Decimal']['input'];
+  quantity: Scalars['Int']['input'];
   side: OrderSide;
-  userId: Scalars['String'];
+  userId: Scalars['String']['input'];
 };
 
 export type SendOrderResult = NotAuthorized | NotEnoughCommodity | Order;
 
 export type NotEnoughCommodity = {
   __typename?: 'NotEnoughCommodity';
-  currency: Scalars['Decimal'];
-  frozenFood: Scalars['Int'];
-  material: Scalars['Int'];
+  currency: Scalars['Decimal']['output'];
+  frozenFood: Scalars['Int']['output'];
+  material: Scalars['Int']['output'];
 };
 
 export type SetEmailAddressResult = AlreadyExists | NotAuthorized | User;
@@ -778,8 +780,8 @@ export type UpgradeInfrastructureResult = NotAuthorized | NotEnoughMaterial | No
 
 export type AccountCreation = Event & {
   __typename?: 'AccountCreation';
-  happenedAt: Scalars['Time'];
-  id: Scalars['Int'];
+  happenedAt: Scalars['Time']['output'];
+  id: Scalars['Int']['output'];
   user?: Maybe<User>;
 };
 
@@ -789,10 +791,10 @@ export type BuyOrderExecution = Event & {
   commodity: CommodityType;
   commodityCurrency?: Maybe<Currency>;
   currency: Currency;
-  happenedAt: Scalars['Time'];
-  id: Scalars['Int'];
-  price: Scalars['Decimal'];
-  quantity: Scalars['Int'];
+  happenedAt: Scalars['Time']['output'];
+  id: Scalars['Int']['output'];
+  price: Scalars['Decimal']['output'];
+  quantity: Scalars['Int']['output'];
   seller: User;
   user?: Maybe<User>;
 };
@@ -810,10 +812,10 @@ export type SellOrderExecution = Event & {
   commodity: CommodityType;
   commodityCurrency?: Maybe<Currency>;
   currency: Currency;
-  happenedAt: Scalars['Time'];
-  id: Scalars['Int'];
-  price: Scalars['Decimal'];
-  quantity: Scalars['Int'];
+  happenedAt: Scalars['Time']['output'];
+  id: Scalars['Int']['output'];
+  price: Scalars['Decimal']['output'];
+  quantity: Scalars['Int']['output'];
   seller: User;
   user?: Maybe<User>;
 };
@@ -824,23 +826,23 @@ export type GetApiStatusQueryVariables = Exact<{ [key: string]: never; }>;
 export type GetApiStatusQuery = { __typename?: 'Query', apiStatus: { __typename?: 'APIStatus', running: boolean } };
 
 export type GetAllConstructionSitesQueryVariables = Exact<{
-  islandId: Scalars['String'];
+  islandId: Scalars['String']['input'];
 }>;
 
 
 export type GetAllConstructionSitesQuery = { __typename?: 'Query', island: { __typename?: 'Island', id: string, constructionSites: Array<{ __typename?: 'ConstructionSite', id: string, infrastructure: Infrastructure, workloadLeft: number, finishedAt: any, tile: { __typename?: 'Tile', position: number, level: number } }> } | { __typename?: 'NotAuthorized' } | { __typename?: 'NotFound' } };
 
 export type GetTileStatusQueryVariables = Exact<{
-  islandId: Scalars['String'];
-  position: Scalars['Int'];
+  islandId: Scalars['String']['input'];
+  position: Scalars['Int']['input'];
 }>;
 
 
 export type GetTileStatusQuery = { __typename?: 'Query', tile: { __typename?: 'NotAuthorized' } | { __typename?: 'NotFound' } | { __typename?: 'Tile', id: string, desiredStatus: InfrastructureStatus } };
 
 export type SetInfrastructureDesiredStatusMutationVariables = Exact<{
-  islandId: Scalars['String'];
-  position: Scalars['Int'];
+  islandId: Scalars['String']['input'];
+  position: Scalars['Int']['input'];
   status: InfrastructureStatus;
 }>;
 
@@ -848,85 +850,85 @@ export type SetInfrastructureDesiredStatusMutationVariables = Exact<{
 export type SetInfrastructureDesiredStatusMutation = { __typename?: 'Mutation', setInfrastructureDesiredStatus?: { __typename?: 'NotAuthorized' } | { __typename?: 'NotFound' } | { __typename?: 'Tile', id: string, desiredStatus: InfrastructureStatus, currentStatus: InfrastructureStatus, population: number, material: number, energy: number, island: { __typename?: 'Island', id: string, inventory: { __typename?: 'Inventory', id: string, populationUsed: number, populationFree: number, populationTotal: number, energyUsed: number, energyFree: number, energyTotal: number, materialProduction: number, timestamp: any }, tiles: Array<{ __typename?: 'Tile', id: string, currentStatus: InfrastructureStatus }> } } | null };
 
 export type GetUsernameAvailabilityQueryVariables = Exact<{
-  username: Scalars['String'];
+  username: Scalars['String']['input'];
 }>;
 
 
 export type GetUsernameAvailabilityQuery = { __typename?: 'Query', usernameAvailability: boolean };
 
 export type GetBankAccountsQueryVariables = Exact<{
-  userId: Scalars['String'];
+  userId: Scalars['String']['input'];
 }>;
 
 
 export type GetBankAccountsQuery = { __typename?: 'Query', bankAccounts: { __typename: 'BankAccountList', bankAccounts: Array<{ __typename?: 'BankAccount', id: string, amount: any, currency: { __typename?: 'Currency', id: string, code: string, name: string } }> } | { __typename: 'NotAuthorized' } };
 
 export type GetCurrentInventoryQueryVariables = Exact<{
-  islandId: Scalars['String'];
-  userId: Scalars['String'];
+  islandId: Scalars['String']['input'];
+  userId: Scalars['String']['input'];
 }>;
 
 
 export type GetCurrentInventoryQuery = { __typename?: 'Query', inventory: { __typename?: 'Inventory', id: string, populationUsed: number, populationFree: number, populationTotal: number, energyUsed: number, energyFree: number, energyTotal: number, materialProduction: number, material: number, foodProduction: number, food: number, frozenFoodProduction: number, frozenFood: number, frozenFoodStorage: number, bankLevels: number, timestamp: any, island: { __typename?: 'Island', lastUpdateAt: any } } | { __typename?: 'NotAuthorized' } | { __typename?: 'NotFound' } };
 
 export type LoginQueryVariables = Exact<{
-  username: Scalars['String'];
-  password: Scalars['String'];
+  username: Scalars['String']['input'];
+  password: Scalars['String']['input'];
 }>;
 
 
 export type LoginQuery = { __typename?: 'Query', sessionToken: string };
 
 export type RefreshTokenQueryVariables = Exact<{
-  token: Scalars['String'];
+  token: Scalars['String']['input'];
 }>;
 
 
 export type RefreshTokenQuery = { __typename?: 'Query', newSessionToken: string };
 
 export type RegisterMutationVariables = Exact<{
-  username: Scalars['String'];
-  password: Scalars['String'];
-  captcha: Scalars['String'];
+  username: Scalars['String']['input'];
+  password: Scalars['String']['input'];
+  captcha: Scalars['String']['input'];
 }>;
 
 
 export type RegisterMutation = { __typename?: 'Mutation', register: { __typename: 'AlreadyExists', identifier?: string | null } | { __typename: 'User', id: string, username: string } };
 
 export type SetUsernameMutationVariables = Exact<{
-  userId: Scalars['String'];
-  username: Scalars['String'];
+  userId: Scalars['String']['input'];
+  username: Scalars['String']['input'];
 }>;
 
 
 export type SetUsernameMutation = { __typename?: 'Mutation', setUsername: { __typename: 'AlreadyExists' } | { __typename: 'NotAuthorized' } | { __typename: 'User' } };
 
 export type GetEmailAddressQueryVariables = Exact<{
-  userId: Scalars['String'];
+  userId: Scalars['String']['input'];
 }>;
 
 
 export type GetEmailAddressQuery = { __typename?: 'Query', me: { __typename: 'NotAuthorized' } | { __typename: 'NotFound' } | { __typename: 'User', id: string, emailAddress?: string | null, emailAddressVerified: boolean } };
 
 export type SetEmailAddressMutationVariables = Exact<{
-  userId: Scalars['String'];
-  emailAddress: Scalars['String'];
+  userId: Scalars['String']['input'];
+  emailAddress: Scalars['String']['input'];
 }>;
 
 
 export type SetEmailAddressMutation = { __typename?: 'Mutation', setEmailAddress: { __typename: 'AlreadyExists' } | { __typename: 'NotAuthorized' } | { __typename: 'User', id: string, emailAddress?: string | null, emailAddressVerified: boolean } };
 
 export type DeleteEmailAddressMutationVariables = Exact<{
-  userId: Scalars['String'];
+  userId: Scalars['String']['input'];
 }>;
 
 
 export type DeleteEmailAddressMutation = { __typename?: 'Mutation', deleteEmailAddress: { __typename: 'NotAuthorized' } | { __typename: 'User', id: string, emailAddress?: string | null } };
 
 export type SetPasswordMutationVariables = Exact<{
-  userId: Scalars['String'];
-  old: Scalars['String'];
-  new: Scalars['String'];
+  userId: Scalars['String']['input'];
+  old: Scalars['String']['input'];
+  new: Scalars['String']['input'];
 }>;
 
 
@@ -945,7 +947,7 @@ export type GetTopPlayersQueryVariables = Exact<{
 export type GetTopPlayersQuery = { __typename?: 'Query', topPlayers: { __typename?: 'TopPlayers', players?: Array<{ __typename?: 'Player', id: string, name: string, scoresheet: { __typename?: 'Scoresheet', id: string, score: number } }> | null } };
 
 export type SearchIslandsQueryVariables = Exact<{
-  term: Scalars['String'];
+  term: Scalars['String']['input'];
 }>;
 
 
@@ -973,21 +975,21 @@ export type GetEventsQueryVariables = Exact<{
 export type GetEventsQuery = { __typename?: 'Query', events: { __typename?: 'EventList', events: Array<{ __typename: 'AccountCreation', id: number, happenedAt: any } | { __typename: 'BuyOrderExecution', id: number, happenedAt: any, commodity: CommodityType, quantity: number, price: any, currency: { __typename?: 'Currency', code: string }, commodityCurrency?: { __typename?: 'Currency', code: string } | null } | { __typename: 'SellOrderExecution', id: number, happenedAt: any, commodity: CommodityType, quantity: number, price: any, currency: { __typename?: 'Currency', code: string }, commodityCurrency?: { __typename?: 'Currency', code: string } | null }> } | { __typename?: 'NotAuthorized' } };
 
 export type GetTilesQueryVariables = Exact<{
-  islandId: Scalars['String'];
+  islandId: Scalars['String']['input'];
 }>;
 
 
 export type GetTilesQuery = { __typename?: 'Query', island: { __typename?: 'Island', id: string, tiles: Array<{ __typename?: 'Tile', id: string, position: number, kind: TileKind, infrastructure: Infrastructure, level: number, desiredStatus: InfrastructureStatus, currentStatus: InfrastructureStatus, population: number, material: number, food: number, frozenFood: number, energy: number, island: { __typename?: 'Island', id: string } }> } | { __typename?: 'NotAuthorized' } | { __typename?: 'NotFound' } };
 
 export type GetIslandQueryVariables = Exact<{
-  islandId: Scalars['String'];
+  islandId: Scalars['String']['input'];
 }>;
 
 
 export type GetIslandQuery = { __typename?: 'Query', island: { __typename?: 'Island', id: string, owner: { __typename?: 'User', id: string, username: string }, tiles: Array<{ __typename?: 'Tile', id: string, position: number, infrastructure: Infrastructure, level: number }> } | { __typename?: 'NotAuthorized' } | { __typename?: 'NotFound' } };
 
 export type GetIslandOverviewQueryVariables = Exact<{
-  islandId: Scalars['String'];
+  islandId: Scalars['String']['input'];
 }>;
 
 
@@ -1001,16 +1003,16 @@ export type GetPlayerProfileQueryVariables = Exact<{
 export type GetPlayerProfileQuery = { __typename?: 'Query', player: { __typename?: 'NotFound' } | { __typename?: 'Player', scoresheet: { __typename?: 'Scoresheet', id: string, score: number, commodities: Array<{ __typename?: 'CommodityScore', commodity: CommodityType, score: number }>, buildings: Array<{ __typename?: 'BuildingScore', score: number }>, currencies: Array<{ __typename?: 'CurrencyScore', score: number, currency: { __typename?: 'Currency', id: string } }> }, badges: Array<{ __typename?: 'Badge', id: string, createdAt: any, type: BadgeType }> } };
 
 export type GetTileQueryVariables = Exact<{
-  islandId: Scalars['String'];
-  position: Scalars['Int'];
+  islandId: Scalars['String']['input'];
+  position: Scalars['Int']['input'];
 }>;
 
 
 export type GetTileQuery = { __typename?: 'Query', tile: { __typename?: 'NotAuthorized' } | { __typename?: 'NotFound' } | { __typename?: 'Tile', id: string, position: number, kind: TileKind, infrastructure: Infrastructure, level: number, maxLevel: number, desiredStatus: InfrastructureStatus, currentStatus: InfrastructureStatus, population: number, energy: number, material: number, food: number, frozenFood: number, frozenFoodStorage: number, constructionSite?: { __typename?: 'ConstructionSite', id: string, infrastructure: Infrastructure, workloadLeft: number, finishedAt: any } | null, blueprints: Array<{ __typename?: 'Blueprint', infrastructure: Infrastructure, materialCost: number, workload: number }> } };
 
 export type BuildInfrastructureMutationVariables = Exact<{
-  islandId: Scalars['String'];
-  position: Scalars['Int'];
+  islandId: Scalars['String']['input'];
+  position: Scalars['Int']['input'];
   infrastructure: Infrastructure;
 }>;
 
@@ -1020,32 +1022,32 @@ export type BuildInfrastructureMutation = { __typename?: 'Mutation', buildInfras
 export type NewConstructionSiteFragment = { __typename?: 'ConstructionSite', id: string, infrastructure: Infrastructure, workloadLeft: number, finishedAt: any, tile: { __typename?: 'Tile', position: number } };
 
 export type CancelConstructionMutationVariables = Exact<{
-  islandId: Scalars['String'];
-  position: Scalars['Int'];
+  islandId: Scalars['String']['input'];
+  position: Scalars['Int']['input'];
 }>;
 
 
 export type CancelConstructionMutation = { __typename?: 'Mutation', cancelConstruction?: { __typename?: 'NotAuthorized' } | { __typename?: 'NotFound' } | { __typename?: 'Tile', id: string, position: number, infrastructure: Infrastructure, level: number, constructionSite?: { __typename?: 'ConstructionSite', id: string } | null, blueprints: Array<{ __typename?: 'Blueprint', infrastructure: Infrastructure, materialCost: number, workload: number }>, island: { __typename?: 'Island', id: string, inventory: { __typename?: 'Inventory', id: string, material: number } } } | null };
 
 export type UpgradeInfrastructureMutationVariables = Exact<{
-  islandId: Scalars['String'];
-  position: Scalars['Int'];
+  islandId: Scalars['String']['input'];
+  position: Scalars['Int']['input'];
 }>;
 
 
 export type UpgradeInfrastructureMutation = { __typename?: 'Mutation', upgradeInfrastructure?: { __typename?: 'NotAuthorized' } | { __typename?: 'NotEnoughMaterial' } | { __typename?: 'NotFound' } | { __typename?: 'Tile', id: string, infrastructure: Infrastructure, level: number, constructionSite?: { __typename?: 'ConstructionSite', id: string, infrastructure: Infrastructure, workloadLeft: number, finishedAt: any, tile: { __typename?: 'Tile', position: number } } | null, blueprints: Array<{ __typename?: 'Blueprint', infrastructure: Infrastructure, materialCost: number, workload: number }>, island: { __typename?: 'Island', id: string, inventory: { __typename?: 'Inventory', id: string, material: number } } } | null };
 
 export type DestroyInfrastructureMutationVariables = Exact<{
-  islandId: Scalars['String'];
-  position: Scalars['Int'];
+  islandId: Scalars['String']['input'];
+  position: Scalars['Int']['input'];
 }>;
 
 
 export type DestroyInfrastructureMutation = { __typename?: 'Mutation', destroyInfrastructure?: { __typename?: 'NotAuthorized' } | { __typename?: 'Tile', id: string, infrastructure: Infrastructure, level: number, constructionSite?: { __typename?: 'ConstructionSite', finishedAt: any } | null, blueprints: Array<{ __typename?: 'Blueprint', infrastructure: Infrastructure, materialCost: number, workload: number }> } | null };
 
 export type GetBankLevelsQueryVariables = Exact<{
-  userId: Scalars['String'];
-  islandId: Scalars['String'];
+  userId: Scalars['String']['input'];
+  islandId: Scalars['String']['input'];
 }>;
 
 
@@ -1075,7 +1077,7 @@ export type SendOrderMutation = { __typename?: 'Mutation', sendOrder?: { __typen
 export type NewOrderFragment = { __typename?: 'Order', id: string, createdAt: any, expiresAt: any, side: OrderSide, commodity: CommodityType, quantity: number, price: any, currency: { __typename?: 'Currency', id: string, code: string, name: string } };
 
 export type GetMyOpenOrdersQueryVariables = Exact<{
-  userId: Scalars['String'];
+  userId: Scalars['String']['input'];
 }>;
 
 
