@@ -1,7 +1,7 @@
 import React, { Fragment, useContext } from 'react';
 
 import { useQuery, gql } from '@apollo/client';
-import { GetIsland, GetIslandVariables } from 'generated/GetIsland';
+import { GetIslandQuery, GetIslandQueryVariables } from 'generated/graphql';
 
 import { SessionContext } from '../../libs/session/session';
 
@@ -16,7 +16,10 @@ const MapPage = () => {
 
   let islandId = session.id;
 
-  const { data, loading, error } = useQuery<GetIsland, GetIslandVariables>(
+  const { data, loading, error } = useQuery<
+    GetIslandQuery,
+    GetIslandQueryVariables
+  >(
     gql`
       query GetIsland($islandId: String!) {
         island(islandId: $islandId) {

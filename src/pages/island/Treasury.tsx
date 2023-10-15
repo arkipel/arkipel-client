@@ -1,7 +1,10 @@
 import React, { Fragment, useContext } from 'react';
 
 import { useQuery, gql } from '@apollo/client';
-import { GetBankLevels, GetBankLevelsVariables } from 'generated/GetBankLevels';
+import {
+  GetBankLevelsQuery,
+  GetBankLevelsQueryVariables,
+} from 'generated/graphql';
 
 import { SessionContext } from '../../libs/session/session';
 import { BankAccountsContext } from '../../libs/session/bank_accounts';
@@ -15,8 +18,8 @@ const TreasuryPage = () => {
   let islandId = session.id;
 
   const { data, loading, error } = useQuery<
-    GetBankLevels,
-    GetBankLevelsVariables
+    GetBankLevelsQuery,
+    GetBankLevelsQueryVariables
   >(
     gql`
       query GetBankLevels($userId: String!, $islandId: String!) {

@@ -3,16 +3,16 @@ import styled from 'styled-components';
 
 import { useQuery, gql } from '@apollo/client';
 import {
-  GetCurrentMarketPrices,
-  GetCurrentMarketPricesVariables,
-} from 'generated/GetCurrentMarketPrices';
+  GetCurrentMarketPricesQuery,
+  GetCurrentMarketPricesQueryVariables,
+} from 'generated/graphql';
 
 import { FormatPrice } from '../../ui/text/format';
 
 const MarketPrices = () => {
   let { data, loading } = useQuery<
-    GetCurrentMarketPrices,
-    GetCurrentMarketPricesVariables
+    GetCurrentMarketPricesQuery,
+    GetCurrentMarketPricesQueryVariables
   >(
     gql`
       query GetCurrentMarketPrices($input: CurrentMarketPricesInput!) {

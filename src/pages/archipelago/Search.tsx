@@ -3,7 +3,10 @@ import { NavLink } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 
 import { gql, useLazyQuery } from '@apollo/client';
-import { SearchIslands as SearchIslands } from 'generated/SearchIslands';
+import {
+  SearchIslandsQuery,
+  SearchIslandsQueryVariables,
+} from 'generated/graphql';
 
 import Island from '../../models/Island';
 
@@ -23,7 +26,10 @@ const SearchIslandsPage = () => {
     criteriaMode: 'all',
   });
 
-  let [search, { data, loading }] = useLazyQuery<SearchIslands>(
+  let [search, { data, loading }] = useLazyQuery<
+    SearchIslandsQuery,
+    SearchIslandsQueryVariables
+  >(
     gql`
       query SearchIslands($term: String!) {
         searchIslands(term: $term) {

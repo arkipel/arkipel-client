@@ -2,7 +2,7 @@ import React, { Fragment } from 'react';
 import { useParams } from 'react-router';
 
 import { useQuery, gql } from '@apollo/client';
-import { GetCitizen, GetCitizenVariables } from 'generated/GetCitizen';
+import { GetCitizenQuery, GetCitizenQueryVariables } from 'generated/graphql';
 
 import { Error } from '../../ui/dialog/Msg';
 import { DateTime } from 'luxon';
@@ -10,7 +10,10 @@ import { DateTime } from 'luxon';
 const CitizenPage = () => {
   let { citizenId } = useParams<{ citizenId: string }>();
 
-  const { data, loading, error } = useQuery<GetCitizen, GetCitizenVariables>(
+  const { data, loading, error } = useQuery<
+    GetCitizenQuery,
+    GetCitizenQueryVariables
+  >(
     gql`
       query GetCitizen($input: CitizenInput!) {
         citizen(input: $input) {

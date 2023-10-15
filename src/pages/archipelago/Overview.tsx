@@ -1,10 +1,10 @@
 import React, { Fragment } from 'react';
 
 import { useQuery, gql } from '@apollo/client';
-import { GetNumberIslands } from 'generated/GetNumberIslands';
+import { GetNumberIslandsQuery } from 'generated/graphql';
 
 const ArchipelagoOverview = () => {
-  let { data, loading, error } = useQuery<GetNumberIslands>(gql`
+  let { data, loading, error } = useQuery<GetNumberIslandsQuery>(gql`
     query GetNumberIslands {
       archipelago {
         id

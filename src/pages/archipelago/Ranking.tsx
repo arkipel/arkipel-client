@@ -3,12 +3,12 @@ import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { useQuery, gql } from '@apollo/client';
-import { GetTopPlayers } from 'generated/GetTopPlayers';
+import { GetTopPlayersQuery } from 'generated/graphql';
 
 import { ShortenNumber } from '../../ui/text/format';
 
 const Ranking = () => {
-  let { data } = useQuery<GetTopPlayers>(
+  let { data } = useQuery<GetTopPlayersQuery>(
     gql`
       query GetTopPlayers($input: TopPlayersInput!) {
         topPlayers(input: $input) {

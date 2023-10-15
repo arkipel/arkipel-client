@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { useQuery, gql } from '@apollo/client';
-import { GetCitizens, GetCitizensVariables } from 'generated/GetCitizens';
+import { GetCitizensQuery, GetCitizensQueryVariables } from 'generated/graphql';
 
 import { SessionContext } from '../../libs/session/session';
 
@@ -14,7 +14,10 @@ const CitizensPage = () => {
 
   let islandId = session.id;
 
-  const { data, loading } = useQuery<GetCitizens, GetCitizensVariables>(
+  const { data, loading } = useQuery<
+    GetCitizensQuery,
+    GetCitizensQueryVariables
+  >(
     gql`
       query GetCitizens($input: CitizensFromIslandInput!) {
         citizensFromIsland(input: $input) {
