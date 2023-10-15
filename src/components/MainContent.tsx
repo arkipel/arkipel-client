@@ -35,28 +35,34 @@ const MainContent = () => {
       <Scrollable>
         <StyledContent>
           <Routes>
-            <Route path="/">{Home}</Route>
-            <Route path="/about">{About}</Route>
-            <Route path="/login">{Login}</Route>
-            <Route path="/registration">{Registration}</Route>
-            <Route path="/account/settings">{Settings}</Route>
-            <Route path="/profile/:profileId">{PlayerProfile}</Route>
-            <Route path="/island/profile">{Profile}</Route>
-            <Route path="/island/map">{MapPage}</Route>
-            <Route path="/island/citizens">{CitizensPage}</Route>
-            <Route path="/island/infrastructure">{InfrastructurePage}</Route>
-            <Route path="/island/resources">{ResourcesPage}</Route>
-            <Route path="/island/treasury">{TreasuryPage}</Route>
-            <Route path="/island/events">{EventsPage}</Route>
-            <Route path="/island/tiles/:position">{TilePage}</Route>
-            <Route path="/archipelago/overview">{ArchipelagoOverview}</Route>
-            <Route path="/archipelago/ranking">{Ranking}</Route>
-            <Route path="/market/prices">{MarketPrices}</Route>
-            <Route path="/market/history">{MarketHistory}</Route>
-            <Route path="/market/trade">{TradePage}</Route>
-            <Route path="/archipelago/search">{SearchIslandsPage}</Route>
-            <Route path="/archipelago/community">{CommunityPage}</Route>
-            <Route path="/citizen/:citizenId">{CitizenPage}</Route>
+            <Route path="/" element={<Home />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/registration" element={<Registration />} />
+            <Route path="/account/settings" element={<Settings />} />
+            <Route path="/profile/:profileId" element={<PlayerProfile />} />
+            <Route path="/island/profile" element={<Profile />} />
+            <Route path="/island/map" element={<MapPage />} />
+            <Route path="/island/citizens" element={<CitizensPage />} />
+            <Route
+              path="/island/infrastructure"
+              element={<InfrastructurePage />}
+            />
+            <Route path="/island/resources" element={<ResourcesPage />} />
+            <Route path="/island/treasury" element={<TreasuryPage />} />
+            <Route path="/island/events" element={<EventsPage />} />
+            <Route path="/island/tiles/:position" element={<TilePage />} />
+            <Route
+              path="/archipelago/overview"
+              element={<ArchipelagoOverview />}
+            />
+            <Route path="/archipelago/ranking" element={<Ranking />} />
+            <Route path="/market/prices" element={<MarketPrices />} />
+            <Route path="/market/history" element={<MarketHistory />} />
+            <Route path="/market/trade" element={<TradePage />} />
+            <Route path="/archipelago/search" element={<SearchIslandsPage />} />
+            <Route path="/archipelago/community" element={<CommunityPage />} />
+            <Route path="/citizen/:citizenId" element={<CitizenPage />} />
           </Routes>
         </StyledContent>
       </Scrollable>
