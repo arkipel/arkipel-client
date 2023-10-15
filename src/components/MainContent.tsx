@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import styled from 'styled-components';
 
 // Pages
@@ -34,74 +34,30 @@ const MainContent = () => {
     <StyledMainContent>
       <Scrollable>
         <StyledContent>
-          <Switch>
-            <Route path="/" exact>
-              {Home}
-            </Route>
-            <Route path="/about" exact>
-              {About}
-            </Route>
-            <Route path="/login" exact>
-              {Login}
-            </Route>
-            <Route path="/registration" exact>
-              {Registration}
-            </Route>
-            <Route path="/account/settings" exact>
-              {Settings}
-            </Route>
-            <Route path="/profile/:profileId" exact>
-              {PlayerProfile}
-            </Route>
-            <Route path="/island/profile" exact>
-              {Profile}
-            </Route>
-            <Route path="/island/map" exact>
-              {MapPage}
-            </Route>
-            <Route path="/island/citizens" exact>
-              {CitizensPage}
-            </Route>
-            <Route path="/island/infrastructure" exact>
-              {InfrastructurePage}
-            </Route>
-            <Route path="/island/resources" exact>
-              {ResourcesPage}
-            </Route>
-            <Route path="/island/treasury" exact>
-              {TreasuryPage}
-            </Route>
-            <Route path="/island/events" exact>
-              {EventsPage}
-            </Route>
-            <Route path="/island/tiles/:position" exact>
-              {TilePage}
-            </Route>
-            <Route path="/archipelago/overview" exact>
-              {ArchipelagoOverview}
-            </Route>
-            <Route path="/archipelago/ranking" exact>
-              {Ranking}
-            </Route>
-            <Route path="/market/prices" exact>
-              {MarketPrices}
-            </Route>
-            <Route path="/market/history" exact>
-              {MarketHistory}
-            </Route>
-            <Route path="/market/trade" exact>
-              {TradePage}
-            </Route>
-            <Route path="/archipelago/search" exact>
-              {SearchIslandsPage}
-            </Route>
-            <Route path="/archipelago/community" exact>
-              {CommunityPage}
-            </Route>
-            <Route path="/citizen/:citizenId" exact>
-              {CitizenPage}
-            </Route>
-          </Switch>
+          <Routes>
+            <Route path="/">{Home}</Route>
+            <Route path="/about">{About}</Route>
+            <Route path="/login">{Login}</Route>
+            <Route path="/registration">{Registration}</Route>
+            <Route path="/account/settings">{Settings}</Route>
+            <Route path="/profile/:profileId">{PlayerProfile}</Route>
+            <Route path="/island/profile">{Profile}</Route>
+            <Route path="/island/map">{MapPage}</Route>
+            <Route path="/island/citizens">{CitizensPage}</Route>
+            <Route path="/island/infrastructure">{InfrastructurePage}</Route>
+            <Route path="/island/resources">{ResourcesPage}</Route>
+            <Route path="/island/treasury">{TreasuryPage}</Route>
+            <Route path="/island/events">{EventsPage}</Route>
+            <Route path="/island/tiles/:position">{TilePage}</Route>
+            <Route path="/archipelago/overview">{ArchipelagoOverview}</Route>
+            <Route path="/archipelago/ranking">{Ranking}</Route>
+            <Route path="/market/prices">{MarketPrices}</Route>
+            <Route path="/market/history">{MarketHistory}</Route>
+            <Route path="/market/trade">{TradePage}</Route>
+            <Route path="/archipelago/search">{SearchIslandsPage}</Route>
+            <Route path="/archipelago/community">{CommunityPage}</Route>
+            <Route path="/citizen/:citizenId">{CitizenPage}</Route>
+          </Routes>
         </StyledContent>
       </Scrollable>
     </StyledMainContent>

@@ -202,7 +202,7 @@ const InfrastructureItem: FunctionComponent<props> = ({ tile }) => {
       </td>
       <td>{tile.position}</td>
       <td>
-        <NavLink exact to={'/island/tiles/' + tile.position}>
+        <NavLink end to={'/island/tiles/' + tile.position}>
           {tile.infrastructureName()} ({tile.level}){' '}
         </NavLink>
         {tile.isStalled() && (

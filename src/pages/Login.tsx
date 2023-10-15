@@ -1,5 +1,5 @@
 import React, { Fragment, useState, useContext } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 
 import { SessionContext } from '../libs/session/session';
@@ -13,7 +13,7 @@ const Login = () => {
   const [networkFailed, setNetworkailure] = useState(false);
 
   // Router
-  let history = useHistory();
+  let navigate = useNavigate();
 
   // Form
   const { register, handleSubmit, formState } = useForm({
@@ -39,7 +39,7 @@ const Login = () => {
 
     if (success) {
       // Redirect
-      history.push('/');
+      navigate('/');
     } else {
       setLoginFailure(true);
     }
