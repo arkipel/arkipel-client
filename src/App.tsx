@@ -1,4 +1,3 @@
-import { hot } from 'react-hot-loader/root';
 import React, { FunctionComponent, useState } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import Media from 'react-media';
@@ -181,4 +180,4 @@ const StyledBody = styled.div`
   }
 `;
 
-export default hot(App);
+export default App;
