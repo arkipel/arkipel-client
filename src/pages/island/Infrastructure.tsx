@@ -3,8 +3,11 @@ import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { useQuery, gql } from '@apollo/client';
-import { GetIsland, GetIslandVariables } from 'generated/GetIsland';
-import { Infrastructure } from '../../generated/globalTypes';
+import {
+  GetIslandQuery,
+  GetIslandQueryVariables,
+  Infrastructure,
+} from '../../generated/graphql';
 
 import { SessionContext } from '../../libs/session/session';
 
@@ -22,7 +25,10 @@ const InfrastructurePage = () => {
 
   let islandId = session.id;
 
-  const { data, loading, error } = useQuery<GetIsland, GetIslandVariables>(
+  const { data, loading, error } = useQuery<
+    GetIslandQuery,
+    GetIslandQueryVariables
+  >(
     gql`
       query GetTiles($islandId: String!) {
         island(islandId: $islandId) {
@@ -68,7 +74,7 @@ const InfrastructurePage = () => {
   // Filter out the tiles that should not be shown.
   let filteredTiles = new Array<Tile>();
   island.tiles.forEach((t) => {
-    if (t.level > 0 && t.infrastructure != Infrastructure.EMPTY) {
+    if (t.level > 0 && t.infrastructure != Infrastructure.Empty) {
       filteredTiles.push(t);
     }
   });

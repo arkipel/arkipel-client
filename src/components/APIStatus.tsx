@@ -3,14 +3,14 @@ import styled from 'styled-components';
 
 import { useQuery, gql } from '@apollo/client';
 import {
-  GetAllConstructionSites,
-  GetAllConstructionSitesVariables,
-} from '../generated/GetAllConstructionSites';
+  GetAllConstructionSitesQuery,
+  GetAllConstructionSitesQueryVariables,
+} from '../generated/graphql';
 
 const APIStatus: FunctionComponent = () => {
   const { loading, error } = useQuery<
-    GetAllConstructionSites,
-    GetAllConstructionSitesVariables
+    GetAllConstructionSitesQuery,
+    GetAllConstructionSitesQueryVariables
   >(
     gql`
       query GetAPIStatus {

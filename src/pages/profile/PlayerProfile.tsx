@@ -3,8 +3,12 @@ import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { useQuery, gql } from '@apollo/client';
-import { GetPublicPlayerProfile } from '../../generated/GetPublicPlayerProfile';
-import { CommodityType, BadgeType } from '../../generated/globalTypes';
+import {
+  GetPublicPlayerProfileQuery,
+  GetPublicPlayerProfileQueryVariables,
+  CommodityType,
+  BadgeType,
+} from '../../generated/graphql';
 
 import { DateTime } from 'luxon';
 
@@ -15,7 +19,10 @@ import { ShortenNumber } from '../../ui/text/format';
 const Profile = () => {
   const { profileId } = useParams<{ profileId: string }>();
 
-  let { data: dataPlayer } = useQuery<GetPublicPlayerProfile>(
+  let { data: dataPlayer } = useQuery<
+    GetPublicPlayerProfileQuery,
+    GetPublicPlayerProfileQueryVariables
+  >(
     gql`
       query GetPublicPlayerProfile($input: PlayerInput!) {
         player(input: $input) {
@@ -87,11 +94,11 @@ const Profile = () => {
 
     for (const cs of dataPlayer?.player.scoresheet.commodities) {
       switch (cs.commodity) {
-        case CommodityType.FROZEN_FOOD:
+        case CommodityType.FrozenFood:
           scoresheet.food = cs.score;
           break;
 
-        case CommodityType.MATERIAL:
+        case CommodityType.Material:
           scoresheet.material = cs.score;
           break;
 
@@ -221,7 +228,7 @@ const StyledBadgeShowcase = styled.div`
 
 const BadgeTypeToName = (badgeType: BadgeType): string => {
   switch (badgeType) {
-    case BadgeType.EARLY_PLAYER:
+    case BadgeType.EarlyPlayer:
       return 'Early player';
     default:
       return 'Unknown';

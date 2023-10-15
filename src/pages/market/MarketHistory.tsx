@@ -3,10 +3,11 @@ import { useForm, useWatch, Control } from 'react-hook-form';
 
 import { useQuery, gql, useApolloClient } from '@apollo/client';
 import {
-  GetMarketPrices,
-  GetMarketPricesVariables,
-} from '../../generated/GetMarketPrices';
-import { CommodityType, Range } from '../../generated/globalTypes';
+  GetMarketPricesQuery,
+  GetMarketPricesQueryVariables,
+  CommodityType,
+  Range,
+} from '../../generated/graphql';
 
 import LineChart from '../../ui/chart/LineChart';
 import { DateTime } from 'luxon';
@@ -18,7 +19,7 @@ const MarketHistory = () => {
   // Form (1st part)
   const defaultValues1: priceHistoryParams1 = {
     currencyId: 'ark',
-    commodityType: CommodityType.MATERIAL,
+    commodityType: CommodityType.Material,
     commodityCurrencyId: null,
   };
 
@@ -50,8 +51,8 @@ const MarketHistory = () => {
           }}
         >
           <Select {...register1('commodityType')} style={{ width: '100%' }}>
-            <option value={CommodityType.FROZEN_FOOD}>Frozen food</option>
-            <option value={CommodityType.MATERIAL}>Material</option>
+            <option value={CommodityType.FrozenFood}>Frozen food</option>
+            <option value={CommodityType.Material}>Material</option>
           </Select>
           <Select
             {...register1('currencyId')}
@@ -74,7 +75,7 @@ const MarketHistory = () => {
             }}
             onClick={(e) => {
               e.preventDefault();
-              client.refetchQueries({ include: ['GetMarketPrices'] });
+              client.refetchQueries({ include: ['GetMarketPricesQuery'] });
             }}
           >
             <img
@@ -144,8 +145,8 @@ const ControlledLineChart: FunctionComponent<controlledLineChartProps> = ({
   let range = useWatch({ name: 'range', control: control2 });
 
   const { data, loading, error } = useQuery<
-    GetMarketPrices,
-    GetMarketPricesVariables
+    GetMarketPricesQuery,
+    GetMarketPricesQueryVariables
   >(
     gql`
       query GetMarketPrices($input: MarketPricesInput!) {
@@ -240,23 +241,23 @@ interface controlledLineChartProps {
 const convertRange = (range: string): Range => {
   switch (range) {
     case 'PT60S':
-      return Range.SEC_60;
+      return Range.Sec_60;
     case 'PT300S':
-      return Range.SEC_300;
+      return Range.Sec_300;
     case 'PT60M':
-      return Range.MIN_60;
+      return Range.Min_60;
     case 'PT24H':
-      return Range.HOUR_24;
+      return Range.Hour_24;
     case 'PT168H':
-      return Range.HOUR_168;
+      return Range.Hour_168;
     case 'P30D':
-      return Range.DAY_30;
+      return Range.Day_30;
     case 'P180D':
-      return Range.DAY_180;
+      return Range.Day_180;
     case 'P365D':
-      return Range.DAY_365;
+      return Range.Day_365;
     default:
-      return Range.SEC_60;
+      return Range.Sec_60;
   }
 };
 

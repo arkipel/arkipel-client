@@ -2,12 +2,13 @@ import React, { FunctionComponent, useContext } from 'react';
 import styled from 'styled-components';
 
 import { gql, useMutation, useApolloClient, useQuery } from '@apollo/client';
-import { GetTileStatus, GetTileStatusVariables } from 'generated/GetTileStatus';
 import {
-  SetInfrastructureDesiredStatus,
-  SetInfrastructureDesiredStatusVariables,
-} from 'generated/SetInfrastructureDesiredStatus';
-import { InfrastructureStatus } from '../generated/globalTypes';
+  GetTileStatusQuery,
+  GetTileStatusQueryVariables,
+  SetInfrastructureDesiredStatusMutation,
+  SetInfrastructureDesiredStatusMutationVariables,
+  InfrastructureStatus,
+} from 'generated/graphql';
 
 import { SessionContext } from '../libs/session/session';
 
@@ -27,7 +28,7 @@ const TileStatusToggle: FunctionComponent<props> = ({ islandId, position }) => {
   const session = useContext(SessionContext);
   const client = useApolloClient();
 
-  const { data } = useQuery<GetTileStatus, GetTileStatusVariables>(
+  const { data } = useQuery<GetTileStatusQuery, GetTileStatusQueryVariables>(
     gql`
       query GetTileStatus($islandId: String!, $position: Int!) {
         tile(islandId: $islandId, position: $position) {
@@ -45,12 +46,12 @@ const TileStatusToggle: FunctionComponent<props> = ({ islandId, position }) => {
   if (data?.tile.__typename === 'Tile') {
     desiredStatus = data.tile.desiredStatus;
   } else {
-    desiredStatus = InfrastructureStatus.OFF;
+    desiredStatus = InfrastructureStatus.Off;
   }
 
   const [setDesiredStatus] = useMutation<
-    SetInfrastructureDesiredStatus,
-    SetInfrastructureDesiredStatusVariables
+    SetInfrastructureDesiredStatusMutation,
+    SetInfrastructureDesiredStatusMutationVariables
   >(
     gql`
       mutation SetInfrastructureDesiredStatus(
@@ -96,7 +97,7 @@ const TileStatusToggle: FunctionComponent<props> = ({ islandId, position }) => {
       variables: {
         islandId,
         position,
-        status: InfrastructureStatus.ON,
+        status: InfrastructureStatus.On,
       },
       onCompleted: () => {
         client.cache.evict({
@@ -109,7 +110,7 @@ const TileStatusToggle: FunctionComponent<props> = ({ islandId, position }) => {
 
   return (
     <Style>
-      {desiredStatus === InfrastructureStatus.ON && (
+      {desiredStatus === InfrastructureStatus.On && (
         <img
           src="https://icons.arkipel.io/ui/pause.svg"
           height={'100%'}
@@ -119,13 +120,13 @@ const TileStatusToggle: FunctionComponent<props> = ({ islandId, position }) => {
               variables: {
                 islandId: session.id,
                 position: position,
-                status: InfrastructureStatus.OFF,
+                status: InfrastructureStatus.Off,
               },
             });
           }}
         />
       )}
-      {desiredStatus === InfrastructureStatus.OFF && (
+      {desiredStatus === InfrastructureStatus.Off && (
         <img
           src="https://icons.arkipel.io/ui/play.svg"
           onClick={() => {
@@ -133,7 +134,7 @@ const TileStatusToggle: FunctionComponent<props> = ({ islandId, position }) => {
               variables: {
                 islandId: session.id,
                 position: position,
-                status: InfrastructureStatus.ON,
+                status: InfrastructureStatus.On,
               },
             });
           }}

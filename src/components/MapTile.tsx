@@ -2,7 +2,7 @@ import React, { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
 import Tile from '../models/Tile';
-import { Infrastructure, TileKind } from '../generated/globalTypes';
+import { Infrastructure, TileKind } from '../generated/graphql';
 
 const MapTile: FunctionComponent<props> = ({
   tile,
@@ -13,13 +13,13 @@ const MapTile: FunctionComponent<props> = ({
   // Tile kind
   let tileColor = '#3a7ead';
   switch (tile.kind()) {
-    case TileKind.WATER:
+    case TileKind.Water:
       tileColor = '#669abd';
       break;
-    case TileKind.SAND:
+    case TileKind.Sand:
       tileColor = '#e8e0c9';
       break;
-    case TileKind.LAND:
+    case TileKind.Land:
       tileColor = '#accfa0';
       break;
   }
@@ -59,55 +59,55 @@ const MapTile: FunctionComponent<props> = ({
   let alt: string = '';
   if (tile.infrastructure) {
     switch (tile.infrastructure) {
-      case Infrastructure.JUNGLE:
+      case Infrastructure.Jungle:
         src = 'https://icons.arkipel.io/infra/jungle.svg';
         alt = 'Jungle';
         break;
-      case Infrastructure.QUARRY:
+      case Infrastructure.Quarry:
         src = 'https://icons.arkipel.io/infra/quarry.svg';
         alt = 'Quarry';
         break;
-      case Infrastructure.APARTMENTS:
+      case Infrastructure.Apartments:
         src = 'https://icons.arkipel.io/infra/apartments.svg';
         alt = 'Apartments';
         break;
-      case Infrastructure.HOUSE:
+      case Infrastructure.House:
         src = 'https://icons.arkipel.io/infra/house.svg';
         alt = 'House';
         break;
-      case Infrastructure.WHEAT_FIELD:
+      case Infrastructure.WheatField:
         src = 'https://icons.arkipel.io/infra/wheat_field.svg';
         alt = 'Wheat field';
         break;
-      case Infrastructure.ANIMAL_FARM:
+      case Infrastructure.AnimalFarm:
         src = 'https://icons.arkipel.io/infra/animal_farm.svg';
         alt = 'Animal farm';
         break;
-      case Infrastructure.NUCLEAR_PLANT:
+      case Infrastructure.NuclearPlant:
         src = 'https://icons.arkipel.io/infra/nuclear_plant.svg';
         alt = 'Nuclear plant';
         break;
-      case Infrastructure.WIND_TURBINE:
+      case Infrastructure.WindTurbine:
         src = 'https://icons.arkipel.io/infra/wind_turbine.svg';
         alt = 'Wind turbine';
         break;
-      case Infrastructure.PORT:
+      case Infrastructure.Port:
         src = 'https://icons.arkipel.io/infra/port.svg';
         alt = 'Port';
         break;
-      case Infrastructure.BANK:
+      case Infrastructure.Bank:
         src = 'https://icons.arkipel.io/infra/bank.svg';
         alt = 'Bank';
         break;
-      case Infrastructure.HUT:
+      case Infrastructure.Hut:
         src = 'https://icons.arkipel.io/infra/hut.svg';
         alt = 'Bank';
         break;
-      case Infrastructure.WAREHOUSE:
+      case Infrastructure.Warehouse:
         src = 'https://icons.arkipel.io/infra/warehouse.svg';
         alt = 'Warehouse';
         break;
-      case Infrastructure.GARDEN:
+      case Infrastructure.Garden:
         src = 'https://icons.arkipel.io/infra/garden.svg';
         alt = 'Garden';
         break;
