@@ -3,20 +3,18 @@ import { useHistory } from 'react-router-dom';
 import { useForm, FormProvider } from 'react-hook-form';
 
 import { gql, useApolloClient, useQuery } from '@apollo/client';
-import { SetUsername, SetUsernameVariables } from 'generated/SetUsername';
 import {
-  GetEmailAddress,
-  GetEmailAddressVariables,
-} from 'generated/GetEmailAddress';
-import {
-  SetEmailAddress,
-  SetEmailAddressVariables,
-} from 'generated/SetEmailAddress';
-import {
-  DeleteEmailAddress,
-  DeleteEmailAddressVariables,
-} from '../../generated/DeleteEmailAddress';
-import { SetPassword, SetPasswordVariables } from '../../generated/SetPassword';
+  SetUsernameMutation,
+  SetUsernameMutationVariables,
+  GetEmailAddressQuery,
+  GetEmailAddressQueryVariables,
+  SetEmailAddressMutation,
+  SetEmailAddressMutationVariables,
+  DeleteEmailAddressMutation,
+  DeleteEmailAddressMutationVariables,
+  SetPasswordMutation,
+  SetPasswordMutationVariables,
+} from 'generated/graphql';
 
 import { SessionContext } from '../../libs/session/session';
 
@@ -107,8 +105,8 @@ const ChangeUsernameForm = () => {
 
             try {
               let response = await client.mutate<
-                SetUsername,
-                SetUsernameVariables
+                SetUsernameMutation,
+                SetUsernameMutationVariables
               >({
                 mutation: gql`
                   mutation SetUsername($userId: String!, $username: String!) {
@@ -168,7 +166,10 @@ const ChangeEmailAddress = () => {
   const client = useApolloClient();
   const session = useContext(SessionContext);
 
-  const { data, loading } = useQuery<GetEmailAddress, GetEmailAddressVariables>(
+  const { data, loading } = useQuery<
+    GetEmailAddressQuery,
+    GetEmailAddressQueryVariables
+  >(
     gql`
       query GetEmailAddress($userId: String!) {
         me(userId: $userId) {
@@ -224,8 +225,8 @@ const ChangeEmailAddress = () => {
 
           try {
             let response = await client.mutate<
-              SetEmailAddress,
-              SetEmailAddressVariables
+              SetEmailAddressMutation,
+              SetEmailAddressMutationVariables
             >({
               mutation: gql`
                 mutation SetEmailAddress(
@@ -278,8 +279,8 @@ const ChangeEmailAddress = () => {
             onClick={async () => {
               try {
                 let response = await client.mutate<
-                  DeleteEmailAddress,
-                  DeleteEmailAddressVariables
+                  DeleteEmailAddressMutation,
+                  DeleteEmailAddressMutationVariables
                 >({
                   mutation: gql`
                     mutation DeleteEmailAddress($userId: String!) {
@@ -359,7 +360,10 @@ const ChangePassword = () => {
 
   const setPassword = async (formData: any) => {
     try {
-      let response = await client.mutate<SetPassword, SetPasswordVariables>({
+      let response = await client.mutate<
+        SetPasswordMutation,
+        SetPasswordMutationVariables
+      >({
         mutation: gql`
           mutation SetPassword($userId: String!, $old: String!, $new: String!) {
             setPassword(userId: $userId, old: $old, new: $new) {

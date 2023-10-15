@@ -3,13 +3,15 @@ import styled from 'styled-components';
 import { useForm } from 'react-hook-form';
 
 import { useQuery, useMutation, gql, useApolloClient } from '@apollo/client';
-import { SendOrder, SendOrderVariables } from '../../generated/SendOrder';
 import {
-  GetMyOpenOrders,
-  GetMyOpenOrdersVariables,
-} from '../../generated/GetMyOpenOrders';
-import { NewOrder } from 'generated/NewOrder';
-import { CommodityType, OrderSide } from '../../generated/globalTypes';
+  SendOrderMutation,
+  SendOrderMutationVariables,
+  GetMyOpenOrdersQuery,
+  GetMyOpenOrdersQueryVariables,
+  NewOrderFragment,
+  CommodityType,
+  OrderSide,
+} from '../../generated/graphql';
 
 import { DateTime, Duration } from 'luxon';
 
@@ -33,7 +35,10 @@ const TradePage = () => {
   const bankAccounts = useContext(BankAccountsContext);
 
   // Send order mutation
-  const [sendOrder] = useMutation<SendOrder, SendOrderVariables>(
+  const [sendOrder] = useMutation<
+    SendOrderMutation,
+    SendOrderMutationVariables
+  >(
     gql`
       mutation SendOrder($input: SendOrderInput!) {
         sendOrder(input: $input) {
@@ -57,7 +62,7 @@ const TradePage = () => {
     `,
     {
       update: (cache, { data }) => {
-        let newOrder: NewOrder;
+        let newOrder: NewOrderFragment;
         if (data?.sendOrder?.__typename === 'Order') {
           newOrder = data.sendOrder;
         } else {
@@ -67,7 +72,7 @@ const TradePage = () => {
         cache.modify({
           fields: {
             myOpenOrders(existingOrders = []) {
-              const newOrderRefs = cache.writeFragment<NewOrder>({
+              const newOrderRefs = cache.writeFragment<NewOrderFragment>({
                 data: newOrder,
                 fragment: gql`
                   fragment NewOrder on Order {
@@ -99,7 +104,7 @@ const TradePage = () => {
   const defaultValues = {
     orderType: 'sell',
     currencyId: 'ark',
-    commodityType: CommodityType.MATERIAL,
+    commodityType: CommodityType.Material,
     duration: 'PT1H',
     quantity: undefined,
     price: undefined,
@@ -159,13 +164,13 @@ const TradePage = () => {
   let commodityAvailable = 0;
   let notEnoughErrorMsg = '';
   switch (orderParams.commodityType) {
-    case CommodityType.FROZEN_FOOD:
+    case CommodityType.FrozenFood:
       commodityAvailable = inventory.frozenFood;
       notEnoughErrorMsg = "You don't have enough frozen food to sell.";
       totalQuantity = totalQuantity;
       break;
 
-    case CommodityType.MATERIAL:
+    case CommodityType.Material:
       commodityAvailable = inventory.material;
       notEnoughErrorMsg = "You don't have enough material to sell.";
       totalQuantity = totalQuantity;
@@ -190,12 +195,12 @@ const TradePage = () => {
       <h2>Send order</h2>
       <StyledForm
         onSubmit={handleSubmit((params) => {
-          let side = OrderSide.SELL;
+          let side = OrderSide.Sell;
           if (params.orderType === 'buy') {
-            side = OrderSide.BUY;
+            side = OrderSide.Buy;
           }
 
-          const variables: SendOrderVariables = {
+          const variables: SendOrderMutationVariables = {
             input: {
               userId: session.id,
               expiresAt: DateTime.utc().plus(Duration.fromISO(params.duration)),
@@ -264,8 +269,8 @@ const TradePage = () => {
             disabled={formDisabled}
             style={{ width: '100%' }}
           >
-            <option value={CommodityType.FROZEN_FOOD}>Fozen food</option>
-            <option value={CommodityType.MATERIAL}>Material</option>
+            <option value={CommodityType.FrozenFood}>Fozen food</option>
+            <option value={CommodityType.Material}>Material</option>
           </Select>
         </div>
 
@@ -498,8 +503,8 @@ const OpenOffers = () => {
   const client = useApolloClient();
 
   const { data, loading, error } = useQuery<
-    GetMyOpenOrders,
-    GetMyOpenOrdersVariables
+    GetMyOpenOrdersQuery,
+    GetMyOpenOrdersQueryVariables
   >(
     gql`
       query GetMyOpenOrders($userId: String!) {
@@ -593,10 +598,10 @@ const OpenOffers = () => {
 
 class offer {
   id: string = '';
-  side: OrderSide = OrderSide.SELL;
+  side: OrderSide = OrderSide.Sell;
   expiresAt: DateTime = DateTime.now();
   currencyCode: string = '';
-  commodity: CommodityType = CommodityType.MATERIAL;
+  commodity: CommodityType = CommodityType.Material;
   quantity: number = 0;
   price: number = 0;
 }
@@ -606,11 +611,11 @@ const commodityToString = (
   currencyCode?: string,
 ): string => {
   switch (commodity) {
-    case CommodityType.FROZEN_FOOD:
+    case CommodityType.FrozenFood:
       return 'Frozen food';
-    case CommodityType.MATERIAL:
+    case CommodityType.Material:
       return 'Material';
-    case CommodityType.CURRENCY:
+    case CommodityType.Currency:
       return currencyCode || '¤';
     default:
       return '';

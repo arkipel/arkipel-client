@@ -3,9 +3,9 @@ import { useFormContext } from 'react-hook-form';
 
 import { gql, useApolloClient } from '@apollo/client';
 import {
-  GetUsernameAvailability,
-  GetUsernameAvailabilityVariables,
-} from '../generated/GetUsernameAvailability';
+  GetUsernameAvailabilityQuery,
+  GetUsernameAvailabilityQueryVariables,
+} from '../generated/graphql';
 
 import { HintInfo, HintError } from '../ui/dialog/Hint';
 import { Input } from '../ui/form/Input';
@@ -65,8 +65,8 @@ const UsernameInput: FunctionComponent<Partial<props>> = ({
 
               try {
                 let response = await client.query<
-                  GetUsernameAvailability,
-                  GetUsernameAvailabilityVariables
+                  GetUsernameAvailabilityQuery,
+                  GetUsernameAvailabilityQueryVariables
                 >({
                   query: gql`
                     query GetUsernameAvailability($username: String!) {

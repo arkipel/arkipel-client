@@ -2,24 +2,24 @@ import {
   TileKind,
   Infrastructure,
   InfrastructureStatus,
-} from '../generated/globalTypes';
+} from '../generated/graphql';
 
 class Tile {
   constructor(obj: any) {
     this.id = obj?.id || '';
     this.islandId = obj?.island?.id || '';
     this.position = obj?.position || 0;
-    this.infrastructure = obj?.infrastructure || Infrastructure.EMPTY;
+    this.infrastructure = obj?.infrastructure || Infrastructure.Empty;
     this.level = obj?.level || 0;
     this.maxLevel = obj?.maxLevel || 0;
     this.desiredStatus =
-      obj?.desiredStatus === InfrastructureStatus.OFF
-        ? InfrastructureStatus.OFF
-        : InfrastructureStatus.ON;
+      obj?.desiredStatus === InfrastructureStatus.Off
+        ? InfrastructureStatus.Off
+        : InfrastructureStatus.On;
     this.currentStatus =
-      obj?.currentStatus === InfrastructureStatus.OFF
-        ? InfrastructureStatus.OFF
-        : InfrastructureStatus.ON;
+      obj?.currentStatus === InfrastructureStatus.Off
+        ? InfrastructureStatus.Off
+        : InfrastructureStatus.On;
     this.population = obj?.population || 0;
     this.material = obj?.material || 0;
     this.energy = obj?.energy || 0;
@@ -50,66 +50,66 @@ class Tile {
   kind(): TileKind {
     switch (dna[this.position]) {
       case '1':
-        return TileKind.WATER;
+        return TileKind.Water;
       case '2':
-        return TileKind.SAND;
+        return TileKind.Sand;
       case '3':
-        return TileKind.LAND;
+        return TileKind.Land;
       default:
-        return TileKind.DEEP_WATER;
+        return TileKind.DeepWater;
     }
   }
 
   kindName(): string {
     switch (this.kind()) {
-      case TileKind.DEEP_WATER:
+      case TileKind.DeepWater:
         return 'deep water';
-      case TileKind.WATER:
+      case TileKind.Water:
         return 'water';
-      case TileKind.SAND:
+      case TileKind.Sand:
         return 'sand';
-      case TileKind.LAND:
+      case TileKind.Land:
         return 'land';
     }
   }
 
   infrastructureName(): string {
     switch (this.infrastructure) {
-      case Infrastructure.EMPTY:
+      case Infrastructure.Empty:
         return 'empty';
-      case Infrastructure.JUNGLE:
+      case Infrastructure.Jungle:
         return 'jungle';
-      case Infrastructure.QUARRY:
+      case Infrastructure.Quarry:
         return 'quarry';
-      case Infrastructure.APARTMENTS:
+      case Infrastructure.Apartments:
         return 'apartments';
-      case Infrastructure.HOUSE:
+      case Infrastructure.House:
         return 'house';
-      case Infrastructure.WHEAT_FIELD:
+      case Infrastructure.WheatField:
         return 'wheat field';
-      case Infrastructure.ANIMAL_FARM:
+      case Infrastructure.AnimalFarm:
         return 'animal farm';
-      case Infrastructure.NUCLEAR_PLANT:
+      case Infrastructure.NuclearPlant:
         return 'nuclear plant';
-      case Infrastructure.WIND_TURBINE:
+      case Infrastructure.WindTurbine:
         return 'wind turbine';
-      case Infrastructure.PORT:
+      case Infrastructure.Port:
         return 'port';
-      case Infrastructure.BANK:
+      case Infrastructure.Bank:
         return 'bank';
-      case Infrastructure.HUT:
+      case Infrastructure.Hut:
         return 'hut';
-      case Infrastructure.WAREHOUSE:
+      case Infrastructure.Warehouse:
         return 'warehouse';
-      case Infrastructure.GARDEN:
+      case Infrastructure.Garden:
         return 'garden';
     }
   }
 
   isStalled(): boolean {
     return (
-      this.desiredStatus === InfrastructureStatus.ON &&
-      this.currentStatus === InfrastructureStatus.OFF
+      this.desiredStatus === InfrastructureStatus.On &&
+      this.currentStatus === InfrastructureStatus.Off
     );
   }
 }

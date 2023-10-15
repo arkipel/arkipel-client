@@ -2,7 +2,10 @@ import React, { Fragment, useState } from 'react';
 import { useForm, FormProvider } from 'react-hook-form';
 
 import { gql, useMutation } from '@apollo/client';
-import { Register, RegisterVariables } from '../generated/Register';
+import {
+  RegisterMutation,
+  RegisterMutationVariables,
+} from '../generated/graphql';
 
 import HCaptcha from '@hcaptcha/react-hcaptcha';
 
@@ -34,26 +37,27 @@ const Registration = () => {
   }
 
   // Form submission
-  let [submit, { loading, data }] = useMutation<Register, RegisterVariables>(
-    gql`
-      mutation Register(
-        $username: String!
-        $password: String!
-        $captcha: String!
-      ) {
-        register(username: $username, password: $password, captcha: $captcha) {
-          __typename
-          ... on User {
-            id
-            username
-          }
-          ... on AlreadyExists {
-            identifier
-          }
+  let [submit, { loading, data }] = useMutation<
+    RegisterMutation,
+    RegisterMutationVariables
+  >(gql`
+    mutation Register(
+      $username: String!
+      $password: String!
+      $captcha: String!
+    ) {
+      register(username: $username, password: $password, captcha: $captcha) {
+        __typename
+        ... on User {
+          id
+          username
+        }
+        ... on AlreadyExists {
+          identifier
         }
       }
-    `,
-  );
+    }
+  `);
 
   let registered = false;
   if (data) {

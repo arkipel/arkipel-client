@@ -4,9 +4,9 @@ import styled from 'styled-components';
 
 import { useQuery, gql, useApolloClient } from '@apollo/client';
 import {
-  GetAllConstructionSites,
-  GetAllConstructionSitesVariables,
-} from '../generated/GetAllConstructionSites';
+  GetAllConstructionSitesQuery,
+  GetAllConstructionSitesQueryVariables,
+} from '../generated/graphql';
 
 import ConstructionSite from '../models/ConstructionSite';
 
@@ -43,8 +43,8 @@ const NotificationPane: FunctionComponent<props> = ({
   const loggedIn = session.id !== '';
 
   const { data, error } = useQuery<
-    GetAllConstructionSites,
-    GetAllConstructionSitesVariables
+    GetAllConstructionSitesQuery,
+    GetAllConstructionSitesQueryVariables
   >(
     gql`
       query GetAllConstructionSites($islandId: String!) {

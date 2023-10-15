@@ -1,6 +1,6 @@
 import { DateTime } from 'luxon';
 
-import { Infrastructure } from '../generated/globalTypes';
+import { Infrastructure } from '../generated/graphql';
 import Tile from './Tile';
 
 class ConstructionSite {
@@ -9,12 +9,12 @@ class ConstructionSite {
     this.tile = new Tile(obj?.tile || {});
     this.tilePosition = obj?.tile?.position || 0;
     this.exists = false;
-    this.infrastructure = Infrastructure.EMPTY;
+    this.infrastructure = Infrastructure.Empty;
     this.finishedAt = DateTime.utc();
 
     if (obj) {
       this.exists = true;
-      this.infrastructure = obj.infrastructure || Infrastructure.EMPTY;
+      this.infrastructure = obj.infrastructure || Infrastructure.Empty;
       this.finishedAt = DateTime.fromISO(obj.finishedAt) || DateTime.utc();
     }
   }

@@ -3,12 +3,13 @@ import styled from 'styled-components';
 
 import { SessionContext } from '../../libs/session/session';
 
-import { gql } from '@apollo/client';
+import { gql, useQuery } from '@apollo/client';
 import {
-  useGetIslandOverviewQuery,
-  useGetPlayerProfileQuery,
+  GetIslandOverviewQuery,
+  GetIslandOverviewQueryVariables,
   BadgeType,
   CommodityType,
+  useGetPlayerProfileQuery,
 } from '../../generated/graphql';
 
 import { ShortenNumber } from '../../ui/text/format';
@@ -17,24 +18,28 @@ import { DateTime } from 'luxon';
 const Profile = () => {
   const session = useContext(SessionContext);
 
-  gql`
-    query GetIslandOverview($islandId: String!) {
-      island(islandId: $islandId) {
-        ... on Island {
-          id
-          name
-          owner {
+  let { data, loading } = useQuery<
+    GetIslandOverviewQuery,
+    GetIslandOverviewQueryVariables
+  >(
+    gql`
+      query GetIslandOverview($islandId: String!) {
+        island(islandId: $islandId) {
+          ... on Island {
             id
             name
+            owner {
+              id
+              name
+            }
           }
         }
       }
-    }
-  `;
-
-  let { data, loading } = useGetIslandOverviewQuery({
-    variables: { islandId: session.id },
-  });
+    `,
+    {
+      variables: { islandId: session.id },
+    },
+  );
 
   let ownerName = '';
   let islandName = '';

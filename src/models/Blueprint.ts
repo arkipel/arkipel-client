@@ -1,6 +1,6 @@
 import { Duration } from 'luxon';
 
-import { Infrastructure } from '../generated/globalTypes';
+import { Infrastructure } from '../generated/graphql';
 
 class Tile {
   constructor(obj: any) {
@@ -17,7 +17,7 @@ class Tile {
   duration: Duration;
 
   name(): string {
-    let name: string = Infrastructure[this.infrastructure];
+    let name: string = this.infrastructure.toString();
     name = name[0].toUpperCase() + name.substring(1).toLocaleLowerCase();
     name = name.replace('_', ' ');
     return name;

@@ -7,9 +7,9 @@ import React, {
 
 import { useQuery, gql } from '@apollo/client';
 import {
-  GetCurrentInventory,
-  GetCurrentInventoryVariables,
-} from '../../generated/GetCurrentInventory';
+  GetCurrentInventoryQuery,
+  GetCurrentInventoryQueryVariables,
+} from '../../generated/graphql';
 
 import { SessionContext } from './session';
 
@@ -24,7 +24,10 @@ const InventoryProvider: FunctionComponent = ({ children }) => {
 
   const session = useContext(SessionContext);
 
-  const { data } = useQuery<GetCurrentInventory, GetCurrentInventoryVariables>(
+  const { data } = useQuery<
+    GetCurrentInventoryQuery,
+    GetCurrentInventoryQueryVariables
+  >(
     gql`
       query GetCurrentInventory($islandId: String!, $userId: String!) {
         inventory(islandId: $islandId, userId: $userId) {

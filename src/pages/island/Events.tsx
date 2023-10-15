@@ -2,11 +2,10 @@ import React, { Fragment, useContext, ReactElement } from 'react';
 
 import { useQuery, gql } from '@apollo/client';
 import {
-  GetEvents,
-  GetEventsVariables,
-  GetEvents_events_EventList_events,
-} from '../../generated/GetEvents';
-import { CommodityType } from '../../generated/globalTypes';
+  GetEventsQuery,
+  GetEventsQueryVariables,
+  CommodityType,
+} from '../../generated/graphql';
 
 import { DateTime } from 'luxon';
 import { ShortenNumber } from '../../ui/text/format';
@@ -18,7 +17,10 @@ import { Error } from '../../ui/dialog/Msg';
 const EventsPage = () => {
   const session = useContext(SessionContext);
 
-  const { data, loading, error } = useQuery<GetEvents, GetEventsVariables>(
+  const { data, loading, error } = useQuery<
+    GetEventsQuery,
+    GetEventsQueryVariables
+  >(
     gql`
       query GetEvents($input: EventsInput!) {
         events(input: $input) {
@@ -132,7 +134,10 @@ const eventToJSX = (ev: event): ReactElement => {
   );
 };
 
-type event = GetEvents_events_EventList_events;
+type extractElementType<A> = A extends readonly (infer T)[] ? T : never;
+type event = extractElementType<
+  Extract<GetEventsQuery['events'], { __typename?: 'EventList' }>['events']
+>;
 
 const formatQtyAndCommodity = (
   qty: number,
@@ -140,13 +145,13 @@ const formatQtyAndCommodity = (
   cur: String | undefined,
 ): string => {
   switch (commodity) {
-    case CommodityType.FROZEN_FOOD:
+    case CommodityType.FrozenFood:
       return `${ShortenNumber(qty)} frozen food`;
 
-    case CommodityType.MATERIAL:
+    case CommodityType.Material:
       return `${ShortenNumber(qty)} material`;
 
-    case CommodityType.CURRENCY:
+    case CommodityType.Currency:
       return `${qty} ${cur?.toUpperCase()}`;
 
     default:

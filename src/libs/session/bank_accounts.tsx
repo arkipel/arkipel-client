@@ -7,9 +7,9 @@ import React, {
 
 import { useQuery, gql } from '@apollo/client';
 import {
-  GetBankAccounts,
-  GetBankAccountsVariables,
-} from '../../generated/GetBankAccounts';
+  GetBankAccountsQuery,
+  GetBankAccountsQueryVariables,
+} from '../../generated/graphql';
 
 import { SessionContext } from './session';
 
@@ -18,7 +18,10 @@ const BankAccountsProvider: FunctionComponent = ({ children }) => {
 
   const session = useContext(SessionContext);
 
-  const { data } = useQuery<GetBankAccounts, GetBankAccountsVariables>(
+  const { data } = useQuery<
+    GetBankAccountsQuery,
+    GetBankAccountsQueryVariables
+  >(
     gql`
       query GetBankAccounts($userId: String!) {
         bankAccounts(userId: $userId) {

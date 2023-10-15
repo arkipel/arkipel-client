@@ -8,8 +8,13 @@ import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { useQuery, gql, useMutation, useApolloClient } from '@apollo/client';
-import { GetTile, GetTileVariables } from '../../generated/GetTile';
-import { NewConstructionSite } from '../../generated/NewConstructionSite';
+import {
+  BuildInfrastructureMutation,
+  BuildInfrastructureMutationVariables,
+  NewConstructionSiteFragment,
+  GetTileQuery,
+  GetTileQueryVariables,
+} from '../../generated/graphql';
 
 import { SessionContext } from '../../libs/session/session';
 import { InventoryContext } from '../../libs/session/inventory';
@@ -24,11 +29,6 @@ import { Error } from '../../ui/dialog/Msg';
 import { ShortenNumber } from '../../ui/text/format';
 import TimeLeft from '../../ui/text/TimeLeft';
 import { Button } from '../../ui/form/Button';
-
-import {
-  BuildInfrastructure,
-  BuildInfrastructureVariables,
-} from 'generated/BuildInfrastructure';
 
 const TilePage: FunctionComponent = () => {
   const session = useContext(SessionContext);
@@ -46,7 +46,10 @@ const TilePage: FunctionComponent = () => {
 
   const client = useApolloClient();
 
-  const { data, loading, error } = useQuery<GetTile, GetTileVariables>(
+  const { data, loading, error } = useQuery<
+    GetTileQuery,
+    GetTileQueryVariables
+  >(
     gql`
       query GetTile($islandId: String!, $position: Int!) {
         tile(islandId: $islandId, position: $position) {
@@ -279,8 +282,8 @@ const InfrastructureOption: FunctionComponent<{
   let infra = bp.infrastructure;
 
   const [build] = useMutation<
-    BuildInfrastructure,
-    BuildInfrastructureVariables
+    BuildInfrastructureMutation,
+    BuildInfrastructureMutationVariables
   >(
     gql`
       mutation BuildInfrastructure(
@@ -336,21 +339,28 @@ const InfrastructureOption: FunctionComponent<{
                 return;
               }
 
-              const newSiteRef = cache.writeFragment<NewConstructionSite>({
-                data: data.data.buildInfrastructure.constructionSite,
-                fragment: gql`
-                  fragment NewConstructionSite on ConstructionSite {
-                    id
-                    infrastructure
-                    workloadLeft
-                    finishedAt
-                    tile {
-                      position
+              const newSiteRef =
+                cache.writeFragment<NewConstructionSiteFragment>({
+                  data: data.data.buildInfrastructure.constructionSite,
+                  fragment: gql`
+                    fragment NewConstructionSite on ConstructionSite {
+                      id
+                      infrastructure
+                      workloadLeft
+                      finishedAt
+                      tile {
+                        position
+                      }
                     }
-                  }
-                `,
-              });
-              return [...currentConstructionSites, newSiteRef];
+                  `,
+                });
+
+              const newSites = currentConstructionSites;
+              if (newSiteRef) {
+                newSites.push(newSiteRef);
+              }
+
+              return newSites;
             },
           },
         });
@@ -530,20 +540,21 @@ const UpgradeButton: FunctionComponent<{
           id: 'Island:' + islandId,
           fields: {
             constructionSites: (currentConstructionSites) => {
-              const newSiteRef = cache.writeFragment<NewConstructionSite>({
-                data: data.data.upgradeInfrastructure.constructionSite,
-                fragment: gql`
-                  fragment NewConstructionSite on ConstructionSite {
-                    id
-                    infrastructure
-                    workloadLeft
-                    finishedAt
-                    tile {
-                      position
+              const newSiteRef =
+                cache.writeFragment<NewConstructionSiteFragment>({
+                  data: data.data.upgradeInfrastructure.constructionSite,
+                  fragment: gql`
+                    fragment NewConstructionSite on ConstructionSite {
+                      id
+                      infrastructure
+                      workloadLeft
+                      finishedAt
+                      tile {
+                        position
+                      }
                     }
-                  }
-                `,
-              });
+                  `,
+                });
               return [...currentConstructionSites, newSiteRef];
             },
           },

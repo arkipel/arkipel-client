@@ -6,7 +6,7 @@
   "scripts": {
     "apollo-download-schema": "npx apollo client:download-schema --endpoint=http://arkipel.local:9192/query --excludes=node_modules/* --includes=**/*.tsx",
     "build": "webpack --config webpack.prod.js",
-    "codegen": "graphql-codegen --config codegen.yml",
+    "codegen": "graphql-codegen --config codegen.ts",
     "format": "prettier --write \"**/*.{md,js,jsx,ts,tsx,json,css,scss}\"",
     "format-watch": "onchange \"**/*.{md,js,jsx,ts,tsx,json,css,scss}\" -- prettier --write {{changed}}",
     "start": "concurrently --kill-others \"webpack serve --config webpack.dev.js --allowed-hosts arkipel.local\" \"npm:*-watch\"",
@@ -34,8 +34,6 @@
     "@types/lodash": "^4.14.173",
     "@types/luxon": "^3.3.1",
     "@types/styled-components": "^5.1.9",
-    "apollo": "2.33.4",
-    "apollo-language-server": "1.26.3",
     "babel-loader": "^8.2.2",
     "concurrently": "^7.0.0",
     "css-loader": "^6.2.0",
