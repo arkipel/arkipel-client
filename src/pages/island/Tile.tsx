@@ -37,7 +37,7 @@ const TilePage: FunctionComponent = () => {
   const { position: positionParam } = useParams<{ position: string }>();
 
   // Position as number
-  const position = parseInt(positionParam);
+  const position = parseInt(positionParam || '0');
   if (position < 0 || position > 99) {
     return <Error>Invalid tile number.</Error>;
   }

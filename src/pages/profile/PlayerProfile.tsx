@@ -67,7 +67,7 @@ const Profile = () => {
     {
       pollInterval: 60 * 1000,
       fetchPolicy: 'cache-and-network',
-      variables: { input: { playerId: profileId } },
+      variables: { input: { playerId: profileId || '' } },
     },
   );
 

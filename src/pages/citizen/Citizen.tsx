@@ -26,7 +26,7 @@ const CitizenPage = () => {
         }
       }
     `,
-    { variables: { input: { citizenId } } },
+    { variables: { input: { citizenId: citizenId || '' } } },
   );
 
   if (loading) {
