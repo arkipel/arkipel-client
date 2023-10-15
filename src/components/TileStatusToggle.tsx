@@ -8,7 +8,7 @@ import {
   SetInfrastructureDesiredStatusMutation,
   SetInfrastructureDesiredStatusMutationVariables,
   InfrastructureStatus,
-} from 'generated/graphql';
+} from '../generated/graphql';
 
 import { SessionContext } from '../libs/session/session';
 
