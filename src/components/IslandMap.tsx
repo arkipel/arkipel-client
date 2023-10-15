@@ -19,7 +19,7 @@ const IslandMap: FunctionComponent<props> = ({ island, clickable = false }) => {
 
     if (clickable) {
       map[i] = (
-        <NavLink key={i} exact to={'/island/tiles/' + i}>
+        <NavLink key={i} end to={'/island/tiles/' + i}>
           {map[i]}
         </NavLink>
       );

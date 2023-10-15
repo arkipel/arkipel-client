@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import styled from 'styled-components';
 
 // Pages
@@ -34,46 +34,36 @@ const MainContent = () => {
     <StyledMainContent>
       <Scrollable>
         <StyledContent>
-          <Switch>
-            <Route path="/" exact component={Home} />
-            <Route path="/about" exact component={About} />
-            <Route path="/login" exact component={Login} />
-            <Route path="/registration" exact component={Registration} />
-            <Route path="/account/settings" exact component={Settings} />
-            <Route path="/profile/:profileId" exact component={PlayerProfile} />
-            <Route path="/island/profile" exact component={Profile} />
-            <Route path="/island/map" exact component={MapPage} />
-            <Route path="/island/citizens" exact component={CitizensPage} />
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/registration" element={<Registration />} />
+            <Route path="/account/settings" element={<Settings />} />
+            <Route path="/profile/:profileId" element={<PlayerProfile />} />
+            <Route path="/island/profile" element={<Profile />} />
+            <Route path="/island/map" element={<MapPage />} />
+            <Route path="/island/citizens" element={<CitizensPage />} />
             <Route
               path="/island/infrastructure"
-              exact
-              component={InfrastructurePage}
+              element={<InfrastructurePage />}
             />
-            <Route path="/island/resources" exact component={ResourcesPage} />
-            <Route path="/island/treasury" exact component={TreasuryPage} />
-            <Route path="/island/events" exact component={EventsPage} />
-            <Route path="/island/tiles/:position" exact component={TilePage} />
+            <Route path="/island/resources" element={<ResourcesPage />} />
+            <Route path="/island/treasury" element={<TreasuryPage />} />
+            <Route path="/island/events" element={<EventsPage />} />
+            <Route path="/island/tiles/:position" element={<TilePage />} />
             <Route
               path="/archipelago/overview"
-              exact
-              component={ArchipelagoOverview}
+              element={<ArchipelagoOverview />}
             />
-            <Route path="/archipelago/ranking" exact component={Ranking} />
-            <Route path="/market/prices" exact component={MarketPrices} />
-            <Route path="/market/history" exact component={MarketHistory} />
-            <Route path="/market/trade" exact component={TradePage} />
-            <Route
-              path="/archipelago/search"
-              exact
-              component={SearchIslandsPage}
-            />
-            <Route
-              path="/archipelago/community"
-              exact
-              component={CommunityPage}
-            />
-            <Route path="/citizen/:citizenId" exact component={CitizenPage} />
-          </Switch>
+            <Route path="/archipelago/ranking" element={<Ranking />} />
+            <Route path="/market/prices" element={<MarketPrices />} />
+            <Route path="/market/history" element={<MarketHistory />} />
+            <Route path="/market/trade" element={<TradePage />} />
+            <Route path="/archipelago/search" element={<SearchIslandsPage />} />
+            <Route path="/archipelago/community" element={<CommunityPage />} />
+            <Route path="/citizen/:citizenId" element={<CitizenPage />} />
+          </Routes>
         </StyledContent>
       </Scrollable>
     </StyledMainContent>

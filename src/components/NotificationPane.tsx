@@ -114,7 +114,7 @@ const NotificationPane: FunctionComponent<props> = ({
                       <b>
                         Construction on{' '}
                         <NavLink
-                          exact
+                          end
                           to={'/island/tiles/' + site.tilePosition}
                           onClick={onCloseClick}
                         >

@@ -1,5 +1,5 @@
 import React, { Fragment, useContext, useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useForm, FormProvider } from 'react-hook-form';
 
 import { gql, useApolloClient, useQuery } from '@apollo/client';
@@ -29,14 +29,14 @@ import { Input, Submit } from '../../ui/form/Input';
 
 const Settings = () => {
   // Router
-  let history = useHistory();
+  let navigate = useNavigate();
 
   // Session
   const session = useContext(SessionContext);
 
   useEffect(() => {
     if (!session.loggedIn) {
-      history.push('/');
+      navigate('/');
     }
   });
 
