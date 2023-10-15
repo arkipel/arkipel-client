@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "apollo-download-schema": "npx apollo client:download-schema --endpoint=http://arkipel.local:9192/query --excludes=node_modules/* --includes=**/*.tsx",
-    "build": "webpack --config webpack.prod.js",
+    "build": "NODE_ENV=production webpack --config webpack.prod.js",
     "codegen": "graphql-codegen --config codegen.ts",
     "format": "prettier --write \"**/*.{md,js,jsx,ts,tsx,json,css,scss}\"",
     "format-watch": "onchange \"**/*.{md,js,jsx,ts,tsx,json,css,scss}\" -- prettier --write {{changed}}",
