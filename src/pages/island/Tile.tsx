@@ -409,8 +409,7 @@ const InfrastructureOption: FunctionComponent<{
                       setError('You do not have enough material.');
                     }
                   })
-                  .catch((e) => {
-                    console.log('error:', e);
+                  .catch(() => {
                     setError('An unknown error occured. Please try again.');
                   });
               }}
