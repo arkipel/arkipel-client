@@ -13,7 +13,9 @@ import {
 
 import { SessionContext } from './session';
 
-const BankAccountsProvider: FunctionComponent = ({ children }) => {
+const BankAccountsProvider: FunctionComponent<{
+  children?: React.ReactNode;
+}> = ({ children }) => {
   const [bankAccounts, setBankAccounts] = useState(new Array<BankAccount>());
 
   const session = useContext(SessionContext);

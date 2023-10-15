@@ -126,6 +126,7 @@ const BoxStyle = styled.div`
 `;
 
 type boxProps = {
+  children?: React.ReactNode;
   style?: React.CSSProperties;
   onClick?: () => void;
 };

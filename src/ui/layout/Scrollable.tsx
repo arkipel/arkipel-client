@@ -1,9 +1,9 @@
 import React, { FunctionComponent } from 'react';
 
-const Scrollable: FunctionComponent<{ style?: React.CSSProperties }> = ({
-  style,
-  children,
-}) => {
+const Scrollable: FunctionComponent<{
+  children?: React.ReactNode;
+  style?: React.CSSProperties;
+}> = ({ style, children }) => {
   style = {
     ...style,
     overflowX: 'hidden',

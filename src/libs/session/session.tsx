@@ -12,7 +12,9 @@ import {
 // Config
 import { domain } from 'Config';
 
-const SessionProvider: FunctionComponent = ({ children }) => {
+const SessionProvider: FunctionComponent<{ children?: React.ReactNode }> = ({
+  children,
+}) => {
   const [session, setSession] = useState(new Session(''));
 
   const [cookies, setCookie, removeCookie] = useCookies(['session']);

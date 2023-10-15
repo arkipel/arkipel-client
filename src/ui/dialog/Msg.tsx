@@ -82,6 +82,7 @@ const Msg: FunctionComponent<props> = ({
 };
 
 class props {
+  children?: React.ReactNode;
   kind?: 'info' | 'success' | 'error' = 'info';
   visible?: boolean = true;
   onConfirmation?: () => void;

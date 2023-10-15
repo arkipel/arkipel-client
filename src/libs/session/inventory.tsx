@@ -16,7 +16,9 @@ import { SessionContext } from './session';
 import Inventory from '../../models/Inventory';
 import { ShortenNumber } from '../../ui/text/format';
 
-const InventoryProvider: FunctionComponent = ({ children }) => {
+const InventoryProvider: FunctionComponent<{ children?: React.ReactNode }> = ({
+  children,
+}) => {
   const [inventory, setInventory] = useState(new Inventory({}));
   const [materialFormatted, setMaterialFormatted] = useState('0');
   const [foodFormatted, setFoodFormatted] = useState('0');

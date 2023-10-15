@@ -2,6 +2,7 @@ import React, { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
 const Form: FunctionComponent<{
+  children?: React.ReactNode;
   className?: string;
   onSubmit?: () => void;
 }> = ({ children, className, onSubmit }) => {
