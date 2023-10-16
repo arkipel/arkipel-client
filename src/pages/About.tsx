@@ -9,9 +9,9 @@ const About = () => {
       </p>
       <h2>Development</h2>
       <p>
-        The planning view the{' '}
-        <a href="https://trello.com/b/2ztENEAB/arkipel">
-          project's Trello board
+        You can read posts about the development of the game on{' '}
+        <a href="https://patreon.com/arkipel" target="_blank">
+          Arkipel's Patreon page
         </a>
         .
       </p>
