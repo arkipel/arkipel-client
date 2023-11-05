@@ -153,8 +153,6 @@ const Style = styled.div`
 `;
 
 const StatStyle = styled.div`
-  display: grid;
-
   div:nth-child(1) {
     display: flex;
     justify-content: space-between;
