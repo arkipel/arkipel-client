@@ -16,12 +16,22 @@ const ResourcesPage = () => {
         <StatStyle>
           <div>
             <h3>Population</h3>
-            <span>
-              {inventory.populationUsed}/{inventory.populationTotal}
-            </span>
+            <span>{inventory.populationTotal}</span>
           </div>
           <div>
             <p>Citizens live in houses or apartments and work on the island.</p>
+          </div>
+        </StatStyle>
+        <StatStyle>
+          <div>
+            <h3>Workers</h3>
+            <span>{inventory.populationUsed}</span>
+          </div>
+          <div>
+            <p>
+              Workers are citizens with a job that is not builder. They are
+              assigned to buildings.
+            </p>
           </div>
         </StatStyle>
         <StatStyle>
