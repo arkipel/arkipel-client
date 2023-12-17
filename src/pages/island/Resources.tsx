@@ -28,7 +28,10 @@ const ResourcesPage = () => {
             <span>{inventory.populationUsed}</span>
           </div>
           <div>
-            <p>Workers are citizens with a job that is not builder.</p>
+            <p>
+              Workers are citizens with a job that is not builder. They are
+              assigned to buildings.
+            </p>
           </div>
         </StatStyle>
         <StatStyle>
