@@ -15,10 +15,511 @@ export type Scalars = {
   Boolean: { input: boolean; output: boolean; }
   Int: { input: number; output: number; }
   Float: { input: number; output: number; }
-  Time: { input: any; output: any; }
   Decimal: { input: any; output: any; }
   JSON: { input: any; output: any; }
+  Time: { input: any; output: any; }
 };
+
+export type ApiStatus = {
+  __typename?: 'APIStatus';
+  running: Scalars['Boolean']['output'];
+};
+
+export type AccountCreation = Event & {
+  __typename?: 'AccountCreation';
+  happenedAt: Scalars['Time']['output'];
+  id: Scalars['Int']['output'];
+  user?: Maybe<User>;
+};
+
+export type AlreadyExists = {
+  __typename?: 'AlreadyExists';
+  identifier?: Maybe<Scalars['String']['output']>;
+};
+
+export type Archipelago = {
+  __typename?: 'Archipelago';
+  id: Scalars['ID']['output'];
+  numberIslands: Scalars['Int']['output'];
+};
+
+export type Article = {
+  __typename?: 'Article';
+  content: Scalars['String']['output'];
+  id: Scalars['ID']['output'];
+  publishedAt: Scalars['Time']['output'];
+  title: Scalars['String']['output'];
+};
+
+export type ArticleInput = {
+  articleId: Scalars['ID']['input'];
+};
+
+export type ArticleList = {
+  __typename?: 'ArticleList';
+  articles: Array<Article>;
+};
+
+export type ArticleResult = Article | NotFound;
+
+export type Badge = {
+  __typename?: 'Badge';
+  createdAt: Scalars['Time']['output'];
+  id: Scalars['ID']['output'];
+  owner: Player;
+  recipient: Player;
+  type: BadgeType;
+};
+
+export enum BadgeType {
+  EarlyPlayer = 'EARLY_PLAYER'
+}
+
+export type BankAccount = {
+  __typename?: 'BankAccount';
+  amount: Scalars['Decimal']['output'];
+  currency: Currency;
+  id: Scalars['ID']['output'];
+  owner: User;
+};
+
+export type BankAccountList = {
+  __typename?: 'BankAccountList';
+  bankAccounts: Array<BankAccount>;
+};
+
+export type BankAccountResult = BankAccount | NotAuthorized | NotFound;
+
+export type BankAccountsResult = BankAccountList | NotAuthorized;
+
+export type Blueprint = {
+  __typename?: 'Blueprint';
+  infrastructure: Infrastructure;
+  materialCost: Scalars['Int']['output'];
+  workload: Scalars['Int']['output'];
+};
+
+export type BuildInfrastructureResult = NotAuthorized | NotEnoughMaterial | NotFound | Tile;
+
+export type BuildingScore = {
+  __typename?: 'BuildingScore';
+  id: Scalars['String']['output'];
+  score: Scalars['Int']['output'];
+  tile: Tile;
+};
+
+export type BuyTradeOrderExecution = Event & {
+  __typename?: 'BuyTradeOrderExecution';
+  buyer: User;
+  commodity: CommodityType;
+  commodityCurrency?: Maybe<Currency>;
+  currency: Currency;
+  happenedAt: Scalars['Time']['output'];
+  id: Scalars['Int']['output'];
+  price: Scalars['Decimal']['output'];
+  quantity: Scalars['Int']['output'];
+  seller: User;
+  user?: Maybe<User>;
+};
+
+export type CancelConstructionResult = NotAuthorized | NotFound | Tile;
+
+export type CancelTradeOrderResult = Confirmation | NotAuthorized | NotFound;
+
+export type Citizen = {
+  __typename?: 'Citizen';
+  createdAt: Scalars['Time']['output'];
+  id: Scalars['ID']['output'];
+  island: Island;
+  name: Scalars['String']['output'];
+};
+
+export type CitizenInput = {
+  citizenId: Scalars['ID']['input'];
+};
+
+export type CitizenList = {
+  __typename?: 'CitizenList';
+  citizens: Array<Citizen>;
+};
+
+export type CitizenResult = Citizen | NotFound;
+
+export type CitizensFromIslandInput = {
+  islandId: Scalars['ID']['input'];
+};
+
+export type CitizensFromIslandResult = CitizenList | NotFound;
+
+export type CommodityPrice = {
+  __typename?: 'CommodityPrice';
+  commodity: CommodityType;
+  price: Scalars['Decimal']['output'];
+};
+
+export type CommodityScore = {
+  __typename?: 'CommodityScore';
+  commodity: CommodityType;
+  id: Scalars['String']['output'];
+  score: Scalars['Int']['output'];
+};
+
+export enum CommodityType {
+  Currency = 'CURRENCY',
+  FrozenFood = 'FROZEN_FOOD',
+  Material = 'MATERIAL'
+}
+
+export type Confirmation = {
+  __typename?: 'Confirmation';
+  identifier?: Maybe<Scalars['String']['output']>;
+};
+
+export type ConstructionSite = {
+  __typename?: 'ConstructionSite';
+  createdAt: Scalars['Time']['output'];
+  finishedAt: Scalars['Time']['output'];
+  id: Scalars['ID']['output'];
+  infrastructure: Infrastructure;
+  materialSpent: Scalars['Int']['output'];
+  tile: Tile;
+  workloadLeft: Scalars['Int']['output'];
+};
+
+export type CurrenciesResult = CurrencyList;
+
+export type Currency = {
+  __typename?: 'Currency';
+  code: Scalars['String']['output'];
+  id: Scalars['ID']['output'];
+  name: Scalars['String']['output'];
+};
+
+export type CurrencyList = {
+  __typename?: 'CurrencyList';
+  currencies: Array<Currency>;
+};
+
+export type CurrencyPrice = {
+  __typename?: 'CurrencyPrice';
+  currency: Currency;
+  price: Scalars['Decimal']['output'];
+};
+
+export type CurrencyResult = Currency | NotFound;
+
+export type CurrencyScore = {
+  __typename?: 'CurrencyScore';
+  currency: Currency;
+  id: Scalars['String']['output'];
+  score: Scalars['Int']['output'];
+};
+
+export type CurrentMarketPrices = {
+  __typename?: 'CurrentMarketPrices';
+  commodityPrices: Array<CommodityPrice>;
+  currency: Currency;
+  currencyPrices: Array<CurrencyPrice>;
+};
+
+export type CurrentMarketPricesInput = {
+  currencyId: Scalars['ID']['input'];
+};
+
+export type CurrentMarketPricesResult = CurrentMarketPrices | NotFound;
+
+export type DeleteEmailAddressResult = NotAuthorized | User;
+
+export type DestroyInfrastructureResult = NotAuthorized | Tile;
+
+export type EditArticleInput = {
+  articleId: Scalars['ID']['input'];
+  content?: InputMaybe<Scalars['String']['input']>;
+  title?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type EditArticleResult = Article | NotAuthorized | NotFound;
+
+export type Event = {
+  happenedAt: Scalars['Time']['output'];
+  id: Scalars['Int']['output'];
+  user?: Maybe<User>;
+};
+
+export type EventList = {
+  __typename?: 'EventList';
+  events: Array<Event>;
+};
+
+export type EventsInput = {
+  limit: Scalars['Int']['input'];
+  startAt?: InputMaybe<Scalars['Int']['input']>;
+  userId: Scalars['ID']['input'];
+};
+
+export type EventsResult = EventList | NotAuthorized;
+
+export type Group = {
+  __typename?: 'Group';
+  id: Scalars['ID']['output'];
+  name: Scalars['String']['output'];
+};
+
+export enum Infrastructure {
+  AnimalFarm = 'ANIMAL_FARM',
+  Apartments = 'APARTMENTS',
+  Bank = 'BANK',
+  Empty = 'EMPTY',
+  Garden = 'GARDEN',
+  House = 'HOUSE',
+  Hut = 'HUT',
+  Jungle = 'JUNGLE',
+  NuclearPlant = 'NUCLEAR_PLANT',
+  Port = 'PORT',
+  Quarry = 'QUARRY',
+  Warehouse = 'WAREHOUSE',
+  WheatField = 'WHEAT_FIELD',
+  WindTurbine = 'WIND_TURBINE'
+}
+
+export enum InfrastructureStatus {
+  Off = 'OFF',
+  On = 'ON'
+}
+
+export type Inventory = {
+  __typename?: 'Inventory';
+  bankLevels: Scalars['Int']['output'];
+  energy: Scalars['Int']['output'];
+  energyFree: Scalars['Int']['output'];
+  energyTotal: Scalars['Int']['output'];
+  energyUsed: Scalars['Int']['output'];
+  food: Scalars['Int']['output'];
+  foodProduction: Scalars['Int']['output'];
+  frozenFood: Scalars['Int']['output'];
+  frozenFoodProduction: Scalars['Int']['output'];
+  frozenFoodStorage: Scalars['Int']['output'];
+  id: Scalars['ID']['output'];
+  island: Island;
+  lastFoodRotAt: Scalars['Time']['output'];
+  material: Scalars['Int']['output'];
+  materialProduction: Scalars['Int']['output'];
+  owner: User;
+  population: Scalars['Int']['output'];
+  populationFree: Scalars['Int']['output'];
+  populationTotal: Scalars['Int']['output'];
+  populationUsed: Scalars['Int']['output'];
+  timestamp: Scalars['Time']['output'];
+};
+
+export type InventoryResult = Inventory | NotAuthorized | NotFound;
+
+export type Island = {
+  __typename?: 'Island';
+  constructionSites: Array<ConstructionSite>;
+  id: Scalars['ID']['output'];
+  inventory: Inventory;
+  lastUpdateAt: Scalars['Time']['output'];
+  name: Scalars['String']['output'];
+  owner: User;
+  tiles: Array<Tile>;
+};
+
+export type IslandList = {
+  __typename?: 'IslandList';
+  islands: Array<Island>;
+};
+
+export type IslandResult = Island | NotAuthorized | NotFound;
+
+export type IslandSearchResult = IslandList | NotAuthorized;
+
+export type MarketPrice = {
+  __typename?: 'MarketPrice';
+  commodity: CommodityType;
+  commodityCurrency?: Maybe<Currency>;
+  currency: Currency;
+  numTrades: Scalars['Int']['output'];
+  prevNumTrades: Scalars['Int']['output'];
+  prevPrice: Scalars['Decimal']['output'];
+  prevQuantity: Scalars['Int']['output'];
+  price: Scalars['Decimal']['output'];
+  quantity: Scalars['Int']['output'];
+  timestamp: Scalars['Time']['output'];
+};
+
+export type MarketPrices = {
+  __typename?: 'MarketPrices';
+  prices: Array<MarketPrice>;
+};
+
+export type MarketPricesInput = {
+  commodity: CommodityType;
+  commodityCurrencyId?: InputMaybe<Scalars['String']['input']>;
+  currencyId: Scalars['String']['input'];
+  range: Range;
+};
+
+export type MarketPricesResult = MarketPrices | NotAuthorized;
+
+export type MeResult = NotAuthorized | NotFound | User;
+
+export type Mutation = {
+  __typename?: 'Mutation';
+  buildInfrastructure?: Maybe<BuildInfrastructureResult>;
+  cancelConstruction?: Maybe<CancelConstructionResult>;
+  cancelTradeOrder?: Maybe<CancelTradeOrderResult>;
+  deleteEmailAddress: DeleteEmailAddressResult;
+  destroyInfrastructure?: Maybe<DestroyInfrastructureResult>;
+  editArticle: EditArticleResult;
+  publishArticle: PublishArticleResult;
+  register: RegistrationResult;
+  sendTradeOrder?: Maybe<SendTradeOrderResult>;
+  setEmailAddress: SetEmailAddressResult;
+  setInfrastructureDesiredStatus?: Maybe<SetInfrastructureDesiredStatusResult>;
+  setPassword: SetPasswordResult;
+  setUsername: SetUsernameResult;
+  upgradeInfrastructure?: Maybe<UpgradeInfrastructureResult>;
+};
+
+
+export type MutationBuildInfrastructureArgs = {
+  infrastructure: Infrastructure;
+  islandId: Scalars['String']['input'];
+  position: Scalars['Int']['input'];
+};
+
+
+export type MutationCancelConstructionArgs = {
+  islandId: Scalars['String']['input'];
+  position: Scalars['Int']['input'];
+};
+
+
+export type MutationCancelTradeOrderArgs = {
+  tradeOrderId: Scalars['String']['input'];
+  userId: Scalars['String']['input'];
+};
+
+
+export type MutationDeleteEmailAddressArgs = {
+  userId: Scalars['String']['input'];
+};
+
+
+export type MutationDestroyInfrastructureArgs = {
+  islandId: Scalars['String']['input'];
+  position: Scalars['Int']['input'];
+};
+
+
+export type MutationEditArticleArgs = {
+  input: EditArticleInput;
+};
+
+
+export type MutationPublishArticleArgs = {
+  input: PublishArticleInput;
+};
+
+
+export type MutationRegisterArgs = {
+  captcha: Scalars['String']['input'];
+  password: Scalars['String']['input'];
+  username: Scalars['String']['input'];
+};
+
+
+export type MutationSendTradeOrderArgs = {
+  input: SendTradeOrderInput;
+};
+
+
+export type MutationSetEmailAddressArgs = {
+  new: Scalars['String']['input'];
+  userId: Scalars['String']['input'];
+};
+
+
+export type MutationSetInfrastructureDesiredStatusArgs = {
+  islandId: Scalars['String']['input'];
+  position: Scalars['Int']['input'];
+  status: InfrastructureStatus;
+};
+
+
+export type MutationSetPasswordArgs = {
+  new: Scalars['String']['input'];
+  old: Scalars['String']['input'];
+  userId: Scalars['String']['input'];
+};
+
+
+export type MutationSetUsernameArgs = {
+  new: Scalars['String']['input'];
+  userId: Scalars['String']['input'];
+};
+
+
+export type MutationUpgradeInfrastructureArgs = {
+  islandId: Scalars['String']['input'];
+  position: Scalars['Int']['input'];
+};
+
+export type NotAuthorized = {
+  __typename?: 'NotAuthorized';
+  reason?: Maybe<Scalars['String']['output']>;
+};
+
+export type NotEnoughCommodity = {
+  __typename?: 'NotEnoughCommodity';
+  currency: Scalars['Decimal']['output'];
+  frozenFood: Scalars['Int']['output'];
+  material: Scalars['Int']['output'];
+};
+
+export type NotEnoughMaterial = Rejection & {
+  __typename?: 'NotEnoughMaterial';
+  available: Scalars['Int']['output'];
+  missing: Scalars['Int']['output'];
+  needed: Scalars['Int']['output'];
+  reason?: Maybe<Scalars['String']['output']>;
+};
+
+export type NotFound = {
+  __typename?: 'NotFound';
+  identifier?: Maybe<Scalars['String']['output']>;
+};
+
+export type Player = {
+  __typename?: 'Player';
+  badges: Array<Badge>;
+  createdAt: Scalars['Time']['output'];
+  id: Scalars['ID']['output'];
+  island: Island;
+  name: Scalars['String']['output'];
+  scoresheet: Scoresheet;
+};
+
+export type PlayerInput = {
+  playerId: Scalars['ID']['input'];
+};
+
+export type PlayerResult = NotFound | Player;
+
+export enum Precision {
+  Day = 'DAY',
+  Hour = 'HOUR',
+  Minute = 'MINUTE',
+  Second = 'SECOND'
+}
+
+export type PublishArticleInput = {
+  content: Scalars['String']['input'];
+  title: Scalars['String']['input'];
+};
+
+export type PublishArticleResult = Article | NotAuthorized | NotFound;
 
 export type Query = {
   __typename?: 'Query';
@@ -37,15 +538,15 @@ export type Query = {
   island: IslandResult;
   marketPrices: MarketPricesResult;
   me: MeResult;
-  myOpenOrders: OrdersResult;
+  myOpenTradeOrders: TradeOrdersResult;
   newSessionToken: Scalars['String']['output'];
-  orders: OrdersResult;
   player: PlayerResult;
   recentArticles: RecentArticlesResult;
   searchIslands: IslandSearchResult;
   sessionToken: Scalars['String']['output'];
   tile: TileResult;
   topPlayers: TopPlayersResult;
+  tradeOrders: TradeOrdersResult;
   usernameAvailability: Scalars['Boolean']['output'];
 };
 
@@ -111,18 +612,13 @@ export type QueryMeArgs = {
 };
 
 
-export type QueryMyOpenOrdersArgs = {
+export type QueryMyOpenTradeOrdersArgs = {
   userId: Scalars['String']['input'];
 };
 
 
 export type QueryNewSessionTokenArgs = {
   old: Scalars['String']['input'];
-};
-
-
-export type QueryOrdersArgs = {
-  input: OrdersInput;
 };
 
 
@@ -158,139 +654,82 @@ export type QueryTopPlayersArgs = {
 };
 
 
+export type QueryTradeOrdersArgs = {
+  input: TradeOrdersInput;
+};
+
+
 export type QueryUsernameAvailabilityArgs = {
   username: Scalars['String']['input'];
 };
 
-export type ApiStatus = {
-  __typename?: 'APIStatus';
-  running: Scalars['Boolean']['output'];
+export enum Range {
+  Day_30 = 'DAY_30',
+  Day_180 = 'DAY_180',
+  Day_365 = 'DAY_365',
+  Hour_24 = 'HOUR_24',
+  Hour_168 = 'HOUR_168',
+  Min_60 = 'MIN_60',
+  Sec_60 = 'SEC_60',
+  Sec_300 = 'SEC_300'
+}
+
+export type RecentArticlesInput = {
+  limit: Scalars['Int']['input'];
 };
 
-export type Archipelago = {
-  __typename?: 'Archipelago';
-  id: Scalars['ID']['output'];
-  numberIslands: Scalars['Int']['output'];
-};
+export type RecentArticlesResult = ArticleList;
 
-export type ArticleInput = {
-  articleId: Scalars['ID']['input'];
-};
+export type RegistrationResult = AlreadyExists | User;
 
-export type ArticleResult = Article | NotFound;
-
-export type Article = {
-  __typename?: 'Article';
-  content: Scalars['String']['output'];
-  id: Scalars['ID']['output'];
-  publishedAt: Scalars['Time']['output'];
-  title: Scalars['String']['output'];
-};
-
-export type NotFound = {
-  __typename?: 'NotFound';
-  identifier?: Maybe<Scalars['String']['output']>;
-};
-
-export type BankAccountResult = BankAccount | NotAuthorized | NotFound;
-
-export type BankAccount = {
-  __typename?: 'BankAccount';
-  amount: Scalars['Decimal']['output'];
-  currency: Currency;
-  id: Scalars['ID']['output'];
-  owner: User;
-};
-
-export type Currency = {
-  __typename?: 'Currency';
-  code: Scalars['String']['output'];
-  id: Scalars['ID']['output'];
-  name: Scalars['String']['output'];
-};
-
-export type User = {
-  __typename?: 'User';
-  createdAt: Scalars['Time']['output'];
-  emailAddress?: Maybe<Scalars['String']['output']>;
-  emailAddressVerified: Scalars['Boolean']['output'];
-  groups: Array<Group>;
-  id: Scalars['ID']['output'];
-  lastActivityAt?: Maybe<Scalars['Time']['output']>;
-  name: Scalars['String']['output'];
-  username: Scalars['String']['output'];
-};
-
-export type Group = {
-  __typename?: 'Group';
-  id: Scalars['ID']['output'];
-  name: Scalars['String']['output'];
-};
-
-export type NotAuthorized = {
-  __typename?: 'NotAuthorized';
+export type Rejection = {
   reason?: Maybe<Scalars['String']['output']>;
 };
 
-export type BankAccountsResult = BankAccountList | NotAuthorized;
-
-export type BankAccountList = {
-  __typename?: 'BankAccountList';
-  bankAccounts: Array<BankAccount>;
-};
-
-export type CitizenInput = {
-  citizenId: Scalars['ID']['input'];
-};
-
-export type CitizenResult = Citizen | NotFound;
-
-export type Citizen = {
-  __typename?: 'Citizen';
-  createdAt: Scalars['Time']['output'];
+export type Scoresheet = {
+  __typename?: 'Scoresheet';
+  buildings: Array<BuildingScore>;
+  commodities: Array<CommodityScore>;
+  currencies: Array<CurrencyScore>;
   id: Scalars['ID']['output'];
-  island: Island;
-  name: Scalars['String']['output'];
+  player: Player;
+  score: Scalars['Int']['output'];
 };
 
-export type Island = {
-  __typename?: 'Island';
-  constructionSites: Array<ConstructionSite>;
-  id: Scalars['ID']['output'];
-  inventory: Inventory;
-  lastUpdateAt: Scalars['Time']['output'];
-  name: Scalars['String']['output'];
-  owner: User;
-  tiles: Array<Tile>;
+export type SellTradeOrderExecution = Event & {
+  __typename?: 'SellTradeOrderExecution';
+  buyer: User;
+  commodity: CommodityType;
+  commodityCurrency?: Maybe<Currency>;
+  currency: Currency;
+  happenedAt: Scalars['Time']['output'];
+  id: Scalars['Int']['output'];
+  price: Scalars['Decimal']['output'];
+  quantity: Scalars['Int']['output'];
+  seller: User;
+  user?: Maybe<User>;
 };
 
-export type ConstructionSite = {
-  __typename?: 'ConstructionSite';
-  createdAt: Scalars['Time']['output'];
-  finishedAt: Scalars['Time']['output'];
-  id: Scalars['ID']['output'];
-  infrastructure: Infrastructure;
-  materialSpent: Scalars['Int']['output'];
-  tile: Tile;
-  workloadLeft: Scalars['Int']['output'];
+export type SendTradeOrderInput = {
+  commodity: CommodityType;
+  commodityCurrencyId?: InputMaybe<Scalars['String']['input']>;
+  currencyId: Scalars['String']['input'];
+  expiresAt: Scalars['Time']['input'];
+  price: Scalars['Decimal']['input'];
+  quantity: Scalars['Int']['input'];
+  side: TradeOrderSide;
+  userId: Scalars['String']['input'];
 };
 
-export enum Infrastructure {
-  AnimalFarm = 'ANIMAL_FARM',
-  Apartments = 'APARTMENTS',
-  Bank = 'BANK',
-  Empty = 'EMPTY',
-  Garden = 'GARDEN',
-  House = 'HOUSE',
-  Hut = 'HUT',
-  Jungle = 'JUNGLE',
-  NuclearPlant = 'NUCLEAR_PLANT',
-  Port = 'PORT',
-  Quarry = 'QUARRY',
-  Warehouse = 'WAREHOUSE',
-  WheatField = 'WHEAT_FIELD',
-  WindTurbine = 'WIND_TURBINE'
-}
+export type SendTradeOrderResult = NotAuthorized | NotEnoughCommodity | TradeOrder;
+
+export type SetEmailAddressResult = AlreadyExists | NotAuthorized | User;
+
+export type SetInfrastructureDesiredStatusResult = NotAuthorized | NotFound | Tile;
+
+export type SetPasswordResult = NotAuthorized | User;
+
+export type SetUsernameResult = AlreadyExists | NotAuthorized | User;
 
 export type Tile = {
   __typename?: 'Tile';
@@ -314,18 +753,6 @@ export type Tile = {
   position: Scalars['Int']['output'];
 };
 
-export type Blueprint = {
-  __typename?: 'Blueprint';
-  infrastructure: Infrastructure;
-  materialCost: Scalars['Int']['output'];
-  workload: Scalars['Int']['output'];
-};
-
-export enum InfrastructureStatus {
-  Off = 'OFF',
-  On = 'ON'
-}
-
 export enum TileKind {
   DeepWater = 'DEEP_WATER',
   Land = 'LAND',
@@ -333,155 +760,21 @@ export enum TileKind {
   Water = 'WATER'
 }
 
-export type Inventory = {
-  __typename?: 'Inventory';
-  bankLevels: Scalars['Int']['output'];
-  energy: Scalars['Int']['output'];
-  energyFree: Scalars['Int']['output'];
-  energyTotal: Scalars['Int']['output'];
-  energyUsed: Scalars['Int']['output'];
-  food: Scalars['Int']['output'];
-  foodProduction: Scalars['Int']['output'];
-  frozenFood: Scalars['Int']['output'];
-  frozenFoodProduction: Scalars['Int']['output'];
-  frozenFoodStorage: Scalars['Int']['output'];
-  id: Scalars['ID']['output'];
-  island: Island;
-  lastFoodRotAt: Scalars['Time']['output'];
-  material: Scalars['Int']['output'];
-  materialProduction: Scalars['Int']['output'];
-  owner: User;
-  population: Scalars['Int']['output'];
-  populationFree: Scalars['Int']['output'];
-  populationTotal: Scalars['Int']['output'];
-  populationUsed: Scalars['Int']['output'];
-  timestamp: Scalars['Time']['output'];
+export type TileResult = NotAuthorized | NotFound | Tile;
+
+export type TopPlayers = {
+  __typename?: 'TopPlayers';
+  players?: Maybe<Array<Player>>;
 };
 
-export type CitizensFromIslandInput = {
-  islandId: Scalars['ID']['input'];
-};
-
-export type CitizensFromIslandResult = CitizenList | NotFound;
-
-export type CitizenList = {
-  __typename?: 'CitizenList';
-  citizens: Array<Citizen>;
-};
-
-export type CurrenciesResult = CurrencyList;
-
-export type CurrencyList = {
-  __typename?: 'CurrencyList';
-  currencies: Array<Currency>;
-};
-
-export type CurrencyResult = Currency | NotFound;
-
-export type CurrentMarketPricesInput = {
-  currencyId: Scalars['ID']['input'];
-};
-
-export type CurrentMarketPricesResult = CurrentMarketPrices | NotFound;
-
-export type CurrentMarketPrices = {
-  __typename?: 'CurrentMarketPrices';
-  commodityPrices: Array<CommodityPrice>;
-  currency: Currency;
-  currencyPrices: Array<CurrencyPrice>;
-};
-
-export type CommodityPrice = {
-  __typename?: 'CommodityPrice';
-  commodity: CommodityType;
-  price: Scalars['Decimal']['output'];
-};
-
-export enum CommodityType {
-  Currency = 'CURRENCY',
-  FrozenFood = 'FROZEN_FOOD',
-  Material = 'MATERIAL'
-}
-
-export type CurrencyPrice = {
-  __typename?: 'CurrencyPrice';
-  currency: Currency;
-  price: Scalars['Decimal']['output'];
-};
-
-export type EventsInput = {
+export type TopPlayersInput = {
   limit: Scalars['Int']['input'];
-  startAt?: InputMaybe<Scalars['Int']['input']>;
-  userId: Scalars['ID']['input'];
 };
 
-export type EventsResult = EventList | NotAuthorized;
+export type TopPlayersResult = TopPlayers;
 
-export type EventList = {
-  __typename?: 'EventList';
-  events: Array<Event>;
-};
-
-export type Event = {
-  happenedAt: Scalars['Time']['output'];
-  id: Scalars['Int']['output'];
-  user?: Maybe<User>;
-};
-
-export type InventoryResult = Inventory | NotAuthorized | NotFound;
-
-export type IslandResult = Island | NotAuthorized | NotFound;
-
-export type MarketPricesInput = {
-  commodity: CommodityType;
-  commodityCurrencyId?: InputMaybe<Scalars['String']['input']>;
-  currencyId: Scalars['String']['input'];
-  range: Range;
-};
-
-export enum Range {
-  Day_180 = 'DAY_180',
-  Day_30 = 'DAY_30',
-  Day_365 = 'DAY_365',
-  Hour_168 = 'HOUR_168',
-  Hour_24 = 'HOUR_24',
-  Min_60 = 'MIN_60',
-  Sec_300 = 'SEC_300',
-  Sec_60 = 'SEC_60'
-}
-
-export type MarketPricesResult = MarketPrices | NotAuthorized;
-
-export type MarketPrices = {
-  __typename?: 'MarketPrices';
-  prices: Array<MarketPrice>;
-};
-
-export type MarketPrice = {
-  __typename?: 'MarketPrice';
-  commodity: CommodityType;
-  commodityCurrency?: Maybe<Currency>;
-  currency: Currency;
-  numTrades: Scalars['Int']['output'];
-  prevNumTrades: Scalars['Int']['output'];
-  prevPrice: Scalars['Decimal']['output'];
-  prevQuantity: Scalars['Int']['output'];
-  price: Scalars['Decimal']['output'];
-  quantity: Scalars['Int']['output'];
-  timestamp: Scalars['Time']['output'];
-};
-
-export type MeResult = NotAuthorized | NotFound | User;
-
-export type OrdersResult = NotAuthorized | OrderList;
-
-export type OrderList = {
-  __typename?: 'OrderList';
-  orders: Array<Order>;
-};
-
-export type Order = {
-  __typename?: 'Order';
+export type TradeOrder = {
+  __typename?: 'TradeOrder';
   author: User;
   commodity: CommodityType;
   commodityCurrency?: Maybe<Currency>;
@@ -491,333 +784,40 @@ export type Order = {
   id: Scalars['ID']['output'];
   price: Scalars['Decimal']['output'];
   quantity: Scalars['Int']['output'];
-  side: OrderSide;
+  side: TradeOrderSide;
 };
 
-export enum OrderSide {
+export type TradeOrderList = {
+  __typename?: 'TradeOrderList';
+  orders: Array<TradeOrder>;
+};
+
+export enum TradeOrderSide {
   Buy = 'BUY',
   Sell = 'SELL'
 }
 
-export type OrdersInput = {
+export type TradeOrdersInput = {
   commodity: CommodityType;
   commodityCurrencyId?: InputMaybe<Scalars['String']['input']>;
   currencyId: Scalars['String']['input'];
-  side: OrderSide;
+  side: TradeOrderSide;
 };
 
-export type PlayerInput = {
-  playerId: Scalars['ID']['input'];
-};
-
-export type PlayerResult = NotFound | Player;
-
-export type Player = {
-  __typename?: 'Player';
-  badges: Array<Badge>;
-  createdAt: Scalars['Time']['output'];
-  id: Scalars['ID']['output'];
-  island: Island;
-  name: Scalars['String']['output'];
-  scoresheet: Scoresheet;
-};
-
-export type Badge = {
-  __typename?: 'Badge';
-  createdAt: Scalars['Time']['output'];
-  id: Scalars['ID']['output'];
-  owner: Player;
-  recipient: Player;
-  type: BadgeType;
-};
-
-export enum BadgeType {
-  EarlyPlayer = 'EARLY_PLAYER'
-}
-
-export type Scoresheet = {
-  __typename?: 'Scoresheet';
-  buildings: Array<BuildingScore>;
-  commodities: Array<CommodityScore>;
-  currencies: Array<CurrencyScore>;
-  id: Scalars['ID']['output'];
-  player: Player;
-  score: Scalars['Int']['output'];
-};
-
-export type BuildingScore = {
-  __typename?: 'BuildingScore';
-  id: Scalars['String']['output'];
-  score: Scalars['Int']['output'];
-  tile: Tile;
-};
-
-export type CommodityScore = {
-  __typename?: 'CommodityScore';
-  commodity: CommodityType;
-  id: Scalars['String']['output'];
-  score: Scalars['Int']['output'];
-};
-
-export type CurrencyScore = {
-  __typename?: 'CurrencyScore';
-  currency: Currency;
-  id: Scalars['String']['output'];
-  score: Scalars['Int']['output'];
-};
-
-export type RecentArticlesInput = {
-  limit: Scalars['Int']['input'];
-};
-
-export type RecentArticlesResult = ArticleList;
-
-export type ArticleList = {
-  __typename?: 'ArticleList';
-  articles: Array<Article>;
-};
-
-export type IslandSearchResult = IslandList | NotAuthorized;
-
-export type IslandList = {
-  __typename?: 'IslandList';
-  islands: Array<Island>;
-};
-
-export type TileResult = NotAuthorized | NotFound | Tile;
-
-export type TopPlayersInput = {
-  limit: Scalars['Int']['input'];
-};
-
-export type TopPlayersResult = TopPlayers;
-
-export type TopPlayers = {
-  __typename?: 'TopPlayers';
-  players?: Maybe<Array<Player>>;
-};
-
-export type Mutation = {
-  __typename?: 'Mutation';
-  buildInfrastructure?: Maybe<BuildInfrastructureResult>;
-  cancelConstruction?: Maybe<CancelConstructionResult>;
-  cancelOrder?: Maybe<CancelOrderResult>;
-  deleteEmailAddress: DeleteEmailAddressResult;
-  destroyInfrastructure?: Maybe<DestroyInfrastructureResult>;
-  editArticle: EditArticleResult;
-  publishArticle: PublishArticleResult;
-  register: RegistrationResult;
-  sendOrder?: Maybe<SendOrderResult>;
-  setEmailAddress: SetEmailAddressResult;
-  setInfrastructureDesiredStatus?: Maybe<SetInfrastructureDesiredStatusResult>;
-  setPassword: SetPasswordResult;
-  setUsername: SetUsernameResult;
-  upgradeInfrastructure?: Maybe<UpgradeInfrastructureResult>;
-};
-
-
-export type MutationBuildInfrastructureArgs = {
-  infrastructure: Infrastructure;
-  islandId: Scalars['String']['input'];
-  position: Scalars['Int']['input'];
-};
-
-
-export type MutationCancelConstructionArgs = {
-  islandId: Scalars['String']['input'];
-  position: Scalars['Int']['input'];
-};
-
-
-export type MutationCancelOrderArgs = {
-  orderId: Scalars['String']['input'];
-  userId: Scalars['String']['input'];
-};
-
-
-export type MutationDeleteEmailAddressArgs = {
-  userId: Scalars['String']['input'];
-};
-
-
-export type MutationDestroyInfrastructureArgs = {
-  islandId: Scalars['String']['input'];
-  position: Scalars['Int']['input'];
-};
-
-
-export type MutationEditArticleArgs = {
-  input: EditArticleInput;
-};
-
-
-export type MutationPublishArticleArgs = {
-  input: PublishArticleInput;
-};
-
-
-export type MutationRegisterArgs = {
-  captcha: Scalars['String']['input'];
-  password: Scalars['String']['input'];
-  username: Scalars['String']['input'];
-};
-
-
-export type MutationSendOrderArgs = {
-  input: SendOrderInput;
-};
-
-
-export type MutationSetEmailAddressArgs = {
-  new: Scalars['String']['input'];
-  userId: Scalars['String']['input'];
-};
-
-
-export type MutationSetInfrastructureDesiredStatusArgs = {
-  islandId: Scalars['String']['input'];
-  position: Scalars['Int']['input'];
-  status: InfrastructureStatus;
-};
-
-
-export type MutationSetPasswordArgs = {
-  new: Scalars['String']['input'];
-  old: Scalars['String']['input'];
-  userId: Scalars['String']['input'];
-};
-
-
-export type MutationSetUsernameArgs = {
-  new: Scalars['String']['input'];
-  userId: Scalars['String']['input'];
-};
-
-
-export type MutationUpgradeInfrastructureArgs = {
-  islandId: Scalars['String']['input'];
-  position: Scalars['Int']['input'];
-};
-
-export type BuildInfrastructureResult = NotAuthorized | NotEnoughMaterial | NotFound | Tile;
-
-export type NotEnoughMaterial = Rejection & {
-  __typename?: 'NotEnoughMaterial';
-  available: Scalars['Int']['output'];
-  missing: Scalars['Int']['output'];
-  needed: Scalars['Int']['output'];
-  reason?: Maybe<Scalars['String']['output']>;
-};
-
-export type Rejection = {
-  reason?: Maybe<Scalars['String']['output']>;
-};
-
-export type CancelConstructionResult = NotAuthorized | NotFound | Tile;
-
-export type CancelOrderResult = Confirmation | NotAuthorized | NotFound;
-
-export type Confirmation = {
-  __typename?: 'Confirmation';
-  identifier?: Maybe<Scalars['String']['output']>;
-};
-
-export type DeleteEmailAddressResult = NotAuthorized | User;
-
-export type DestroyInfrastructureResult = NotAuthorized | Tile;
-
-export type EditArticleInput = {
-  articleId: Scalars['ID']['input'];
-  content?: InputMaybe<Scalars['String']['input']>;
-  title?: InputMaybe<Scalars['String']['input']>;
-};
-
-export type EditArticleResult = Article | NotAuthorized | NotFound;
-
-export type PublishArticleInput = {
-  content: Scalars['String']['input'];
-  title: Scalars['String']['input'];
-};
-
-export type PublishArticleResult = Article | NotAuthorized | NotFound;
-
-export type RegistrationResult = AlreadyExists | User;
-
-export type AlreadyExists = {
-  __typename?: 'AlreadyExists';
-  identifier?: Maybe<Scalars['String']['output']>;
-};
-
-export type SendOrderInput = {
-  commodity: CommodityType;
-  commodityCurrencyId?: InputMaybe<Scalars['String']['input']>;
-  currencyId: Scalars['String']['input'];
-  expiresAt: Scalars['Time']['input'];
-  price: Scalars['Decimal']['input'];
-  quantity: Scalars['Int']['input'];
-  side: OrderSide;
-  userId: Scalars['String']['input'];
-};
-
-export type SendOrderResult = NotAuthorized | NotEnoughCommodity | Order;
-
-export type NotEnoughCommodity = {
-  __typename?: 'NotEnoughCommodity';
-  currency: Scalars['Decimal']['output'];
-  frozenFood: Scalars['Int']['output'];
-  material: Scalars['Int']['output'];
-};
-
-export type SetEmailAddressResult = AlreadyExists | NotAuthorized | User;
-
-export type SetInfrastructureDesiredStatusResult = NotAuthorized | NotFound | Tile;
-
-export type SetPasswordResult = NotAuthorized | User;
-
-export type SetUsernameResult = AlreadyExists | NotAuthorized | User;
+export type TradeOrdersResult = NotAuthorized | TradeOrderList;
 
 export type UpgradeInfrastructureResult = NotAuthorized | NotEnoughMaterial | NotFound | Tile;
 
-export type AccountCreation = Event & {
-  __typename?: 'AccountCreation';
-  happenedAt: Scalars['Time']['output'];
-  id: Scalars['Int']['output'];
-  user?: Maybe<User>;
-};
-
-export type BuyOrderExecution = Event & {
-  __typename?: 'BuyOrderExecution';
-  buyer: User;
-  commodity: CommodityType;
-  commodityCurrency?: Maybe<Currency>;
-  currency: Currency;
-  happenedAt: Scalars['Time']['output'];
-  id: Scalars['Int']['output'];
-  price: Scalars['Decimal']['output'];
-  quantity: Scalars['Int']['output'];
-  seller: User;
-  user?: Maybe<User>;
-};
-
-export enum Precision {
-  Day = 'DAY',
-  Hour = 'HOUR',
-  Minute = 'MINUTE',
-  Second = 'SECOND'
-}
-
-export type SellOrderExecution = Event & {
-  __typename?: 'SellOrderExecution';
-  buyer: User;
-  commodity: CommodityType;
-  commodityCurrency?: Maybe<Currency>;
-  currency: Currency;
-  happenedAt: Scalars['Time']['output'];
-  id: Scalars['Int']['output'];
-  price: Scalars['Decimal']['output'];
-  quantity: Scalars['Int']['output'];
-  seller: User;
-  user?: Maybe<User>;
+export type User = {
+  __typename?: 'User';
+  createdAt: Scalars['Time']['output'];
+  emailAddress?: Maybe<Scalars['String']['output']>;
+  emailAddressVerified: Scalars['Boolean']['output'];
+  groups: Array<Group>;
+  id: Scalars['ID']['output'];
+  lastActivityAt?: Maybe<Scalars['Time']['output']>;
+  name: Scalars['String']['output'];
+  username: Scalars['String']['output'];
 };
 
 export type GetApiStatusQueryVariables = Exact<{ [key: string]: never; }>;
@@ -972,7 +972,7 @@ export type GetEventsQueryVariables = Exact<{
 }>;
 
 
-export type GetEventsQuery = { __typename?: 'Query', events: { __typename?: 'EventList', events: Array<{ __typename: 'AccountCreation', id: number, happenedAt: any } | { __typename: 'BuyOrderExecution', id: number, happenedAt: any, commodity: CommodityType, quantity: number, price: any, currency: { __typename?: 'Currency', code: string }, commodityCurrency?: { __typename?: 'Currency', code: string } | null } | { __typename: 'SellOrderExecution', id: number, happenedAt: any, commodity: CommodityType, quantity: number, price: any, currency: { __typename?: 'Currency', code: string }, commodityCurrency?: { __typename?: 'Currency', code: string } | null }> } | { __typename?: 'NotAuthorized' } };
+export type GetEventsQuery = { __typename?: 'Query', events: { __typename?: 'EventList', events: Array<{ __typename: 'AccountCreation', id: number, happenedAt: any } | { __typename: 'BuyTradeOrderExecution', id: number, happenedAt: any, commodity: CommodityType, quantity: number, price: any, currency: { __typename?: 'Currency', code: string }, commodityCurrency?: { __typename?: 'Currency', code: string } | null } | { __typename: 'SellTradeOrderExecution', id: number, happenedAt: any, commodity: CommodityType, quantity: number, price: any, currency: { __typename?: 'Currency', code: string }, commodityCurrency?: { __typename?: 'Currency', code: string } | null }> } | { __typename?: 'NotAuthorized' } };
 
 export type GetTilesQueryVariables = Exact<{
   islandId: Scalars['String']['input'];
@@ -1067,21 +1067,21 @@ export type GetCurrentMarketPricesQueryVariables = Exact<{
 
 export type GetCurrentMarketPricesQuery = { __typename?: 'Query', currentMarketPrices: { __typename?: 'CurrentMarketPrices', commodityPrices: Array<{ __typename?: 'CommodityPrice', commodity: CommodityType, price: any }>, currencyPrices: Array<{ __typename?: 'CurrencyPrice', price: any, currency: { __typename?: 'Currency', id: string, code: string, name: string } }> } | { __typename?: 'NotFound' } };
 
-export type SendOrderMutationVariables = Exact<{
-  input: SendOrderInput;
+export type SendTradeOrderMutationVariables = Exact<{
+  input: SendTradeOrderInput;
 }>;
 
 
-export type SendOrderMutation = { __typename?: 'Mutation', sendOrder?: { __typename: 'NotAuthorized' } | { __typename: 'NotEnoughCommodity' } | { __typename: 'Order', id: string, createdAt: any, expiresAt: any, side: OrderSide, commodity: CommodityType, quantity: number, price: any, currency: { __typename?: 'Currency', id: string, code: string, name: string } } | null };
+export type SendTradeOrderMutation = { __typename?: 'Mutation', sendTradeOrder?: { __typename: 'NotAuthorized' } | { __typename: 'NotEnoughCommodity' } | { __typename: 'TradeOrder', id: string, createdAt: any, expiresAt: any, side: TradeOrderSide, commodity: CommodityType, quantity: number, price: any, currency: { __typename?: 'Currency', id: string, code: string, name: string } } | null };
 
-export type NewOrderFragment = { __typename?: 'Order', id: string, createdAt: any, expiresAt: any, side: OrderSide, commodity: CommodityType, quantity: number, price: any, currency: { __typename?: 'Currency', id: string, code: string, name: string } };
+export type NewOrderFragment = { __typename?: 'TradeOrder', id: string, createdAt: any, expiresAt: any, side: TradeOrderSide, commodity: CommodityType, quantity: number, price: any, currency: { __typename?: 'Currency', id: string, code: string, name: string } };
 
 export type GetMyOpenOrdersQueryVariables = Exact<{
   userId: Scalars['String']['input'];
 }>;
 
 
-export type GetMyOpenOrdersQuery = { __typename?: 'Query', myOpenOrders: { __typename: 'NotAuthorized' } | { __typename: 'OrderList', orders: Array<{ __typename?: 'Order', id: string, side: OrderSide, expiresAt: any, commodity: CommodityType, quantity: number, price: any, currency: { __typename?: 'Currency', id: string, code: string } }> } };
+export type GetMyOpenOrdersQuery = { __typename?: 'Query', myOpenTradeOrders: { __typename: 'NotAuthorized' } | { __typename: 'TradeOrderList', orders: Array<{ __typename?: 'TradeOrder', id: string, side: TradeOrderSide, expiresAt: any, commodity: CommodityType, quantity: number, price: any, currency: { __typename?: 'Currency', id: string, code: string } }> } };
 
 export type GetPublicPlayerProfileQueryVariables = Exact<{
   input: PlayerInput;
@@ -1102,7 +1102,7 @@ export const NewConstructionSiteFragmentDoc = gql`
 }
     `;
 export const NewOrderFragmentDoc = gql`
-    fragment NewOrder on Order {
+    fragment NewOrder on TradeOrder {
   id
   createdAt
   expiresAt
@@ -1148,8 +1148,13 @@ export function useGetApiStatusLazyQuery(baseOptions?: Apollo.LazyQueryHookOptio
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<GetApiStatusQuery, GetApiStatusQueryVariables>(GetApiStatusDocument, options);
         }
+export function useGetApiStatusSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetApiStatusQuery, GetApiStatusQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetApiStatusQuery, GetApiStatusQueryVariables>(GetApiStatusDocument, options);
+        }
 export type GetApiStatusQueryHookResult = ReturnType<typeof useGetApiStatusQuery>;
 export type GetApiStatusLazyQueryHookResult = ReturnType<typeof useGetApiStatusLazyQuery>;
+export type GetApiStatusSuspenseQueryHookResult = ReturnType<typeof useGetApiStatusSuspenseQuery>;
 export type GetApiStatusQueryResult = Apollo.QueryResult<GetApiStatusQuery, GetApiStatusQueryVariables>;
 export const GetAllConstructionSitesDocument = gql`
     query GetAllConstructionSites($islandId: String!) {
@@ -1195,8 +1200,13 @@ export function useGetAllConstructionSitesLazyQuery(baseOptions?: Apollo.LazyQue
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<GetAllConstructionSitesQuery, GetAllConstructionSitesQueryVariables>(GetAllConstructionSitesDocument, options);
         }
+export function useGetAllConstructionSitesSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetAllConstructionSitesQuery, GetAllConstructionSitesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetAllConstructionSitesQuery, GetAllConstructionSitesQueryVariables>(GetAllConstructionSitesDocument, options);
+        }
 export type GetAllConstructionSitesQueryHookResult = ReturnType<typeof useGetAllConstructionSitesQuery>;
 export type GetAllConstructionSitesLazyQueryHookResult = ReturnType<typeof useGetAllConstructionSitesLazyQuery>;
+export type GetAllConstructionSitesSuspenseQueryHookResult = ReturnType<typeof useGetAllConstructionSitesSuspenseQuery>;
 export type GetAllConstructionSitesQueryResult = Apollo.QueryResult<GetAllConstructionSitesQuery, GetAllConstructionSitesQueryVariables>;
 export const GetTileStatusDocument = gql`
     query GetTileStatus($islandId: String!, $position: Int!) {
@@ -1234,12 +1244,21 @@ export function useGetTileStatusLazyQuery(baseOptions?: Apollo.LazyQueryHookOpti
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<GetTileStatusQuery, GetTileStatusQueryVariables>(GetTileStatusDocument, options);
         }
+export function useGetTileStatusSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetTileStatusQuery, GetTileStatusQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetTileStatusQuery, GetTileStatusQueryVariables>(GetTileStatusDocument, options);
+        }
 export type GetTileStatusQueryHookResult = ReturnType<typeof useGetTileStatusQuery>;
 export type GetTileStatusLazyQueryHookResult = ReturnType<typeof useGetTileStatusLazyQuery>;
+export type GetTileStatusSuspenseQueryHookResult = ReturnType<typeof useGetTileStatusSuspenseQuery>;
 export type GetTileStatusQueryResult = Apollo.QueryResult<GetTileStatusQuery, GetTileStatusQueryVariables>;
 export const SetInfrastructureDesiredStatusDocument = gql`
     mutation SetInfrastructureDesiredStatus($islandId: String!, $position: Int!, $status: InfrastructureStatus!) {
-  setInfrastructureDesiredStatus(islandId: $islandId, position: $position, status: $status) {
+  setInfrastructureDesiredStatus(
+    islandId: $islandId
+    position: $position
+    status: $status
+  ) {
     ... on Tile {
       id
       desiredStatus
@@ -1327,8 +1346,13 @@ export function useGetUsernameAvailabilityLazyQuery(baseOptions?: Apollo.LazyQue
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<GetUsernameAvailabilityQuery, GetUsernameAvailabilityQueryVariables>(GetUsernameAvailabilityDocument, options);
         }
+export function useGetUsernameAvailabilitySuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetUsernameAvailabilityQuery, GetUsernameAvailabilityQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetUsernameAvailabilityQuery, GetUsernameAvailabilityQueryVariables>(GetUsernameAvailabilityDocument, options);
+        }
 export type GetUsernameAvailabilityQueryHookResult = ReturnType<typeof useGetUsernameAvailabilityQuery>;
 export type GetUsernameAvailabilityLazyQueryHookResult = ReturnType<typeof useGetUsernameAvailabilityLazyQuery>;
+export type GetUsernameAvailabilitySuspenseQueryHookResult = ReturnType<typeof useGetUsernameAvailabilitySuspenseQuery>;
 export type GetUsernameAvailabilityQueryResult = Apollo.QueryResult<GetUsernameAvailabilityQuery, GetUsernameAvailabilityQueryVariables>;
 export const GetBankAccountsDocument = gql`
     query GetBankAccounts($userId: String!) {
@@ -1373,8 +1397,13 @@ export function useGetBankAccountsLazyQuery(baseOptions?: Apollo.LazyQueryHookOp
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<GetBankAccountsQuery, GetBankAccountsQueryVariables>(GetBankAccountsDocument, options);
         }
+export function useGetBankAccountsSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetBankAccountsQuery, GetBankAccountsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetBankAccountsQuery, GetBankAccountsQueryVariables>(GetBankAccountsDocument, options);
+        }
 export type GetBankAccountsQueryHookResult = ReturnType<typeof useGetBankAccountsQuery>;
 export type GetBankAccountsLazyQueryHookResult = ReturnType<typeof useGetBankAccountsLazyQuery>;
+export type GetBankAccountsSuspenseQueryHookResult = ReturnType<typeof useGetBankAccountsSuspenseQuery>;
 export type GetBankAccountsQueryResult = Apollo.QueryResult<GetBankAccountsQuery, GetBankAccountsQueryVariables>;
 export const GetCurrentInventoryDocument = gql`
     query GetCurrentInventory($islandId: String!, $userId: String!) {
@@ -1429,8 +1458,13 @@ export function useGetCurrentInventoryLazyQuery(baseOptions?: Apollo.LazyQueryHo
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<GetCurrentInventoryQuery, GetCurrentInventoryQueryVariables>(GetCurrentInventoryDocument, options);
         }
+export function useGetCurrentInventorySuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetCurrentInventoryQuery, GetCurrentInventoryQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetCurrentInventoryQuery, GetCurrentInventoryQueryVariables>(GetCurrentInventoryDocument, options);
+        }
 export type GetCurrentInventoryQueryHookResult = ReturnType<typeof useGetCurrentInventoryQuery>;
 export type GetCurrentInventoryLazyQueryHookResult = ReturnType<typeof useGetCurrentInventoryLazyQuery>;
+export type GetCurrentInventorySuspenseQueryHookResult = ReturnType<typeof useGetCurrentInventorySuspenseQuery>;
 export type GetCurrentInventoryQueryResult = Apollo.QueryResult<GetCurrentInventoryQuery, GetCurrentInventoryQueryVariables>;
 export const LoginDocument = gql`
     query Login($username: String!, $password: String!) {
@@ -1463,8 +1497,13 @@ export function useLoginLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<Logi
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<LoginQuery, LoginQueryVariables>(LoginDocument, options);
         }
+export function useLoginSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<LoginQuery, LoginQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<LoginQuery, LoginQueryVariables>(LoginDocument, options);
+        }
 export type LoginQueryHookResult = ReturnType<typeof useLoginQuery>;
 export type LoginLazyQueryHookResult = ReturnType<typeof useLoginLazyQuery>;
+export type LoginSuspenseQueryHookResult = ReturnType<typeof useLoginSuspenseQuery>;
 export type LoginQueryResult = Apollo.QueryResult<LoginQuery, LoginQueryVariables>;
 export const RefreshTokenDocument = gql`
     query RefreshToken($token: String!) {
@@ -1496,8 +1535,13 @@ export function useRefreshTokenLazyQuery(baseOptions?: Apollo.LazyQueryHookOptio
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<RefreshTokenQuery, RefreshTokenQueryVariables>(RefreshTokenDocument, options);
         }
+export function useRefreshTokenSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<RefreshTokenQuery, RefreshTokenQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<RefreshTokenQuery, RefreshTokenQueryVariables>(RefreshTokenDocument, options);
+        }
 export type RefreshTokenQueryHookResult = ReturnType<typeof useRefreshTokenQuery>;
 export type RefreshTokenLazyQueryHookResult = ReturnType<typeof useRefreshTokenLazyQuery>;
+export type RefreshTokenSuspenseQueryHookResult = ReturnType<typeof useRefreshTokenSuspenseQuery>;
 export type RefreshTokenQueryResult = Apollo.QueryResult<RefreshTokenQuery, RefreshTokenQueryVariables>;
 export const RegisterDocument = gql`
     mutation Register($username: String!, $password: String!, $captcha: String!) {
@@ -1612,8 +1656,13 @@ export function useGetEmailAddressLazyQuery(baseOptions?: Apollo.LazyQueryHookOp
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<GetEmailAddressQuery, GetEmailAddressQueryVariables>(GetEmailAddressDocument, options);
         }
+export function useGetEmailAddressSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetEmailAddressQuery, GetEmailAddressQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetEmailAddressQuery, GetEmailAddressQueryVariables>(GetEmailAddressDocument, options);
+        }
 export type GetEmailAddressQueryHookResult = ReturnType<typeof useGetEmailAddressQuery>;
 export type GetEmailAddressLazyQueryHookResult = ReturnType<typeof useGetEmailAddressLazyQuery>;
+export type GetEmailAddressSuspenseQueryHookResult = ReturnType<typeof useGetEmailAddressSuspenseQuery>;
 export type GetEmailAddressQueryResult = Apollo.QueryResult<GetEmailAddressQuery, GetEmailAddressQueryVariables>;
 export const SetEmailAddressDocument = gql`
     mutation SetEmailAddress($userId: String!, $emailAddress: String!) {
@@ -1758,8 +1807,13 @@ export function useGetNumberIslandsLazyQuery(baseOptions?: Apollo.LazyQueryHookO
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<GetNumberIslandsQuery, GetNumberIslandsQueryVariables>(GetNumberIslandsDocument, options);
         }
+export function useGetNumberIslandsSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetNumberIslandsQuery, GetNumberIslandsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetNumberIslandsQuery, GetNumberIslandsQueryVariables>(GetNumberIslandsDocument, options);
+        }
 export type GetNumberIslandsQueryHookResult = ReturnType<typeof useGetNumberIslandsQuery>;
 export type GetNumberIslandsLazyQueryHookResult = ReturnType<typeof useGetNumberIslandsLazyQuery>;
+export type GetNumberIslandsSuspenseQueryHookResult = ReturnType<typeof useGetNumberIslandsSuspenseQuery>;
 export type GetNumberIslandsQueryResult = Apollo.QueryResult<GetNumberIslandsQuery, GetNumberIslandsQueryVariables>;
 export const GetTopPlayersDocument = gql`
     query GetTopPlayers($input: TopPlayersInput!) {
@@ -1802,8 +1856,13 @@ export function useGetTopPlayersLazyQuery(baseOptions?: Apollo.LazyQueryHookOpti
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<GetTopPlayersQuery, GetTopPlayersQueryVariables>(GetTopPlayersDocument, options);
         }
+export function useGetTopPlayersSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetTopPlayersQuery, GetTopPlayersQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetTopPlayersQuery, GetTopPlayersQueryVariables>(GetTopPlayersDocument, options);
+        }
 export type GetTopPlayersQueryHookResult = ReturnType<typeof useGetTopPlayersQuery>;
 export type GetTopPlayersLazyQueryHookResult = ReturnType<typeof useGetTopPlayersLazyQuery>;
+export type GetTopPlayersSuspenseQueryHookResult = ReturnType<typeof useGetTopPlayersSuspenseQuery>;
 export type GetTopPlayersQueryResult = Apollo.QueryResult<GetTopPlayersQuery, GetTopPlayersQueryVariables>;
 export const SearchIslandsDocument = gql`
     query SearchIslands($term: String!) {
@@ -1842,8 +1901,13 @@ export function useSearchIslandsLazyQuery(baseOptions?: Apollo.LazyQueryHookOpti
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<SearchIslandsQuery, SearchIslandsQueryVariables>(SearchIslandsDocument, options);
         }
+export function useSearchIslandsSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<SearchIslandsQuery, SearchIslandsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<SearchIslandsQuery, SearchIslandsQueryVariables>(SearchIslandsDocument, options);
+        }
 export type SearchIslandsQueryHookResult = ReturnType<typeof useSearchIslandsQuery>;
 export type SearchIslandsLazyQueryHookResult = ReturnType<typeof useSearchIslandsLazyQuery>;
+export type SearchIslandsSuspenseQueryHookResult = ReturnType<typeof useSearchIslandsSuspenseQuery>;
 export type SearchIslandsQueryResult = Apollo.QueryResult<SearchIslandsQuery, SearchIslandsQueryVariables>;
 export const GetCitizenDocument = gql`
     query GetCitizen($input: CitizenInput!) {
@@ -1882,8 +1946,13 @@ export function useGetCitizenLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<GetCitizenQuery, GetCitizenQueryVariables>(GetCitizenDocument, options);
         }
+export function useGetCitizenSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetCitizenQuery, GetCitizenQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetCitizenQuery, GetCitizenQueryVariables>(GetCitizenDocument, options);
+        }
 export type GetCitizenQueryHookResult = ReturnType<typeof useGetCitizenQuery>;
 export type GetCitizenLazyQueryHookResult = ReturnType<typeof useGetCitizenLazyQuery>;
+export type GetCitizenSuspenseQueryHookResult = ReturnType<typeof useGetCitizenSuspenseQuery>;
 export type GetCitizenQueryResult = Apollo.QueryResult<GetCitizenQuery, GetCitizenQueryVariables>;
 export const GetCitizensDocument = gql`
     query GetCitizens($input: CitizensFromIslandInput!) {
@@ -1923,8 +1992,13 @@ export function useGetCitizensLazyQuery(baseOptions?: Apollo.LazyQueryHookOption
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<GetCitizensQuery, GetCitizensQueryVariables>(GetCitizensDocument, options);
         }
+export function useGetCitizensSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetCitizensQuery, GetCitizensQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetCitizensQuery, GetCitizensQueryVariables>(GetCitizensDocument, options);
+        }
 export type GetCitizensQueryHookResult = ReturnType<typeof useGetCitizensQuery>;
 export type GetCitizensLazyQueryHookResult = ReturnType<typeof useGetCitizensLazyQuery>;
+export type GetCitizensSuspenseQueryHookResult = ReturnType<typeof useGetCitizensSuspenseQuery>;
 export type GetCitizensQueryResult = Apollo.QueryResult<GetCitizensQuery, GetCitizensQueryVariables>;
 export const GetEventsDocument = gql`
     query GetEvents($input: EventsInput!) {
@@ -1936,7 +2010,7 @@ export const GetEventsDocument = gql`
           id
           happenedAt
         }
-        ... on SellOrderExecution {
+        ... on SellTradeOrderExecution {
           __typename
           id
           happenedAt
@@ -1950,7 +2024,7 @@ export const GetEventsDocument = gql`
           quantity
           price
         }
-        ... on BuyOrderExecution {
+        ... on BuyTradeOrderExecution {
           __typename
           id
           happenedAt
@@ -1994,8 +2068,13 @@ export function useGetEventsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<GetEventsQuery, GetEventsQueryVariables>(GetEventsDocument, options);
         }
+export function useGetEventsSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetEventsQuery, GetEventsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetEventsQuery, GetEventsQueryVariables>(GetEventsDocument, options);
+        }
 export type GetEventsQueryHookResult = ReturnType<typeof useGetEventsQuery>;
 export type GetEventsLazyQueryHookResult = ReturnType<typeof useGetEventsLazyQuery>;
+export type GetEventsSuspenseQueryHookResult = ReturnType<typeof useGetEventsSuspenseQuery>;
 export type GetEventsQueryResult = Apollo.QueryResult<GetEventsQuery, GetEventsQueryVariables>;
 export const GetTilesDocument = gql`
     query GetTiles($islandId: String!) {
@@ -2048,8 +2127,13 @@ export function useGetTilesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<G
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<GetTilesQuery, GetTilesQueryVariables>(GetTilesDocument, options);
         }
+export function useGetTilesSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetTilesQuery, GetTilesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetTilesQuery, GetTilesQueryVariables>(GetTilesDocument, options);
+        }
 export type GetTilesQueryHookResult = ReturnType<typeof useGetTilesQuery>;
 export type GetTilesLazyQueryHookResult = ReturnType<typeof useGetTilesLazyQuery>;
+export type GetTilesSuspenseQueryHookResult = ReturnType<typeof useGetTilesSuspenseQuery>;
 export type GetTilesQueryResult = Apollo.QueryResult<GetTilesQuery, GetTilesQueryVariables>;
 export const GetIslandDocument = gql`
     query GetIsland($islandId: String!) {
@@ -2095,8 +2179,13 @@ export function useGetIslandLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<GetIslandQuery, GetIslandQueryVariables>(GetIslandDocument, options);
         }
+export function useGetIslandSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetIslandQuery, GetIslandQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetIslandQuery, GetIslandQueryVariables>(GetIslandDocument, options);
+        }
 export type GetIslandQueryHookResult = ReturnType<typeof useGetIslandQuery>;
 export type GetIslandLazyQueryHookResult = ReturnType<typeof useGetIslandLazyQuery>;
+export type GetIslandSuspenseQueryHookResult = ReturnType<typeof useGetIslandSuspenseQuery>;
 export type GetIslandQueryResult = Apollo.QueryResult<GetIslandQuery, GetIslandQueryVariables>;
 export const GetIslandOverviewDocument = gql`
     query GetIslandOverview($islandId: String!) {
@@ -2137,8 +2226,13 @@ export function useGetIslandOverviewLazyQuery(baseOptions?: Apollo.LazyQueryHook
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<GetIslandOverviewQuery, GetIslandOverviewQueryVariables>(GetIslandOverviewDocument, options);
         }
+export function useGetIslandOverviewSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetIslandOverviewQuery, GetIslandOverviewQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetIslandOverviewQuery, GetIslandOverviewQueryVariables>(GetIslandOverviewDocument, options);
+        }
 export type GetIslandOverviewQueryHookResult = ReturnType<typeof useGetIslandOverviewQuery>;
 export type GetIslandOverviewLazyQueryHookResult = ReturnType<typeof useGetIslandOverviewLazyQuery>;
+export type GetIslandOverviewSuspenseQueryHookResult = ReturnType<typeof useGetIslandOverviewSuspenseQuery>;
 export type GetIslandOverviewQueryResult = Apollo.QueryResult<GetIslandOverviewQuery, GetIslandOverviewQueryVariables>;
 export const GetPlayerProfileDocument = gql`
     query GetPlayerProfile($input: PlayerInput!) {
@@ -2195,8 +2289,13 @@ export function useGetPlayerProfileLazyQuery(baseOptions?: Apollo.LazyQueryHookO
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<GetPlayerProfileQuery, GetPlayerProfileQueryVariables>(GetPlayerProfileDocument, options);
         }
+export function useGetPlayerProfileSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetPlayerProfileQuery, GetPlayerProfileQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetPlayerProfileQuery, GetPlayerProfileQueryVariables>(GetPlayerProfileDocument, options);
+        }
 export type GetPlayerProfileQueryHookResult = ReturnType<typeof useGetPlayerProfileQuery>;
 export type GetPlayerProfileLazyQueryHookResult = ReturnType<typeof useGetPlayerProfileLazyQuery>;
+export type GetPlayerProfileSuspenseQueryHookResult = ReturnType<typeof useGetPlayerProfileSuspenseQuery>;
 export type GetPlayerProfileQueryResult = Apollo.QueryResult<GetPlayerProfileQuery, GetPlayerProfileQueryVariables>;
 export const GetTileDocument = gql`
     query GetTile($islandId: String!, $position: Int!) {
@@ -2257,12 +2356,21 @@ export function useGetTileLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<Ge
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<GetTileQuery, GetTileQueryVariables>(GetTileDocument, options);
         }
+export function useGetTileSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetTileQuery, GetTileQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetTileQuery, GetTileQueryVariables>(GetTileDocument, options);
+        }
 export type GetTileQueryHookResult = ReturnType<typeof useGetTileQuery>;
 export type GetTileLazyQueryHookResult = ReturnType<typeof useGetTileLazyQuery>;
+export type GetTileSuspenseQueryHookResult = ReturnType<typeof useGetTileSuspenseQuery>;
 export type GetTileQueryResult = Apollo.QueryResult<GetTileQuery, GetTileQueryVariables>;
 export const BuildInfrastructureDocument = gql`
     mutation BuildInfrastructure($islandId: String!, $position: Int!, $infrastructure: Infrastructure!) {
-  buildInfrastructure(islandId: $islandId, position: $position, infrastructure: $infrastructure) {
+  buildInfrastructure(
+    islandId: $islandId
+    position: $position
+    infrastructure: $infrastructure
+  ) {
     ... on Tile {
       id
       infrastructure
@@ -2516,8 +2624,13 @@ export function useGetBankLevelsLazyQuery(baseOptions?: Apollo.LazyQueryHookOpti
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<GetBankLevelsQuery, GetBankLevelsQueryVariables>(GetBankLevelsDocument, options);
         }
+export function useGetBankLevelsSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetBankLevelsQuery, GetBankLevelsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetBankLevelsQuery, GetBankLevelsQueryVariables>(GetBankLevelsDocument, options);
+        }
 export type GetBankLevelsQueryHookResult = ReturnType<typeof useGetBankLevelsQuery>;
 export type GetBankLevelsLazyQueryHookResult = ReturnType<typeof useGetBankLevelsLazyQuery>;
+export type GetBankLevelsSuspenseQueryHookResult = ReturnType<typeof useGetBankLevelsSuspenseQuery>;
 export type GetBankLevelsQueryResult = Apollo.QueryResult<GetBankLevelsQuery, GetBankLevelsQueryVariables>;
 export const GetMarketPricesDocument = gql`
     query GetMarketPrices($input: MarketPricesInput!) {
@@ -2566,8 +2679,13 @@ export function useGetMarketPricesLazyQuery(baseOptions?: Apollo.LazyQueryHookOp
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<GetMarketPricesQuery, GetMarketPricesQueryVariables>(GetMarketPricesDocument, options);
         }
+export function useGetMarketPricesSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetMarketPricesQuery, GetMarketPricesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetMarketPricesQuery, GetMarketPricesQueryVariables>(GetMarketPricesDocument, options);
+        }
 export type GetMarketPricesQueryHookResult = ReturnType<typeof useGetMarketPricesQuery>;
 export type GetMarketPricesLazyQueryHookResult = ReturnType<typeof useGetMarketPricesLazyQuery>;
+export type GetMarketPricesSuspenseQueryHookResult = ReturnType<typeof useGetMarketPricesSuspenseQuery>;
 export type GetMarketPricesQueryResult = Apollo.QueryResult<GetMarketPricesQuery, GetMarketPricesQueryVariables>;
 export const GetCurrentMarketPricesDocument = gql`
     query GetCurrentMarketPrices($input: CurrentMarketPricesInput!) {
@@ -2614,14 +2732,19 @@ export function useGetCurrentMarketPricesLazyQuery(baseOptions?: Apollo.LazyQuer
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<GetCurrentMarketPricesQuery, GetCurrentMarketPricesQueryVariables>(GetCurrentMarketPricesDocument, options);
         }
+export function useGetCurrentMarketPricesSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetCurrentMarketPricesQuery, GetCurrentMarketPricesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetCurrentMarketPricesQuery, GetCurrentMarketPricesQueryVariables>(GetCurrentMarketPricesDocument, options);
+        }
 export type GetCurrentMarketPricesQueryHookResult = ReturnType<typeof useGetCurrentMarketPricesQuery>;
 export type GetCurrentMarketPricesLazyQueryHookResult = ReturnType<typeof useGetCurrentMarketPricesLazyQuery>;
+export type GetCurrentMarketPricesSuspenseQueryHookResult = ReturnType<typeof useGetCurrentMarketPricesSuspenseQuery>;
 export type GetCurrentMarketPricesQueryResult = Apollo.QueryResult<GetCurrentMarketPricesQuery, GetCurrentMarketPricesQueryVariables>;
-export const SendOrderDocument = gql`
-    mutation SendOrder($input: SendOrderInput!) {
-  sendOrder(input: $input) {
+export const SendTradeOrderDocument = gql`
+    mutation SendTradeOrder($input: SendTradeOrderInput!) {
+  sendTradeOrder(input: $input) {
     __typename
-    ... on Order {
+    ... on TradeOrder {
       id
       createdAt
       expiresAt
@@ -2638,37 +2761,37 @@ export const SendOrderDocument = gql`
   }
 }
     `;
-export type SendOrderMutationFn = Apollo.MutationFunction<SendOrderMutation, SendOrderMutationVariables>;
+export type SendTradeOrderMutationFn = Apollo.MutationFunction<SendTradeOrderMutation, SendTradeOrderMutationVariables>;
 
 /**
- * __useSendOrderMutation__
+ * __useSendTradeOrderMutation__
  *
- * To run a mutation, you first call `useSendOrderMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useSendOrderMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useSendTradeOrderMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useSendTradeOrderMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [sendOrderMutation, { data, loading, error }] = useSendOrderMutation({
+ * const [sendTradeOrderMutation, { data, loading, error }] = useSendTradeOrderMutation({
  *   variables: {
  *      input: // value for 'input'
  *   },
  * });
  */
-export function useSendOrderMutation(baseOptions?: Apollo.MutationHookOptions<SendOrderMutation, SendOrderMutationVariables>) {
+export function useSendTradeOrderMutation(baseOptions?: Apollo.MutationHookOptions<SendTradeOrderMutation, SendTradeOrderMutationVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<SendOrderMutation, SendOrderMutationVariables>(SendOrderDocument, options);
+        return Apollo.useMutation<SendTradeOrderMutation, SendTradeOrderMutationVariables>(SendTradeOrderDocument, options);
       }
-export type SendOrderMutationHookResult = ReturnType<typeof useSendOrderMutation>;
-export type SendOrderMutationResult = Apollo.MutationResult<SendOrderMutation>;
-export type SendOrderMutationOptions = Apollo.BaseMutationOptions<SendOrderMutation, SendOrderMutationVariables>;
+export type SendTradeOrderMutationHookResult = ReturnType<typeof useSendTradeOrderMutation>;
+export type SendTradeOrderMutationResult = Apollo.MutationResult<SendTradeOrderMutation>;
+export type SendTradeOrderMutationOptions = Apollo.BaseMutationOptions<SendTradeOrderMutation, SendTradeOrderMutationVariables>;
 export const GetMyOpenOrdersDocument = gql`
     query GetMyOpenOrders($userId: String!) {
-  myOpenOrders(userId: $userId) {
+  myOpenTradeOrders(userId: $userId) {
     __typename
-    ... on OrderList {
+    ... on TradeOrderList {
       orders {
         id
         side
@@ -2710,8 +2833,13 @@ export function useGetMyOpenOrdersLazyQuery(baseOptions?: Apollo.LazyQueryHookOp
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<GetMyOpenOrdersQuery, GetMyOpenOrdersQueryVariables>(GetMyOpenOrdersDocument, options);
         }
+export function useGetMyOpenOrdersSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetMyOpenOrdersQuery, GetMyOpenOrdersQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetMyOpenOrdersQuery, GetMyOpenOrdersQueryVariables>(GetMyOpenOrdersDocument, options);
+        }
 export type GetMyOpenOrdersQueryHookResult = ReturnType<typeof useGetMyOpenOrdersQuery>;
 export type GetMyOpenOrdersLazyQueryHookResult = ReturnType<typeof useGetMyOpenOrdersLazyQuery>;
+export type GetMyOpenOrdersSuspenseQueryHookResult = ReturnType<typeof useGetMyOpenOrdersSuspenseQuery>;
 export type GetMyOpenOrdersQueryResult = Apollo.QueryResult<GetMyOpenOrdersQuery, GetMyOpenOrdersQueryVariables>;
 export const GetPublicPlayerProfileDocument = gql`
     query GetPublicPlayerProfile($input: PlayerInput!) {
@@ -2779,6 +2907,11 @@ export function useGetPublicPlayerProfileLazyQuery(baseOptions?: Apollo.LazyQuer
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<GetPublicPlayerProfileQuery, GetPublicPlayerProfileQueryVariables>(GetPublicPlayerProfileDocument, options);
         }
+export function useGetPublicPlayerProfileSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetPublicPlayerProfileQuery, GetPublicPlayerProfileQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetPublicPlayerProfileQuery, GetPublicPlayerProfileQueryVariables>(GetPublicPlayerProfileDocument, options);
+        }
 export type GetPublicPlayerProfileQueryHookResult = ReturnType<typeof useGetPublicPlayerProfileQuery>;
 export type GetPublicPlayerProfileLazyQueryHookResult = ReturnType<typeof useGetPublicPlayerProfileLazyQuery>;
+export type GetPublicPlayerProfileSuspenseQueryHookResult = ReturnType<typeof useGetPublicPlayerProfileSuspenseQuery>;
 export type GetPublicPlayerProfileQueryResult = Apollo.QueryResult<GetPublicPlayerProfileQuery, GetPublicPlayerProfileQueryVariables>;

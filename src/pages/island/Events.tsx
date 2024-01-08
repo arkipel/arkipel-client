@@ -31,7 +31,7 @@ const EventsPage = () => {
                 id
                 happenedAt
               }
-              ... on SellOrderExecution {
+              ... on SellTradeOrderExecution {
                 __typename
                 id
                 happenedAt
@@ -45,7 +45,7 @@ const EventsPage = () => {
                 quantity
                 price
               }
-              ... on BuyOrderExecution {
+              ... on BuyTradeOrderExecution {
                 __typename
                 id
                 happenedAt
@@ -94,7 +94,7 @@ const eventToJSX = (ev: event): ReactElement => {
     case 'AccountCreation':
       msg = <span>{'Account created.'}</span>;
       break;
-    case 'SellOrderExecution':
+    case 'SellTradeOrderExecution':
       msg = (
         <span>
           {`${formatQtyAndCommodity(
@@ -106,7 +106,7 @@ const eventToJSX = (ev: event): ReactElement => {
         </span>
       );
       break;
-    case 'BuyOrderExecution':
+    case 'BuyTradeOrderExecution':
       msg = (
         <span>
           {`${formatQtyAndCommodity(
