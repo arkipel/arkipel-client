@@ -4,13 +4,13 @@ import { useForm } from 'react-hook-form';
 
 import { useQuery, useMutation, gql, useApolloClient } from '@apollo/client';
 import {
-  SendOrderMutation,
-  SendOrderMutationVariables,
+  SendTradeOrderMutation,
+  SendTradeOrderMutationVariables,
   GetMyOpenOrdersQuery,
   GetMyOpenOrdersQueryVariables,
   NewOrderFragment,
   CommodityType,
-  OrderSide,
+  TradeOrderSide,
 } from '../../generated/graphql';
 
 import { DateTime, Duration } from 'luxon';
@@ -35,15 +35,15 @@ const TradePage = () => {
   const bankAccounts = useContext(BankAccountsContext);
 
   // Send order mutation
-  const [sendOrder] = useMutation<
-    SendOrderMutation,
-    SendOrderMutationVariables
+  const [sendTradeOrder] = useMutation<
+    SendTradeOrderMutation,
+    SendTradeOrderMutationVariables
   >(
     gql`
-      mutation SendOrder($input: SendOrderInput!) {
-        sendOrder(input: $input) {
+      mutation SendTradeOrder($input: SendTradeOrderInput!) {
+        sendTradeOrder(input: $input) {
           __typename
-          ... on Order {
+          ... on TradeOrder {
             id
             createdAt
             expiresAt
@@ -63,19 +63,19 @@ const TradePage = () => {
     {
       update: (cache, { data }) => {
         let newOrder: NewOrderFragment;
-        if (data?.sendOrder?.__typename === 'Order') {
-          newOrder = data.sendOrder;
+        if (data?.sendTradeOrder?.__typename === 'TradeOrder') {
+          newOrder = data.sendTradeOrder;
         } else {
           return;
         }
 
         cache.modify({
           fields: {
-            myOpenOrders(existingOrders = []) {
+            myOpenTradeOrders(existingOrders = []) {
               const newOrderRefs = cache.writeFragment<NewOrderFragment>({
                 data: newOrder,
                 fragment: gql`
-                  fragment NewOrder on Order {
+                  fragment NewOrder on TradeOrder {
                     id
                     createdAt
                     expiresAt
@@ -115,7 +115,7 @@ const TradePage = () => {
     formState: { errors },
     handleSubmit,
     watch,
-  } = useForm<sendOrderParams>({
+  } = useForm<sendTradeOrderParams>({
     mode: 'onChange',
     defaultValues,
   });
@@ -195,12 +195,12 @@ const TradePage = () => {
       <h2>Send order</h2>
       <StyledForm
         onSubmit={handleSubmit((params) => {
-          let side = OrderSide.Sell;
+          let side = TradeOrderSide.Sell;
           if (params.orderType === 'buy') {
-            side = OrderSide.Buy;
+            side = TradeOrderSide.Buy;
           }
 
-          const variables: SendOrderMutationVariables = {
+          const variables: SendTradeOrderMutationVariables = {
             input: {
               userId: session.id,
               expiresAt: DateTime.utc().plus(Duration.fromISO(params.duration)),
@@ -212,7 +212,7 @@ const TradePage = () => {
             },
           };
 
-          sendOrder({ variables })
+          sendTradeOrder({ variables })
             .then(() => {
               setSendingError(false);
               setOrderSent(true);
@@ -437,7 +437,7 @@ const TradePage = () => {
   );
 };
 
-interface sendOrderParams {
+interface sendTradeOrderParams {
   orderType: string;
   currencyId: string;
   commodityType: CommodityType;
@@ -508,9 +508,9 @@ const OpenOffers = () => {
   >(
     gql`
       query GetMyOpenOrders($userId: String!) {
-        myOpenOrders(userId: $userId) {
+        myOpenTradeOrders(userId: $userId) {
           __typename
-          ... on OrderList {
+          ... on TradeOrderList {
             orders {
               id
               side
@@ -532,8 +532,8 @@ const OpenOffers = () => {
 
   let offers = new Array<offer>();
 
-  if (data?.myOpenOrders.__typename === 'OrderList') {
-    for (const o of data.myOpenOrders.orders) {
+  if (data?.myOpenTradeOrders.__typename === 'TradeOrderList') {
+    for (const o of data.myOpenTradeOrders.orders) {
       offers.push({
         id: o.id,
         side: o.side,
@@ -550,7 +550,7 @@ const OpenOffers = () => {
     return <p>Loading...</p>;
   }
 
-  if (error || data?.myOpenOrders.__typename !== 'OrderList') {
+  if (error || data?.myOpenTradeOrders.__typename !== 'TradeOrderList') {
     return <Error>Sorry, an error occurred.</Error>;
   }
 
@@ -598,7 +598,7 @@ const OpenOffers = () => {
 
 class offer {
   id: string = '';
-  side: OrderSide = OrderSide.Sell;
+  side: TradeOrderSide = TradeOrderSide.Sell;
   expiresAt: DateTime = DateTime.now();
   currencyCode: string = '';
   commodity: CommodityType = CommodityType.Material;
