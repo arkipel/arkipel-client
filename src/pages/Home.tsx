@@ -3,7 +3,7 @@ import React, { Fragment } from 'react';
 const Home = () => {
   return (
     <Fragment>
-      <h1>Arkipel</h1>
+      <h1>Arkipel!!!&!@</h1>
       <p>
         Welcome to Arkipel, a management game that takes place in an
         archipelago. Players control and develop their own island while trading
