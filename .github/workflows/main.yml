@@ -3,7 +3,7 @@ name: Deploy
 on:
   push:
     branches:
-      - master
+      - ark-50-update-wrangler-to-v2-in-client-deployment-flow
 
 jobs:
   build:
