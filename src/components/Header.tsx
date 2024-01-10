@@ -53,9 +53,12 @@ const HeaderStyle = styled.div`
   grid-template-columns: 1fr 1fr;
   grid-row: 1;
   grid-column: 1;
-  height: 50px;
-  border-radius: 0 0 4px 4px;
-  background: #423d39;
+  height: 100%;
+  // border-radius: 0 0 4px 4px;
+  // background: #444;
+  // border: 2px solid #444;
+  border-bottom: 4px solid #444;
+  border-top: 0;
   padding: 0 10px;
   color: #fff;
   z-index: 110;

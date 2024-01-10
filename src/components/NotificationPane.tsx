@@ -83,66 +83,80 @@ const NotificationPane: FunctionComponent<props> = ({
   return (
     <StyledNotificationPane style={styleVars}>
       <StyledContent>
-        <ResourcesPane />
+        <div className="notification-pane-title">
+          <span>Resources</span>
+        </div>
+        <div className="notification-pane-content">
+          <ResourcesPane />
+        </div>
       </StyledContent>
       <StyledContent>
-        <MoneyPane />
+        <div className="notification-pane-title">
+          <span>Money</span>
+        </div>
+        <div className="notification-pane-content">
+          <MoneyPane />
+        </div>
       </StyledContent>
       <Scrollable style={{ borderRadius: '4px' }}>
         <StyledContent>
-          {!loggedIn && <p>You are not logged in.</p>}
-          {loggedIn && error && <p>Construction sites could not be loaded.</p>}
-          {loggedIn && !hasSites && <p>Nothing is currently being built.</p>}
-          {loggedIn &&
-            hasSites &&
-            sites.map((site) => {
-              return (
-                <StyledNotification key={site.id}>
-                  <div>
-                    <MapTile
-                      tile={
-                        new Tile({
-                          position: site.tilePosition,
-                          infrastructure: site.infrastructure,
-                        })
-                      }
-                      size={50}
-                    />
-                  </div>
-                  <div>
-                    <p>
-                      <b>
-                        Construction on{' '}
-                        <NavLink
-                          end
-                          to={'/island/tiles/' + site.tilePosition}
-                          onClick={onCloseClick}
-                        >
-                          {site.infrastructure.toLocaleLowerCase()} (
-                          {site.tilePosition})
-                        </NavLink>{' '}
-                      </b>
-                    </p>
-                    <p>
-                      Level {site.tile.level} → {site.tile.level + 1}
-                    </p>
-                  </div>
-                  <div>
-                    <p>
-                      Done{' '}
-                      <TimeLeft
-                        target={site.finishedAt}
-                        onReach={() => {
-                          client.cache.evict({
-                            id: 'ConstructionSite:' + site.id,
-                          });
-                        }}
+          <div className="notification-pane-content">
+            {!loggedIn && <p>You are not logged in.</p>}
+            {loggedIn && error && (
+              <p>Construction sites could not be loaded.</p>
+            )}
+            {loggedIn && !hasSites && <p>Nothing is currently being built.</p>}
+            {loggedIn &&
+              hasSites &&
+              sites.map((site) => {
+                return (
+                  <StyledNotification key={site.id}>
+                    <div>
+                      <MapTile
+                        tile={
+                          new Tile({
+                            position: site.tilePosition,
+                            infrastructure: site.infrastructure,
+                          })
+                        }
+                        size={50}
                       />
-                    </p>
-                  </div>
-                </StyledNotification>
-              );
-            })}
+                    </div>
+                    <div>
+                      <p>
+                        <b>
+                          Construction on{' '}
+                          <NavLink
+                            end
+                            to={'/island/tiles/' + site.tilePosition}
+                            onClick={onCloseClick}
+                          >
+                            {site.infrastructure.toLocaleLowerCase()} (
+                            {site.tilePosition})
+                          </NavLink>{' '}
+                        </b>
+                      </p>
+                      <p>
+                        Level {site.tile.level} → {site.tile.level + 1}
+                      </p>
+                    </div>
+                    <div>
+                      <p>
+                        Done{' '}
+                        <TimeLeft
+                          target={site.finishedAt}
+                          onReach={() => {
+                            client.cache.evict({
+                              id: 'ConstructionSite:' + site.id,
+                            });
+                          }}
+                        />
+                      </p>
+                    </div>
+                  </StyledNotification>
+                );
+              })}
+          </div>
         </StyledContent>
       </Scrollable>
     </StyledNotificationPane>
@@ -222,9 +236,24 @@ const StyledNotification = styled.div`
 const StyledContent = styled.div`
   display: grid;
   grid-gap: 10px;
-  padding: 10px;
-  background: #fff;
+  // padding: 10px;
+  // background: #fff;
   border-radius: 4px;
+
+  .notification-pane-title {
+    background: #666;
+    padding: 8px 10px;
+    color: #fff;
+    border-radius: 4px 4px 0 0;
+
+    @media all and (min-width: 700px) and (max-width: 999px) {
+      border-radius: 0;
+    }
+  }
+
+  .notification-pane-content {
+    padding: 0 10px 10px 10px;
+  }
 `;
 
 export default NotificationPane;
