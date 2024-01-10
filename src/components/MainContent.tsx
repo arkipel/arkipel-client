@@ -80,7 +80,7 @@ const StyledMainContent = styled.div`
   min-height: 0;
   height: 100%;
   width: 100%;
-  background: #fff;
+  // background: #fff;
   border-radius: 4px;
 
   @media all and (max-width: 699px) {
