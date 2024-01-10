@@ -54,7 +54,7 @@ const Ranking = () => {
     name: '',
     score: 0,
   };
-  if (data?.topPlayers.players && data.topPlayers.players.length > 0) {
+  if (data?.topPlayers.players && data.topPlayers.players.length > 1) {
     player2 = {
       id: data?.topPlayers.players[1].id,
       name: data?.topPlayers.players[1].name,
@@ -68,7 +68,7 @@ const Ranking = () => {
     name: '',
     score: 0,
   };
-  if (data?.topPlayers.players && data.topPlayers.players.length > 0) {
+  if (data?.topPlayers.players && data.topPlayers.players.length > 2) {
     player3 = {
       id: data?.topPlayers.players[2].id,
       name: data?.topPlayers.players[2].name,
