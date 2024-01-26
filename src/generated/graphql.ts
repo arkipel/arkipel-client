@@ -268,7 +268,6 @@ export type Group = {
 export enum Infrastructure {
   AnimalFarm = 'ANIMAL_FARM',
   Apartments = 'APARTMENTS',
-  Bank = 'BANK',
   Empty = 'EMPTY',
   Garden = 'GARDEN',
   House = 'HOUSE',
