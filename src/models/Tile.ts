@@ -95,8 +95,6 @@ class Tile {
         return 'wind turbine';
       case Infrastructure.Port:
         return 'port';
-      case Infrastructure.Bank:
-        return 'bank';
       case Infrastructure.Hut:
         return 'hut';
       case Infrastructure.Warehouse:

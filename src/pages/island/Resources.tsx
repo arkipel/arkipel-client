@@ -138,21 +138,6 @@ const ResourcesPage = () => {
           </div>
         </StatStyle>
       </Style>
-      <h2>Infrastructure</h2>
-      <Style>
-        <StatStyle>
-          <div>
-            <h3>Banking</h3>
-            <span>{inventory.bankLevels}</span>
-          </div>
-          <div>
-            <p>
-              More banking infrastructure gives the island more powerful tools
-              to trade with the rest of the archipelago.
-            </p>
-          </div>
-        </StatStyle>
-      </Style>
     </Fragment>
   );
 };
