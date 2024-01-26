@@ -95,10 +95,6 @@ const MapTile: FunctionComponent<props> = ({
         src = 'https://icons.arkipel.io/infra/port.svg';
         alt = 'Port';
         break;
-      case Infrastructure.Bank:
-        src = 'https://icons.arkipel.io/infra/bank.svg';
-        alt = 'Bank';
-        break;
       case Infrastructure.Hut:
         src = 'https://icons.arkipel.io/infra/hut.svg';
         alt = 'Bank';

@@ -17,7 +17,6 @@ class Inventory {
     this.frozenFoodProduction = obj?.frozenFoodProduction || 0;
     this.frozenFood = obj?.frozenFood || 0;
     this.frozenFoodStorage = obj?.frozenFoodStorage || 0;
-    this.bankLevels = obj?.bankLevels || 0;
   }
 
   id: string;
@@ -35,7 +34,6 @@ class Inventory {
   frozenFoodProduction: number;
   frozenFood: number;
   frozenFoodStorage: number;
-  bankLevels: number;
 
   sinceLastUpdate = (): Duration => {
     if (!this.lastUpdate) {

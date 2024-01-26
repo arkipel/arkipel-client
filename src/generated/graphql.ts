@@ -268,7 +268,6 @@ export type Group = {
 export enum Infrastructure {
   AnimalFarm = 'ANIMAL_FARM',
   Apartments = 'APARTMENTS',
-  Bank = 'BANK',
   Empty = 'EMPTY',
   Garden = 'GARDEN',
   House = 'HOUSE',
@@ -1044,14 +1043,6 @@ export type DestroyInfrastructureMutationVariables = Exact<{
 
 
 export type DestroyInfrastructureMutation = { __typename?: 'Mutation', destroyInfrastructure?: { __typename?: 'NotAuthorized' } | { __typename?: 'Tile', id: string, infrastructure: Infrastructure, level: number, constructionSite?: { __typename?: 'ConstructionSite', finishedAt: any } | null, blueprints: Array<{ __typename?: 'Blueprint', infrastructure: Infrastructure, materialCost: number, workload: number }> } | null };
-
-export type GetBankLevelsQueryVariables = Exact<{
-  userId: Scalars['String']['input'];
-  islandId: Scalars['String']['input'];
-}>;
-
-
-export type GetBankLevelsQuery = { __typename?: 'Query', inventory: { __typename: 'Inventory', id: string, bankLevels: number } | { __typename: 'NotAuthorized' } | { __typename: 'NotFound' } };
 
 export type GetMarketPricesQueryVariables = Exact<{
   input: MarketPricesInput;
@@ -2587,51 +2578,6 @@ export function useDestroyInfrastructureMutation(baseOptions?: Apollo.MutationHo
 export type DestroyInfrastructureMutationHookResult = ReturnType<typeof useDestroyInfrastructureMutation>;
 export type DestroyInfrastructureMutationResult = Apollo.MutationResult<DestroyInfrastructureMutation>;
 export type DestroyInfrastructureMutationOptions = Apollo.BaseMutationOptions<DestroyInfrastructureMutation, DestroyInfrastructureMutationVariables>;
-export const GetBankLevelsDocument = gql`
-    query GetBankLevels($userId: String!, $islandId: String!) {
-  inventory(userId: $userId, islandId: $islandId) {
-    __typename
-    ... on Inventory {
-      id
-      bankLevels
-    }
-  }
-}
-    `;
-
-/**
- * __useGetBankLevelsQuery__
- *
- * To run a query within a React component, call `useGetBankLevelsQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetBankLevelsQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetBankLevelsQuery({
- *   variables: {
- *      userId: // value for 'userId'
- *      islandId: // value for 'islandId'
- *   },
- * });
- */
-export function useGetBankLevelsQuery(baseOptions: Apollo.QueryHookOptions<GetBankLevelsQuery, GetBankLevelsQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetBankLevelsQuery, GetBankLevelsQueryVariables>(GetBankLevelsDocument, options);
-      }
-export function useGetBankLevelsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetBankLevelsQuery, GetBankLevelsQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetBankLevelsQuery, GetBankLevelsQueryVariables>(GetBankLevelsDocument, options);
-        }
-export function useGetBankLevelsSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetBankLevelsQuery, GetBankLevelsQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<GetBankLevelsQuery, GetBankLevelsQueryVariables>(GetBankLevelsDocument, options);
-        }
-export type GetBankLevelsQueryHookResult = ReturnType<typeof useGetBankLevelsQuery>;
-export type GetBankLevelsLazyQueryHookResult = ReturnType<typeof useGetBankLevelsLazyQuery>;
-export type GetBankLevelsSuspenseQueryHookResult = ReturnType<typeof useGetBankLevelsSuspenseQuery>;
-export type GetBankLevelsQueryResult = Apollo.QueryResult<GetBankLevelsQuery, GetBankLevelsQueryVariables>;
 export const GetMarketPricesDocument = gql`
     query GetMarketPrices($input: MarketPricesInput!) {
   marketPrices(input: $input) {
