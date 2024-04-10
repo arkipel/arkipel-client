@@ -62,6 +62,7 @@ const HeaderStyle = styled.div`
   padding: 0 10px;
   color: #fff;
   z-index: 110;
+  border: 1px solid red;
 
   div {
     display: grid;
