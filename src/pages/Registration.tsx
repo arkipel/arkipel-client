@@ -89,8 +89,8 @@ const Registration = () => {
           <UsernameInput disabled={registered} />
           <PasswordInput disabled={registered} />
           <HCaptcha
-            // sitekey="10000000-ffff-ffff-ffff-000000000001"
-            sitekey="36cde9f3-38a3-4fd7-9314-bac28f55545b"
+            sitekey="10000000-ffff-ffff-ffff-000000000001"
+            // sitekey="36cde9f3-38a3-4fd7-9314-bac28f55545b"
             onVerify={(c: string) => {
               setCaptcha(c);
             }}

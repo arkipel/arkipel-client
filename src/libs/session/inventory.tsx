@@ -50,9 +50,6 @@ const InventoryProvider: FunctionComponent<{ children?: React.ReactNode }> = ({
             frozenFoodStorage
             bankLevels
             timestamp
-            island {
-              lastUpdateAt
-            }
           }
         }
       }

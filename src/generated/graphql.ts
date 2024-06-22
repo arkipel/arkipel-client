@@ -868,7 +868,7 @@ export type GetCurrentInventoryQueryVariables = Exact<{
 }>;
 
 
-export type GetCurrentInventoryQuery = { __typename?: 'Query', inventory: { __typename?: 'Inventory', id: string, populationUsed: number, populationFree: number, populationTotal: number, energyUsed: number, energyFree: number, energyTotal: number, materialProduction: number, material: number, foodProduction: number, food: number, frozenFoodProduction: number, frozenFood: number, frozenFoodStorage: number, bankLevels: number, timestamp: any, island: { __typename?: 'Island', lastUpdateAt: any } } | { __typename?: 'NotAuthorized' } | { __typename?: 'NotFound' } };
+export type GetCurrentInventoryQuery = { __typename?: 'Query', inventory: { __typename?: 'Inventory', id: string, populationUsed: number, populationFree: number, populationTotal: number, energyUsed: number, energyFree: number, energyTotal: number, materialProduction: number, material: number, foodProduction: number, food: number, frozenFoodProduction: number, frozenFood: number, frozenFoodStorage: number, bankLevels: number, timestamp: any } | { __typename?: 'NotAuthorized' } | { __typename?: 'NotFound' } };
 
 export type LoginQueryVariables = Exact<{
   username: Scalars['String']['input'];
@@ -1416,9 +1416,6 @@ export const GetCurrentInventoryDocument = gql`
       frozenFoodStorage
       bankLevels
       timestamp
-      island {
-        lastUpdateAt
-      }
     }
   }
 }
