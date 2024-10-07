@@ -205,7 +205,8 @@ const StyledMenuPane = styled.div`
   min-height: 0;
   height: 100%;
   width: 200px;
-  background: #ede7d4;
+  // background: #ede7d4;
+  border: 1px solid pink;
 
   footer {
     display: grid;
