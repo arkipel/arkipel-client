@@ -318,10 +318,10 @@ export type Island = {
   constructionSites: Array<ConstructionSite>;
   id: Scalars['ID']['output'];
   inventory: Inventory;
-  lastUpdateAt: Scalars['Time']['output'];
   name: Scalars['String']['output'];
   owner: User;
   tiles: Array<Tile>;
+  turn: Scalars['Time']['output'];
 };
 
 export type IslandList = {
