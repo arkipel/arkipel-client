@@ -132,6 +132,7 @@ export type Citizen = {
   id: Scalars['ID']['output'];
   island: Island;
   name: Scalars['String']['output'];
+  stomach: Scalars['Int']['output'];
 };
 
 export type CitizenInput = {
@@ -957,7 +958,7 @@ export type GetCitizenQueryVariables = Exact<{
 }>;
 
 
-export type GetCitizenQuery = { __typename?: 'Query', citizen: { __typename: 'Citizen', id: string, name: string, createdAt: any } | { __typename: 'NotFound' } };
+export type GetCitizenQuery = { __typename?: 'Query', citizen: { __typename: 'Citizen', id: string, name: string, createdAt: any, stomach: number } | { __typename: 'NotFound' } };
 
 export type GetCitizensQueryVariables = Exact<{
   input: CitizensFromIslandInput;
@@ -1905,6 +1906,7 @@ export const GetCitizenDocument = gql`
       id
       name
       createdAt
+      stomach
     }
   }
 }
