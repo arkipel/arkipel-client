@@ -48,8 +48,6 @@ const CitizenPage = () => {
         <br />
         <b>Arrived:</b> {DateTime.fromISO(citizen.createdAt).toRelative()}
         <br />
-        <b>Success:</b> 100%
-        <br />
         <b>Energy:</b> 100%
         <br />
         <b>Food:</b> {((data.citizen.stomach / 720) * 100).toFixed(0)}%
