@@ -139,7 +139,7 @@ type props = {};
 
 const StyledApp = styled.div`
   display: grid;
-  grid-template-rows: 50px 1fr;
+  grid-template-rows: 60px 1fr;
   gap: 10px;
   height: 100%;
   max-width: 1200px;

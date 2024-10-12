@@ -83,68 +83,82 @@ const NotificationPane: FunctionComponent<props> = ({
   return (
     <StyledNotificationPane style={styleVars}>
       <StyledContent>
-        <ResourcesPane />
-      </StyledContent>
-      <StyledContent>
-        <MoneyPane />
-      </StyledContent>
-      <Scrollable style={{ borderRadius: '4px' }}>
-        <StyledContent>
+        <div className="notification-pane-content">
           {!loggedIn && <p>You are not logged in.</p>}
-          {loggedIn && error && <p>Construction sites could not be loaded.</p>}
-          {loggedIn && !hasSites && <p>Nothing is currently being built.</p>}
-          {loggedIn &&
-            hasSites &&
-            sites.map((site) => {
-              return (
-                <StyledNotification key={site.id}>
-                  <div>
-                    <MapTile
-                      tile={
-                        new Tile({
-                          position: site.tilePosition,
-                          infrastructure: site.infrastructure,
-                        })
-                      }
-                      size={50}
-                    />
-                  </div>
-                  <div>
-                    <p>
-                      <b>
-                        Construction on{' '}
-                        <NavLink
-                          end
-                          to={'/island/tiles/' + site.tilePosition}
-                          onClick={onCloseClick}
-                        >
-                          {site.infrastructure.toLocaleLowerCase()} (
-                          {site.tilePosition})
-                        </NavLink>{' '}
-                      </b>
-                    </p>
-                    <p>
-                      Level {site.tile.level} → {site.tile.level + 1}
-                    </p>
-                  </div>
-                  <div>
-                    <p>
-                      Done{' '}
-                      <TimeLeft
-                        target={site.finishedAt}
-                        onReach={() => {
-                          client.cache.evict({
-                            id: 'ConstructionSite:' + site.id,
-                          });
-                        }}
-                      />
-                    </p>
-                  </div>
-                </StyledNotification>
-              );
-            })}
-        </StyledContent>
-      </Scrollable>
+        </div>
+      </StyledContent>
+
+      <StyledContent>
+        <div className="notification-pane-content">
+          <ResourcesPane />
+        </div>
+      </StyledContent>
+
+      <StyledContent>
+        <div className="notification-pane-content">
+          <MoneyPane />
+        </div>
+      </StyledContent>
+
+      {loggedIn && (
+        <Scrollable style={{ borderRadius: '4px' }}>
+          <StyledContent>
+            <div className="notification-pane-content">
+              {error && <p>Construction sites could not be loaded.</p>}
+              {!hasSites && <p>Nothing is currently being built.</p>}
+              {hasSites &&
+                sites.map((site) => {
+                  return (
+                    <StyledNotification key={site.id}>
+                      <div>
+                        <MapTile
+                          tile={
+                            new Tile({
+                              position: site.tilePosition,
+                              infrastructure: site.infrastructure,
+                            })
+                          }
+                          size={50}
+                        />
+                      </div>
+                      <div>
+                        <p>
+                          <b>
+                            Construction on{' '}
+                            <NavLink
+                              end
+                              to={'/island/tiles/' + site.tilePosition}
+                              onClick={onCloseClick}
+                            >
+                              {site.infrastructure.toLocaleLowerCase()} (
+                              {site.tilePosition})
+                            </NavLink>{' '}
+                          </b>
+                        </p>
+                        <p>
+                          Level {site.tile.level} → {site.tile.level + 1}
+                        </p>
+                      </div>
+                      <div>
+                        <p>
+                          Done{' '}
+                          <TimeLeft
+                            target={site.finishedAt}
+                            onReach={() => {
+                              client.cache.evict({
+                                id: 'ConstructionSite:' + site.id,
+                              });
+                            }}
+                          />
+                        </p>
+                      </div>
+                    </StyledNotification>
+                  );
+                })}
+            </div>
+          </StyledContent>
+        </Scrollable>
+      )}
     </StyledNotificationPane>
   );
 };
@@ -156,7 +170,7 @@ type props = {
 
 const StyledNotificationPane = styled.div`
   display: grid;
-  grid-template-rows: auto auto 1fr;
+  grid-template-rows: auto auto auto 1fr;
   gap: 10px;
   grid-row: 1;
   grid-column: 2;
@@ -165,6 +179,7 @@ const StyledNotificationPane = styled.div`
   height: 100%;
   width: 300px;
   z-index: 110;
+  border: 1px solid blue;
 
   @media all and (max-width: 699px) {
     display: var(--display);
@@ -222,9 +237,25 @@ const StyledNotification = styled.div`
 const StyledContent = styled.div`
   display: grid;
   grid-gap: 10px;
-  padding: 10px;
-  background: #fff;
-  border-radius: 4px;
+  // padding: 10px;
+  // background: #fff;
+  // border-radius: 4px;
+  border: 1px solid green;
+
+  .notification-pane-title {
+    background: #666;
+    padding: 8px 10px;
+    color: #fff;
+    border-radius: 4px 4px 0 0;
+
+    @media all and (min-width: 700px) and (max-width: 999px) {
+      border-radius: 0;
+    }
+  }
+
+  .notification-pane-content {
+    padding: 10px;
+  }
 `;
 
 export default NotificationPane;
