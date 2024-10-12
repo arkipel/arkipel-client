@@ -114,7 +114,7 @@ const ResourcesPage = () => {
         </StatStyle>
         <StatStyle>
           <div>
-            <h3>Food</h3>
+            <h3>Frozen food</h3>
             <span>{FormatNumber(inventory.frozenFood)}</span>
           </div>
           <div>
