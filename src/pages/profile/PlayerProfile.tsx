@@ -36,6 +36,9 @@ const Profile = () => {
                 position
                 infrastructure
                 level
+                constructionSite {
+                  id
+                }
               }
             }
             scoresheet {

@@ -107,30 +107,59 @@ const MapTile: FunctionComponent<props> = ({
         src = 'https://icons.arkipel.io/infra/garden.svg';
         alt = 'Garden';
         break;
+      default:
+        src = 'https://icons.arkipel.io/infra/empty.svg';
+        alt = 'Empty';
     }
   }
 
   let infraIcon = <img src={src} alt={alt} />;
 
+  let showConstructionBanner = tile.constructionSite !== null;
+
   return (
     <Style onClick={onClick} style={styleVars}>
-      {infraIcon}
+      <div className="infra-icon">{infraIcon}</div>
+      {showConstructionBanner && <div className="construction-banner"></div>}
     </Style>
   );
 };
 
 const Style = styled.div`
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr;
   width: var(--tileWidth);
   height: var(--tileHeight);
   padding-bottom: var(--tilePaddingBottom);
   background: var(--tileColor);
   cursor: var(--cursor);
 
-  img {
+  div {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .infra-icon img {
     margin: 6px;
     filter: sepia(0.4);
   }
+
+  .construction-banner {
+    align-self: end;
+    height: 10px;
+    margin-bottom: 4px;
+    background: repeating-linear-gradient(
+      45deg,
+      rgb(235, 200, 50),
+      yellow 6px,
+      black 6px,
+      black 14px
+    );
+    z-index: 100;
+  }
 `;
+
 class props {
   tile: Tile = new Tile({});
   size?: number = 12;

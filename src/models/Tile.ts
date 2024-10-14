@@ -4,6 +4,8 @@ import {
   InfrastructureStatus,
 } from '../generated/graphql';
 
+import ConstructionSite from './ConstructionSite';
+
 class Tile {
   constructor(obj: any) {
     this.id = obj?.id || '';
@@ -28,6 +30,7 @@ class Tile {
     this.frozenFoodStorage = obj?.frozenFoodStorage || 0;
     this.isActive = obj?.isActive === true ? true : false;
     this.materialProduction = obj?.materialProduction || 0;
+    this.constructionSite = obj?.constructionSite || null;
   }
 
   id: string;
@@ -46,6 +49,7 @@ class Tile {
   energy: number;
   isActive: boolean;
   materialProduction: number;
+  constructionSite: ConstructionSite;
 
   kind(): TileKind {
     switch (dna[this.position]) {

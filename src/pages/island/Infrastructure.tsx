@@ -47,6 +47,9 @@ const InfrastructurePage = () => {
               food
               frozenFood
               energy
+              constructionSite {
+                id
+              }
               island {
                 id
               }

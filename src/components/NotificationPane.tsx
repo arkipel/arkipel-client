@@ -4,6 +4,7 @@ import styled from 'styled-components';
 
 import { useQuery, gql, useApolloClient } from '@apollo/client';
 import {
+  Tile as TileType,
   GetAllConstructionSitesQuery,
   GetAllConstructionSitesQueryVariables,
 } from '../generated/graphql';
@@ -59,6 +60,9 @@ const NotificationPane: FunctionComponent<props> = ({
               tile {
                 position
                 level
+                constructionSite {
+                  id
+                }
               }
             }
           }
@@ -135,6 +139,17 @@ const NotificationPane: FunctionComponent<props> = ({
                         onReach={() => {
                           client.cache.evict({
                             id: 'ConstructionSite:' + site.id,
+                          });
+                          client.cache.modify({
+                            id: client.cache.identify({
+                              __typename: 'Tile',
+                              id: site.id,
+                            } as TileType),
+                            fields: {
+                              constructionSite() {
+                                return null;
+                              },
+                            },
                           });
                         }}
                       />

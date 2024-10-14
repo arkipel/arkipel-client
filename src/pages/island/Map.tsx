@@ -34,6 +34,9 @@ const MapPage = () => {
               position
               infrastructure
               level
+              constructionSite {
+                id
+              }
             }
           }
         }
