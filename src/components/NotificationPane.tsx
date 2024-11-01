@@ -2,6 +2,8 @@ import React, { FunctionComponent, useContext } from 'react';
 import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 
+import { DateTime } from 'luxon';
+
 import { useQuery, gql, useApolloClient } from '@apollo/client';
 import {
   Tile as TileType,
@@ -56,7 +58,7 @@ const NotificationPane: FunctionComponent<props> = ({
               id
               infrastructure
               workloadLeft
-              finishedAt
+              finishedOn
               tile {
                 position
                 level
@@ -79,7 +81,7 @@ const NotificationPane: FunctionComponent<props> = ({
     });
 
     sites.sort((s1, s2) => {
-      return s1.finishedAt.toMillis() - s2.finishedAt.toMillis();
+      return s1.finishedOn - s2.finishedOn;
     });
   }
   const hasSites = sites.length > 0;
@@ -135,7 +137,7 @@ const NotificationPane: FunctionComponent<props> = ({
                     <p>
                       Done{' '}
                       <TimeLeft
-                        target={site.finishedAt}
+                        target={DateTime.fromMillis(site.finishedOn * 1000)}
                         onReach={() => {
                           client.cache.evict({
                             id: 'ConstructionSite:' + site.id,

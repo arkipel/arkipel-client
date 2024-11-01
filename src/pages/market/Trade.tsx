@@ -45,8 +45,8 @@ const TradePage = () => {
           __typename
           ... on TradeOrder {
             id
-            createdAt
-            expiresAt
+            createdOn
+            expiresOn
             side
             currency {
               id
@@ -77,8 +77,8 @@ const TradePage = () => {
                 fragment: gql`
                   fragment NewOrder on TradeOrder {
                     id
-                    createdAt
-                    expiresAt
+                    createdOn
+                    expiresOn
                     side
                     currency {
                       id
@@ -203,7 +203,9 @@ const TradePage = () => {
           const variables: SendTradeOrderMutationVariables = {
             input: {
               userId: session.id,
-              expiresAt: DateTime.utc().plus(Duration.fromISO(params.duration)),
+              expiresOn: DateTime.utc()
+                .plus(Duration.fromISO(params.duration))
+                .toUnixInteger(),
               side,
               currencyId: params.currencyId,
               commodity: params.commodityType,
@@ -514,7 +516,7 @@ const OpenOffers = () => {
             orders {
               id
               side
-              expiresAt
+              expiresOn
               currency {
                 id
                 code
@@ -537,7 +539,7 @@ const OpenOffers = () => {
       offers.push({
         id: o.id,
         side: o.side,
-        expiresAt: DateTime.fromISO(o.expiresAt),
+        expiresOn: o.expiresOn,
         currencyCode: o.currency.code,
         commodity: o.commodity,
         quantity: o.quantity,
@@ -578,7 +580,7 @@ const OpenOffers = () => {
                   <td>{offer.price}</td>
                   <td>
                     <TimeLeft
-                      target={offer.expiresAt}
+                      target={DateTime.fromMillis(offer.expiresOn * 1000)}
                       onReach={() => {
                         client.cache.evict({
                           id: 'Offer:' + offer.id,
@@ -599,7 +601,7 @@ const OpenOffers = () => {
 class offer {
   id: string = '';
   side: TradeOrderSide = TradeOrderSide.Sell;
-  expiresAt: DateTime = DateTime.now();
+  expiresOn: number = DateTime.now().toUnixInteger();
   currencyCode: string = '';
   commodity: CommodityType = CommodityType.Material;
   quantity: number = 0;

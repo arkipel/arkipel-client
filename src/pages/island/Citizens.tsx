@@ -24,7 +24,7 @@ const CitizensPage = () => {
           ... on CitizenList {
             citizens {
               id
-              createdAt
+              bornOn
               name
             }
           }
@@ -40,7 +40,7 @@ const CitizensPage = () => {
     for (const c of data.citizensFromIsland.citizens) {
       citizens.push({
         id: c.id,
-        createdAt: DateTime.fromISO(c.createdAt),
+        bornOn: c.bornOn,
         name: c.name,
       });
     }
@@ -93,14 +93,14 @@ const CitizenItem: FunctionComponent<{ citizen: citizen }> = ({ citizen }) => {
       <td>
         <NavLink to={'/citizen/' + citizen.id}>{citizen.name}</NavLink>
       </td>
-      <td>{citizen.createdAt.toRelative()}</td>
+      <td>{DateTime.fromMillis(citizen.bornOn * 1000).toRelative()}</td>
     </tr>
   );
 };
 
 interface citizen {
   id: string;
-  createdAt: DateTime;
+  bornOn: number;
   name: string;
 }
 

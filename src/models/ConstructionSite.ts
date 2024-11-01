@@ -10,12 +10,12 @@ class ConstructionSite {
     this.tilePosition = obj?.tile?.position || 0;
     this.exists = false;
     this.infrastructure = Infrastructure.Empty;
-    this.finishedAt = DateTime.utc();
+    this.finishedOn = obj.finishedOn;
 
     if (obj) {
       this.exists = true;
       this.infrastructure = obj.infrastructure || Infrastructure.Empty;
-      this.finishedAt = DateTime.fromISO(obj.finishedAt) || DateTime.utc();
+      this.finishedOn = obj.finishedOn || DateTime.utc().toUnixInteger();
     }
   }
 
@@ -24,7 +24,7 @@ class ConstructionSite {
   tilePosition: number;
   exists: boolean;
   infrastructure: Infrastructure;
-  finishedAt: DateTime;
+  finishedOn: number;
 }
 
 export default ConstructionSite;

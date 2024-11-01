@@ -72,7 +72,7 @@ const TilePage: FunctionComponent = () => {
               id
               infrastructure
               workloadLeft
-              finishedAt
+              finishedOn
             }
             blueprints {
               infrastructure
@@ -190,7 +190,7 @@ const TilePage: FunctionComponent = () => {
                 <b>level {tile.level + 1}</b>. It will be done{' '}
                 <b>
                   <TimeLeft
-                    target={constructionSite.finishedAt}
+                    target={constructionSite.finishedOn}
                     onReach={() => {
                       client.cache.evict({
                         id: 'ConstructionSite:' + constructionSite.id,
@@ -304,7 +304,7 @@ const InfrastructureOption: FunctionComponent<{
               id
               infrastructure
               workloadLeft
-              finishedAt
+              finishedOn
               tile {
                 position
               }
@@ -347,7 +347,7 @@ const InfrastructureOption: FunctionComponent<{
                       id
                       infrastructure
                       workloadLeft
-                      finishedAt
+                      finishedOn
                       tile {
                         position
                       }
@@ -512,7 +512,7 @@ const UpgradeButton: FunctionComponent<{
               id
               infrastructure
               workloadLeft
-              finishedAt
+              finishedOn
               tile {
                 position
               }
@@ -548,7 +548,7 @@ const UpgradeButton: FunctionComponent<{
                       id
                       infrastructure
                       workloadLeft
-                      finishedAt
+                      finishedOn
                       tile {
                         position
                       }
@@ -592,7 +592,7 @@ const DestroyButton: FunctionComponent<{
             infrastructure
             level
             constructionSite {
-              finishedAt
+              finishedOn
             }
             blueprints {
               infrastructure

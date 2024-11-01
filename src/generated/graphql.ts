@@ -128,7 +128,7 @@ export type CancelTradeOrderResult = Confirmation | NotAuthorized | NotFound;
 
 export type Citizen = {
   __typename?: 'Citizen';
-  createdAt: Scalars['Time']['output'];
+  bornOn: Scalars['Int']['output'];
   id: Scalars['ID']['output'];
   island: Island;
   name: Scalars['String']['output'];
@@ -178,8 +178,8 @@ export type Confirmation = {
 
 export type ConstructionSite = {
   __typename?: 'ConstructionSite';
-  createdAt: Scalars['Time']['output'];
-  finishedAt: Scalars['Time']['output'];
+  createdOn: Scalars['Int']['output'];
+  finishedOn: Scalars['Int']['output'];
   id: Scalars['ID']['output'];
   infrastructure: Infrastructure;
   materialSpent: Scalars['Int']['output'];
@@ -301,7 +301,7 @@ export type Inventory = {
   frozenFoodStorage: Scalars['Int']['output'];
   id: Scalars['ID']['output'];
   island: Island;
-  lastFoodRotAt: Scalars['Time']['output'];
+  lastFoodRotOn: Scalars['Int']['output'];
   material: Scalars['Int']['output'];
   materialProduction: Scalars['Int']['output'];
   owner: User;
@@ -322,7 +322,7 @@ export type Island = {
   name: Scalars['String']['output'];
   owner: User;
   tiles: Array<Tile>;
-  turn: Scalars['Time']['output'];
+  turn: Scalars['Int']['output'];
 };
 
 export type IslandList = {
@@ -714,7 +714,7 @@ export type SendTradeOrderInput = {
   commodity: CommodityType;
   commodityCurrencyId?: InputMaybe<Scalars['String']['input']>;
   currencyId: Scalars['String']['input'];
-  expiresAt: Scalars['Time']['input'];
+  expiresOn: Scalars['Int']['input'];
   price: Scalars['Decimal']['input'];
   quantity: Scalars['Int']['input'];
   side: TradeOrderSide;
@@ -778,9 +778,9 @@ export type TradeOrder = {
   author: User;
   commodity: CommodityType;
   commodityCurrency?: Maybe<Currency>;
-  createdAt: Scalars['Time']['output'];
+  createdOn: Scalars['Int']['output'];
   currency: Currency;
-  expiresAt: Scalars['Time']['output'];
+  expiresOn: Scalars['Int']['output'];
   id: Scalars['ID']['output'];
   price: Scalars['Decimal']['output'];
   quantity: Scalars['Int']['output'];
@@ -830,7 +830,7 @@ export type GetAllConstructionSitesQueryVariables = Exact<{
 }>;
 
 
-export type GetAllConstructionSitesQuery = { __typename?: 'Query', island: { __typename?: 'Island', id: string, constructionSites: Array<{ __typename?: 'ConstructionSite', id: string, infrastructure: Infrastructure, workloadLeft: number, finishedAt: any, tile: { __typename?: 'Tile', position: number, level: number, constructionSite?: { __typename?: 'ConstructionSite', id: string } | null } }> } | { __typename?: 'NotAuthorized' } | { __typename?: 'NotFound' } };
+export type GetAllConstructionSitesQuery = { __typename?: 'Query', island: { __typename?: 'Island', id: string, constructionSites: Array<{ __typename?: 'ConstructionSite', id: string, infrastructure: Infrastructure, workloadLeft: number, finishedOn: number, tile: { __typename?: 'Tile', position: number, level: number, constructionSite?: { __typename?: 'ConstructionSite', id: string } | null } }> } | { __typename?: 'NotAuthorized' } | { __typename?: 'NotFound' } };
 
 export type GetTileStatusQueryVariables = Exact<{
   islandId: Scalars['String']['input'];
@@ -958,14 +958,14 @@ export type GetCitizenQueryVariables = Exact<{
 }>;
 
 
-export type GetCitizenQuery = { __typename?: 'Query', citizen: { __typename: 'Citizen', id: string, name: string, createdAt: any, stomach: number } | { __typename: 'NotFound' } };
+export type GetCitizenQuery = { __typename?: 'Query', citizen: { __typename: 'Citizen', id: string, name: string, bornOn: number, stomach: number } | { __typename: 'NotFound' } };
 
 export type GetCitizensQueryVariables = Exact<{
   input: CitizensFromIslandInput;
 }>;
 
 
-export type GetCitizensQuery = { __typename?: 'Query', citizensFromIsland: { __typename?: 'CitizenList', citizens: Array<{ __typename?: 'Citizen', id: string, createdAt: any, name: string }> } | { __typename?: 'NotFound' } };
+export type GetCitizensQuery = { __typename?: 'Query', citizensFromIsland: { __typename?: 'CitizenList', citizens: Array<{ __typename?: 'Citizen', id: string, bornOn: number, name: string }> } | { __typename?: 'NotFound' } };
 
 export type GetEventsQueryVariables = Exact<{
   input: EventsInput;
@@ -1008,7 +1008,7 @@ export type GetTileQueryVariables = Exact<{
 }>;
 
 
-export type GetTileQuery = { __typename?: 'Query', tile: { __typename?: 'NotAuthorized' } | { __typename?: 'NotFound' } | { __typename?: 'Tile', id: string, position: number, kind: TileKind, infrastructure: Infrastructure, level: number, maxLevel: number, desiredStatus: InfrastructureStatus, currentStatus: InfrastructureStatus, population: number, energy: number, material: number, food: number, frozenFood: number, frozenFoodStorage: number, constructionSite?: { __typename?: 'ConstructionSite', id: string, infrastructure: Infrastructure, workloadLeft: number, finishedAt: any } | null, blueprints: Array<{ __typename?: 'Blueprint', infrastructure: Infrastructure, materialCost: number, workload: number }> } };
+export type GetTileQuery = { __typename?: 'Query', tile: { __typename?: 'NotAuthorized' } | { __typename?: 'NotFound' } | { __typename?: 'Tile', id: string, position: number, kind: TileKind, infrastructure: Infrastructure, level: number, maxLevel: number, desiredStatus: InfrastructureStatus, currentStatus: InfrastructureStatus, population: number, energy: number, material: number, food: number, frozenFood: number, frozenFoodStorage: number, constructionSite?: { __typename?: 'ConstructionSite', id: string, infrastructure: Infrastructure, workloadLeft: number, finishedOn: number } | null, blueprints: Array<{ __typename?: 'Blueprint', infrastructure: Infrastructure, materialCost: number, workload: number }> } };
 
 export type BuildInfrastructureMutationVariables = Exact<{
   islandId: Scalars['String']['input'];
@@ -1017,9 +1017,9 @@ export type BuildInfrastructureMutationVariables = Exact<{
 }>;
 
 
-export type BuildInfrastructureMutation = { __typename?: 'Mutation', buildInfrastructure?: { __typename?: 'NotAuthorized' } | { __typename?: 'NotEnoughMaterial' } | { __typename?: 'NotFound' } | { __typename?: 'Tile', id: string, infrastructure: Infrastructure, level: number, constructionSite?: { __typename?: 'ConstructionSite', id: string, infrastructure: Infrastructure, workloadLeft: number, finishedAt: any, tile: { __typename?: 'Tile', position: number } } | null, blueprints: Array<{ __typename?: 'Blueprint', infrastructure: Infrastructure, materialCost: number, workload: number }>, island: { __typename?: 'Island', id: string, inventory: { __typename?: 'Inventory', id: string, material: number } } } | null };
+export type BuildInfrastructureMutation = { __typename?: 'Mutation', buildInfrastructure?: { __typename?: 'NotAuthorized' } | { __typename?: 'NotEnoughMaterial' } | { __typename?: 'NotFound' } | { __typename?: 'Tile', id: string, infrastructure: Infrastructure, level: number, constructionSite?: { __typename?: 'ConstructionSite', id: string, infrastructure: Infrastructure, workloadLeft: number, finishedOn: number, tile: { __typename?: 'Tile', position: number } } | null, blueprints: Array<{ __typename?: 'Blueprint', infrastructure: Infrastructure, materialCost: number, workload: number }>, island: { __typename?: 'Island', id: string, inventory: { __typename?: 'Inventory', id: string, material: number } } } | null };
 
-export type NewConstructionSiteFragment = { __typename?: 'ConstructionSite', id: string, infrastructure: Infrastructure, workloadLeft: number, finishedAt: any, tile: { __typename?: 'Tile', position: number } };
+export type NewConstructionSiteFragment = { __typename?: 'ConstructionSite', id: string, infrastructure: Infrastructure, workloadLeft: number, finishedOn: number, tile: { __typename?: 'Tile', position: number } };
 
 export type CancelConstructionMutationVariables = Exact<{
   islandId: Scalars['String']['input'];
@@ -1035,7 +1035,7 @@ export type UpgradeInfrastructureMutationVariables = Exact<{
 }>;
 
 
-export type UpgradeInfrastructureMutation = { __typename?: 'Mutation', upgradeInfrastructure?: { __typename?: 'NotAuthorized' } | { __typename?: 'NotEnoughMaterial' } | { __typename?: 'NotFound' } | { __typename?: 'Tile', id: string, infrastructure: Infrastructure, level: number, constructionSite?: { __typename?: 'ConstructionSite', id: string, infrastructure: Infrastructure, workloadLeft: number, finishedAt: any, tile: { __typename?: 'Tile', position: number } } | null, blueprints: Array<{ __typename?: 'Blueprint', infrastructure: Infrastructure, materialCost: number, workload: number }>, island: { __typename?: 'Island', id: string, inventory: { __typename?: 'Inventory', id: string, material: number } } } | null };
+export type UpgradeInfrastructureMutation = { __typename?: 'Mutation', upgradeInfrastructure?: { __typename?: 'NotAuthorized' } | { __typename?: 'NotEnoughMaterial' } | { __typename?: 'NotFound' } | { __typename?: 'Tile', id: string, infrastructure: Infrastructure, level: number, constructionSite?: { __typename?: 'ConstructionSite', id: string, infrastructure: Infrastructure, workloadLeft: number, finishedOn: number, tile: { __typename?: 'Tile', position: number } } | null, blueprints: Array<{ __typename?: 'Blueprint', infrastructure: Infrastructure, materialCost: number, workload: number }>, island: { __typename?: 'Island', id: string, inventory: { __typename?: 'Inventory', id: string, material: number } } } | null };
 
 export type DestroyInfrastructureMutationVariables = Exact<{
   islandId: Scalars['String']['input'];
@@ -1043,7 +1043,7 @@ export type DestroyInfrastructureMutationVariables = Exact<{
 }>;
 
 
-export type DestroyInfrastructureMutation = { __typename?: 'Mutation', destroyInfrastructure?: { __typename?: 'NotAuthorized' } | { __typename?: 'Tile', id: string, infrastructure: Infrastructure, level: number, constructionSite?: { __typename?: 'ConstructionSite', finishedAt: any } | null, blueprints: Array<{ __typename?: 'Blueprint', infrastructure: Infrastructure, materialCost: number, workload: number }> } | null };
+export type DestroyInfrastructureMutation = { __typename?: 'Mutation', destroyInfrastructure?: { __typename?: 'NotAuthorized' } | { __typename?: 'Tile', id: string, infrastructure: Infrastructure, level: number, constructionSite?: { __typename?: 'ConstructionSite', finishedOn: number } | null, blueprints: Array<{ __typename?: 'Blueprint', infrastructure: Infrastructure, materialCost: number, workload: number }> } | null };
 
 export type GetMarketPricesQueryVariables = Exact<{
   input: MarketPricesInput;
@@ -1064,16 +1064,16 @@ export type SendTradeOrderMutationVariables = Exact<{
 }>;
 
 
-export type SendTradeOrderMutation = { __typename?: 'Mutation', sendTradeOrder?: { __typename: 'NotAuthorized' } | { __typename: 'NotEnoughCommodity' } | { __typename: 'TradeOrder', id: string, createdAt: any, expiresAt: any, side: TradeOrderSide, commodity: CommodityType, quantity: number, price: any, currency: { __typename?: 'Currency', id: string, code: string, name: string } } | null };
+export type SendTradeOrderMutation = { __typename?: 'Mutation', sendTradeOrder?: { __typename: 'NotAuthorized' } | { __typename: 'NotEnoughCommodity' } | { __typename: 'TradeOrder', id: string, createdOn: number, expiresOn: number, side: TradeOrderSide, commodity: CommodityType, quantity: number, price: any, currency: { __typename?: 'Currency', id: string, code: string, name: string } } | null };
 
-export type NewOrderFragment = { __typename?: 'TradeOrder', id: string, createdAt: any, expiresAt: any, side: TradeOrderSide, commodity: CommodityType, quantity: number, price: any, currency: { __typename?: 'Currency', id: string, code: string, name: string } };
+export type NewOrderFragment = { __typename?: 'TradeOrder', id: string, createdOn: number, expiresOn: number, side: TradeOrderSide, commodity: CommodityType, quantity: number, price: any, currency: { __typename?: 'Currency', id: string, code: string, name: string } };
 
 export type GetMyOpenOrdersQueryVariables = Exact<{
   userId: Scalars['String']['input'];
 }>;
 
 
-export type GetMyOpenOrdersQuery = { __typename?: 'Query', myOpenTradeOrders: { __typename: 'NotAuthorized' } | { __typename: 'TradeOrderList', orders: Array<{ __typename?: 'TradeOrder', id: string, side: TradeOrderSide, expiresAt: any, commodity: CommodityType, quantity: number, price: any, currency: { __typename?: 'Currency', id: string, code: string } }> } };
+export type GetMyOpenOrdersQuery = { __typename?: 'Query', myOpenTradeOrders: { __typename: 'NotAuthorized' } | { __typename: 'TradeOrderList', orders: Array<{ __typename?: 'TradeOrder', id: string, side: TradeOrderSide, expiresOn: number, commodity: CommodityType, quantity: number, price: any, currency: { __typename?: 'Currency', id: string, code: string } }> } };
 
 export type GetPublicPlayerProfileQueryVariables = Exact<{
   input: PlayerInput;
@@ -1087,7 +1087,7 @@ export const NewConstructionSiteFragmentDoc = gql`
   id
   infrastructure
   workloadLeft
-  finishedAt
+  finishedOn
   tile {
     position
   }
@@ -1096,8 +1096,8 @@ export const NewConstructionSiteFragmentDoc = gql`
 export const NewOrderFragmentDoc = gql`
     fragment NewOrder on TradeOrder {
   id
-  createdAt
-  expiresAt
+  createdOn
+  expiresOn
   side
   currency {
     id
@@ -1157,7 +1157,7 @@ export const GetAllConstructionSitesDocument = gql`
         id
         infrastructure
         workloadLeft
-        finishedAt
+        finishedOn
         tile {
           position
           level
@@ -1908,7 +1908,7 @@ export const GetCitizenDocument = gql`
     ... on Citizen {
       id
       name
-      createdAt
+      bornOn
       stomach
     }
   }
@@ -1953,7 +1953,7 @@ export const GetCitizensDocument = gql`
     ... on CitizenList {
       citizens {
         id
-        createdAt
+        bornOn
         name
       }
     }
@@ -2318,7 +2318,7 @@ export const GetTileDocument = gql`
         id
         infrastructure
         workloadLeft
-        finishedAt
+        finishedOn
       }
       blueprints {
         infrastructure
@@ -2378,7 +2378,7 @@ export const BuildInfrastructureDocument = gql`
         id
         infrastructure
         workloadLeft
-        finishedAt
+        finishedOn
         tile {
           position
         }
@@ -2492,7 +2492,7 @@ export const UpgradeInfrastructureDocument = gql`
         id
         infrastructure
         workloadLeft
-        finishedAt
+        finishedOn
         tile {
           position
         }
@@ -2548,7 +2548,7 @@ export const DestroyInfrastructureDocument = gql`
       infrastructure
       level
       constructionSite {
-        finishedAt
+        finishedOn
       }
       blueprints {
         infrastructure
@@ -2700,8 +2700,8 @@ export const SendTradeOrderDocument = gql`
     __typename
     ... on TradeOrder {
       id
-      createdAt
-      expiresAt
+      createdOn
+      expiresOn
       side
       currency {
         id
@@ -2749,7 +2749,7 @@ export const GetMyOpenOrdersDocument = gql`
       orders {
         id
         side
-        expiresAt
+        expiresOn
         currency {
           id
           code

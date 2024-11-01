@@ -21,7 +21,7 @@ const CitizenPage = () => {
           ... on Citizen {
             id
             name
-            createdAt
+            bornOn
             stomach
           }
         }
@@ -46,7 +46,8 @@ const CitizenPage = () => {
       <p>
         <b>Name:</b> {citizen.name}
         <br />
-        <b>Arrived:</b> {DateTime.fromISO(citizen.createdAt).toRelative()}
+        <b>Arrived:</b>{' '}
+        {DateTime.fromMillis(citizen.bornOn * 1000).toRelative()}
         <br />
         <b>Energy:</b> 100%
         <br />
