@@ -30,6 +30,8 @@ import { ShortenNumber } from '../../ui/text/format';
 import TimeLeft from '../../ui/text/TimeLeft';
 import { Button } from '../../ui/form/Button';
 
+import { DateTime } from 'luxon';
+
 const TilePage: FunctionComponent = () => {
   const session = useContext(SessionContext);
   const inventory = useContext(InventoryContext);
@@ -190,7 +192,7 @@ const TilePage: FunctionComponent = () => {
                 <b>level {tile.level + 1}</b>. It will be done{' '}
                 <b>
                   <TimeLeft
-                    target={constructionSite.finishedOn}
+                    target={DateTime.fromSeconds(constructionSite.finishedOn)}
                     onReach={() => {
                       client.cache.evict({
                         id: 'ConstructionSite:' + constructionSite.id,
