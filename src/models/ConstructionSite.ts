@@ -10,7 +10,7 @@ class ConstructionSite {
     this.tilePosition = obj?.tile?.position || 0;
     this.exists = false;
     this.infrastructure = Infrastructure.Empty;
-    this.finishedOn = obj.finishedOn;
+    this.finishedOn = obj?.finishedOn || DateTime.utc().toUnixInteger();
 
     if (obj) {
       this.exists = true;
