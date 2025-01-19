@@ -6,6 +6,7 @@ import React, {
 } from 'react';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
+import { useForm, FormProvider } from 'react-hook-form';
 
 import { useQuery, gql, useMutation, useApolloClient } from '@apollo/client';
 import {
@@ -25,10 +26,12 @@ import Blueprint from '../../models/Blueprint';
 
 import TileStatusToggle from '../../components/TileStatusToggle';
 
-import { Error } from '../../ui/dialog/Msg';
 import { ShortenNumber } from '../../ui/text/format';
 import TimeLeft from '../../ui/text/TimeLeft';
 import { Button } from '../../ui/form/Button';
+import { Info, Success, Error } from '../../ui/dialog/Msg';
+import { Form } from '../../ui/form/Form';
+import { Submit, Input } from '../../ui/form/Input';
 
 import { DateTime } from 'luxon';
 
@@ -231,6 +234,15 @@ const TilePage: FunctionComponent = () => {
               <DestroyButton islandId={islandId} position={position} />
             </Fragment>
           )}
+          <h2>Jobs</h2>
+          <Job
+            tileId={islandId + '_' + position.toString()}
+            roleName="manager"
+          ></Job>
+          <Job
+            tileId={islandId + '_' + position.toString()}
+            roleName="farmer"
+          ></Job>
         </Fragment>
       )}
     </Fragment>
@@ -627,4 +639,157 @@ const DestroyButton: FunctionComponent<{
   );
 };
 
+const Job: FunctionComponent<{
+  tileId: string;
+  roleName: string;
+}> = ({ tileId, roleName }) => {
+  const [submit, { loading, error }] = useMutation(
+    gql`
+      mutation DestroyInfrastructure($islandId: String!, $position: Int!) {
+        destroyInfrastructure(islandId: $islandId, position: $position) {
+          ... on Tile {
+            id
+            infrastructure
+            level
+            constructionSite {
+              finishedOn
+            }
+            blueprints {
+              infrastructure
+              materialCost
+              workload
+            }
+          }
+        }
+      }
+    `,
+    { variables: { tileId, roleName } },
+  );
+
+  const formFunctions = useForm({
+    mode: 'onChange',
+    criteriaMode: 'all',
+  });
+  const { register, formState, handleSubmit, getValues } = formFunctions;
+
+  return (
+    <Fragment>
+      <h3>{roleName}</h3>
+      <p>
+        Positions: 2<br />
+        Filled: 2<br />
+        Available: 0
+      </p>
+      <h4>Strategy</h4>
+      <FormProvider {...formFunctions}>
+        <Form
+          onSubmit={formFunctions.handleSubmit((formData) => {
+            submit({
+              variables: {
+                username: formData.username,
+                password: formData.password,
+              },
+            });
+          })}
+        >
+          <p>
+            Talent goal:{' '}
+            <Input
+              type="number"
+              defaultValue={0}
+              {...register('talent_target', {
+                required: true,
+                min: 0,
+              })}
+            />{' '}
+            (max: 2)
+          </p>
+          <p>
+            Budget:{' '}
+            <Input
+              type="number"
+              defaultValue={0}
+              {...register('budget', {
+                required: true,
+                min: 0,
+              })}
+            />{' '}
+            ARK
+          </p>
+          <p>
+            Attempt to reach {getValues('talent_target')} talent with{' '}
+            {getValues('budget')} ARK.
+          </p>
+          <Submit value="Submit" disabled={!formState.isValid || loading} />
+          {/* <UsernameInput disabled={registered} />
+          <PasswordInput disabled={registered} />
+          <HCaptcha
+            // sitekey="10000000-ffff-ffff-ffff-000000000001"
+            sitekey="36cde9f3-38a3-4fd7-9314-bac28f55545b"
+            onVerify={(c: string) => {
+              setCaptcha(c);
+            }}
+            onExpire={() => {
+              setCaptcha('');
+            }}
+          ></HCaptcha>
+          <p>
+            <Submit value="Register" disabled={!allowSubmit || loading} />
+          </p> */}
+        </Form>
+      </FormProvider>
+      {/* <table>
+            <thead>
+              <tr>
+                <th>Roles</th>
+                <th>Positions</th>
+                <th>Requirements</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Manager</td>
+                <td>2 filled, 0 available</td>
+                <td>Management, leadership</td>
+                <td>1</td>
+              </tr>
+              <tr>
+                <td>Farmer</td>
+                <td>2 filled, 0 available</td>
+                <td>Farming</td>
+                <td>1</td>
+              </tr>
+            </tbody>
+          </table>
+          <p>
+            Positions: 2<br />
+            Filled: 2<br />
+            Available: 0
+          </p> */}
+      <h4>Employees</h4>
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Skills</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Oliver Snake-Yolo</td>
+            <td>1</td>
+            <td>1</td>
+          </tr>
+          <tr>
+            <td>Stef Powder-King</td>
+            <td>1</td>
+            <td>1</td>
+          </tr>
+        </tbody>
+      </table>
+    </Fragment>
+  );
+};
 export default TilePage;
