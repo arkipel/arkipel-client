@@ -67,7 +67,6 @@
     "react-hook-form": "^7.5.2",
     "react-media": "^1.10.0",
     "react-router-dom": "^7.1.3",
-    "reat": "^0.0.1-security",
     "styled-components": "^6.1.0"
   }
 }
