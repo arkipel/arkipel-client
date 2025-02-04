@@ -17,7 +17,7 @@ const TileStatusToggle: FunctionComponent<props> = ({ islandId, position }) => {
     return (
       <div>
         <img
-          src="https://icons.arkipel.io/ui/question.svg"
+          src="https://arkipel-icons.pages.dev/ui/question.svg"
           height={'100%'}
           width={'100%'}
         />
@@ -112,7 +112,7 @@ const TileStatusToggle: FunctionComponent<props> = ({ islandId, position }) => {
     <Style>
       {desiredStatus === InfrastructureStatus.On && (
         <img
-          src="https://icons.arkipel.io/ui/pause.svg"
+          src="https://arkipel-icons.pages.dev/ui/pause.svg"
           height={'100%'}
           width={'100%'}
           onClick={() => {
@@ -128,7 +128,7 @@ const TileStatusToggle: FunctionComponent<props> = ({ islandId, position }) => {
       )}
       {desiredStatus === InfrastructureStatus.Off && (
         <img
-          src="https://icons.arkipel.io/ui/play.svg"
+          src="https://arkipel-icons.pages.dev/ui/play.svg"
           onClick={() => {
             setDesiredStatus({
               variables: {

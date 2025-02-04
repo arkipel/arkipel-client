@@ -18,7 +18,10 @@ const Header: FunctionComponent<props> = ({
           query="(max-width: 699px)"
           render={() => (
             <Box onClick={onMenuOpen}>
-              <img src="https://icons.arkipel.io/ui/menu.svg" alt="&#10092;" />
+              <img
+                src="https://arkipel-icons.pages.dev/ui/menu.svg"
+                alt="&#10092;"
+              />
             </Box>
           )}
         />
@@ -32,7 +35,7 @@ const Header: FunctionComponent<props> = ({
           render={() => (
             <Box onClick={onNotificationOpen}>
               <img
-                src="https://icons.arkipel.io/ui/notification.svg"
+                src="https://arkipel-icons.pages.dev/ui/notification.svg"
                 alt="&#128276;"
               />
             </Box>

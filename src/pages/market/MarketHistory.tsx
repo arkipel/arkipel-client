@@ -79,7 +79,7 @@ const MarketHistory = () => {
             }}
           >
             <img
-              src="https://icons.arkipel.io/ui/refresh.svg"
+              src="https://arkipel-icons.pages.dev/ui/refresh.svg"
               height="25px"
               alt="&#8635;"
             />

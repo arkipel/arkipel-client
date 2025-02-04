@@ -113,7 +113,7 @@ const StyledSelect = styled.select`
   background: #fff;
   cursor: pointer;
   border-radius: 0;
-  background-image: url('https://icons.arkipel.io/ui/dropdown.png');
+  background-image: url('https://arkipel-icons.pages.dev/ui/dropdown.png');
   background-position: right 10px center;
   background-size: 20px;
   background-repeat: no-repeat;
