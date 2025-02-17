@@ -11,11 +11,6 @@ body {
   overflow-x: hidden;
 }
 
-body {
-  background: #ede7d4;
-  background-size: 800px 400px;
-}
-
 #mount {
   height: 100%;
 }

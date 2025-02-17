@@ -15,27 +15,27 @@ const ResourcesPane: FunctionComponent = () => {
   return (
     <StyledResourcesPane>
       <div>
-        <img src="https://arkipel-icons.pages.dev/res/housing.svg" />
+        <img src="https://arkipel-icons.pages.dev/res2/housing.svg" />
         <span>{inventory.populationTotal}</span>
       </div>
       <div>
-        <img src="https://arkipel-icons.pages.dev/res/population.svg" />
+        <img src="https://arkipel-icons.pages.dev/res2/population.svg" />
         <span>{inventory.populationFree}</span>
       </div>
       <div>
-        <img src="https://arkipel-icons.pages.dev/res/energy.svg" />
+        <img src="https://arkipel-icons.pages.dev/res2/energy.svg" />
         <span style={{ paddingLeft: 0 }}>{inventory.energyFree}</span>
       </div>
       <div>
-        <img src="https://arkipel-icons.pages.dev/res/food.svg" />
+        <img src="https://arkipel-icons.pages.dev/res2/food.svg" />
         <span>{inventory.foodFormatted}</span>
       </div>
       <div>
-        <img src="https://arkipel-icons.pages.dev/res/frozen_food.svg" />
+        <img src="https://arkipel-icons.pages.dev/res2/frozen_food.svg" />
         <span>{inventory.frozenFoodFormatted}</span>
       </div>
       <div>
-        <img src="https://arkipel-icons.pages.dev/res/material.svg" />
+        <img src="https://arkipel-icons.pages.dev/res2/material.svg" />
         <span>{inventory.materialFormatted}</span>
       </div>
     </StyledResourcesPane>
@@ -44,7 +44,7 @@ const ResourcesPane: FunctionComponent = () => {
 
 const StyledResourcesPane = styled.div`
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: calc(100% / 3) calc(100% / 3) calc(100% / 3);
   grid-template-rows: 1fr 1fr;
   gap: 10px;
 

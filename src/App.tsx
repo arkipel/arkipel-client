@@ -140,7 +140,7 @@ type props = {};
 const StyledApp = styled.div`
   display: grid;
   grid-template-rows: 50px 1fr;
-  gap: 10px;
+  // gap: 10px;
   height: 100%;
   max-width: 1200px;
   margin: auto;
@@ -160,7 +160,7 @@ const StyledBody = styled.div`
   display: grid;
   grid-row: 2;
   grid-column: 1;
-  gap: 10px;
+  // gap: 10px;
   min-height: 0;
   height: 100%;
 

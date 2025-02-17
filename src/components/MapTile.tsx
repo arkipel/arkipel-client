@@ -60,55 +60,55 @@ const MapTile: FunctionComponent<props> = ({
   if (tile.infrastructure) {
     switch (tile.infrastructure) {
       case Infrastructure.Jungle:
-        src = 'https://arkipel-icons.pages.dev/infra/jungle.svg';
+        src = 'https://arkipel-icons.pages.dev/infra2/jungle.svg';
         alt = 'Jungle';
         break;
       case Infrastructure.Quarry:
-        src = 'https://arkipel-icons.pages.dev/infra/quarry.svg';
+        src = 'https://arkipel-icons.pages.dev/infra2/quarry.svg';
         alt = 'Quarry';
         break;
       case Infrastructure.Apartments:
-        src = 'https://arkipel-icons.pages.dev/infra/apartments.svg';
+        src = 'https://arkipel-icons.pages.dev/infra2/apartments.svg';
         alt = 'Apartments';
         break;
       case Infrastructure.House:
-        src = 'https://arkipel-icons.pages.dev/infra/house.svg';
+        src = 'https://arkipel-icons.pages.dev/infra2/house.svg';
         alt = 'House';
         break;
       case Infrastructure.WheatField:
-        src = 'https://arkipel-icons.pages.dev/infra/wheat_field.svg';
+        src = 'https://arkipel-icons.pages.dev/infra2/wheat_field.svg';
         alt = 'Wheat field';
         break;
       case Infrastructure.AnimalFarm:
-        src = 'https://arkipel-icons.pages.dev/infra/animal_farm.svg';
+        src = 'https://arkipel-icons.pages.dev/infra2/animal_farm.svg';
         alt = 'Animal farm';
         break;
       case Infrastructure.NuclearPlant:
-        src = 'https://arkipel-icons.pages.dev/infra/nuclear_plant.svg';
+        src = 'https://arkipel-icons.pages.dev/infra2/nuclear_plant.svg';
         alt = 'Nuclear plant';
         break;
       case Infrastructure.WindTurbine:
-        src = 'https://arkipel-icons.pages.dev/infra/wind_turbine.svg';
+        src = 'https://arkipel-icons.pages.dev/infra2/wind_turbine.svg';
         alt = 'Wind turbine';
         break;
       case Infrastructure.Port:
-        src = 'https://arkipel-icons.pages.dev/infra/port.svg';
+        src = 'https://arkipel-icons.pages.dev/infra2/port.svg';
         alt = 'Port';
         break;
       case Infrastructure.Hut:
-        src = 'https://arkipel-icons.pages.dev/infra/hut.svg';
+        src = 'https://arkipel-icons.pages.dev/infra2/hut.svg';
         alt = 'Bank';
         break;
       case Infrastructure.Warehouse:
-        src = 'https://arkipel-icons.pages.dev/infra/warehouse.svg';
+        src = 'https://arkipel-icons.pages.dev/infra2/warehouse.svg';
         alt = 'Warehouse';
         break;
       case Infrastructure.Garden:
-        src = 'https://arkipel-icons.pages.dev/infra/garden.svg';
+        src = 'https://arkipel-icons.pages.dev/infra2/garden.svg';
         alt = 'Garden';
         break;
       default:
-        src = 'https://arkipel-icons.pages.dev/infra/empty.svg';
+        src = 'https://arkipel-icons.pages.dev/infra2/empty.svg';
         alt = 'Empty';
     }
   }
