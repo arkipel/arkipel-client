@@ -1,16 +1,12 @@
-import React, { FunctionComponent, useContext } from 'react';
+import React, { FunctionComponent } from 'react';
 import Media from 'react-media';
 import styled from 'styled-components';
-import { SessionContext } from '../libs/session/session';
-import APIStatus from './APIStatus';
 
 const Header: FunctionComponent<props> = ({
   background = '',
   onMenuOpen,
   onNotificationOpen,
 }) => {
-  const session = useContext(SessionContext);
-
   const styleVars = {
     '--background': background,
   } as React.CSSProperties;
@@ -22,22 +18,24 @@ const Header: FunctionComponent<props> = ({
           query="(max-width: 699px)"
           render={() => (
             <Box onClick={onMenuOpen}>
-              <img src="https://icons.arkipel.io/ui/menu.svg" alt="&#10092;" />
+              <img
+                src="https://arkipel-icons.pages.dev/ui/menu.svg"
+                alt="&#10092;"
+              />
             </Box>
           )}
         />
-        <Box>{session.loggedIn && <span>{session.username}</span>}</Box>
       </div>
       <div>
-        <Box>
-          <APIStatus />
-        </Box>
+        <h1>Arkipel</h1>
+      </div>
+      <div>
         <Media
           query="(max-width: 999px)"
           render={() => (
             <Box onClick={onNotificationOpen}>
               <img
-                src="https://icons.arkipel.io/ui/notification.svg"
+                src="https://arkipel-icons.pages.dev/ui/notification.svg"
                 alt="&#128276;"
               />
             </Box>
@@ -50,12 +48,13 @@ const Header: FunctionComponent<props> = ({
 
 const HeaderStyle = styled.div`
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: min-content 1fr min-content;
   grid-row: 1;
   grid-column: 1;
   height: 50px;
   border-radius: 0 0 4px 4px;
   background: #423d39;
+  justify-items: center;
   padding: 0 10px;
   color: #fff;
   z-index: 110;
@@ -66,6 +65,10 @@ const HeaderStyle = styled.div`
     grid-auto-columns: max-content;
     align-items: center;
     height: 100%;
+  }
+
+  h1 {
+    text-transform: uppercase;
   }
 
   /* Left side */

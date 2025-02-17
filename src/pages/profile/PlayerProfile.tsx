@@ -176,7 +176,7 @@ const Profile = () => {
           return (
             <div key={Math.random()}>
               <img
-                src="https://icons.arkipel.io/badges/generic.svg"
+                src="https://arkipel-icons.pages.dev/badges/generic.svg"
                 alt="Badge icon"
                 height={50}
                 width={50}

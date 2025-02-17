@@ -7,7 +7,7 @@ import {
   GetAllConstructionSitesQueryVariables,
 } from '../generated/graphql';
 
-const APIStatus: FunctionComponent = () => {
+const APIStatus: FunctionComponent<props> = ({ onStatusChange = () => {} }) => {
   const { loading, error } = useQuery<
     GetAllConstructionSitesQuery,
     GetAllConstructionSitesQueryVariables
@@ -22,26 +22,34 @@ const APIStatus: FunctionComponent = () => {
     { pollInterval: 60000 },
   );
 
-  // Green
-  let color = '#91bf9e';
+  let color = '#d1cc88';
 
-  // Yellow
   if (loading) {
-    color = '#d1cc88';
-  }
-
-  // Red
-  if (error) {
+    // Yellow
+    onStatusChange('loading');
+  } else if (error) {
+    // Red
     color = '#d68787';
+    onStatusChange('down');
+  } else {
+    // Green
+    color = '#91bf9e';
+    onStatusChange('up');
   }
 
   return <Styled style={{ background: color }}></Styled>;
 };
 
+type props = {
+  onStatusChange: (status: 'up' | 'loading' | 'down') => void;
+};
+
 const Styled = styled.div`
-  min-height: 12px;
+  height: 12px;
   width: 12px;
   border-radius: 100px;
 `;
+
+export type APIStatusType = 'up' | 'loading' | 'down';
 
 export default APIStatus;

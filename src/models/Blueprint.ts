@@ -25,7 +25,7 @@ class Tile {
 
   iconUrl(): string {
     return (
-      'https://icons.arkipel.io/infra/' +
+      'https://arkipel-icons.pages.dev/infra/' +
       this.infrastructure.toLowerCase() +
       '.svg'
     );

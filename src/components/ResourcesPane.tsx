@@ -15,27 +15,27 @@ const ResourcesPane: FunctionComponent = () => {
   return (
     <StyledResourcesPane>
       <div>
-        <img src="https://icons.arkipel.io/res/housing.svg" />
+        <img src="https://arkipel-icons.pages.dev/res/housing.svg" />
         <span>{inventory.populationTotal}</span>
       </div>
       <div>
-        <img src="https://icons.arkipel.io/res/population.svg" />
+        <img src="https://arkipel-icons.pages.dev/res/population.svg" />
         <span>{inventory.populationFree}</span>
       </div>
       <div>
-        <img src="https://icons.arkipel.io/res/energy.svg" />
+        <img src="https://arkipel-icons.pages.dev/res/energy.svg" />
         <span style={{ paddingLeft: 0 }}>{inventory.energyFree}</span>
       </div>
       <div>
-        <img src="https://icons.arkipel.io/res/food.svg" />
+        <img src="https://arkipel-icons.pages.dev/res/food.svg" />
         <span>{inventory.foodFormatted}</span>
       </div>
       <div>
-        <img src="https://icons.arkipel.io/res/frozen_food.svg" />
+        <img src="https://arkipel-icons.pages.dev/res/frozen_food.svg" />
         <span>{inventory.frozenFoodFormatted}</span>
       </div>
       <div>
-        <img src="https://icons.arkipel.io/res/material.svg" />
+        <img src="https://arkipel-icons.pages.dev/res/material.svg" />
         <span>{inventory.materialFormatted}</span>
       </div>
     </StyledResourcesPane>

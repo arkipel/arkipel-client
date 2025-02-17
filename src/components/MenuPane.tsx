@@ -32,19 +32,19 @@ const MenuPane: FunctionComponent<props> = ({ visible, onCloseClick }) => {
                 <ul>
                   <li>
                     <NavLink end to="/island/profile" onClick={onCloseClick}>
-                      <img src="https://icons.arkipel.io/menu/profile.svg" />
+                      <img src="https://arkipel-icons.pages.dev/menu/profile.svg" />
                       <span>Profile</span>
                     </NavLink>
                   </li>
                   <li>
                     <NavLink end to="/island/map" onClick={onCloseClick}>
-                      <img src="https://icons.arkipel.io/menu/map.svg" />
+                      <img src="https://arkipel-icons.pages.dev/menu/map.svg" />
                       <span>Map</span>
                     </NavLink>
                   </li>
                   <li>
                     <NavLink end to="/island/citizens" onClick={onCloseClick}>
-                      <img src="https://icons.arkipel.io/menu/citizens.svg" />
+                      <img src="https://arkipel-icons.pages.dev/menu/citizens.svg" />
                       <span>Citizens</span>
                     </NavLink>
                   </li>
@@ -54,25 +54,25 @@ const MenuPane: FunctionComponent<props> = ({ visible, onCloseClick }) => {
                       to="/island/infrastructure"
                       onClick={onCloseClick}
                     >
-                      <img src="https://icons.arkipel.io/menu/infrastructure.svg" />
+                      <img src="https://arkipel-icons.pages.dev/menu/infrastructure.svg" />
                       <span>Infrastructure</span>
                     </NavLink>
                   </li>
                   <li>
                     <NavLink end to="/island/resources" onClick={onCloseClick}>
-                      <img src="https://icons.arkipel.io/menu/resources.svg" />
+                      <img src="https://arkipel-icons.pages.dev/menu/resources.svg" />
                       <span>Resources</span>
                     </NavLink>
                   </li>
                   <li>
                     <NavLink end to="/island/treasury" onClick={onCloseClick}>
-                      <img src="https://icons.arkipel.io/menu/treasury.svg" />
+                      <img src="https://arkipel-icons.pages.dev/menu/treasury.svg" />
                       <span>Treasury</span>
                     </NavLink>
                   </li>
                   <li>
                     <NavLink end to="/island/events" onClick={onCloseClick}>
-                      <img src="https://icons.arkipel.io/menu/events.svg" />
+                      <img src="https://arkipel-icons.pages.dev/menu/events.svg" />
                       <span>Events</span>
                     </NavLink>
                   </li>
@@ -83,19 +83,19 @@ const MenuPane: FunctionComponent<props> = ({ visible, onCloseClick }) => {
             <ul>
               <li>
                 <NavLink end to="/market/prices" onClick={onCloseClick}>
-                  <img src="https://icons.arkipel.io/menu/market_prices.svg" />
+                  <img src="https://arkipel-icons.pages.dev/menu/market_prices.svg" />
                   <span>Prices</span>
                 </NavLink>
               </li>
               <li>
                 <NavLink end to="/market/history" onClick={onCloseClick}>
-                  <img src="https://icons.arkipel.io/menu/market_history.svg" />
+                  <img src="https://arkipel-icons.pages.dev/menu/market_history.svg" />
                   <span>History</span>
                 </NavLink>
               </li>
               <li>
                 <NavLink end to="/market/trade" onClick={onCloseClick}>
-                  <img src="https://icons.arkipel.io/menu/trade.svg" />
+                  <img src="https://arkipel-icons.pages.dev/menu/trade.svg" />
                   <span>Trade</span>
                 </NavLink>
               </li>
@@ -104,25 +104,25 @@ const MenuPane: FunctionComponent<props> = ({ visible, onCloseClick }) => {
             <ul>
               <li>
                 <NavLink end to="/archipelago/overview" onClick={onCloseClick}>
-                  <img src="https://icons.arkipel.io/menu/overview.svg" />
+                  <img src="https://arkipel-icons.pages.dev/menu/overview.svg" />
                   <span>Overview</span>
                 </NavLink>
               </li>
               <li>
                 <NavLink end to="/archipelago/ranking" onClick={onCloseClick}>
-                  <img src="https://icons.arkipel.io/menu/ranking.svg" />
+                  <img src="https://arkipel-icons.pages.dev/menu/ranking.svg" />
                   <span>Ranking</span>
                 </NavLink>
               </li>
               <li>
                 <NavLink end to="/archipelago/search" onClick={onCloseClick}>
-                  <img src="https://icons.arkipel.io/menu/search.svg" />
+                  <img src="https://arkipel-icons.pages.dev/menu/search.svg" />
                   <span>Search</span>
                 </NavLink>
               </li>
               <li>
                 <NavLink end to="/archipelago/community" onClick={onCloseClick}>
-                  <img src="https://icons.arkipel.io/menu/community.svg" />
+                  <img src="https://arkipel-icons.pages.dev/menu/community.svg" />
                   <span>Community</span>
                 </NavLink>
               </li>
@@ -133,7 +133,7 @@ const MenuPane: FunctionComponent<props> = ({ visible, onCloseClick }) => {
                 <ul>
                   <li>
                     <NavLink end to="/account/settings" onClick={onCloseClick}>
-                      <img src="https://icons.arkipel.io/menu/settings.svg" />
+                      <img src="https://arkipel-icons.pages.dev/menu/settings.svg" />
                       <span>Settings</span>
                     </NavLink>
                   </li>
@@ -144,25 +144,25 @@ const MenuPane: FunctionComponent<props> = ({ visible, onCloseClick }) => {
             <ul>
               <li>
                 <NavLink end to="/" onClick={onCloseClick}>
-                  <img src="https://icons.arkipel.io/menu/home.svg" />
+                  <img src="https://arkipel-icons.pages.dev/menu/home.svg" />
                   <span>Home</span>
                 </NavLink>
               </li>
               <li>
                 <NavLink end to="/login" onClick={onCloseClick}>
-                  <img src="https://icons.arkipel.io/menu/login.svg" />
+                  <img src="https://arkipel-icons.pages.dev/menu/login.svg" />
                   <span>Login</span>
                 </NavLink>
               </li>
               <li>
                 <NavLink end to="/registration" onClick={onCloseClick}>
-                  <img src="https://icons.arkipel.io/menu/register.svg" />
+                  <img src="https://arkipel-icons.pages.dev/menu/register.svg" />
                   <span>Register</span>
                 </NavLink>
               </li>
               <li>
                 <NavLink end to="/about" onClick={onCloseClick}>
-                  <img src="https://icons.arkipel.io/menu/about.svg" />
+                  <img src="https://arkipel-icons.pages.dev/menu/about.svg" />
                   <span>About</span>
                 </NavLink>
               </li>

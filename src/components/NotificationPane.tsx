@@ -18,6 +18,7 @@ import { SessionContext } from '../libs/session/session';
 // Components
 import ResourcesPane from '../components/ResourcesPane';
 import MoneyPane from '../components/MoneyPane';
+import StatusPane from '../components/StatusPane';
 import Scrollable from '../ui/layout/Scrollable';
 import TimeLeft from '../ui/text/TimeLeft';
 import Tile from '../models/Tile';
@@ -162,6 +163,9 @@ const NotificationPane: FunctionComponent<props> = ({
             })}
         </StyledContent>
       </Scrollable>
+      <StyledContent>
+        <StatusPane />
+      </StyledContent>
     </StyledNotificationPane>
   );
 };
@@ -173,7 +177,7 @@ type props = {
 
 const StyledNotificationPane = styled.div`
   display: grid;
-  grid-template-rows: auto auto 1fr;
+  grid-template-rows: auto auto 1fr auto;
   gap: 10px;
   grid-row: 1;
   grid-column: 2;

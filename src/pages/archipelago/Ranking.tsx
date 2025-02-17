@@ -98,7 +98,7 @@ const Ranking = () => {
           <tr>
             <td>
               <img
-                src="https://icons.arkipel.io/ui/medal_gold.svg"
+                src="https://arkipel-icons.pages.dev/ui/medal_gold.svg"
                 height="50"
               />
             </td>
@@ -114,7 +114,7 @@ const Ranking = () => {
           <tr>
             <td>
               <img
-                src="https://icons.arkipel.io/ui/medal_silver.svg"
+                src="https://arkipel-icons.pages.dev/ui/medal_silver.svg"
                 height="50"
               />
             </td>
@@ -130,7 +130,7 @@ const Ranking = () => {
           <tr>
             <td>
               <img
-                src="https://icons.arkipel.io/ui/medal_bronze.svg"
+                src="https://arkipel-icons.pages.dev/ui/medal_bronze.svg"
                 height="50"
               />
             </td>
