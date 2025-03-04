@@ -52,11 +52,10 @@ const HeaderStyle = styled.div`
   grid-row: 1;
   grid-column: 1;
   height: 50px;
-  border-radius: 0 0 4px 4px;
-  background: #423d39;
+  background: #fff;
   justify-items: center;
   padding: 0 10px;
-  color: #fff;
+  border-bottom: 4px solid black;
   z-index: 110;
 
   div {
@@ -84,7 +83,7 @@ const HeaderStyle = styled.div`
   /* TODO: Should the following be defined here? */
   img {
     height: 30px;
-    filter: invert(1);
+    // filter: invert(1);
   }
 
   @media all and (max-width: 999px) {

@@ -81,7 +81,7 @@ const StyledMainContent = styled.div`
   height: 100%;
   width: 100%;
   background: #fff;
-  border-radius: 4px;
+  // border: 1px solid black;
 
   @media all and (max-width: 699px) {
     grid-column: 1;

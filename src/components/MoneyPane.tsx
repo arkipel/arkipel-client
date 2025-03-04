@@ -22,7 +22,7 @@ const MoneyPane: FunctionComponent = () => {
 
   return (
     <StyledMoneyPane>
-      <img src="https://arkipel-icons.pages.dev/ui/wealth.svg" />
+      <img src="https://arkipel-icons.pages.dev/res2/money.svg" />
       <span>{FormatMoney(amount)} ARK</span>
     </StyledMoneyPane>
   );
