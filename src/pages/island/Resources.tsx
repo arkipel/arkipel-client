@@ -97,7 +97,7 @@ const ResourcesPage = () => {
           </div>
           <div>
             <p>
-              Food is used to feed citizens. Every hour, 10% of the food stock
+              Food is used to feed citizens. Every hour, 2% of the food stock
               goes bad and is thrown away. It currently has no impact in the
               game.
             </p>
