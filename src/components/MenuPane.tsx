@@ -32,19 +32,19 @@ const MenuPane: FunctionComponent<props> = ({ visible, onCloseClick }) => {
                 <ul>
                   <li>
                     <NavLink end to="/island/profile" onClick={onCloseClick}>
-                      <img src="https://arkipel-icons.pages.dev/menu/profile.svg" />
+                      <img src="https://arkipel-icons.pages.dev/menu2/profile.svg" />
                       <span>Profile</span>
                     </NavLink>
                   </li>
                   <li>
                     <NavLink end to="/island/map" onClick={onCloseClick}>
-                      <img src="https://arkipel-icons.pages.dev/menu/map.svg" />
+                      <img src="https://arkipel-icons.pages.dev/menu2/map.svg" />
                       <span>Map</span>
                     </NavLink>
                   </li>
                   <li>
                     <NavLink end to="/island/citizens" onClick={onCloseClick}>
-                      <img src="https://arkipel-icons.pages.dev/menu/citizens.svg" />
+                      <img src="https://arkipel-icons.pages.dev/menu2/citizens.svg" />
                       <span>Citizens</span>
                     </NavLink>
                   </li>
@@ -54,25 +54,25 @@ const MenuPane: FunctionComponent<props> = ({ visible, onCloseClick }) => {
                       to="/island/infrastructure"
                       onClick={onCloseClick}
                     >
-                      <img src="https://arkipel-icons.pages.dev/menu/infrastructure.svg" />
+                      <img src="https://arkipel-icons.pages.dev/menu2/infrastructure.svg" />
                       <span>Infrastructure</span>
                     </NavLink>
                   </li>
                   <li>
                     <NavLink end to="/island/resources" onClick={onCloseClick}>
-                      <img src="https://arkipel-icons.pages.dev/menu/resources.svg" />
+                      <img src="https://arkipel-icons.pages.dev/menu2/resources.svg" />
                       <span>Resources</span>
                     </NavLink>
                   </li>
                   <li>
                     <NavLink end to="/island/treasury" onClick={onCloseClick}>
-                      <img src="https://arkipel-icons.pages.dev/menu/treasury.svg" />
+                      <img src="https://arkipel-icons.pages.dev/menu2/treasury.svg" />
                       <span>Treasury</span>
                     </NavLink>
                   </li>
                   <li>
                     <NavLink end to="/island/events" onClick={onCloseClick}>
-                      <img src="https://arkipel-icons.pages.dev/menu/events.svg" />
+                      <img src="https://arkipel-icons.pages.dev/menu2/events.svg" />
                       <span>Events</span>
                     </NavLink>
                   </li>
@@ -83,19 +83,19 @@ const MenuPane: FunctionComponent<props> = ({ visible, onCloseClick }) => {
             <ul>
               <li>
                 <NavLink end to="/market/prices" onClick={onCloseClick}>
-                  <img src="https://arkipel-icons.pages.dev/menu/market_prices.svg" />
+                  <img src="https://arkipel-icons.pages.dev/menu2/market_prices.svg" />
                   <span>Prices</span>
                 </NavLink>
               </li>
               <li>
                 <NavLink end to="/market/history" onClick={onCloseClick}>
-                  <img src="https://arkipel-icons.pages.dev/menu/market_history.svg" />
+                  <img src="https://arkipel-icons.pages.dev/menu2/market_history.svg" />
                   <span>History</span>
                 </NavLink>
               </li>
               <li>
                 <NavLink end to="/market/trade" onClick={onCloseClick}>
-                  <img src="https://arkipel-icons.pages.dev/menu/trade.svg" />
+                  <img src="https://arkipel-icons.pages.dev/menu2/trade.svg" />
                   <span>Trade</span>
                 </NavLink>
               </li>
@@ -104,25 +104,25 @@ const MenuPane: FunctionComponent<props> = ({ visible, onCloseClick }) => {
             <ul>
               <li>
                 <NavLink end to="/archipelago/overview" onClick={onCloseClick}>
-                  <img src="https://arkipel-icons.pages.dev/menu/overview.svg" />
+                  <img src="https://arkipel-icons.pages.dev/menu2/overview.svg" />
                   <span>Overview</span>
                 </NavLink>
               </li>
               <li>
                 <NavLink end to="/archipelago/ranking" onClick={onCloseClick}>
-                  <img src="https://arkipel-icons.pages.dev/menu/ranking.svg" />
+                  <img src="https://arkipel-icons.pages.dev/menu2/ranking.svg" />
                   <span>Ranking</span>
                 </NavLink>
               </li>
               <li>
                 <NavLink end to="/archipelago/search" onClick={onCloseClick}>
-                  <img src="https://arkipel-icons.pages.dev/menu/search.svg" />
+                  <img src="https://arkipel-icons.pages.dev/menu2/search.svg" />
                   <span>Search</span>
                 </NavLink>
               </li>
               <li>
                 <NavLink end to="/archipelago/community" onClick={onCloseClick}>
-                  <img src="https://arkipel-icons.pages.dev/menu/community.svg" />
+                  <img src="https://arkipel-icons.pages.dev/menu2/community.svg" />
                   <span>Community</span>
                 </NavLink>
               </li>
@@ -133,7 +133,7 @@ const MenuPane: FunctionComponent<props> = ({ visible, onCloseClick }) => {
                 <ul>
                   <li>
                     <NavLink end to="/account/settings" onClick={onCloseClick}>
-                      <img src="https://arkipel-icons.pages.dev/menu/settings.svg" />
+                      <img src="https://arkipel-icons.pages.dev/menu2/settings.svg" />
                       <span>Settings</span>
                     </NavLink>
                   </li>
@@ -144,25 +144,25 @@ const MenuPane: FunctionComponent<props> = ({ visible, onCloseClick }) => {
             <ul>
               <li>
                 <NavLink end to="/" onClick={onCloseClick}>
-                  <img src="https://arkipel-icons.pages.dev/menu/home.svg" />
+                  <img src="https://arkipel-icons.pages.dev/menu2/home.svg" />
                   <span>Home</span>
                 </NavLink>
               </li>
               <li>
                 <NavLink end to="/login" onClick={onCloseClick}>
-                  <img src="https://arkipel-icons.pages.dev/menu/login.svg" />
+                  <img src="https://arkipel-icons.pages.dev/menu2/login.svg" />
                   <span>Login</span>
                 </NavLink>
               </li>
               <li>
                 <NavLink end to="/registration" onClick={onCloseClick}>
-                  <img src="https://arkipel-icons.pages.dev/menu/register.svg" />
+                  <img src="https://arkipel-icons.pages.dev/menu2/register.svg" />
                   <span>Register</span>
                 </NavLink>
               </li>
               <li>
                 <NavLink end to="/about" onClick={onCloseClick}>
-                  <img src="https://arkipel-icons.pages.dev/menu/about.svg" />
+                  <img src="https://arkipel-icons.pages.dev/menu2/about.svg" />
                   <span>About</span>
                 </NavLink>
               </li>
@@ -205,7 +205,13 @@ const StyledMenuPane = styled.div`
   min-height: 0;
   height: 100%;
   width: 200px;
-  background: #ede7d4;
+  background: #fff;
+  // border: 1px solid black;
+
+  nav {
+    padding: 10px;
+    // border: 1px solid red;
+  }
 
   footer {
     display: grid;
@@ -227,13 +233,19 @@ const StyledMenuPane = styled.div`
     }
   }
 
-  a {
-    color: rgba(49, 55, 71, 0.6);
+  @media all and (max-width: 999px) {
+    // nav {
+    //   padding: 0 4px;
+    // }
   }
 
   @media all and (max-width: 699px) {
     display: var(--display);
     z-index: 110;
+
+    // nav {
+    //   padding: 10px 4px;
+    // }
   }
 
   @media all and (min-width: 700px) {
@@ -248,10 +260,10 @@ const StyledMenu = styled.div`
 
   h1 {
     display: block;
-    padding: 10px;
-    font-size: 28px;
-    text-decoration: underline;
+    padding: 0 10px;
+    font-size: 24px;
     color: rgba(0, 0, 0, 0.8);
+    text-decoration: underline;
   }
 
   ul li {
@@ -259,18 +271,21 @@ const StyledMenu = styled.div`
   }
 
   nav a {
+    margin: 4px 0;
     display: grid;
     align-items: center;
     grid-template-columns: auto 1fr;
     gap: 6px;
-    padding: 10px;
-    font-size: 18px;
+    padding: 6px 8px;
+    font-size: 16px;
     text-decoration: none;
     color: rgba(0, 0, 0, 0.6);
+    border-radius: 10px;
 
     &.active,
     &:hover {
       color: rgba(0, 0, 0, 0.9);
+      background: #f4f4f4;
 
       img {
         opacity: 0.9;
@@ -280,7 +295,6 @@ const StyledMenu = styled.div`
     img {
       width: 20px;
       height: 20px;
-      opacity: 0.6;
     }
   }
 `;

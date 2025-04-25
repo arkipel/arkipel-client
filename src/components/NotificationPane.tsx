@@ -92,9 +92,11 @@ const NotificationPane: FunctionComponent<props> = ({
       <StyledContent>
         <ResourcesPane />
       </StyledContent>
+      <Divider />
       <StyledContent>
         <MoneyPane />
       </StyledContent>
+      <Divider />
       <Scrollable style={{ borderRadius: '4px' }}>
         <StyledContent>
           {!loggedIn && <p>You are not logged in.</p>}
@@ -163,6 +165,7 @@ const NotificationPane: FunctionComponent<props> = ({
             })}
         </StyledContent>
       </Scrollable>
+      <Divider />
       <StyledContent>
         <StatusPane />
       </StyledContent>
@@ -177,8 +180,7 @@ type props = {
 
 const StyledNotificationPane = styled.div`
   display: grid;
-  grid-template-rows: auto auto 1fr auto;
-  gap: 10px;
+  grid-template-rows: auto 1px auto 1px 1fr 1px auto;
   grid-row: 1;
   grid-column: 2;
   justify-self: flex-end;
@@ -246,6 +248,12 @@ const StyledContent = styled.div`
   padding: 10px;
   background: #fff;
   border-radius: 4px;
+`;
+
+const Divider = styled.div`
+  margin: auto;
+  width: 80%;
+  border-top: 1px solid #ddd;
 `;
 
 export default NotificationPane;
