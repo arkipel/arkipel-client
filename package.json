@@ -62,7 +62,7 @@
     "lodash": "^4.17.21",
     "luxon": "^3.4.2",
     "react": "^19.0.0",
-    "react-cookie": "^7.0.1",
+    "react-cookie": "^8.0.1",
     "react-dom": "^19.0.0",
     "react-hook-form": "^7.5.2",
     "react-media": "^1.10.0",
