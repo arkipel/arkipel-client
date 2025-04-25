@@ -2,6 +2,7 @@ import React, { FunctionComponent, useState } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import Media from 'react-media';
 import styled from 'styled-components';
+import { CookiesProvider } from 'react-cookie';
 
 import {
   ApolloClient,
@@ -96,40 +97,42 @@ const App: FunctionComponent<props> = () => {
         }}
       />
       <ApolloProvider client={client}>
-        <SessionProvider>
-          <InventoryProvider>
-            <BankAccountsProvider>
-              <Header
-                onMenuOpen={() => {
-                  setShowMenuPane(!showMenuPane);
-                  setShowNotificationPane(false);
-                }}
-                onNotificationOpen={() => {
-                  setShowMenuPane(false);
-                  setShowNotificationPane(!showNotificationPane);
-                }}
-              />
-              <StyledBody>
-                <Router>
-                  <Media query="(max-width: 999px)"></Media>
-                  <MenuPane
-                    visible={showMenuPane}
-                    onCloseClick={() => {
-                      setShowMenuPane(false);
-                    }}
-                  />
-                  <MainContent />
-                  <NotificationPane
-                    visible={showNotificationPane}
-                    onCloseClick={() => {
-                      setShowNotificationPane(false);
-                    }}
-                  />
-                </Router>
-              </StyledBody>
-            </BankAccountsProvider>
-          </InventoryProvider>
-        </SessionProvider>
+        <CookiesProvider>
+          <SessionProvider>
+            <InventoryProvider>
+              <BankAccountsProvider>
+                <Header
+                  onMenuOpen={() => {
+                    setShowMenuPane(!showMenuPane);
+                    setShowNotificationPane(false);
+                  }}
+                  onNotificationOpen={() => {
+                    setShowMenuPane(false);
+                    setShowNotificationPane(!showNotificationPane);
+                  }}
+                />
+                <StyledBody>
+                  <Router>
+                    <Media query="(max-width: 999px)"></Media>
+                    <MenuPane
+                      visible={showMenuPane}
+                      onCloseClick={() => {
+                        setShowMenuPane(false);
+                      }}
+                    />
+                    <MainContent />
+                    <NotificationPane
+                      visible={showNotificationPane}
+                      onCloseClick={() => {
+                        setShowNotificationPane(false);
+                      }}
+                    />
+                  </Router>
+                </StyledBody>
+              </BankAccountsProvider>
+            </InventoryProvider>
+          </SessionProvider>
+        </CookiesProvider>
       </ApolloProvider>
     </StyledApp>
   );
