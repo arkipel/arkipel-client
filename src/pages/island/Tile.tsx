@@ -15,6 +15,7 @@ import {
   NewConstructionSiteFragment,
   GetTileQuery,
   GetTileQueryVariables,
+  JobPosition,
 } from '../../generated/graphql';
 
 import { SessionContext } from '../../libs/session/session';
@@ -84,6 +85,34 @@ const TilePage: FunctionComponent = () => {
               materialCost
               workload
             }
+            talent {
+              requirement {
+                talent
+                target
+              }
+              current
+            }
+            jobPositions {
+              title
+              seats
+              requiredTalent {
+                talent
+                target
+              }
+            }
+            employees {
+              citizen {
+                id
+                name
+              }
+              title
+              salary
+              currency {
+                id
+                code
+                name
+              }
+            }
           }
         }
       }
@@ -110,6 +139,12 @@ const TilePage: FunctionComponent = () => {
     return <Error>Sorry, an error occured.</Error>;
   } else {
     tile = new Tile({});
+  }
+
+  const jobPositions: JobPosition[] = [];
+
+  if (data?.tile.__typename === 'Tile') {
+    jobPositions.push(...data.tile.jobPositions);
   }
 
   return (
@@ -234,15 +269,11 @@ const TilePage: FunctionComponent = () => {
               <DestroyButton islandId={islandId} position={position} />
             </Fragment>
           )}
-          <h2>Jobs</h2>
-          <Job
-            tileId={islandId + '_' + position.toString()}
-            roleName="manager"
-          ></Job>
-          <Job
-            tileId={islandId + '_' + position.toString()}
-            roleName="farmer"
-          ></Job>
+          {jobPositions.length > 0 && <h2>Jobs</h2>}
+          {jobPositions.length > 0 &&
+            jobPositions.map((jobPosition: JobPosition) => {
+              return <Job tileId={tile.id} roleName={jobPosition.title}></Job>;
+            })}
         </Fragment>
       )}
     </Fragment>
@@ -792,4 +823,5 @@ const Job: FunctionComponent<{
     </Fragment>
   );
 };
+
 export default TilePage;
