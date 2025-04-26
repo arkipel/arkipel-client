@@ -393,7 +393,7 @@ const InfrastructureOption: FunctionComponent<{
           </td>
           <td>
             <span>
-              <img src="https://arkipel-icons.pages.dev/res/material.svg" />
+              <img src="https://icons.arkipel.io/res/material.svg" />
               {ShortenNumber(bp.materialCost)}
             </span>
           </td>
