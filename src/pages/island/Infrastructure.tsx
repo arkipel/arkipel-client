@@ -104,10 +104,10 @@ const InfrastructurePage = () => {
               <th></th>
               <th></th>
               <th>
-                <img src="https://arkipel-icons.pages.dev/res/population.svg" />
+                <img src="https://icons.arkipel.io/res/population.svg" />
               </th>
               <th>
-                <img src="https://arkipel-icons.pages.dev/res/energy.svg" />
+                <img src="https://icons.arkipel.io/res/energy.svg" />
               </th>
               <th></th>
               <th></th>
