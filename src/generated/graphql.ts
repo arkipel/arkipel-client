@@ -851,7 +851,6 @@ export type Tile = {
   maxLevel: Scalars['Int']['output'];
   population: Scalars['Int']['output'];
   position: Scalars['Int']['output'];
-  talent: Array<TalentSummary>;
 };
 
 export enum TileKind {
@@ -1109,7 +1108,7 @@ export type GetTileQueryVariables = Exact<{
 }>;
 
 
-export type GetTileQuery = { __typename?: 'Query', tile: { __typename?: 'NotAuthorized' } | { __typename?: 'NotFound' } | { __typename?: 'Tile', id: string, position: number, kind: TileKind, infrastructure: Infrastructure, level: number, maxLevel: number, desiredStatus: InfrastructureStatus, currentStatus: InfrastructureStatus, population: number, energy: number, material: number, food: number, frozenFood: number, frozenFoodStorage: number, constructionSite?: { __typename?: 'ConstructionSite', id: string, infrastructure: Infrastructure, workloadLeft: number, finishedOn: number } | null, blueprints: Array<{ __typename?: 'Blueprint', infrastructure: Infrastructure, materialCost: number, workload: number }>, talent: Array<{ __typename?: 'TalentSummary', current: number, requirement: { __typename?: 'TalentRequirement', talent: Skill, target: number } }>, jobPositions: Array<{ __typename?: 'JobPosition', title: JobTitle, seats: number, requiredTalent: Array<{ __typename?: 'TalentRequirement', talent: Skill, target: number }> }>, employees: Array<{ __typename?: 'Employee', title: JobTitle, salary: any, citizen: { __typename?: 'Citizen', id: string, name: string }, currency: { __typename?: 'Currency', id: string, code: string, name: string } }> } };
+export type GetTileQuery = { __typename?: 'Query', tile: { __typename?: 'NotAuthorized' } | { __typename?: 'NotFound' } | { __typename?: 'Tile', id: string, position: number, kind: TileKind, infrastructure: Infrastructure, level: number, maxLevel: number, desiredStatus: InfrastructureStatus, currentStatus: InfrastructureStatus, population: number, energy: number, material: number, food: number, frozenFood: number, frozenFoodStorage: number, constructionSite?: { __typename?: 'ConstructionSite', id: string, infrastructure: Infrastructure, workloadLeft: number, finishedOn: number } | null, blueprints: Array<{ __typename?: 'Blueprint', infrastructure: Infrastructure, materialCost: number, workload: number }>, jobPositions: Array<{ __typename?: 'JobPosition', title: JobTitle, seats: number, requiredTalent: Array<{ __typename?: 'TalentRequirement', talent: Skill, target: number }> }>, employees: Array<{ __typename?: 'Employee', title: JobTitle, salary: any, citizen: { __typename?: 'Citizen', id: string, name: string }, currency: { __typename?: 'Currency', id: string, code: string, name: string } }> } };
 
 export type BuildInfrastructureMutationVariables = Exact<{
   islandId: Scalars['String']['input'];
@@ -2425,13 +2424,6 @@ export const GetTileDocument = gql`
         infrastructure
         materialCost
         workload
-      }
-      talent {
-        requirement {
-          talent
-          target
-        }
-        current
       }
       jobPositions {
         title

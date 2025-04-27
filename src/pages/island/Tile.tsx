@@ -85,13 +85,6 @@ const TilePage: FunctionComponent = () => {
               materialCost
               workload
             }
-            talent {
-              requirement {
-                talent
-                target
-              }
-              current
-            }
             jobPositions {
               title
               seats
