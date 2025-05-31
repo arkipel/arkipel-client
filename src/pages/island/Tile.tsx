@@ -15,7 +15,6 @@ import {
   NewConstructionSiteFragment,
   GetTileQuery,
   GetTileQueryVariables,
-  JobPosition,
 } from '../../generated/graphql';
 
 import { SessionContext } from '../../libs/session/session';
@@ -97,6 +96,10 @@ const TilePage: FunctionComponent = () => {
               citizen {
                 id
                 name
+                skillSet {
+                  skill
+                  level
+                }
               }
               title
               salary
@@ -110,7 +113,7 @@ const TilePage: FunctionComponent = () => {
         }
       }
     `,
-    { variables: { islandId, position } },
+    { variables: { islandId, position }, pollInterval: 2_000 },
   );
 
   if (data?.tile.__typename === 'NotFound') {
@@ -135,10 +138,59 @@ const TilePage: FunctionComponent = () => {
   }
 
   const jobPositions: JobPosition[] = [];
+  // const requiredTalent = new Map<string, number>();
+  // const currentTalent = new Map<string, number>();
 
   if (data?.tile.__typename === 'Tile') {
-    jobPositions.push(...data.tile.jobPositions);
+    for (const jobPosition of data.tile.jobPositions) {
+      // for (const required of jobPosition.requiredTalent) {
+      //   const talent = requiredTalent.get(required.talent) || 0;
+      //   requiredTalent.set(required.talent, talent + required.target);
+      // }
+
+      const job = {
+        position: jobPosition,
+        employees: data.tile.employees.filter(
+          (e) => e.title === jobPosition.title,
+        ),
+      };
+
+      jobPositions.push(job);
+
+      if (jobPosition.seats > job.employees.length) {
+        for (let i = job.employees.length; i < jobPosition.seats; i++) {
+          job.employees.push({
+            citizen: {
+              id: '',
+              name: '',
+              skillSet: [],
+            },
+            title: jobPosition.title,
+            salary: 0,
+            currency: {
+              id: '',
+              code: '',
+              name: '',
+            },
+          });
+        }
+      }
+
+      job.employees.sort((a, b) => {
+        if (a.citizen.name === '' && b.citizen.name === '') {
+          return 0;
+        } else if (a.citizen.name === '') {
+          return 1;
+        } else if (b.citizen.name === '') {
+          return -1;
+        }
+
+        return a.citizen.name.localeCompare(b.citizen.name);
+      });
+    }
   }
+
+  // const jobPositionsPerTitle: { [key: string]: number }[] = [];
 
   return (
     <Fragment>
@@ -159,6 +211,8 @@ const TilePage: FunctionComponent = () => {
             <b>Desired status:</b> {tile.desiredStatus}
             <br />
             <b>Current status:</b> {tile.currentStatus}
+            {/* <br />
+            <b>Talent:</b> {tile.currentStatus} */}
           </p>
           <div
             style={{
@@ -265,7 +319,9 @@ const TilePage: FunctionComponent = () => {
           {jobPositions.length > 0 && <h2>Jobs</h2>}
           {jobPositions.length > 0 &&
             jobPositions.map((jobPosition: JobPosition) => {
-              return <Job tileId={tile.id} roleName={jobPosition.title}></Job>;
+              return (
+                <JobPositions tileId={tile.id} job={jobPosition}></JobPositions>
+              );
             })}
         </Fragment>
       )}
@@ -663,48 +719,50 @@ const DestroyButton: FunctionComponent<{
   );
 };
 
-const Job: FunctionComponent<{
+const JobPositions: FunctionComponent<{
   tileId: string;
-  roleName: string;
-}> = ({ tileId, roleName }) => {
-  const [submit, { loading, error }] = useMutation(
-    gql`
-      mutation DestroyInfrastructure($islandId: String!, $position: Int!) {
-        destroyInfrastructure(islandId: $islandId, position: $position) {
-          ... on Tile {
-            id
-            infrastructure
-            level
-            constructionSite {
-              finishedOn
-            }
-            blueprints {
-              infrastructure
-              materialCost
-              workload
-            }
-          }
-        }
-      }
-    `,
-    { variables: { tileId, roleName } },
-  );
+  job: JobPosition;
+}> = ({ tileId, job }) => {
+  // const [submit, { loading, error }] = useMutation(
+  //   gql`
+  //     mutation DestroyInfrastructure($islandId: String!, $position: Int!) {
+  //       destroyInfrastructure(islandId: $islandId, position: $position) {
+  //         ... on Tile {
+  //           id
+  //           infrastructure
+  //           level
+  //           constructionSite {
+  //             finishedOn
+  //           }
+  //           blueprints {
+  //             infrastructure
+  //             materialCost
+  //             workload
+  //           }
+  //         }
+  //       }
+  //     }
+  //   `,
+  //   { variables: { tileId, roleName } },
+  // );
 
-  const formFunctions = useForm({
-    mode: 'onChange',
-    criteriaMode: 'all',
-  });
-  const { register, formState, handleSubmit, getValues } = formFunctions;
+  // const formFunctions = useForm({
+  //   mode: 'onChange',
+  //   criteriaMode: 'all',
+  // });
+  // const { register, formState, handleSubmit, getValues } = formFunctions;
 
   return (
-    <Fragment>
-      <h3>{roleName}</h3>
-      <p>
-        Positions: 2<br />
-        Filled: 2<br />
-        Available: 0
-      </p>
-      <h4>Strategy</h4>
+    <StyledJobPositions>
+      <h3>{job.position.title}</h3>
+      {/* <p>
+        Seats: {job.position.seats}
+        <br />
+        Filled: {job.employees.length}
+        <br />
+        Available: {job.position.seats - job.employees.length}
+      </p> */}
+      {/* <h4>Strategy</h4>
       <FormProvider {...formFunctions}>
         <Form
           onSubmit={formFunctions.handleSubmit((formData) => {
@@ -745,23 +803,8 @@ const Job: FunctionComponent<{
             {getValues('budget')} ARK.
           </p>
           <Submit value="Submit" disabled={!formState.isValid || loading} />
-          {/* <UsernameInput disabled={registered} />
-          <PasswordInput disabled={registered} />
-          <HCaptcha
-            // sitekey="10000000-ffff-ffff-ffff-000000000001"
-            sitekey="36cde9f3-38a3-4fd7-9314-bac28f55545b"
-            onVerify={(c: string) => {
-              setCaptcha(c);
-            }}
-            onExpire={() => {
-              setCaptcha('');
-            }}
-          ></HCaptcha>
-          <p>
-            <Submit value="Register" disabled={!allowSubmit || loading} />
-          </p> */}
         </Form>
-      </FormProvider>
+      </FormProvider> */}
       {/* <table>
             <thead>
               <tr>
@@ -791,30 +834,116 @@ const Job: FunctionComponent<{
             Filled: 2<br />
             Available: 0
           </p> */}
-      <h4>Employees</h4>
-      <table>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Skills</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Oliver Snake-Yolo</td>
-            <td>1</td>
-            <td>1</td>
-          </tr>
-          <tr>
-            <td>Stef Powder-King</td>
-            <td>1</td>
-            <td>1</td>
-          </tr>
-        </tbody>
-      </table>
-    </Fragment>
+      {/* <h4>Positions</h4> */}
+      {job.employees.length > 0 && (
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Skills</th>
+            </tr>
+          </thead>
+          <tbody>
+            {job.employees.map((emp) => {
+              return (
+                <tr key={Math.random()}>
+                  {emp.citizen.id !== '' && (
+                    <>
+                      <td>{emp.citizen.name}</td>
+                      <td>
+                        <div className="skills">
+                          {emp.citizen.skillSet
+                            .filter((skill) => {
+                              for (const required of job.position
+                                .requiredTalent) {
+                                if (skill.skill !== required.talent) {
+                                  continue;
+                                }
+
+                                return true;
+                              }
+
+                              return false;
+                            })
+                            .map((skill) => {
+                              const name = skill.skill
+                                .replace('_', ' ')
+                                .toLocaleLowerCase();
+
+                              return (
+                                <span
+                                  className="skill"
+                                  key={emp.citizen.id + '_' + skill.skill}
+                                >
+                                  <span className="name">{name}</span>
+                                  <span className="level">{skill.level}</span>
+                                </span>
+                              );
+                            })}
+                        </div>
+                      </td>
+                    </>
+                  )}
+                  {emp.citizen.id === '' && (
+                    <>
+                      <td colSpan={2}>Unfilled position</td>
+                    </>
+                  )}
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      )}
+    </StyledJobPositions>
   );
+};
+
+const StyledJobPositions = styled.div`
+  display: grid;
+  gap: 10px;
+
+  .skills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+
+    .skill {
+      display: inline-block;
+      display: block;
+      font-size: 12px;
+      border-radius: 4px;
+
+      .name {
+        display: inline-block;
+        padding: 4px 6px;
+        border: 1px solid #ddd;
+        border-right: 0;
+        border-radius: 4px 0 0 4px;
+      }
+
+      .level {
+        display: inline-block;
+        padding: 4px 6px;
+        // font-size: 0.8em;
+        // color: gray;
+        background: #ddd;
+        border: 1px solid #ddd;
+        border-radius: 0 4px 4px 0;
+      }
+    }
+  }
+`;
+
+type JobPosition = {
+  position: Extract<
+    GetTileQuery['tile'],
+    { __typename?: 'Tile' }
+  >['jobPositions'][number];
+  employees: Extract<
+    GetTileQuery['tile'],
+    { __typename?: 'Tile' }
+  >['employees'];
 };
 
 export default TilePage;
