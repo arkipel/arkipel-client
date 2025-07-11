@@ -16,6 +16,10 @@ body {
   background-size: 800px 400px;
 }
 
+details {
+  width: 100%;
+}
+
 #mount {
   height: 100%;
 }
