@@ -88,6 +88,11 @@ export type BankAccountList = {
   bankAccounts: Array<BankAccount>;
 };
 
+export enum BankAccountOwnerType {
+  Citizen = 'CITIZEN',
+  User = 'USER'
+}
+
 export type BankAccountResult = BankAccount | NotAuthorized | NotFound;
 
 export type BankAccountsResult = BankAccountList | NotAuthorized;
@@ -322,7 +327,6 @@ export type Island = {
   name: Scalars['String']['output'];
   owner: User;
   tiles: Array<Tile>;
-  turn: Scalars['Int']['output'];
 };
 
 export type IslandList = {
