@@ -109,6 +109,23 @@ const TilePage: FunctionComponent = () => {
                 name
               }
             }
+            energyFulfillment {
+              current
+            }
+            fulfillmentSummary {
+              current
+              requirement
+            }
+            energyFulfillment {
+              current
+              requirement
+            }
+            skillFulfillments {
+              title
+              skill
+              current
+              requirement
+            }
           }
         }
       }
@@ -138,8 +155,10 @@ const TilePage: FunctionComponent = () => {
   }
 
   const jobPositions: JobPosition[] = [];
-  // const requiredTalent = new Map<string, number>();
-  // const currentTalent = new Map<string, number>();
+  let requiredTalent = 1;
+  let currentTalent = 1;
+  let efficiency = 1;
+  let efficiencyStr = '100%';
 
   if (data?.tile.__typename === 'Tile') {
     for (const jobPosition of data.tile.jobPositions) {
@@ -148,11 +167,38 @@ const TilePage: FunctionComponent = () => {
       //   requiredTalent.set(required.talent, talent + required.target);
       // }
 
-      const job = {
+      let skillFulfillmentSummaryCurrent = 1;
+      let skillFulfillmentSummaryRequirement = 1;
+      for (const sf of data.tile.skillFulfillments) {
+        if (sf.title !== jobPosition.title) {
+          continue;
+        }
+
+        if (
+          sf.current / sf.requirement <
+          skillFulfillmentSummaryCurrent / skillFulfillmentSummaryRequirement
+        ) {
+          skillFulfillmentSummaryCurrent = sf.current;
+          skillFulfillmentSummaryRequirement = sf.requirement;
+        }
+      }
+
+      const job: JobPosition = {
         position: jobPosition,
         employees: data.tile.employees.filter(
           (e) => e.title === jobPosition.title,
         ),
+        skillFulfillments: data.tile.skillFulfillments.filter(
+          (sf) => sf.title === jobPosition.title,
+        ),
+        skillFulfillmentSummary: {
+          current: skillFulfillmentSummaryCurrent,
+          requirement: skillFulfillmentSummaryRequirement,
+        },
+        fulfillmentSummary: {
+          current: data.tile.fulfillmentSummary.current,
+          requirement: data.tile.fulfillmentSummary.requirement,
+        },
       };
 
       jobPositions.push(job);
@@ -188,6 +234,11 @@ const TilePage: FunctionComponent = () => {
         return a.citizen.name.localeCompare(b.citizen.name);
       });
     }
+
+    currentTalent = data.tile.fulfillmentSummary.current;
+    requiredTalent = data.tile.fulfillmentSummary.requirement;
+    efficiency = requiredTalent === 0 ? 1 : currentTalent / requiredTalent;
+    efficiencyStr = (efficiency * 100).toFixed(2) + '%';
   }
 
   // const jobPositionsPerTitle: { [key: string]: number }[] = [];
@@ -211,8 +262,8 @@ const TilePage: FunctionComponent = () => {
             <b>Desired status:</b> {tile.desiredStatus}
             <br />
             <b>Current status:</b> {tile.currentStatus}
-            {/* <br />
-            <b>Talent:</b> {tile.currentStatus} */}
+            <br />
+            <b>Talent:</b> {currentTalent} / {requiredTalent} ({efficiencyStr})
           </p>
           <div
             style={{
@@ -230,25 +281,30 @@ const TilePage: FunctionComponent = () => {
             {tile.material !== 0 && (
               <>
                 <br />
-                <b>Material:</b> {tile.material}/s
+                <b>Material:</b> {Math.floor(tile.material * efficiency)}/s (
+                {efficiencyStr} of {tile.material})
               </>
             )}
             {tile.food !== 0 && (
               <>
                 <br />
-                <b>Food:</b> {tile.food}/s
+                <b>Food:</b> {Math.floor(tile.food * efficiency)}/s (
+                {efficiencyStr} of {tile.food})
               </>
             )}
             {tile.frozenFood !== 0 && (
               <>
                 <br />
-                <b>Frozen food:</b> {tile.frozenFood}/s
+                <b>Frozen food:</b> {Math.floor(tile.frozenFood * efficiency)}/s
+                ({efficiencyStr} of {tile.frozenFood})
               </>
             )}
             {tile.frozenFoodStorage !== 0 && (
               <>
                 <br />
-                <b>Frozen food storage:</b> {tile.frozenFoodStorage}
+                <b>Frozen food storage:</b>{' '}
+                {Math.floor(tile.frozenFoodStorage * efficiency)}(
+                {efficiencyStr} of {tile.frozenFoodStorage}){' '}
               </>
             )}
           </p>
@@ -317,6 +373,12 @@ const TilePage: FunctionComponent = () => {
             </Fragment>
           )}
           {jobPositions.length > 0 && <h2>Jobs</h2>}
+          {jobPositions.length > 0 && (
+            <small>
+              The effective fulfillment for a given position is equal to the
+              least fulfilled of its required talents.
+            </small>
+          )}
           {jobPositions.length > 0 &&
             jobPositions.map((jobPosition: JobPosition) => {
               return (
@@ -755,6 +817,24 @@ const JobPositions: FunctionComponent<{
   return (
     <StyledJobPositions>
       <h3>{job.position.title}</h3>
+      <h4>Required talent</h4>
+      <p>
+        Effective: {job.skillFulfillmentSummary.current}/
+        {job.skillFulfillmentSummary.requirement}
+      </p>
+      {job.position.requiredTalent.map((required) => {
+        return (
+          <p key={required.talent}>
+            {required.talent.replace('_', ' ').toLowerCase()} (
+            {job.skillFulfillments?.find((sf) => sf.skill === required.talent)
+              ?.current || 0}
+            /
+            {job.skillFulfillments?.find((sf) => sf.skill === required.talent)
+              ?.requirement || 0}
+            )
+          </p>
+        );
+      })}
       {/* <p>
         Seats: {job.position.seats}
         <br />
@@ -944,6 +1024,19 @@ type JobPosition = {
     GetTileQuery['tile'],
     { __typename?: 'Tile' }
   >['employees'];
+  energyFulfillment?: Extract<
+    GetTileQuery['tile'],
+    { __typename?: 'Tile' }
+  >['energyFulfillment'];
+  skillFulfillments?: Extract<
+    GetTileQuery['tile'],
+    { __typename?: 'Tile' }
+  >['skillFulfillments'];
+  skillFulfillmentSummary: { current: number; requirement: number };
+  fulfillmentSummary?: {
+    current: number;
+    requirement: number;
+  };
 };
 
 export default TilePage;
