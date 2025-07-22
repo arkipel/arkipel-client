@@ -336,7 +336,6 @@ export type Island = {
   name: Scalars['String']['output'];
   owner: User;
   tiles: Array<Tile>;
-  turn: Scalars['Int']['output'];
 };
 
 export type IslandList = {

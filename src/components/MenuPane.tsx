@@ -183,7 +183,7 @@ const MenuPane: FunctionComponent<props> = ({ visible, onCloseClick }) => {
               </p>
             )}
             <p>
-              Made by <a href="https://mfcl.io">mfcl</a>.
+              Made by <a href="https://mfcl.ca">mfcl</a>.
             </p>
           </footer>
         </StyledMenu>
