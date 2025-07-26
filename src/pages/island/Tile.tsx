@@ -25,10 +25,10 @@ import Blueprint from '../../models/Blueprint';
 
 import TileStatusToggle from '../../components/TileStatusToggle';
 
-import { Error } from '../../ui/dialog/Msg';
 import { ShortenNumber } from '../../ui/text/format';
 import TimeLeft from '../../ui/text/TimeLeft';
 import { Button } from '../../ui/form/Button';
+import { Error } from '../../ui/dialog/Msg';
 
 import { DateTime } from 'luxon';
 
@@ -81,11 +81,53 @@ const TilePage: FunctionComponent = () => {
               materialCost
               workload
             }
+            jobPositions {
+              title
+              seats
+              requiredTalent {
+                talent
+                target
+              }
+            }
+            employees {
+              citizen {
+                id
+                name
+                skillSet {
+                  skill
+                  level
+                }
+              }
+              title
+              salary
+              currency {
+                id
+                code
+                name
+              }
+            }
+            energyFulfillment {
+              current
+            }
+            fulfillmentSummary {
+              current
+              requirement
+            }
+            energyFulfillment {
+              current
+              requirement
+            }
+            skillFulfillments {
+              title
+              skill
+              current
+              requirement
+            }
           }
         }
       }
     `,
-    { variables: { islandId, position } },
+    { variables: { islandId, position }, pollInterval: 2_000 },
   );
 
   if (data?.tile.__typename === 'NotFound') {
@@ -109,6 +151,88 @@ const TilePage: FunctionComponent = () => {
     tile = new Tile({});
   }
 
+  const jobPositions: JobPosition[] = [];
+  let requiredTalent = 1;
+  let currentTalent = 1;
+  let efficiency = 1;
+  let efficiencyStr = '100%';
+
+  if (data?.tile.__typename === 'Tile') {
+    for (const jobPosition of data.tile.jobPositions) {
+      let skillFulfillmentSummaryCurrent = 1;
+      let skillFulfillmentSummaryRequirement = 1;
+      for (const sf of data.tile.skillFulfillments) {
+        if (sf.title !== jobPosition.title) {
+          continue;
+        }
+
+        if (
+          sf.current / sf.requirement <
+          skillFulfillmentSummaryCurrent / skillFulfillmentSummaryRequirement
+        ) {
+          skillFulfillmentSummaryCurrent = sf.current;
+          skillFulfillmentSummaryRequirement = sf.requirement;
+        }
+      }
+
+      const job: JobPosition = {
+        position: jobPosition,
+        employees: data.tile.employees.filter(
+          (e) => e.title === jobPosition.title,
+        ),
+        skillFulfillments: data.tile.skillFulfillments.filter(
+          (sf) => sf.title === jobPosition.title,
+        ),
+        skillFulfillmentSummary: {
+          current: skillFulfillmentSummaryCurrent,
+          requirement: skillFulfillmentSummaryRequirement,
+        },
+        fulfillmentSummary: {
+          current: data.tile.fulfillmentSummary.current,
+          requirement: data.tile.fulfillmentSummary.requirement,
+        },
+      };
+
+      jobPositions.push(job);
+
+      if (jobPosition.seats > job.employees.length) {
+        for (let i = job.employees.length; i < jobPosition.seats; i++) {
+          job.employees.push({
+            citizen: {
+              id: '',
+              name: '',
+              skillSet: [],
+            },
+            title: jobPosition.title,
+            salary: 0,
+            currency: {
+              id: '',
+              code: '',
+              name: '',
+            },
+          });
+        }
+      }
+
+      job.employees.sort((a, b) => {
+        if (a.citizen.name === '' && b.citizen.name === '') {
+          return 0;
+        } else if (a.citizen.name === '') {
+          return 1;
+        } else if (b.citizen.name === '') {
+          return -1;
+        }
+
+        return a.citizen.name.localeCompare(b.citizen.name);
+      });
+    }
+
+    currentTalent = data.tile.fulfillmentSummary.current;
+    requiredTalent = data.tile.fulfillmentSummary.requirement;
+    efficiency = requiredTalent === 0 ? 1 : currentTalent / requiredTalent;
+    efficiencyStr = (efficiency * 100).toFixed(2) + '%';
+  }
+
   return (
     <Fragment>
       <h1>Tile {position}</h1>
@@ -128,6 +252,8 @@ const TilePage: FunctionComponent = () => {
             <b>Desired status:</b> {tile.desiredStatus}
             <br />
             <b>Current status:</b> {tile.currentStatus}
+            <br />
+            <b>Talent:</b> {currentTalent} / {requiredTalent} ({efficiencyStr})
           </p>
           <div
             style={{
@@ -145,25 +271,30 @@ const TilePage: FunctionComponent = () => {
             {tile.material !== 0 && (
               <>
                 <br />
-                <b>Material:</b> {tile.material}/s
+                <b>Material:</b> {Math.floor(tile.material * efficiency)}/s (
+                {efficiencyStr} of {tile.material})
               </>
             )}
             {tile.food !== 0 && (
               <>
                 <br />
-                <b>Food:</b> {tile.food}/s
+                <b>Food:</b> {Math.floor(tile.food * efficiency)}/s (
+                {efficiencyStr} of {tile.food})
               </>
             )}
             {tile.frozenFood !== 0 && (
               <>
                 <br />
-                <b>Frozen food:</b> {tile.frozenFood}/s
+                <b>Frozen food:</b> {Math.floor(tile.frozenFood * efficiency)}/s
+                ({efficiencyStr} of {tile.frozenFood})
               </>
             )}
             {tile.frozenFoodStorage !== 0 && (
               <>
                 <br />
-                <b>Frozen food storage:</b> {tile.frozenFoodStorage}
+                <b>Frozen food storage:</b>{' '}
+                {Math.floor(tile.frozenFoodStorage * efficiency)}(
+                {efficiencyStr} of {tile.frozenFoodStorage}){' '}
               </>
             )}
           </p>
@@ -231,6 +362,19 @@ const TilePage: FunctionComponent = () => {
               <DestroyButton islandId={islandId} position={position} />
             </Fragment>
           )}
+          {jobPositions.length > 0 && <h2>Jobs</h2>}
+          {jobPositions.length > 0 && (
+            <small>
+              The effective fulfillment for a given position is equal to the
+              least fulfilled of its required talents.
+            </small>
+          )}
+          {jobPositions.length > 0 &&
+            jobPositions.map((jobPosition: JobPosition) => {
+              return (
+                <JobPositions tileId={tile.id} job={jobPosition}></JobPositions>
+              );
+            })}
         </Fragment>
       )}
     </Fragment>
@@ -625,6 +769,167 @@ const DestroyButton: FunctionComponent<{
       </Error>
     </Fragment>
   );
+};
+
+const JobPositions: FunctionComponent<{
+  tileId: string;
+  job: JobPosition;
+}> = ({ job }) => {
+  return (
+    <StyledJobPositions>
+      <h3>
+        {job.position.title} (
+        {job.employees.filter((emp) => emp.citizen.id !== '').length}/
+        {job.employees.length})
+      </h3>
+      <h4>Required talent</h4>
+      <p>
+        Effectiveness:{' '}
+        {(job.skillFulfillmentSummary.requirement === 0
+          ? 1
+          : (job.skillFulfillmentSummary.current /
+              job.skillFulfillmentSummary.requirement) *
+            100
+        ).toFixed(2)}
+        %
+      </p>
+      {job.position.requiredTalent.map((required) => {
+        return (
+          <p key={required.talent}>
+            {required.talent.replace('_', ' ').toLowerCase()} (
+            {job.skillFulfillments?.find((sf) => sf.skill === required.talent)
+              ?.current || 0}
+            /
+            {job.skillFulfillments?.find((sf) => sf.skill === required.talent)
+              ?.requirement || 0}
+            )
+          </p>
+        );
+      })}
+      {job.employees.length > 0 && (
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Skills</th>
+            </tr>
+          </thead>
+          <tbody>
+            {job.employees
+              .filter((emp) => emp.citizen.id !== '')
+              .map((emp) => {
+                return (
+                  <tr key={Math.random()}>
+                    {emp.citizen.id !== '' && (
+                      <>
+                        <td>{emp.citizen.name}</td>
+                        <td>
+                          <div className="skills">
+                            {emp.citizen.skillSet
+                              .filter((skill) => {
+                                for (const required of job.position
+                                  .requiredTalent) {
+                                  if (skill.skill !== required.talent) {
+                                    continue;
+                                  }
+
+                                  return true;
+                                }
+
+                                return false;
+                              })
+                              .map((skill) => {
+                                const name = skill.skill
+                                  .replace('_', ' ')
+                                  .toLocaleLowerCase();
+
+                                return (
+                                  <span
+                                    className="skill"
+                                    key={emp.citizen.id + '_' + skill.skill}
+                                  >
+                                    <span className="name">{name}</span>
+                                    <span className="level">{skill.level}</span>
+                                  </span>
+                                );
+                              })}
+                          </div>
+                        </td>
+                      </>
+                    )}
+                    {emp.citizen.id === '' && (
+                      <>
+                        <td colSpan={2}>Unfilled position</td>
+                      </>
+                    )}
+                  </tr>
+                );
+              })}
+          </tbody>
+        </table>
+      )}
+    </StyledJobPositions>
+  );
+};
+
+const StyledJobPositions = styled.div`
+  display: grid;
+  gap: 10px;
+
+  .skills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+
+    .skill {
+      display: inline-block;
+      display: block;
+      font-size: 12px;
+      border-radius: 4px;
+
+      .name {
+        display: inline-block;
+        padding: 4px 6px;
+        border: 1px solid #ddd;
+        border-right: 0;
+        border-radius: 4px 0 0 4px;
+      }
+
+      .level {
+        display: inline-block;
+        padding: 4px 6px;
+        // font-size: 0.8em;
+        // color: gray;
+        background: #ddd;
+        border: 1px solid #ddd;
+        border-radius: 0 4px 4px 0;
+      }
+    }
+  }
+`;
+
+type JobPosition = {
+  position: Extract<
+    GetTileQuery['tile'],
+    { __typename?: 'Tile' }
+  >['jobPositions'][number];
+  employees: Extract<
+    GetTileQuery['tile'],
+    { __typename?: 'Tile' }
+  >['employees'];
+  energyFulfillment?: Extract<
+    GetTileQuery['tile'],
+    { __typename?: 'Tile' }
+  >['energyFulfillment'];
+  skillFulfillments?: Extract<
+    GetTileQuery['tile'],
+    { __typename?: 'Tile' }
+  >['skillFulfillments'];
+  skillFulfillmentSummary: { current: number; requirement: number };
+  fulfillmentSummary?: {
+    current: number;
+    requirement: number;
+  };
 };
 
 export default TilePage;
