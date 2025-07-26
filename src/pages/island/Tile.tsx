@@ -6,7 +6,6 @@ import React, {
 } from 'react';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
-import { useForm, FormProvider } from 'react-hook-form';
 
 import { useQuery, gql, useMutation, useApolloClient } from '@apollo/client';
 import {
@@ -29,9 +28,7 @@ import TileStatusToggle from '../../components/TileStatusToggle';
 import { ShortenNumber } from '../../ui/text/format';
 import TimeLeft from '../../ui/text/TimeLeft';
 import { Button } from '../../ui/form/Button';
-import { Info, Success, Error } from '../../ui/dialog/Msg';
-import { Form } from '../../ui/form/Form';
-import { Submit, Input } from '../../ui/form/Input';
+import { Error } from '../../ui/dialog/Msg';
 
 import { DateTime } from 'luxon';
 
@@ -162,11 +159,6 @@ const TilePage: FunctionComponent = () => {
 
   if (data?.tile.__typename === 'Tile') {
     for (const jobPosition of data.tile.jobPositions) {
-      // for (const required of jobPosition.requiredTalent) {
-      //   const talent = requiredTalent.get(required.talent) || 0;
-      //   requiredTalent.set(required.talent, talent + required.target);
-      // }
-
       let skillFulfillmentSummaryCurrent = 1;
       let skillFulfillmentSummaryRequirement = 1;
       for (const sf of data.tile.skillFulfillments) {
@@ -240,8 +232,6 @@ const TilePage: FunctionComponent = () => {
     efficiency = requiredTalent === 0 ? 1 : currentTalent / requiredTalent;
     efficiencyStr = (efficiency * 100).toFixed(2) + '%';
   }
-
-  // const jobPositionsPerTitle: { [key: string]: number }[] = [];
 
   return (
     <Fragment>
@@ -785,38 +775,13 @@ const JobPositions: FunctionComponent<{
   tileId: string;
   job: JobPosition;
 }> = ({ tileId, job }) => {
-  // const [submit, { loading, error }] = useMutation(
-  //   gql`
-  //     mutation DestroyInfrastructure($islandId: String!, $position: Int!) {
-  //       destroyInfrastructure(islandId: $islandId, position: $position) {
-  //         ... on Tile {
-  //           id
-  //           infrastructure
-  //           level
-  //           constructionSite {
-  //             finishedOn
-  //           }
-  //           blueprints {
-  //             infrastructure
-  //             materialCost
-  //             workload
-  //           }
-  //         }
-  //       }
-  //     }
-  //   `,
-  //   { variables: { tileId, roleName } },
-  // );
-
-  // const formFunctions = useForm({
-  //   mode: 'onChange',
-  //   criteriaMode: 'all',
-  // });
-  // const { register, formState, handleSubmit, getValues } = formFunctions;
-
   return (
     <StyledJobPositions>
-      <h3>{job.position.title}</h3>
+      <h3>
+        {job.position.title} (
+        {job.employees.filter((emp) => emp.citizen.id !== '').length}/
+        {job.employees.length})
+      </h3>
       <h4>Required talent</h4>
       <p>
         Effective: {job.skillFulfillmentSummary.current}/
@@ -835,86 +800,6 @@ const JobPositions: FunctionComponent<{
           </p>
         );
       })}
-      {/* <p>
-        Seats: {job.position.seats}
-        <br />
-        Filled: {job.employees.length}
-        <br />
-        Available: {job.position.seats - job.employees.length}
-      </p> */}
-      {/* <h4>Strategy</h4>
-      <FormProvider {...formFunctions}>
-        <Form
-          onSubmit={formFunctions.handleSubmit((formData) => {
-            submit({
-              variables: {
-                username: formData.username,
-                password: formData.password,
-              },
-            });
-          })}
-        >
-          <p>
-            Talent goal:{' '}
-            <Input
-              type="number"
-              defaultValue={0}
-              {...register('talent_target', {
-                required: true,
-                min: 0,
-              })}
-            />{' '}
-            (max: 2)
-          </p>
-          <p>
-            Budget:{' '}
-            <Input
-              type="number"
-              defaultValue={0}
-              {...register('budget', {
-                required: true,
-                min: 0,
-              })}
-            />{' '}
-            ARK
-          </p>
-          <p>
-            Attempt to reach {getValues('talent_target')} talent with{' '}
-            {getValues('budget')} ARK.
-          </p>
-          <Submit value="Submit" disabled={!formState.isValid || loading} />
-        </Form>
-      </FormProvider> */}
-      {/* <table>
-            <thead>
-              <tr>
-                <th>Roles</th>
-                <th>Positions</th>
-                <th>Requirements</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Manager</td>
-                <td>2 filled, 0 available</td>
-                <td>Management, leadership</td>
-                <td>1</td>
-              </tr>
-              <tr>
-                <td>Farmer</td>
-                <td>2 filled, 0 available</td>
-                <td>Farming</td>
-                <td>1</td>
-              </tr>
-            </tbody>
-          </table>
-          <p>
-            Positions: 2<br />
-            Filled: 2<br />
-            Available: 0
-          </p> */}
-      {/* <h4>Positions</h4> */}
       {job.employees.length > 0 && (
         <table>
           <thead>
@@ -924,54 +809,56 @@ const JobPositions: FunctionComponent<{
             </tr>
           </thead>
           <tbody>
-            {job.employees.map((emp) => {
-              return (
-                <tr key={Math.random()}>
-                  {emp.citizen.id !== '' && (
-                    <>
-                      <td>{emp.citizen.name}</td>
-                      <td>
-                        <div className="skills">
-                          {emp.citizen.skillSet
-                            .filter((skill) => {
-                              for (const required of job.position
-                                .requiredTalent) {
-                                if (skill.skill !== required.talent) {
-                                  continue;
+            {job.employees
+              .filter((emp) => emp.citizen.id !== '')
+              .map((emp) => {
+                return (
+                  <tr key={Math.random()}>
+                    {emp.citizen.id !== '' && (
+                      <>
+                        <td>{emp.citizen.name}</td>
+                        <td>
+                          <div className="skills">
+                            {emp.citizen.skillSet
+                              .filter((skill) => {
+                                for (const required of job.position
+                                  .requiredTalent) {
+                                  if (skill.skill !== required.talent) {
+                                    continue;
+                                  }
+
+                                  return true;
                                 }
 
-                                return true;
-                              }
+                                return false;
+                              })
+                              .map((skill) => {
+                                const name = skill.skill
+                                  .replace('_', ' ')
+                                  .toLocaleLowerCase();
 
-                              return false;
-                            })
-                            .map((skill) => {
-                              const name = skill.skill
-                                .replace('_', ' ')
-                                .toLocaleLowerCase();
-
-                              return (
-                                <span
-                                  className="skill"
-                                  key={emp.citizen.id + '_' + skill.skill}
-                                >
-                                  <span className="name">{name}</span>
-                                  <span className="level">{skill.level}</span>
-                                </span>
-                              );
-                            })}
-                        </div>
-                      </td>
-                    </>
-                  )}
-                  {emp.citizen.id === '' && (
-                    <>
-                      <td colSpan={2}>Unfilled position</td>
-                    </>
-                  )}
-                </tr>
-              );
-            })}
+                                return (
+                                  <span
+                                    className="skill"
+                                    key={emp.citizen.id + '_' + skill.skill}
+                                  >
+                                    <span className="name">{name}</span>
+                                    <span className="level">{skill.level}</span>
+                                  </span>
+                                );
+                              })}
+                          </div>
+                        </td>
+                      </>
+                    )}
+                    {emp.citizen.id === '' && (
+                      <>
+                        <td colSpan={2}>Unfilled position</td>
+                      </>
+                    )}
+                  </tr>
+                );
+              })}
           </tbody>
         </table>
       )}
