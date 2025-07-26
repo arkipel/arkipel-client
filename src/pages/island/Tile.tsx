@@ -774,7 +774,7 @@ const DestroyButton: FunctionComponent<{
 const JobPositions: FunctionComponent<{
   tileId: string;
   job: JobPosition;
-}> = ({ tileId, job }) => {
+}> = ({ job }) => {
   return (
     <StyledJobPositions>
       <h3>
@@ -784,8 +784,14 @@ const JobPositions: FunctionComponent<{
       </h3>
       <h4>Required talent</h4>
       <p>
-        Effective: {job.skillFulfillmentSummary.current}/
-        {job.skillFulfillmentSummary.requirement}
+        Effectiveness:{' '}
+        {(job.skillFulfillmentSummary.requirement === 0
+          ? 1
+          : (job.skillFulfillmentSummary.current /
+              job.skillFulfillmentSummary.requirement) *
+            100
+        ).toFixed(2)}
+        %
       </p>
       {job.position.requiredTalent.map((required) => {
         return (
