@@ -135,6 +135,7 @@ export type Citizen = {
   __typename?: 'Citizen';
   bornOn: Scalars['Int']['output'];
   id: Scalars['ID']['output'];
+  isHomeless: Scalars['Boolean']['output'];
   island: Island;
   name: Scalars['String']['output'];
   skillSet: Array<SkillLevel>;
@@ -192,6 +193,16 @@ export type ConstructionSite = {
   tile: Tile;
   workloadLeft: Scalars['Int']['output'];
 };
+
+export type Contract = {
+  __typename?: 'Contract';
+  id: Scalars['ID']['output'];
+  type: ContractType;
+};
+
+export enum ContractType {
+  RoomRentalAgreement = 'ROOM_RENTAL_AGREEMENT'
+}
 
 export type CurrenciesResult = CurrencyList;
 
@@ -1090,14 +1101,14 @@ export type GetCitizenQueryVariables = Exact<{
 }>;
 
 
-export type GetCitizenQuery = { __typename?: 'Query', citizen: { __typename: 'Citizen', id: string, name: string, bornOn: number, stomach: number } | { __typename: 'NotFound' } };
+export type GetCitizenQuery = { __typename?: 'Query', citizen: { __typename: 'Citizen', id: string, name: string, bornOn: number, stomach: number, isHomeless: boolean } | { __typename: 'NotFound' } };
 
 export type GetCitizensQueryVariables = Exact<{
   input: CitizensFromIslandInput;
 }>;
 
 
-export type GetCitizensQuery = { __typename?: 'Query', citizensFromIsland: { __typename?: 'CitizenList', citizens: Array<{ __typename?: 'Citizen', id: string, bornOn: number, name: string }> } | { __typename?: 'NotFound' } };
+export type GetCitizensQuery = { __typename?: 'Query', citizensFromIsland: { __typename?: 'CitizenList', citizens: Array<{ __typename?: 'Citizen', id: string, bornOn: number, name: string, isHomeless: boolean }> } | { __typename?: 'NotFound' } };
 
 export type GetEventsQueryVariables = Exact<{
   input: EventsInput;
@@ -2042,6 +2053,7 @@ export const GetCitizenDocument = gql`
       name
       bornOn
       stomach
+      isHomeless
     }
   }
 }
@@ -2087,6 +2099,7 @@ export const GetCitizensDocument = gql`
         id
         bornOn
         name
+        isHomeless
       }
     }
   }
