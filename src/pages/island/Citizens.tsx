@@ -8,6 +8,7 @@ import { GetCitizensQuery, GetCitizensQueryVariables } from 'generated/graphql';
 import { SessionContext } from '../../libs/session/session';
 
 import { DateTime } from 'luxon';
+import Label from '../../ui/text/Label';
 
 const CitizensPage = () => {
   const session = useContext(SessionContext);
@@ -26,6 +27,7 @@ const CitizensPage = () => {
               id
               bornOn
               name
+              isHomeless
             }
           }
         }
@@ -42,6 +44,7 @@ const CitizensPage = () => {
         id: c.id,
         bornOn: c.bornOn,
         name: c.name,
+        isHomeless: c.isHomeless,
       });
     }
   }
@@ -91,7 +94,10 @@ const CitizenItem: FunctionComponent<{ citizen: citizen }> = ({ citizen }) => {
   return (
     <tr>
       <td>
-        <NavLink to={'/citizen/' + citizen.id}>{citizen.name}</NavLink>
+        <NavLink to={'/citizen/' + citizen.id}>{citizen.name}</NavLink>{' '}
+        {citizen.isHomeless && (
+          <Label text="Homeless" textColor="#fff" backgroundColor="#b66" />
+        )}
       </td>
       <td>{DateTime.fromMillis(citizen.bornOn * 1000).toRelative()}</td>
     </tr>
@@ -102,6 +108,7 @@ interface citizen {
   id: string;
   bornOn: number;
   name: string;
+  isHomeless: boolean;
 }
 
 export default CitizensPage;

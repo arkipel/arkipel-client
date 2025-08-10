@@ -23,6 +23,7 @@ const CitizenPage = () => {
             name
             bornOn
             stomach
+            isHomeless
           }
         }
       }
@@ -54,6 +55,8 @@ const CitizenPage = () => {
         <b>Food:</b> {((data.citizen.stomach / 720) * 100).toFixed(0)}%
         <br />
         <b>Happiness:</b> 100%
+        <br />
+        <b>Has home:</b> {citizen.isHomeless ? 'No' : 'Yes'}
       </p>
     </Fragment>
   );

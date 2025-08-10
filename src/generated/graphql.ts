@@ -135,8 +135,10 @@ export type Citizen = {
   __typename?: 'Citizen';
   bornOn: Scalars['Int']['output'];
   id: Scalars['ID']['output'];
+  isHomeless: Scalars['Boolean']['output'];
   island: Island;
   name: Scalars['String']['output'];
+  skillSet: Array<SkillLevel>;
   stomach: Scalars['Int']['output'];
 };
 
@@ -192,6 +194,16 @@ export type ConstructionSite = {
   workloadLeft: Scalars['Int']['output'];
 };
 
+export type Contract = {
+  __typename?: 'Contract';
+  id: Scalars['ID']['output'];
+  type: ContractType;
+};
+
+export enum ContractType {
+  RoomRentalAgreement = 'ROOM_RENTAL_AGREEMENT'
+}
+
 export type CurrenciesResult = CurrencyList;
 
 export type Currency = {
@@ -246,6 +258,20 @@ export type EditArticleInput = {
 
 export type EditArticleResult = Article | NotAuthorized | NotFound;
 
+export type Employee = {
+  __typename?: 'Employee';
+  citizen: Citizen;
+  currency: Currency;
+  salary: Scalars['Decimal']['output'];
+  title: JobTitle;
+};
+
+export type EnergyFulfillment = {
+  __typename?: 'EnergyFulfillment';
+  current: Scalars['Int']['output'];
+  requirement: Scalars['Int']['output'];
+};
+
 export type Event = {
   happenedAt: Scalars['Time']['output'];
   id: Scalars['Int']['output'];
@@ -264,6 +290,14 @@ export type EventsInput = {
 };
 
 export type EventsResult = EventList | NotAuthorized;
+
+export type Fulfillment = EnergyFulfillment | SkillFulfillment;
+
+export type FulfillmentSummary = {
+  __typename?: 'FulfillmentSummary';
+  current: Scalars['Int']['output'];
+  requirement: Scalars['Int']['output'];
+};
 
 export type Group = {
   __typename?: 'Group';
@@ -338,6 +372,43 @@ export type IslandResult = Island | NotAuthorized | NotFound;
 
 export type IslandSearchResult = IslandList | NotAuthorized;
 
+export type JobContract = {
+  __typename?: 'JobContract';
+  createdAt: Scalars['Time']['output'];
+  finishedAt: Scalars['Time']['output'];
+  id: Scalars['ID']['output'];
+  position: JobPosition;
+  salary: Scalars['Decimal']['output'];
+  title: JobTitle;
+  workload: Scalars['Int']['output'];
+};
+
+export type JobPosition = {
+  __typename?: 'JobPosition';
+  requiredTalent: Array<TalentRequirement>;
+  seats: Scalars['Int']['output'];
+  title: JobTitle;
+};
+
+export type JobPositionList = {
+  __typename?: 'JobPositionList';
+  jobPositions: Array<JobPosition>;
+};
+
+export type JobPositionsResult = JobPositionList | NotAuthorized | NotFound;
+
+export enum JobTitle {
+  Builder = 'BUILDER',
+  Engineer = 'ENGINEER',
+  Farmer = 'FARMER',
+  Gardener = 'GARDENER',
+  Lumberjack = 'LUMBERJACK',
+  Manager = 'MANAGER',
+  Miner = 'MINER',
+  Technician = 'TECHNICIAN',
+  Worker = 'WORKER'
+}
+
 export type MarketPrice = {
   __typename?: 'MarketPrice';
   commodity: CommodityType;
@@ -380,6 +451,7 @@ export type Mutation = {
   register: RegistrationResult;
   sendTradeOrder?: Maybe<SendTradeOrderResult>;
   setEmailAddress: SetEmailAddressResult;
+  setHiringStrategy?: Maybe<SetHiringStrategyResult>;
   setInfrastructureDesiredStatus?: Maybe<SetInfrastructureDesiredStatusResult>;
   setPassword: SetPasswordResult;
   setUsername: SetUsernameResult;
@@ -442,6 +514,11 @@ export type MutationSendTradeOrderArgs = {
 export type MutationSetEmailAddressArgs = {
   new: Scalars['String']['input'];
   userId: Scalars['String']['input'];
+};
+
+
+export type MutationSetHiringStrategyArgs = {
+  input: SetHiringStrategyInput;
 };
 
 
@@ -540,6 +617,7 @@ export type Query = {
   events: EventsResult;
   inventory: InventoryResult;
   island: IslandResult;
+  jobPositions: JobPositionsResult;
   marketPrices: MarketPricesResult;
   me: MeResult;
   myOpenTradeOrders: TradeOrdersResult;
@@ -602,6 +680,11 @@ export type QueryInventoryArgs = {
 
 
 export type QueryIslandArgs = {
+  islandId: Scalars['String']['input'];
+};
+
+
+export type QueryJobPositionsArgs = {
   islandId: Scalars['String']['input'];
 };
 
@@ -729,11 +812,61 @@ export type SendTradeOrderResult = NotAuthorized | NotEnoughCommodity | TradeOrd
 
 export type SetEmailAddressResult = AlreadyExists | NotAuthorized | User;
 
+export type SetHiringStrategyInput = {
+  budget: Scalars['Decimal']['input'];
+  jobTitle: JobTitle;
+  talentTarget: Scalars['Int']['input'];
+  tileID: Scalars['ID']['input'];
+};
+
+export type SetHiringStrategyResult = NotAuthorized | NotEnoughMaterial | NotFound | Tile;
+
 export type SetInfrastructureDesiredStatusResult = NotAuthorized | NotFound | Tile;
 
 export type SetPasswordResult = NotAuthorized | User;
 
 export type SetUsernameResult = AlreadyExists | NotAuthorized | User;
+
+export enum Skill {
+  AdvancedLabor = 'ADVANCED_LABOR',
+  Agility = 'AGILITY',
+  BasicLabor = 'BASIC_LABOR',
+  Body = 'BODY',
+  Brain = 'BRAIN',
+  Construction = 'CONSTRUCTION',
+  Farming = 'FARMING',
+  Knowledge = 'KNOWLEDGE',
+  Mind = 'MIND',
+  Mining = 'MINING',
+  Physique = 'PHYSIQUE',
+  Strength = 'STRENGTH'
+}
+
+export type SkillFulfillment = {
+  __typename?: 'SkillFulfillment';
+  current: Scalars['Int']['output'];
+  requirement: Scalars['Int']['output'];
+  skill: Skill;
+  title: JobTitle;
+};
+
+export type SkillLevel = {
+  __typename?: 'SkillLevel';
+  level: Scalars['Int']['output'];
+  skill: Skill;
+};
+
+export type TalentRequirement = {
+  __typename?: 'TalentRequirement';
+  talent: Skill;
+  target: Scalars['Int']['output'];
+};
+
+export type TalentSummary = {
+  __typename?: 'TalentSummary';
+  current: Scalars['Int']['output'];
+  requirement: TalentRequirement;
+};
 
 export type Tile = {
   __typename?: 'Tile';
@@ -741,20 +874,26 @@ export type Tile = {
   constructionSite?: Maybe<ConstructionSite>;
   currentStatus: InfrastructureStatus;
   desiredStatus: InfrastructureStatus;
+  employees: Array<Employee>;
   energy: Scalars['Int']['output'];
+  energyFulfillment: EnergyFulfillment;
   food: Scalars['Int']['output'];
   frozenFood: Scalars['Int']['output'];
   frozenFoodStorage: Scalars['Int']['output'];
+  fulfillmentSummary: FulfillmentSummary;
   id: Scalars['ID']['output'];
   infrastructure: Infrastructure;
   island: Island;
+  jobPositions: Array<JobPosition>;
   kind: TileKind;
   level: Scalars['Int']['output'];
   material: Scalars['Int']['output'];
+  materialMaxProduction: Scalars['Int']['output'];
   materialProduction: Scalars['Int']['output'];
   maxLevel: Scalars['Int']['output'];
   population: Scalars['Int']['output'];
   position: Scalars['Int']['output'];
+  skillFulfillments: Array<SkillFulfillment>;
 };
 
 export enum TileKind {
@@ -962,14 +1101,14 @@ export type GetCitizenQueryVariables = Exact<{
 }>;
 
 
-export type GetCitizenQuery = { __typename?: 'Query', citizen: { __typename: 'Citizen', id: string, name: string, bornOn: number, stomach: number } | { __typename: 'NotFound' } };
+export type GetCitizenQuery = { __typename?: 'Query', citizen: { __typename: 'Citizen', id: string, name: string, bornOn: number, stomach: number, isHomeless: boolean } | { __typename: 'NotFound' } };
 
 export type GetCitizensQueryVariables = Exact<{
   input: CitizensFromIslandInput;
 }>;
 
 
-export type GetCitizensQuery = { __typename?: 'Query', citizensFromIsland: { __typename?: 'CitizenList', citizens: Array<{ __typename?: 'Citizen', id: string, bornOn: number, name: string }> } | { __typename?: 'NotFound' } };
+export type GetCitizensQuery = { __typename?: 'Query', citizensFromIsland: { __typename?: 'CitizenList', citizens: Array<{ __typename?: 'Citizen', id: string, bornOn: number, name: string, isHomeless: boolean }> } | { __typename?: 'NotFound' } };
 
 export type GetEventsQueryVariables = Exact<{
   input: EventsInput;
@@ -1914,6 +2053,7 @@ export const GetCitizenDocument = gql`
       name
       bornOn
       stomach
+      isHomeless
     }
   }
 }
@@ -1959,6 +2099,7 @@ export const GetCitizensDocument = gql`
         id
         bornOn
         name
+        isHomeless
       }
     }
   }
