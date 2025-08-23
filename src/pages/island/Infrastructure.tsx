@@ -83,6 +83,11 @@ const InfrastructurePage = () => {
   });
   island.tiles = filteredTiles;
 
+  // Sort the tiles
+  island.tiles.sort((t1, t2): number => {
+    return t1.energy - t2.energy;
+  });
+
   if (!loading && island.tiles.length === 0) {
     return (
       <Fragment>
