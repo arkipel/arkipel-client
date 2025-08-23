@@ -28,6 +28,8 @@ const CitizensPage = () => {
               bornOn
               name
               isHomeless
+              stomach
+              stomachCapacity
             }
           }
         }
@@ -45,6 +47,8 @@ const CitizensPage = () => {
         bornOn: c.bornOn,
         name: c.name,
         isHomeless: c.isHomeless,
+        stomach: c.stomach,
+        stomachCapacity: c.stomachCapacity,
       });
     }
   }
@@ -91,12 +95,22 @@ const TableStyle = styled.table`
 `;
 
 const CitizenItem: FunctionComponent<{ citizen: citizen }> = ({ citizen }) => {
+  const hungriness = citizen.stomach / citizen.stomachCapacity;
+  const isHungry = hungriness < 0.5 && hungriness >= 0.1;
+  const isStarving = hungriness < 0.1;
+
   return (
     <tr>
       <td>
         <NavLink to={'/citizen/' + citizen.id}>{citizen.name}</NavLink>{' '}
         {citizen.isHomeless && (
           <Label text="Homeless" textColor="#fff" backgroundColor="#b66" />
+        )}
+        {isHungry && (
+          <Label text="Hungry" textColor="#fff" backgroundColor="#b66" />
+        )}
+        {isStarving && (
+          <Label text="Starving" textColor="#fff" backgroundColor="#b66" />
         )}
       </td>
       <td>{DateTime.fromMillis(citizen.bornOn * 1000).toRelative()}</td>
@@ -109,6 +123,8 @@ interface citizen {
   bornOn: number;
   name: string;
   isHomeless: boolean;
+  stomach: number;
+  stomachCapacity: number;
 }
 
 export default CitizensPage;

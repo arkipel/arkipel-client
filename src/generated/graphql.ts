@@ -140,6 +140,7 @@ export type Citizen = {
   name: Scalars['String']['output'];
   skillSet: Array<SkillLevel>;
   stomach: Scalars['Int']['output'];
+  stomachCapacity: Scalars['Int']['output'];
 };
 
 export type CitizenInput = {
@@ -1108,7 +1109,7 @@ export type GetCitizensQueryVariables = Exact<{
 }>;
 
 
-export type GetCitizensQuery = { __typename?: 'Query', citizensFromIsland: { __typename?: 'CitizenList', citizens: Array<{ __typename?: 'Citizen', id: string, bornOn: number, name: string, isHomeless: boolean }> } | { __typename?: 'NotFound' } };
+export type GetCitizensQuery = { __typename?: 'Query', citizensFromIsland: { __typename?: 'CitizenList', citizens: Array<{ __typename?: 'Citizen', id: string, bornOn: number, name: string, isHomeless: boolean, stomach: number, stomachCapacity: number }> } | { __typename?: 'NotFound' } };
 
 export type GetEventsQueryVariables = Exact<{
   input: EventsInput;
@@ -2100,6 +2101,8 @@ export const GetCitizensDocument = gql`
         bornOn
         name
         isHomeless
+        stomach
+        stomachCapacity
       }
     }
   }
