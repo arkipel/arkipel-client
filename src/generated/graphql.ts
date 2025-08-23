@@ -1102,7 +1102,7 @@ export type GetCitizenQueryVariables = Exact<{
 }>;
 
 
-export type GetCitizenQuery = { __typename?: 'Query', citizen: { __typename: 'Citizen', id: string, name: string, bornOn: number, stomach: number, isHomeless: boolean } | { __typename: 'NotFound' } };
+export type GetCitizenQuery = { __typename?: 'Query', citizen: { __typename: 'Citizen', id: string, name: string, bornOn: number, stomach: number, stomachCapacity: number, isHomeless: boolean } | { __typename: 'NotFound' } };
 
 export type GetCitizensQueryVariables = Exact<{
   input: CitizensFromIslandInput;
@@ -2054,6 +2054,7 @@ export const GetCitizenDocument = gql`
       name
       bornOn
       stomach
+      stomachCapacity
       isHomeless
     }
   }
