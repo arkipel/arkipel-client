@@ -108,18 +108,15 @@ const TilePage: FunctionComponent = () => {
             }
             energyFulfillment {
               current
-            }
-            fulfillmentSummary {
-              current
-              requirement
-            }
-            energyFulfillment {
-              current
               requirement
             }
             skillFulfillments {
               title
               skill
+              current
+              requirement
+            }
+            fulfillmentSummary {
               current
               requirement
             }
