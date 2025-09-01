@@ -157,6 +157,9 @@ const TilePage: FunctionComponent = () => {
   let efficiency = 1;
   let efficiencyStr = '100%';
 
+  let energyFulfillment = { current: 0, requirement: 0 };
+  let fulfillmentSummary = { current: 0, requirement: 0 };
+
   if (data?.tile.__typename === 'Tile') {
     for (const jobPosition of data.tile.jobPositions) {
       let skillFulfillmentSummaryCurrent = 1;
@@ -231,6 +234,9 @@ const TilePage: FunctionComponent = () => {
     requiredTalent = data.tile.fulfillmentSummary.requirement;
     efficiency = requiredTalent === 0 ? 1 : currentTalent / requiredTalent;
     efficiencyStr = (efficiency * 100).toFixed(2) + '%';
+
+    energyFulfillment = data.tile.energyFulfillment;
+    fulfillmentSummary = data.tile.fulfillmentSummary;
   }
 
   return (
@@ -252,8 +258,6 @@ const TilePage: FunctionComponent = () => {
             <b>Desired status:</b> {tile.desiredStatus}
             <br />
             <b>Current status:</b> {tile.currentStatus}
-            <br />
-            <b>Talent:</b> {currentTalent} / {requiredTalent} ({efficiencyStr})
           </p>
           <div
             style={{
@@ -263,35 +267,38 @@ const TilePage: FunctionComponent = () => {
           >
             <TileStatusToggle islandId={islandId} position={tile.position} />
           </div>
+          <h2>Consumption</h2>
+          <p>
+            <b>Talent:</b> {currentTalent}/{requiredTalent}
+            <br />
+            <b>Energy:</b> {energyFulfillment.current}/
+            {energyFulfillment.requirement}
+            <br />
+            <b>Effectiveness:</b> {fulfillmentSummary.current}/
+            {fulfillmentSummary.requirement} ({efficiencyStr})
+          </p>
           <h2>Production</h2>
           <p>
-            <b>Population:</b> {tile.population}
-            <br />
-            <b>Energy:</b> {tile.energy}
             {tile.material !== 0 && (
               <>
-                <br />
                 <b>Material:</b> {Math.floor(tile.material * efficiency)}/s (
                 {efficiencyStr} of {tile.material})
               </>
             )}
             {tile.food !== 0 && (
               <>
-                <br />
                 <b>Food:</b> {Math.floor(tile.food * efficiency)}/s (
                 {efficiencyStr} of {tile.food})
               </>
             )}
             {tile.frozenFood !== 0 && (
               <>
-                <br />
                 <b>Frozen food:</b> {Math.floor(tile.frozenFood * efficiency)}/s
                 ({efficiencyStr} of {tile.frozenFood})
               </>
             )}
             {tile.frozenFoodStorage !== 0 && (
               <>
-                <br />
                 <b>Frozen food storage:</b>{' '}
                 {Math.floor(tile.frozenFoodStorage * efficiency)}(
                 {efficiencyStr} of {tile.frozenFoodStorage}){' '}
@@ -917,10 +924,6 @@ type JobPosition = {
     GetTileQuery['tile'],
     { __typename?: 'Tile' }
   >['employees'];
-  energyFulfillment?: Extract<
-    GetTileQuery['tile'],
-    { __typename?: 'Tile' }
-  >['energyFulfillment'];
   skillFulfillments?: Extract<
     GetTileQuery['tile'],
     { __typename?: 'Tile' }
