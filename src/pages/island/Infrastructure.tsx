@@ -47,6 +47,18 @@ const InfrastructurePage = () => {
               food
               frozenFood
               energy
+              energyProduction
+              energyProductionMax
+              materialProduction
+              materialProductionMax
+              foodProduction
+              foodProductionMax
+              frozenFoodProduction
+              frozenFoodProductionMax
+              fulfillmentSummary {
+                current
+                requirement
+              }
               constructionSite {
                 id
               }
@@ -104,7 +116,7 @@ const InfrastructurePage = () => {
               <th></th>
               <th></th>
               <th>
-                <img src="https://icons.arkipel.io/res/population.svg" />
+                <img src="https://icons.arkipel.io/res/percent.svg" />
               </th>
               <th>
                 <img src="https://icons.arkipel.io/res/energy.svg" />
@@ -191,11 +203,11 @@ const InfrastructureItem: FunctionComponent<props> = ({ tile }) => {
   let mainProd = <td></td>;
 
   if (tile.material !== 0) {
-    mainProd = <td>{tile.material}/s</td>;
+    mainProd = <td>{tile.materialProduction}/s</td>;
   } else if (tile.food !== 0) {
-    mainProd = <td>{tile.food}/s</td>;
+    mainProd = <td>{tile.foodProduction}/s</td>;
   } else if (tile.frozenFood !== 0) {
-    mainProd = <td>{tile.frozenFood}/s</td>;
+    mainProd = <td>{tile.frozenFoodProduction}/s</td>;
   }
 
   return (
@@ -212,7 +224,7 @@ const InfrastructureItem: FunctionComponent<props> = ({ tile }) => {
           <Label text="Stalled" textColor="#fff" backgroundColor="#b66" />
         )}
       </td>
-      <td>{tile.population}</td>
+      <td>{tile.effectiveness}</td>
       <td>{tile.energy}</td>
       {mainProd}
       <td>

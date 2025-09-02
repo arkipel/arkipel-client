@@ -879,8 +879,14 @@ export type Tile = {
   employees: Array<Employee>;
   energy: Scalars['Int']['output'];
   energyFulfillment: EnergyFulfillment;
+  energyProduction: Scalars['Int']['output'];
+  energyProductionMax: Scalars['Int']['output'];
   food: Scalars['Int']['output'];
+  foodProduction: Scalars['Int']['output'];
+  foodProductionMax: Scalars['Int']['output'];
   frozenFood: Scalars['Int']['output'];
+  frozenFoodProduction: Scalars['Int']['output'];
+  frozenFoodProductionMax: Scalars['Int']['output'];
   frozenFoodStorage: Scalars['Int']['output'];
   fulfillmentSummary: FulfillmentSummary;
   id: Scalars['ID']['output'];
@@ -892,6 +898,7 @@ export type Tile = {
   material: Scalars['Int']['output'];
   materialMaxProduction: Scalars['Int']['output'];
   materialProduction: Scalars['Int']['output'];
+  materialProductionMax: Scalars['Int']['output'];
   maxLevel: Scalars['Int']['output'];
   population: Scalars['Int']['output'];
   position: Scalars['Int']['output'];
@@ -1124,7 +1131,7 @@ export type GetTilesQueryVariables = Exact<{
 }>;
 
 
-export type GetTilesQuery = { __typename?: 'Query', island: { __typename?: 'Island', id: string, tiles: Array<{ __typename?: 'Tile', id: string, position: number, kind: TileKind, infrastructure: Infrastructure, level: number, desiredStatus: InfrastructureStatus, currentStatus: InfrastructureStatus, population: number, material: number, food: number, frozenFood: number, energy: number, constructionSite?: { __typename?: 'ConstructionSite', id: string } | null, island: { __typename?: 'Island', id: string } }> } | { __typename?: 'NotAuthorized' } | { __typename?: 'NotFound' } };
+export type GetTilesQuery = { __typename?: 'Query', island: { __typename?: 'Island', id: string, tiles: Array<{ __typename?: 'Tile', id: string, position: number, kind: TileKind, infrastructure: Infrastructure, level: number, desiredStatus: InfrastructureStatus, currentStatus: InfrastructureStatus, population: number, material: number, food: number, frozenFood: number, energy: number, energyProduction: number, energyProductionMax: number, materialProduction: number, materialProductionMax: number, foodProduction: number, foodProductionMax: number, frozenFoodProduction: number, frozenFoodProductionMax: number, fulfillmentSummary: { __typename?: 'FulfillmentSummary', current: number, requirement: number }, constructionSite?: { __typename?: 'ConstructionSite', id: string } | null, island: { __typename?: 'Island', id: string } }> } | { __typename?: 'NotAuthorized' } | { __typename?: 'NotFound' } };
 
 export type GetIslandQueryVariables = Exact<{
   islandId: Scalars['String']['input'];
@@ -2237,6 +2244,18 @@ export const GetTilesDocument = gql`
         food
         frozenFood
         energy
+        energyProduction
+        energyProductionMax
+        materialProduction
+        materialProductionMax
+        foodProduction
+        foodProductionMax
+        frozenFoodProduction
+        frozenFoodProductionMax
+        fulfillmentSummary {
+          current
+          requirement
+        }
         constructionSite {
           id
         }

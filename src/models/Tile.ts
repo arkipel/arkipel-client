@@ -23,14 +23,21 @@ class Tile {
         ? InfrastructureStatus.Off
         : InfrastructureStatus.On;
     this.population = obj?.population || 0;
-    this.material = obj?.material || 0;
-    this.energy = obj?.energy || 0;
-    this.food = obj?.food || 0;
-    this.frozenFood = obj?.frozenFood || 0;
+    this.material = obj?.materialProduction || 0;
+    this.energy = obj?.energyProduction || 0;
+    this.food = obj?.foodProduction || 0;
+    this.frozenFood = obj?.frozenFoodProduction || 0;
     this.frozenFoodStorage = obj?.frozenFoodStorage || 0;
     this.isActive = obj?.isActive === true ? true : false;
+    this.energyProduction = obj?.energyProduction || 0;
     this.materialProduction = obj?.materialProduction || 0;
+    this.foodProduction = obj?.foodProduction || 0;
+    this.frozenFoodProduction = obj?.frozenFoodProduction || 0;
     this.constructionSite = obj?.constructionSite || null;
+
+    const current = obj?.fulfillmentSummary?.current || 0;
+    const required = obj?.fulfillmentSummary?.requirement || 1;
+    this.effectiveness = ((current / required) * 100).toFixed(0) + '%';
   }
 
   id: string;
@@ -48,8 +55,12 @@ class Tile {
   frozenFoodStorage: number;
   energy: number;
   isActive: boolean;
+  energyProduction: number;
   materialProduction: number;
+  foodProduction: number;
+  frozenFoodProduction: number;
   constructionSite: ConstructionSite;
+  effectiveness: string;
 
   kind(): TileKind {
     switch (dna[this.position]) {
